@@ -1,0 +1,137 @@
+
+.content {
+  height : 100%;
+  position: "relative";
+}
+
+#sidebar {
+  width: 600px;
+  position: absolute;
+  left: -600px;
+  min-height: 94.3vh;
+  z-index: 5;
+  background: #292a2b;
+  color: #fff;
+  transition: all 0.3s;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  height:auto;
+}
+
+#sidebar.active {
+  left: 0;
+}
+
+.AoiTableContainer {
+  width: 600px;
+  position: absolute;
+  display:none;
+  right: -600px;
+  min-height: 94.3vh;
+  z-index: 5;
+  background: #292a2b;
+  color: #fff;
+  transition: all 0.3s;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  height:auto;
+}
+
+.AoiTableContainer.active {
+  display:initial;
+  right:0px;
+} 
+
+#dismiss {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  background: #3b3b3b;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+#dismiss:hover {
+  background: #fff;
+  color: #6f7072;
+}
+
+
+
+#sidebar .ControlWrapper {
+  padding: 20px 0;
+}
+
+#sidebar .ControlWrapper p {
+  color: #fff;
+  padding: 10px;
+  font-size: 20px;
+}
+
+#sidebar .ControlWrapper .card {
+  border: 1px solid #363c3f;
+}
+
+#sidebar .ControlWrapper .card-header {
+  background-color: #6f7072;
+}
+
+#sidebar .ControlWrapper .card-body {
+  background-color: #a1a3a7;
+}
+
+.sidebarControlBtn {
+  position: 'absolute'; 
+  top: '80px'; 
+  left: '50px'; 
+  z-index: 1;
+}
+
+nav a {
+  color: white
+}
+
+nav a:hover {
+  color: white
+}
+
+.assessmentNav{
+  position: fixed;
+  top: 8vh;
+  left: 2vw;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding:5px;
+}
+
+.assessmentNav a{
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+.assessmentNav a:hover{
+  text-decoration: underline;
+  color: gray;
+}
+
+.file-drop {
+  width: 95% !important;
+  height: auto;
+  min-height: 200px;
+  border: gray 2px dotted;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.assessmentDownload {
+  position: absolute;
+  right: 20px;
+  top: 1%
+}
