@@ -33,7 +33,7 @@ const SidebarAssemble = () =>{
         <Accordion defaultActiveKey="0">
 						<Card>
 							<Accordion.Toggle as={Card.Header} eventKey="0">
-								Select area of interests:
+								Select areas of interests:
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey="0">
 								<Card.Body>
@@ -43,7 +43,7 @@ const SidebarAssemble = () =>{
 										options={aoiList}
 										isMulti
 										isClearable={false}
-										placeholder="Select area of interests..."
+										placeholder="Select areas of interests..."
 										name="colors"
 										value={aoiSelected}
 										onChange={(selectedOption) => {
@@ -71,14 +71,14 @@ const SidebarAssemble = () =>{
 										menuPortalTarget={document.body}
 										options={[
                                             {value:'hab0',label:'Project area'},
-											{ value: 'hab1', label: 'Connectivity to Existing Protected Area' },
+											{ value: 'hab1', label: 'Padus - Connectivity to Existing Protected Area' },
 											{ value: 'hab2', label: 'Structural Connectivity Index' },
 											{ value: 'hab3', label: 'Threat of Urbanization' },
 											{ value: 'hab4', label: 'Land Cover - Composition of Natural Lands ' }
 										]}
 										isMulti
 										isClearable={false}
-										placeholder="Select habitat measures..."
+										placeholder="Select Habitat measures..."
 										name="colors"
 										value={weights.hab.selected}
 										onChange={(selectedOption) => {
@@ -196,7 +196,7 @@ const SidebarAssemble = () =>{
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-											{ value: 'wq1', label: "Impaired Watershed Area -- EPA '303(d)' list " },
+											{ value: 'wq1', label: "303D: Impaired Watershed Area -- EPA '303(d)' list " },
 											{ value: 'wq2', label: 'Stream Abundance' },
 											{ value: 'wq3', label: 'Hydrologic Response to Land-Use Change'}
 										]}
@@ -316,7 +316,7 @@ const SidebarAssemble = () =>{
 											</div>
 										))}
 									<br />
-									<span>Living Costal & Marine Resources:</span>
+									<span>Living Coastal and Marine Resources:</span>
 									<Select
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
@@ -324,16 +324,16 @@ const SidebarAssemble = () =>{
 											{ value: 'lcmr1', label: 'Biodiversity Index ' },
 											{
 												value: 'lcmr2',
-												label: 'Threatened and Endangered Species - Critical Habitat Area '
+												label: 'T&E Species – Critical Habitat Area'
 											},
 											{
 												value: 'lcmr3',
-												label: 'Threatened and Endangered Species - Number of Species '
+												label: 'T&E Species – Number of Species'
 											},
 											{ value: 'lcmr4', label: 'Light Pollution Index  ' }
 										]}
 										isMulti
-										placeholder="Select Living Costal & Marine Resources measures..."
+										placeholder="Select Living Coastal & Marine Resources measures..."
 										name="colors"
 										className="basic-multi-select"
 										classNamePrefix="select"
@@ -456,7 +456,7 @@ const SidebarAssemble = () =>{
 										options={[
 											{ value: 'cl1', label: 'National Register of Historic Places' },
 											{ value: 'cl2', label: 'National Heritage Area' },
-											{ value: 'cl3', label: 'Social Vulnerability Index' },
+											{ value: 'cl3', label: 'Proximity to Socially Vulnerable Communities' },
 											{ value: 'cl4', label: 'Community Threat Index ' }
 										]}
 										isMulti
@@ -580,10 +580,10 @@ const SidebarAssemble = () =>{
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-											{ value: 'eco1', label: 'Working Lands' },
-											{ value: 'eco2', label: 'Commercial Fishery Index' },
-											{ value: 'eco3', label: 'Recreational Fishery Index' },
-											{ value: 'eco4', label: 'Access & Recreation' }
+											{ value: 'eco1', label: 'High Priority Working Lands' },
+											{ value: 'eco2', label: 'Commercial Fishing Reliance' },
+											{ value: 'eco3', label: 'Recreational Fishing Engagement' },
+											{ value: 'eco4', label: 'Access & Recreation: Number of Access Points' }
 										]}
 										isMulti
 										placeholder="Select Community Resilience measures..."
@@ -758,7 +758,7 @@ const SidebarAssemble = () =>{
                                     }
 									{weights.lcmr.selected &&
 									    (<>
-										<span>Living Costal & Marine Resources:</span>
+										<span>Living Coastal & Marine Resources:</span>
 										<Form.Group as={Row}>
 										<Col xs="9">
 												<RangeSlider
@@ -907,7 +907,7 @@ const SidebarAssemble = () =>{
 											return (
 												<tr key={idx}>
 													<td>{goal}</td>
-													<td>{Object.values(weights)[idx].weight}</td>
+													<td>{Object.values(weights)[idx].weight}%</td>
 												</tr>
 											)
 										})}
