@@ -23,7 +23,6 @@ const Help = () => {
 				</p>
                 <b className="mb-2">Dr. Kristine Evans</b>
                 <p className="mb-0 text-muted">Co-Director of the Quantitative Ecology and Spatial Technologies Lab (QuEST) Lab</p>
-                <p className="mb-0 text-muted">Department of Wildlife Fisheries and Aquaculture</p>
                 <p className="mb-0 text-muted">Mississippi State University</p>
                 <Button className="mt-2" variant="success" href="mailto:scaprojectgulf@gmail.com">Send an email</Button>
 			</Jumbotron>

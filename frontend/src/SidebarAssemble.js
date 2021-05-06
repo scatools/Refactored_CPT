@@ -818,6 +818,17 @@ const SidebarAssemble = () =>{
                                     }
 									</Form>
 									<br />
+									<label>Total Sum &nbsp;&nbsp;</label>
+									<span>
+										<input
+											type="text"
+											value={weights.hab.weight+weights.wq.weight+weights.lcmr.weight+weights.cl.weight+weights.eco.weight}							
+											disabled
+										>	
+										</input>
+									</span>
+									<br></br>
+									<br></br>
 									<Accordion.Toggle eventKey="3" as={Button} variant="dark">
 										Next
 									</Accordion.Toggle>
