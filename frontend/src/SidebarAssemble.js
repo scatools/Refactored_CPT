@@ -72,7 +72,7 @@ const SidebarAssemble = () =>{
 										options={[
                                             {value:'hab0',label:'Project area'},
 											{ value: 'hab1', label: 'Padus - Connectivity to Existing Protected Area' },
-											{ value: 'hab2', label: 'Structural Connectivity Index' },
+											{ value: 'hab2', label: 'Connectivity of Natural Lands' },
 											{ value: 'hab3', label: 'Threat of Urbanization' },
 											{ value: 'hab4', label: 'Land Cover - Composition of Natural Lands ' }
 										]}
@@ -321,7 +321,7 @@ const SidebarAssemble = () =>{
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-											{ value: 'lcmr1', label: 'Biodiversity Index ' },
+											{ value: 'lcmr1', label: 'Vulnerable Areas of Terrestrial Endemic Species' },
 											{
 												value: 'lcmr2',
 												label: 'T&E Species – Critical Habitat Area'
@@ -586,7 +586,7 @@ const SidebarAssemble = () =>{
 											{ value: 'eco4', label: 'Access & Recreation: Number of Access Points' }
 										]}
 										isMulti
-										placeholder="Select Community Resilience measures..."
+										placeholder="Select Gulf Economy measures..."
 										name="colors"
 										isClearable={false}
 										className="basic-multi-select"
