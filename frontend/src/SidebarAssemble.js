@@ -70,11 +70,10 @@ const SidebarAssemble = () =>{
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-                                            {value:'hab0',label:'Project area'},
-											{ value: 'hab1', label: 'Padus - Connectivity to Existing Protected Area' },
-											{ value: 'hab2', label: 'Connectivity of Natural Lands' },
-											{ value: 'hab3', label: 'Threat of Urbanization' },
-											{ value: 'hab4', label: 'Land Cover - Composition of Natural Lands ' }
+											{ value: 'hab0', label: 'Padus - Connectivity to Existing Protected Area' },
+											{ value: 'hab1', label: 'Connectivity of Natural Lands' },
+											{ value: 'hab2', label: 'Threat of Urbanization' },
+											{ value: 'hab3', label: 'Land Cover - Composition of Natural Lands ' }
 										]}
 										isMulti
 										isClearable={false}
@@ -196,9 +195,11 @@ const SidebarAssemble = () =>{
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-											{ value: 'wq1', label: "303D: Impaired Watershed Area -- EPA '303(d)' list " },
-											{ value: 'wq2', label: 'Stream Abundance' },
-											{ value: 'wq3', label: 'Hydrologic Response to Land-Use Change'}
+											{ value: 'wq1', label: "303D: Impaired Watershed Area" },
+											{ value: 'wq2', label: 'Hydrologic Response to Land-Use Change'},
+											{ value: 'wq3', label: 'Latreal Connectivity of Floodplain'},
+											{ value: 'wq2', label: 'Percent Irrigated Agriculture'},
+											{ value: 'wq2', label: 'Composition of Riparian Zone Lands'}
 										]}
 										isMulti
 										placeholder="Select Water Quality & Quantity measures..."
@@ -324,11 +325,11 @@ const SidebarAssemble = () =>{
 											{ value: 'lcmr1', label: 'Vulnerable Areas of Terrestrial Endemic Species' },
 											{
 												value: 'lcmr2',
-												label: 'T&E Species – Critical Habitat Area'
+												label: 'Threatened and Endangered Species – Critical Habitat Area'
 											},
 											{
 												value: 'lcmr3',
-												label: 'T&E Species – Number of Species'
+												label: 'Threatened and Endangered Species – Number of Species'
 											},
 											{ value: 'lcmr4', label: 'Light Pollution Index  ' }
 										]}
