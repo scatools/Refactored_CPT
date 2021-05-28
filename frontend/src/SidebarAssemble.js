@@ -6,6 +6,7 @@ import {useDispatch,useSelector} from 'react-redux';
 import RangeSlider from 'react-bootstrap-range-slider';
 import {getScaledForAssessment,mergeIntoArray,calculateMeasures} from './helper/aggregateHex';
 import axios from 'axios';
+import { GoInfo } from 'react-icons/go';
 import ReactTooltip from "react-tooltip";
 
 const RESTOREGoal = ['Habitat', 'Water Quality & Quantity', 'Living Coastal & Marine Resources','Community Resilience','Gulf Economy']
@@ -880,18 +881,25 @@ const SidebarAssemble = () =>{
 
 						<Card className="my-2">
 							<Accordion.Toggle as={Card.Header} eventKey="3">
-								Review:
+								Review & Result:
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey="3">
 								<Card.Body>
-									Data Measure:
+									Data Measure Weights Summary:
 									<Table striped bordered hover size="sm">
 									<thead>
                                         <tr>
                                           <th>Measure Name</th>
 										  <th>Goal Related</th>
-                                          <th>Utility</th>
-                                          <th>Weights</th>
+                                          <th>Utility &nbsp;<GoInfo data-tip data-for='GoInfo' />
+										  <ReactTooltip id='GoInfo' type='dark'>
+  										  <span>Pragna this thing worked</span>
+										  </ReactTooltip></th>
+                                          <th>Weights &nbsp;<GoInfo data-tip data-for='GoInfo' />
+											<ReactTooltip id='GoInfo' type='dark'>
+  											<span>Pragna this thing worked</span>
+											</ReactTooltip>
+										  </th>
                                         </tr>
                                     </thead>
 									<tbody>
