@@ -6,6 +6,7 @@ import {useDispatch,useSelector} from 'react-redux';
 import RangeSlider from 'react-bootstrap-range-slider';
 import {getScaledForAssessment,mergeIntoArray,calculateMeasures} from './helper/aggregateHex';
 import axios from 'axios';
+import ReactTooltip from "react-tooltip";
 
 const RESTOREGoal = ['Habitat', 'Water Quality & Quantity', 'Living Coastal & Marine Resources','Community Resilience','Gulf Economy']
 
@@ -107,6 +108,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="more"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -118,11 +120,15 @@ const SidebarAssemble = () =>{
 																'hab'
 															)}
 													>
-														UnDesired
+														Higher
 													</ToggleButton>
+													<ReactTooltip id="more" place="top">
+													More is better
+													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="less"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -134,8 +140,11 @@ const SidebarAssemble = () =>{
 																'hab'
 															)}
 													>
-														Desired
+														Lower
 													</ToggleButton>
+													<ReactTooltip id="less" place="top">
+													Less is better
+													</ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
 													<ToggleButton
@@ -234,6 +243,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="More"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -245,11 +255,15 @@ const SidebarAssemble = () =>{
 																'wq'
 															)}
 													>
-														UnDesired
+														Higher
 													</ToggleButton>
+													<ReactTooltip id="More" place="top">
+													Higher the impaired area the better
+													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="Less"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -261,8 +275,11 @@ const SidebarAssemble = () =>{
 																'wq'
 															)}
 													>
-														Desired
+														Lower
 													</ToggleButton>
+													<ReactTooltip id="Less" place="top">
+													Lower the impaired area the better
+													</ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
 													<ToggleButton
@@ -367,6 +384,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="More"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -378,11 +396,15 @@ const SidebarAssemble = () =>{
 																'lcmr'
 															)}
 													>
-														UnDesired
+														More
 													</ToggleButton>
+													<ReactTooltip id="More" place="top">
+													More impact less conservations
+													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="Less"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -394,8 +416,11 @@ const SidebarAssemble = () =>{
 																'lcmr'
 															)}
 													>
-														Desired
+														Less
 													</ToggleButton>
+													<ReactTooltip id="Less" place="top">
+													Less impact better conservations
+													</ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
 													<ToggleButton
@@ -493,6 +518,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="More"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -504,11 +530,15 @@ const SidebarAssemble = () =>{
 																'cl'
 															)}
 													>
-														UnDesired
+														More
 													</ToggleButton>
+													<ReactTooltip id="More" place="top">
+													More score the better
+													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="Less"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -520,8 +550,11 @@ const SidebarAssemble = () =>{
 																'cl'
 															)}
 													>
-														Desired
+														Less
 													</ToggleButton>
+													<ReactTooltip id="Less" place="top">
+													Less score the better
+													</ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
 													<ToggleButton
@@ -620,6 +653,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="More"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -631,11 +665,15 @@ const SidebarAssemble = () =>{
 																'eco'
 															)}
 													>
-														UnDesired
+														More
 													</ToggleButton>
+													<ReactTooltip id="More" place="top">
+													More score the better
+													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
+														data-tip data-for="Less"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -647,8 +685,11 @@ const SidebarAssemble = () =>{
 																'eco'
 															)}
 													>
-														Desired
+														Less
 													</ToggleButton>
+													<ReactTooltip id="Less" place="top">
+													Less score the better
+													</ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
 													<ToggleButton
