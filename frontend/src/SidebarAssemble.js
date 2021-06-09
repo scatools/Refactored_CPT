@@ -63,19 +63,143 @@ const SidebarAssemble = () =>{
 						</Card>
 						<Card className="my-2">
 							<Accordion.Toggle as={Card.Header} eventKey="1">
-								Data Measures:
+								RESTORE Goal Weights:
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey="1">
 								<Card.Body>
+									<Form>
+									    <>
+										<span>Habitat:</span>
+										<Form.Group as={Row}>
+											<Col xs="9">
+												<RangeSlider
+													step = {5}
+													value={weights.hab.weight}
+													onChange={(e) => handleWeights(e.target.value,'hab')}
+													variant="secondary"
+												/>
+											</Col>
+											<Col xs="3">
+												<Form.Control
+													value={weights.hab.weight}
+													onChange={(e) => handleWeights(e.target.value, 'hab')}
+												/>
+											</Col>
+										</Form.Group>
+										</>
+									    <>
+										<span>Water Quality & Quantity:</span>
+										<Form.Group as={Row}>
+										<Col xs="9">
+												<RangeSlider
+													step = {5}
+													value={weights.wq.weight}
+													onChange={(e) => handleWeights(e.target.value, 'wq')}
+													variant="secondary"
+												/>
+											</Col>
+											<Col xs="3">
+												<Form.Control
+													value={weights.wq.weight}
+													onChange={(e) => handleWeights(e.target.value, 'wq')}
+												/>
+											</Col>
+										</Form.Group>
+										</>
+										<>
+										<span>Living Coastal & Marine Resources:</span>
+										<Form.Group as={Row}>
+										<Col xs="9">
+												<RangeSlider
+													step = {5}
+													value={weights.lcmr.weight}
+													onChange={(e) => handleWeights(e.target.value, 'lcmr')}
+													variant="secondary"
+												/>
+											</Col>
+											<Col xs="3">
+												<Form.Control
+													value={weights.lcmr.weight}
+													onChange={(e) => handleWeights(e.target.value, 'lcmr')}
+												/>
+											</Col>
+										</Form.Group>
+										</>
+                                    	<>
+										<span>Community Resilience:</span>
+										<Form.Group as={Row}>
+										<Col xs="9">
+												<RangeSlider
+													step = {5}
+													value={weights.cl.weight}
+													onChange={(e) => handleWeights(e.target.value, 'cl')}
+													variant="secondary"
+												/>
+											</Col>
+											<Col xs="3">
+												<Form.Control
+													value={weights.cl.weight}
+													onChange={(e) => handleWeights(e.target.value, 'cl')}
+												/>
+											</Col>
+										</Form.Group>
+										</>
+                    					<>
+										<span>Gulf Economy:</span>
+										<Form.Group as={Row}>
+										<Col xs="9">
+												<RangeSlider
+													step = {5}
+													value={weights.eco.weight}
+													onChange={(e) => handleWeights(e.target.value, 'eco')}
+													variant="secondary"
+												/>
+											</Col>
+											<Col xs="3">
+												<Form.Control
+													value={weights.eco.weight}
+													onChange={(e) => handleWeights(e.target.value, 'eco')}
+												/>
+											</Col>
+										</Form.Group>
+										</>
+									</Form>
+									<br />
+									<label>Total Sum: &nbsp;&nbsp;</label>
+									<span>
+										<input
+											type="text"
+											value={weights.hab.weight+weights.wq.weight+weights.lcmr.weight+weights.cl.weight+weights.eco.weight}							
+											disabled
+										>	
+										</input>
+									</span>
+									<br></br>
+									<br></br>
+									<Accordion.Toggle eventKey="2" as={Button} variant="dark">
+										Next
+									</Accordion.Toggle>
+								</Card.Body>
+							</Accordion.Collapse>
+						</Card>
+					
+
+						<Card className="my-2">
+							<Accordion.Toggle as={Card.Header} eventKey="2">
+								Data Measures:
+							</Accordion.Toggle>
+							<Accordion.Collapse eventKey="2">
+								<Card.Body>
+									<div>
 									<span>Habitat:</span>
 									<Select
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-											{ value: 'hab0', label: 'Padus - Connectivity to Existing Protected Area' },
-											{ value: 'hab1', label: 'Connectivity of Natural Lands' },
-											{ value: 'hab2', label: 'Threat of Urbanization' },
-											{ value: 'hab3', label: 'Land Cover - Composition of Natural Lands ' }
+											{ value: 'hab1', label: 'Padus - Connectivity to Existing Protected Area' },
+											{ value: 'hab2', label: 'Connectivity of Natural Lands' },
+											{ value: 'hab3', label: 'Threat of Urbanization' },
+											{ value: 'hab4', label: 'Land Cover - Composition of Natural Lands ' }
 										]}
 										isMulti
 										isClearable={false}
@@ -99,6 +223,7 @@ const SidebarAssemble = () =>{
 										className="basic-multi-select"
 										classNamePrefix="select"
 									/>
+									
 									{weights.hab.selected &&
 										weights.hab.selected.map((measure) => (
 											<div className="m-2" key={measure.value}>
@@ -108,8 +233,8 @@ const SidebarAssemble = () =>{
 												<ButtonGroup toggle>
 													<ToggleButton
 														type="radio"
-														variant="outline-secondary"
 														data-tip data-for="more"
+														variant="outline-secondary"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -124,12 +249,12 @@ const SidebarAssemble = () =>{
 														Higher
 													</ToggleButton>
 													<ReactTooltip id="more" place="top">
-													More is better
-													</ReactTooltip>
+        											More is better
+     												</ReactTooltip>
 													<ToggleButton
 														type="radio"
-														variant="outline-secondary"
 														data-tip data-for="less"
+														variant="outline-secondary"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -144,8 +269,8 @@ const SidebarAssemble = () =>{
 														Lower
 													</ToggleButton>
 													<ReactTooltip id="less" place="top">
-													Less is better
-													</ReactTooltip>
+        											Less is better
+     												</ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
 													<ToggleButton
@@ -199,17 +324,19 @@ const SidebarAssemble = () =>{
 												</ButtonGroup>
 											</div>
 										))}
+										</div>
 									<br />
+									
 									<span>Water Quality & Quantity:</span>
 									<Select
-										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+										styles={{ menuPortal: (base, state) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-											{ value: 'wq1', label: "303D: Impaired Watershed Area" },
-											{ value: 'wq2', label: 'Hydrologic Response to Land-Use Change'},
-											{ value: 'wq3', label: 'Latreal Connectivity of Floodplain'},
-											{ value: 'wq2', label: 'Percent Irrigated Agriculture'},
-											{ value: 'wq2', label: 'Composition of Riparian Zone Lands'}
+											{ value: 'wq1', type: 'checkbox', label: "303(D): Impaired Watershed Area " },
+											{ value: 'wq2', type: 'checkbox', label: 'Hydrologic Response to Land-Use Change' },
+											{ value: 'wq3', type: 'checkbox', label: 'Percent Irrigated Agriculture' },
+											{ value: 'wq4', type: 'checkbox', label: 'Lateral Connectivity to Floodplain' },
+											{ value: 'wq5', type: 'checkbox', label: 'Composition of Riparizan Zone Lands' }
 										]}
 										isMulti
 										placeholder="Select Water Quality & Quantity measures..."
@@ -244,7 +371,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="More"
+														data-tip data-for="More1"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -256,15 +383,15 @@ const SidebarAssemble = () =>{
 																'wq'
 															)}
 													>
-														Higher
+														More
 													</ToggleButton>
-													<ReactTooltip id="More" place="top">
-													Higher the impaired area the better
+													<ReactTooltip id="More1" place="top">
+													Higher is better
 													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="Less"
+														data-tip data-for="Less1"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -276,10 +403,10 @@ const SidebarAssemble = () =>{
 																'wq'
 															)}
 													>
-														Lower
+														Less
 													</ToggleButton>
-													<ReactTooltip id="Less" place="top">
-													Lower the impaired area the better
+													<ReactTooltip id="Less1" place="top">
+													Lower is better
 													</ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
@@ -335,21 +462,21 @@ const SidebarAssemble = () =>{
 											</div>
 										))}
 									<br />
-									<span>Living Coastal and Marine Resources:</span>
+									<span>Living Coastal & Marine Resources:</span>
 									<Select
 										styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 										menuPortalTarget={document.body}
 										options={[
-											{ value: 'lcmr1', label: 'Vulnerable Areas of Terrestrial Endemic Species' },
+											{ value: 'lcmr1', label: 'Vulnerable Area of Terrestrial Endemic Species' },
 											{
 												value: 'lcmr2',
-												label: 'Threatened and Endangered Species – Critical Habitat Area'
+												label: 'Threatened and Endangered Species - Critical Habitat Area '
 											},
 											{
 												value: 'lcmr3',
-												label: 'Threatened and Endangered Species – Number of Species'
+												label: 'Threatened and Endangered Species - Number of Species '
 											},
-											{ value: 'lcmr4', label: 'Light Pollution Index  ' }
+											{ value: 'lcmr4', label: 'Light Pollution Index' }
 										]}
 										isMulti
 										placeholder="Select Living Coastal & Marine Resources measures..."
@@ -385,8 +512,8 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="More"
 														name="utility"
+														data-tip data-for="More"
 														value="-1"
 														checked={measure.utility === '-1'}
 														onChange={(e) =>
@@ -405,8 +532,8 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="Less"
 														name="utility"
+														data-tip data-for="Less"
 														value="1"
 														checked={measure.utility === '1'}
 														onChange={(e) =>
@@ -483,7 +610,7 @@ const SidebarAssemble = () =>{
 										options={[
 											{ value: 'cl1', label: 'National Register of Historic Places' },
 											{ value: 'cl2', label: 'National Heritage Area' },
-											{ value: 'cl3', label: 'Proximity to Socially Vulnerable Communities' },
+											{ value: 'cl3', label: 'Proximity to Socially Vulnerability Communities' },
 											{ value: 'cl4', label: 'Community Threat Index ' }
 										]}
 										isMulti
@@ -519,7 +646,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="More"
+														data-tip data-for="more"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -533,13 +660,13 @@ const SidebarAssemble = () =>{
 													>
 														More
 													</ToggleButton>
-													<ReactTooltip id="More" place="top">
+													<ReactTooltip id="more" place="top">
 													More score the better
 													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="Less"
+														data-tip data-for="less"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -553,9 +680,9 @@ const SidebarAssemble = () =>{
 													>
 														Less
 													</ToggleButton>
-													<ReactTooltip id="Less" place="top">
+													<ReactTooltip id="less" place="top">
 													Less score the better
-													</ReactTooltip>
+												    </ReactTooltip>
 												</ButtonGroup>
 												<ButtonGroup toggle className="ml-2">
 													<ToggleButton
@@ -616,12 +743,12 @@ const SidebarAssemble = () =>{
 										menuPortalTarget={document.body}
 										options={[
 											{ value: 'eco1', label: 'High Priority Working Lands' },
-											{ value: 'eco2', label: 'Commercial Fishing Reliance' },
-											{ value: 'eco3', label: 'Recreational Fishing Engagement' },
-											{ value: 'eco4', label: 'Access & Recreation: Number of Access Points' }
+											{ value: 'eco2', label: 'Commercial Fishery Reliance' },
+											{ value: 'eco3', label: 'Recreational Fishery Engagement' },
+											{ value: 'eco4', label: 'Access & Recreation - Number of Access Points' }
 										]}
 										isMulti
-										placeholder="Select Gulf Economy measures..."
+										placeholder="Select Gulf Economy..."
 										name="colors"
 										isClearable={false}
 										className="basic-multi-select"
@@ -654,7 +781,7 @@ const SidebarAssemble = () =>{
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="More"
+														data-tip data-for="more"
 														name="utility"
 														value="-1"
 														checked={measure.utility === '-1'}
@@ -668,13 +795,13 @@ const SidebarAssemble = () =>{
 													>
 														More
 													</ToggleButton>
-													<ReactTooltip id="More" place="top">
+													<ReactTooltip id="more" place="top">
 													More score the better
 													</ReactTooltip>
 													<ToggleButton
 														type="radio"
 														variant="outline-secondary"
-														data-tip data-for="Less"
+														data-tip data-for="less"
 														name="utility"
 														value="1"
 														checked={measure.utility === '1'}
@@ -688,7 +815,7 @@ const SidebarAssemble = () =>{
 													>
 														Less
 													</ToggleButton>
-													<ReactTooltip id="Less" place="top">
+													<ReactTooltip id="less" place="top">
 													Less score the better
 													</ReactTooltip>
 												</ButtonGroup>
@@ -744,134 +871,7 @@ const SidebarAssemble = () =>{
 												</ButtonGroup>
 											</div>
 										))}
-									<br />
-									<Accordion.Toggle eventKey="2" as={Button} variant="dark">
-										Next
-									</Accordion.Toggle>
-								</Card.Body>
-							</Accordion.Collapse>
-						</Card>
-
-						<Card className="my-2">
-							<Accordion.Toggle as={Card.Header} eventKey="2">
-								RESTORE Goal Weights:
-							</Accordion.Toggle>
-							<Accordion.Collapse eventKey="2">
-								<Card.Body>
-									<Form>
-									{weights.hab.selected &&
-									    (<>
-										<span>Habitat:</span>
-										<Form.Group as={Row}>
-											<Col xs="9">
-												<RangeSlider
-													value={weights.hab.weight}
-													onChange={(e) => handleWeights(e.target.value,'hab')}
-													variant="secondary"
-												/>
-											</Col>
-											<Col xs="3">
-												<Form.Control
-													value={weights.hab.weight}
-													onChange={(e) => handleWeights(e.target.value, 'hab')}
-												/>
-											</Col>
-										</Form.Group>
-										</>)
-                                    }
-									{weights.wq.selected &&
-									    (<>
-										<span>Water Quality & Quantity:</span>
-										<Form.Group as={Row}>
-										<Col xs="9">
-												<RangeSlider
-													value={weights.wq.weight}
-													onChange={(e) => handleWeights(e.target.value, 'wq')}
-													variant="secondary"
-												/>
-											</Col>
-											<Col xs="3">
-												<Form.Control
-													value={weights.wq.weight}
-													onChange={(e) => handleWeights(e.target.value, 'wq')}
-												/>
-											</Col>
-										</Form.Group>
-										</>)
-                                    }
-									{weights.lcmr.selected &&
-									    (<>
-										<span>Living Coastal & Marine Resources:</span>
-										<Form.Group as={Row}>
-										<Col xs="9">
-												<RangeSlider
-													value={weights.lcmr.weight}
-													onChange={(e) => handleWeights(e.target.value, 'lcmr')}
-													variant="secondary"
-												/>
-											</Col>
-											<Col xs="3">
-												<Form.Control
-													value={weights.lcmr.weight}
-													onChange={(e) => handleWeights(e.target.value, 'lcmr')}
-												/>
-											</Col>
-										</Form.Group>
-										</>)
-                                    }
-									{weights.cl.selected &&
-									    (<>
-										<span>Community Resilience:</span>
-										<Form.Group as={Row}>
-										<Col xs="9">
-												<RangeSlider
-													value={weights.cl.weight}
-													onChange={(e) => handleWeights(e.target.value, 'cl')}
-													variant="secondary"
-												/>
-											</Col>
-											<Col xs="3">
-												<Form.Control
-													value={weights.cl.weight}
-													onChange={(e) => handleWeights(e.target.value, 'cl')}
-												/>
-											</Col>
-										</Form.Group>
-										</>)
-                                    }
-									{weights.eco.selected &&
-									    (<>
-										<span>Gulf Economy:</span>
-										<Form.Group as={Row}>
-										<Col xs="9">
-												<RangeSlider
-													value={weights.eco.weight}
-													onChange={(e) => handleWeights(e.target.value, 'eco')}
-													variant="secondary"
-												/>
-											</Col>
-											<Col xs="3">
-												<Form.Control
-													value={weights.eco.weight}
-													onChange={(e) => handleWeights(e.target.value, 'eco')}
-												/>
-											</Col>
-										</Form.Group>
-										</>)
-                                    }
-									</Form>
-									<br />
-									<label>Total Sum &nbsp;&nbsp;</label>
-									<span>
-										<input
-											type="text"
-											value={weights.hab.weight+weights.wq.weight+weights.lcmr.weight+weights.cl.weight+weights.eco.weight}							
-											disabled
-										>	
-										</input>
-									</span>
-									<br></br>
-									<br></br>
+										<br />
 									<Accordion.Toggle eventKey="3" as={Button} variant="dark">
 										Next
 									</Accordion.Toggle>
