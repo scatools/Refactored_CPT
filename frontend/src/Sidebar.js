@@ -114,7 +114,7 @@ const Sidebar = ({
 		<div id="sidebar" className={activeSidebar ? 'active' : ''}>
 			<SidebarDismiss setActiveSidebar={setActiveSidebar} />
 			<div className="ControlWrapper">
-				<p>Area of interests control:</p>
+				<p>Area of interest</p>
 				<hr />
 				<SidebarMode mode={mode} setMode={setMode} />
 				<hr />
@@ -134,7 +134,7 @@ const Sidebar = ({
 				)}
 				{mode === 'add' && (
 					<div>
-						<p>Add new area of interests</p>
+						<p>Add of interest</p>
 						<ButtonGroup toggle className="ml-5">
 							<ToggleButton
 								type="radio"
