@@ -1009,7 +1009,7 @@ const SidebarAssemble = () =>{
 										    calculateNewData();
 										}
 										
-									}}>Generate assessment</Button>
+									}}>Generate Assessment</Button>
 								</Card.Body>
 							</Accordion.Collapse>
 						</Card>

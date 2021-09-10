@@ -26,34 +26,33 @@ const Assessment = () => {
 	return (
 		<>
 		<div className="assessmentNav">
-			<a href="#data">Data overview</a>
-			<a href="#mcda">MCDA results</a>
-			<a href="#userDefined">User-defined weights results</a>
+			<a href="#data">Data Overview</a>			
+			<a href="#userDefined">User-defined Weights Results</a>
+			<a href="#mcda">MCDA Results</a>
 		</div>
 		<div className="assessmentDownload">
 			<Button variant="dark" onClick={downloadReport}>Download Report</Button>
 		</div>
 		<Container style={{position:"relative", top:"50px"}}>
 			<Row id="data">
-				<h2>Data summary:</h2>
+				<h2>Data Summary:</h2>
 				<AssessmentTable/>
 				<AssessmentScoreTable/>
 			</Row>
 			<hr/>
+			<Row id="userDefined">
+			    <h2>User-defined Weights Results:</h2>
+				<div>
+					<UserDefinedResult/>
+				</div>				
+			</Row>
+			<hr/>
 			<Row id="mcda">
-			    <h2>SMAA MCDA results:</h2>
+			    <h2>SMAA MCDA Results:</h2>
 				<div>
 					<MCDAResult/>
 				</div>
-			</Row>
-			<hr/>
-			<Row id="userDefined">
-			    <h2>User-defined weights results:</h2>
-				<div>
-					<UserDefinedResult />
-				</div>
-				
-			</Row>
+			</Row>			
 		</Container>
 		</>
 	);

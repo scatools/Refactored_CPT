@@ -114,7 +114,7 @@ const Sidebar = ({
 		<div id="sidebar" className={activeSidebar ? 'active' : ''}>
 			<SidebarDismiss setActiveSidebar={setActiveSidebar} />
 			<div className="ControlWrapper">
-				<p>Area of interest</p>
+				<p>Area of Interest</p>
 				<hr />
 				<SidebarMode mode={mode} setMode={setMode} />
 				<hr />
@@ -134,7 +134,7 @@ const Sidebar = ({
 				)}
 				{mode === 'add' && (
 					<div>
-						<p>Add of interest</p>
+						<p>Add Area of Interest</p>
 						<ButtonGroup toggle className="ml-5">
 							<ToggleButton
 								type="radio"
@@ -144,7 +144,7 @@ const Sidebar = ({
 								checked={inputMode === 'draw'}
 								onChange={(e) => setInputMode(e.currentTarget.value)}
 							>
-								by drawing
+								by Drawing
 							</ToggleButton>
 							<ToggleButton
 								type="radio"
@@ -195,11 +195,11 @@ const Sidebar = ({
 										setAoiSelected(false);
 									}}
 								>
-									Add a new shape
+									Add a New Shape
 								</Button>
 								<hr />
 								<Button variant="dark" onClick={handleSubmit}>
-									Finalize input
+									Finalize Input
 								</Button>
 								
 							</Container>
