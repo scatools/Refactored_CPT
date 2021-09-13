@@ -3,7 +3,7 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 
 const SidebarMode = ({ mode, setMode }) => {
 	return (
-		<ButtonGroup toggle className="ml-5">
+		<ButtonGroup toggle className="d-flex justify-content-center">
 			<ToggleButton
 				type="radio"
 				variant="outline-secondary"

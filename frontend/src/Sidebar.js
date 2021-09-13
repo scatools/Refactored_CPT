@@ -54,12 +54,10 @@ const Sidebar = ({
 					id: uuid()
 				})
 			);
-
 			setDrawingMode(false);
+			setMode("view");
 		}
 	};
-
-	
 
 	const handleNameChange = (e) => {
 		setDrawData(e.target.value);
@@ -135,32 +133,34 @@ const Sidebar = ({
 				{mode === 'add' && (
 					<div>
 						<p>Add Area of Interest</p>
-						<ButtonGroup toggle className="ml-5">
-							<ToggleButton
-								type="radio"
-								variant="outline-secondary"
-								name="draw"
-								value="draw"
-								checked={inputMode === 'draw'}
-								onChange={(e) => setInputMode(e.currentTarget.value)}
-							>
-								by Drawing
-							</ToggleButton>
-							<ToggleButton
-								type="radio"
-								variant="outline-secondary"
-								name="shapefile"
-								value="shapefile"
-								checked={inputMode === 'shapefile'}
-								onChange={(e) => setInputMode(e.currentTarget.value)}
-							>
-								by Zipped Shapefile
-							</ToggleButton>
-						</ButtonGroup>
+						<Container className="d-flex">
+							<ButtonGroup toggle className="m-auto">
+								<ToggleButton
+									type="radio"
+									variant="outline-secondary"
+									name="draw"
+									value="draw"
+									checked={inputMode === 'draw'}
+									onChange={(e) => setInputMode(e.currentTarget.value)}
+								>
+									by Drawing
+								</ToggleButton>
+								<ToggleButton
+									type="radio"
+									variant="outline-secondary"
+									name="shapefile"
+									value="shapefile"
+									checked={inputMode === 'shapefile'}
+									onChange={(e) => setInputMode(e.currentTarget.value)}
+								>
+									by Zipped Shapefile
+								</ToggleButton>
+							</ButtonGroup>
+						</Container>						
 						<hr />
 
 						{inputMode === 'shapefile' && (
-							<Container className="m-2 file-drop">
+							<Container className="m-auto file-drop">
 								<Dropzone 
 									onDrop={onDrop}
 									accept=".zip"
@@ -177,7 +177,7 @@ const Sidebar = ({
 
 						{inputMode === 'draw' && (
 							<Container className="mt-3">
-								<InputGroup className="mb-3" style={{ width: '80%' }}>
+								<InputGroup className="m-auto" style={{ width: '80%' }}>
 									<InputGroup.Prepend>
 										<InputGroup.Text id="basic-addon1">Plan Name:</InputGroup.Text>
 									</InputGroup.Prepend>
@@ -188,20 +188,22 @@ const Sidebar = ({
 										placeholder="Name area of interest here..."
 									/>
 								</InputGroup>
-								<Button
-									variant="dark"
-									onClick={() => {
-										setDrawingMode(true);
-										setAoiSelected(false);
-									}}
-								>
-									Add a New Shape
-								</Button>
 								<hr />
-								<Button variant="dark" onClick={handleSubmit}>
-									Finalize Input
-								</Button>
-								
+								<Container>
+									<Button
+										variant="dark"
+										style={{float: "left"}}
+										onClick={() => {
+											setDrawingMode(true);
+											setAoiSelected(false);
+										}}
+									>
+										Add a New Shape
+									</Button>
+									<Button variant="dark" style={{float: "right"}} onClick={handleSubmit}>
+										Finalize Input
+									</Button>
+								</Container>
 							</Container>
 						)}
 
