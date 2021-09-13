@@ -38,7 +38,7 @@ const SidebarAssemble = () =>{
         <Accordion defaultActiveKey="0">
 						<Card>
 							<Accordion.Toggle as={Card.Header} eventKey="0">
-								Select areas of interests:
+								Select Areas of Interests:
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey="0">
 								<Card.Body>
@@ -920,7 +920,7 @@ const SidebarAssemble = () =>{
 										   weights.wq.selected.map(measure=>(
 											   <tr key={measure.value}>
 												   <td>{measure.label}</td>
-												   <td>Water Quality</td>
+												   <td>Water</td>
 												   <td>{measure.utility==='1'? 'Desired':'UnDesired'}</td>
 												   <td>{measure.weight.toUpperCase()}</td>
 											   </tr>

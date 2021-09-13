@@ -38,7 +38,7 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 		<>
 		{aoi && aoi.length>0 &&
 		<Card>
-			<Card.Header>Area of interest details:</Card.Header>
+			<Card.Header>Area of Interest Details:</Card.Header>
 			<Card.Body>
 				<Card.Title>{aoi[0].name}</Card.Title>
 					<ul>
@@ -53,7 +53,7 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 							setAoiName(aoi[0].name)
 						}}
 				>
-					Edit area of interest
+					Edit Area of Interest
 				</Button>
 				<Button variant="dark" className="ml-1" 
 				    onClick={()=>{
@@ -61,7 +61,7 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 						dispatch(delete_aoi(aoi[0].id))
 					}}
 				>
-					Delete area of interest
+					Delete Area of Interest
 				</Button>
 				{editAOI && 
 				(
@@ -69,14 +69,14 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 				<hr/>
 				<InputGroup className="mb-3" style={{ width: '60%' }}>
 					<InputGroup.Prepend>
-						<InputGroup.Text id="basic-addon1">Plan name:</InputGroup.Text>
+						<InputGroup.Text id="basic-addon1">Plan Name:</InputGroup.Text>
 					</InputGroup.Prepend>
 					<FormControl name="planName" value={aoiName} onChange={(e)=>{setAoiName(e.target.value)}} placeholder="Name area of interest here..."/>
 				</InputGroup>
 				<Button variant="dark"
 				        onClick={handleEdit}
 				>
-					Finalize changes
+					Finalize Changes
 				</Button>
 				</>
 				)

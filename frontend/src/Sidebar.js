@@ -179,7 +179,7 @@ const Sidebar = ({
 							<Container className="mt-3">
 								<InputGroup className="mb-3" style={{ width: '80%' }}>
 									<InputGroup.Prepend>
-										<InputGroup.Text id="basic-addon1">Plan name:</InputGroup.Text>
+										<InputGroup.Text id="basic-addon1">Plan Name:</InputGroup.Text>
 									</InputGroup.Prepend>
 									<FormControl
 										name="planName"
