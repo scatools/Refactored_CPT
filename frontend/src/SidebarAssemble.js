@@ -5,6 +5,7 @@ import {changeMeasures,changeMeasuresWeight,changeGoalWeights,generate_assessmen
 import {useDispatch,useSelector} from 'react-redux';
 import RangeSlider from 'react-bootstrap-range-slider';
 import {getScaledForAssessment,mergeIntoArray,calculateMeasures} from './helper/aggregateHex';
+import {Redirect,useHistory} from 'react-router-dom';
 import axios from 'axios';
 import { GoInfo } from 'react-icons/go';
 import ReactTooltip from "react-tooltip";
@@ -29,6 +30,8 @@ const SidebarAssemble = () =>{
     const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+	const history = useHistory();
+
     return (
         <div>
         <div>
@@ -1003,10 +1006,15 @@ const SidebarAssemble = () =>{
 											}
 											dispatch(generate_assessment(returnData));
 										}
+										
 										if(Object.values(weights).reduce((a,b)=>{return a+b.weight},0)!==100 || aoiSelected.length<=1){
 											handleShow()
 										}else{
-										    calculateNewData();
+											calculateNewData().then(()=>{
+												history.push("/assessment");
+												// This won't work
+												// return <Redirect to="/assessment"/>
+											});
 										}
 										
 									}}>Generate Assessment</Button>
