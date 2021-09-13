@@ -130,8 +130,14 @@ nav a:hover {
   justify-content: center;
 }
 
-.assessmentDownload {
+.assessmentDownloadHTML {
   position: absolute;
   right: 20px;
   top: 1%
+}
+
+.assessmentDownloadPDF {
+  position: absolute;
+  right: 20px;
+  top: 3%
 }

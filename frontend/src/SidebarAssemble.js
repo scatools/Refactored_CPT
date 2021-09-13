@@ -5,6 +5,7 @@ import {changeMeasures,changeMeasuresWeight,changeGoalWeights,generate_assessmen
 import {useDispatch,useSelector} from 'react-redux';
 import RangeSlider from 'react-bootstrap-range-slider';
 import {getScaledForAssessment,mergeIntoArray,calculateMeasures} from './helper/aggregateHex';
+import {Redirect,useHistory} from 'react-router-dom';
 import axios from 'axios';
 import { GoInfo } from 'react-icons/go';
 import ReactTooltip from "react-tooltip";
@@ -29,13 +30,15 @@ const SidebarAssemble = () =>{
     const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+	const history = useHistory();
+
     return (
         <div>
         <div>
         <Accordion defaultActiveKey="0">
 						<Card>
 							<Accordion.Toggle as={Card.Header} eventKey="0">
-								Select areas of interests:
+								Select Areas of Interests:
 							</Accordion.Toggle>
 							<Accordion.Collapse eventKey="0">
 								<Card.Body>
@@ -917,7 +920,7 @@ const SidebarAssemble = () =>{
 										   weights.wq.selected.map(measure=>(
 											   <tr key={measure.value}>
 												   <td>{measure.label}</td>
-												   <td>Water Quality</td>
+												   <td>Water</td>
 												   <td>{measure.utility==='1'? 'Desired':'UnDesired'}</td>
 												   <td>{measure.weight.toUpperCase()}</td>
 											   </tr>
@@ -1003,13 +1006,18 @@ const SidebarAssemble = () =>{
 											}
 											dispatch(generate_assessment(returnData));
 										}
+										
 										if(Object.values(weights).reduce((a,b)=>{return a+b.weight},0)!==100 || aoiSelected.length<=1){
 											handleShow()
 										}else{
-										    calculateNewData();
+											calculateNewData().then(()=>{
+												history.push("/assessment");
+												// This won't work
+												// return <Redirect to="/assessment"/>
+											});
 										}
 										
-									}}>Generate assessment</Button>
+									}}>Generate Assessment</Button>
 								</Card.Body>
 							</Accordion.Collapse>
 						</Card>
