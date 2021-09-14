@@ -3,7 +3,7 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 
 const SidebarMode = ({ mode, setMode }) => {
 	return (
-		<ButtonGroup toggle className="ml-5">
+		<ButtonGroup toggle className="d-flex justify-content-center">
 			<ToggleButton
 				type="radio"
 				variant="outline-secondary"
@@ -12,7 +12,7 @@ const SidebarMode = ({ mode, setMode }) => {
 				checked={mode === 'add'}
 				onChange={(e) => setMode(e.currentTarget.value)}
 			>
-				Add new
+				Add New
 			</ToggleButton>
 			<ToggleButton
 				type="radio"
@@ -22,9 +22,8 @@ const SidebarMode = ({ mode, setMode }) => {
 				checked={mode === 'view'}
 				onChange={(e) => setMode(e.currentTarget.value)}
 			>
-				View current
+				View Current
 			</ToggleButton>
-
 			<ToggleButton
 				type="radio"
 				variant="outline-secondary"
@@ -33,7 +32,7 @@ const SidebarMode = ({ mode, setMode }) => {
 				checked={mode === 'assemble'}
 				onChange={(e) => setMode(e.currentTarget.value)}
 			>
-				Assemble for assessment
+				Create Assessment
 			</ToggleButton>
 		</ButtonGroup>
 	);

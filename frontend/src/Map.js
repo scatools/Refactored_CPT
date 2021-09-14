@@ -95,6 +95,16 @@ const Map = ({ drawingMode, setFeatureList, aoiSelected,editAOI }) => {
 			onViewportChange={(nextViewport) => setViewport(nextViewport)}
 			mapboxApiAccessToken={MAPBOX_TOKEN}
 		>
+			<Source type="vector" url="mapbox://chuck0520.bardd4y7" maxzoom={22} minzoom={0}>
+				<Layer
+					id='sca-boundry'
+					source-layer='SCA_Boundry-13ifc0'
+					type='fill'
+					paint={{'fill-outline-color': '#484896','fill-color': '#6e599f','fill-opacity': 0.2}}
+					minzoom={0}
+					maxzoom={22}
+				/>
+			</Source>
 			<Editor
 				ref={editorRef}
 				style={{ width: '100%', height: '100%' }}

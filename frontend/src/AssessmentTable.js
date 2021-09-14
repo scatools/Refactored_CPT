@@ -20,11 +20,11 @@ const AssessmentTable = () =>{
 						<tbody>
 							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
-									<b>Habitat: </b>{' '}
+									<b>Habitat:</b>{' '}
 								</td>
 							</tr>
 							<tr>
-								<td>Project area:</td>
+								<td>Project Area:</td>
                                 {assessment.aoi.hab0.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -32,7 +32,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Padus:</td>
+								<td>Connectivity to Existing Protected Area:</td>
 								{assessment.aoi.hab1.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -40,7 +40,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Structural Connectivity:</td>
+								<td>Connectivity of Natural Lands:</td>
 								{assessment.aoi.hab2.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -56,7 +56,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Composition of Natural Lands:</td>
+								<td>Composition of Priority Natural Lands:</td>
 								{assessment.aoi.hab4.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -65,11 +65,11 @@ const AssessmentTable = () =>{
 							</tr>
 							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
-									<b>Water Quality: </b>{' '}
+									<b>Water Quality & Quantity:</b>{' '}
 								</td>
 							</tr>
 							<tr>
-								<td>Impaired Watershed Area:</td>
+								<td>303(d): Impaired Watershed Area:</td>
 								{assessment.aoi.wq1.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -77,7 +77,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Stream Abundance:</td>
+								<td>Hydrologic Response to Land-Use Change:</td>
 								{assessment.aoi.wq2.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -85,12 +85,20 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
+								<td>Percent Irrigated Agriculture:</td>
+								{assessment.aoi.wq3.map(value=>(
+                                    <td key={uuid()}>
+                                        {Math.floor(value*100)/100}
+                                    </td>
+                                ))}
+							</tr>
+							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
-									<b>LCMR:</b>{' '}
+									<b>Living Coastal & Marine Resources:</b>{' '}
 								</td>
 							</tr>
 							<tr>
-								<td>Biodiversity Index: </td>
+								<td>Vulnerable Areas of Terrestrial Endemic Species:</td>
 								{assessment.aoi.lcmr1.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -98,7 +106,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>T&E Area:</td>
+								<td>Threatened and Endangered Species - Critical Habitat Area:</td>
 								{assessment.aoi.lcmr2.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -106,7 +114,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>T&E Count:</td>
+								<td>Threatened and Endangered Species - Number of Species:</td>
 								{assessment.aoi.lcmr3.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -127,7 +135,7 @@ const AssessmentTable = () =>{
 								</td>
 							</tr>
 							<tr>
-								<td>National Register of Historic Places: </td>
+								<td>National Register of Historic Places:</td>
 								{assessment.aoi.cl1.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -143,7 +151,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Social Vulnerability Index:</td>
+								<td>Proximity to Socially Vulnerable Communities:</td>
 								{assessment.aoi.cl3.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -160,11 +168,11 @@ const AssessmentTable = () =>{
 							</tr>
 							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
-									<b>Economy:</b>{' '}
+									<b>Gulf Economy:</b>{' '}
 								</td>
 							</tr>
 							<tr>
-								<td>Working Lands: </td>
+								<td>High Priority Working Lands:</td>
 								{assessment.aoi.eco1.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -172,7 +180,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Commercial Fishery Index:</td>
+								<td>Commercial Fishing Reliance:</td>
 								{assessment.aoi.eco2.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -180,7 +188,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Recreational Fishery Index:</td>
+								<td>Recreational Fishing Engagement:</td>
 								{assessment.aoi.eco3.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
@@ -188,7 +196,7 @@ const AssessmentTable = () =>{
                                 ))}
 							</tr>
 							<tr>
-								<td>Access & Recreation:</td>
+								<td>Access & Recreation: Number of Access Points:</td>
 								{assessment.aoi.eco4.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
