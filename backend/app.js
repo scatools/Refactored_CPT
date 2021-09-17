@@ -12,10 +12,14 @@ app.use(morgan('tiny'));
 
 app.post('/data', async function(req, res, next) {
 	try {
+		// const results = await db.query(
+		// 	`SELECT gid,objectid,hab1,hab2,hab3,hab4,wq1,wq2,wq3,lcmr1,lcmr2,lcmr3,lcmr4,cl1,cl2,cl3,cl4,eco1,eco2,eco3,eco4 FROM data1 WHERE ST_Intersects(ST_GeomFromGeoJSON($1),ST_transform(data1.geom,4326))`,[req.body.data]
+		// );
 		const results = await db.query(
-			`SELECT  gid,
-			objectid,
-			hab1,hab2,hab3,hab4,wq1,wq2,wq3,lcmr1,lcmr2,lcmr3,lcmr4,cl1,cl2,cl3,cl4,eco1,eco2,eco3,eco4,wq4 FROM cpt_data  WHERE ST_Intersects(ST_GeomFromGeoJSON($1),ST_transform(cpt_data.geom,4326))`,[req.body.data]
+			`SELECT gid,objectid,hab1,hab2,hab3,hab4,wq1,wq2,wq3,wq4,wq5,wq6,lcmr1,lcmr2,lcmr3,lcmr4,lcmr5,lcmr6,cl1,cl2,cl3,cl4,eco1,eco2,eco3,eco4 
+			FROM sca_landonly_withdata7_renamed 
+			WHERE ST_Intersects(ST_GeomFromGeoJSON($1),ST_SetSRID(sca_landonly_withdata7_renamed.geom, 4326))`,
+			[req.body.data]
 		);
 		return res.json({
 			length: results.rows.length,
@@ -23,6 +27,7 @@ app.post('/data', async function(req, res, next) {
 		});
 	} catch (e) {
 		next(e);
+		console.error(e); 
 	}
 });
 
