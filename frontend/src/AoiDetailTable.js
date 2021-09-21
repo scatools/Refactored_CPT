@@ -21,7 +21,7 @@ const AoiDetailTable = ({ activeTable, setActiveTable }) => {
 			>
 				X
 			</div>
-			<div style={{padding:"20px",marginTop:"50px"}}>
+			<div className="AoiTable" style={{padding:"20px", marginTop:"50px"}}>
 				{aoi && (
 					<Table striped bordered size="sm" variant="dark">
 						<thead>

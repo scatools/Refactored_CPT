@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import {Card, Button,InputGroup,FormControl} from 'react-bootstrap';
 import { useSelector,useDispatch } from 'react-redux';
+import { MdViewList,MdEdit,MdDelete,MdFileDownload } from 'react-icons/md';
 import {delete_aoi,edit_aoi} from './action';
 import {calculateArea,aggregate, getStatus} from './helper/aggregateHex';
 import axios from 'axios';
@@ -34,6 +35,18 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 			setDrawingMode(false);
 		}
 	}
+
+	const handleDownload = () =>{		
+		var pageHTMLObject = document.getElementsByClassName("AoiTable")[0];
+		var pageHTML = pageHTMLObject.outerHTML;
+		var tempElement = document.createElement('a');
+
+		tempElement.href = 'data:text/html;charset=UTF-8,' + encodeURIComponent(pageHTML);
+		tempElement.target = '_blank';
+		tempElement.download = 'report.html';
+		tempElement.click();
+	}
+
 	return (
 		<>
 		{aoi && aoi.length>0 &&
@@ -45,7 +58,12 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 						<li>This area of interest has an area of {Math.round(aoi[0].rawScore.hab0*100)/100} km<sup>2</sup></li>
 						<li>This area of interest contains {aoi[0].hexagons.length} hexagons</li>
 					</ul>
-				<Button variant="dark" onClick={()=>{setActiveTable(aoiSelected)}}>View detail</Button>
+				<Button variant="dark" 
+					onClick={()=>{setActiveTable(aoiSelected)}}
+				>
+					<MdViewList /> &nbsp;
+					View
+				</Button>
 				<Button variant="dark" className="ml-1"
 				        onClick={()=>{
 							setEditAOI(true);
@@ -53,7 +71,8 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 							setAoiName(aoi[0].name)
 						}}
 				>
-					Edit Area of Interest
+					<MdEdit /> &nbsp;
+					Edit
 				</Button>
 				<Button variant="dark" className="ml-1" 
 				    onClick={()=>{
@@ -61,7 +80,14 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 						dispatch(delete_aoi(aoi[0].id))
 					}}
 				>
-					Delete Area of Interest
+					<MdDelete /> &nbsp;
+					Delete
+				</Button>
+				<Button variant="dark" className="ml-1" 
+				    onClick={handleDownload}
+				>
+					<MdFileDownload /> &nbsp;
+					Download Report
 				</Button>
 				{editAOI && 
 				(
@@ -80,7 +106,7 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 				</Button>
 				</>
 				)
-				}
+				}								
 			</Card.Body>
 		</Card>
 		}
