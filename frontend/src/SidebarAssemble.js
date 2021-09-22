@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
-import {Accordion, Card,Button, ButtonGroup,ToggleButton,Form,Row,Col,Table,Modal} from 'react-bootstrap';
+import {Accordion,Button,ButtonGroup,Card,Col,Form,Modal,Row,Table,ToggleButton} from 'react-bootstrap';
 import Select from 'react-select';
 import {changeMeasures,changeMeasuresWeight,changeGoalWeights,generate_assessment} from './action';
 import {useDispatch,useSelector} from 'react-redux';
 import RangeSlider from 'react-bootstrap-range-slider';
-import {getScaledForAssessment,mergeIntoArray,calculateMeasures} from './helper/aggregateHex';
+import {calculateMeasures,getScaledForAssessment,mergeIntoArray} from './helper/aggregateHex';
 import {Redirect,useHistory} from 'react-router-dom';
 import axios from 'axios';
 import { GoInfo } from 'react-icons/go';

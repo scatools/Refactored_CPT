@@ -36,7 +36,7 @@ export function calculateArea(input){
 }
 
 export function aggregate(input,area) {
-    console.log(input);
+    // console.log(input);
     const hexNumber = input.length===0? 1: input.length;
     let aggregatedResult = input.reduce((a,b)=>{return {
         hab1: parseFloat(a.hab1)>=parseFloat(b.hab1)?parseFloat(a.hab1):parseFloat(b.hab1),
@@ -88,7 +88,7 @@ export function aggregate(input,area) {
 }
 
 export function getStatus(input){
-  console.log(input);
+  // console.log(input);
   let scaledResult = {
     hab0: Math.round((input.hab0*247.105)*100)/100 + " acres",
     hab1: input.hab1===1? "Yes" : "No",
