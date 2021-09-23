@@ -35,7 +35,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions",
+    "publishToHeroku": "cd ../ && git subtree push --prefix frontend heroku-frontend main || true"
   },
   "eslintConfig": {
     "extends": "react-app"
