@@ -1,5 +1,6 @@
 import React, { useState,useCallback } from 'react';
-import { Container, ButtonGroup, ToggleButton, FormControl, InputGroup, Button, Alert } from 'react-bootstrap';
+import { Alert, Button, ButtonGroup, Container, Form, FormControl, InputGroup, ToggleButton } from 'react-bootstrap';
+import Select from 'react-select';
 import SidebarMode from './SidebarMode';
 import SidebarViewGroup from './SidebarViewGroup';
 import SidebarViewDetail from './SidebarViewDetail';
@@ -28,6 +29,7 @@ const Sidebar = ({
 	const [ inputMode, setInputMode ] = useState('draw');
 	const [ drawData, setDrawData ] = useState('');
 	const [ alerttext, setAlerttext ] = useState(false);
+	const [ retrievingOptions, setRetrievingOptions ] = useState('hucBoundary');
 	const dispatch = useDispatch();
 	const handleSubmit = async () => {
 		if (!drawData) {
@@ -37,7 +39,7 @@ const Sidebar = ({
 		} else {
 			setAlerttext(false);
 			const newList = featureList;
-			console.log(featureList);
+			// console.log(featureList);
 			const data = {
 				type: 'MultiPolygon',
 				coordinates: newList.map((feature) => feature.geometry.coordinates)
@@ -93,12 +95,12 @@ const Sidebar = ({
 
 		for(let file of acceptedFiles){
 		  const reader = new FileReader();
-		  console.log(file);
+		  // console.log(file);
 		  
 		  reader.onload = async () => {
 			// Do whatever you want with the file contents
 			const result = await shp(reader.result);
-			console.log(result.features[0].geometry);
+			// console.log(result.features[0].geometry);
 			if(result){
 				handleSubmitShapefile(result.features[0].geometry)
 			}
@@ -106,7 +108,18 @@ const Sidebar = ({
 		  reader.readAsArrayBuffer(file);
 		}
 		
-	  }, [dispatch])
+	}, [dispatch])
+
+	const dropdownStyles = {
+		option: (provided, state) => ({
+			...provided,
+			color: state.isSelected ? 'white' : 'black',
+		}),
+		singleValue: (provided, state) => {
+			const opacity = state.isDisabled ? 0.5 : 1;		
+			return { ...provided, opacity };
+		}
+	}
 
 	return (
 		<div id="sidebar" className={activeSidebar ? 'active' : ''}>
@@ -155,25 +168,19 @@ const Sidebar = ({
 								>
 									by Zipped Shapefile
 								</ToggleButton>
+								<ToggleButton
+									type="radio"
+									variant="outline-secondary"
+									name="boundary"
+									value="boundary"
+									checked={inputMode === 'boundary'}
+									onChange={(e) => setInputMode(e.currentTarget.value)}
+								>
+									by Existing Boundary
+								</ToggleButton>
 							</ButtonGroup>
 						</Container>						
 						<hr />
-
-						{inputMode === 'shapefile' && (
-							<Container className="m-auto file-drop">
-								<Dropzone 
-									onDrop={onDrop}
-									accept=".zip"
-								>
-									{({ getRootProps, getInputProps }) => (
-										<div {...getRootProps()}>
-											<input {...getInputProps()} />
-											Click me to upload a file!
-										</div>
-									)}
-								</Dropzone>
-							</Container>
-						)}
 
 						{inputMode === 'draw' && (
 							<Container className="mt-3">
@@ -204,6 +211,118 @@ const Sidebar = ({
 										Finalize Input
 									</Button>
 								</Container>
+							</Container>
+						)}
+
+						{inputMode === 'shapefile' && (
+							<Container className="m-auto file-drop">
+								<Dropzone 
+									onDrop={onDrop}
+									accept=".zip"
+								>
+									{({ getRootProps, getInputProps }) => (
+										<div {...getRootProps()}>
+											<input {...getInputProps()} />
+											Click me to upload a file!
+										</div>
+									)}
+								</Dropzone>
+							</Container>
+						)}
+
+						{inputMode === 'boundary' && (
+							<Container className="m-auto" style={{ width: '80%' }}>
+								<div>
+									<p style={{ fontSize: '110%' }}>Geographic Scale</p>
+									<Select 
+										placeholder="Select a scale"
+										options = {[
+											{ value: 'watershed', label: 'Watershed Coastal Zone' }
+										]}
+										theme={(theme) => ({
+											...theme,
+											colors: {
+											...theme.colors,
+												primary: 'gray',
+												primary25: 'lightgray'
+											},
+										})}
+										styles={dropdownStyles}
+									/>
+								</div>
+								<br></br>
+								<div>
+									<p style={{ fontSize: '110%' }}>Retrieving Options</p>
+									<Select 
+										placeholder="Select an option"
+										options = {[
+											{ value: 'hucName', label: 'by HUC 12 Watershed Name' },
+											{ value: 'hucID', label: 'by HUC 12 Watershed ID' },
+											{ value: 'hucBoundary', label: 'by HUC 12 Watershed Boundary' }
+										]}
+										theme={(theme) => ({
+											...theme,
+											colors: {
+											...theme.colors,
+												primary: 'gray',
+												primary25: 'lightgray'
+											},
+										})}
+										styles={dropdownStyles}
+										onChange={(e) => setRetrievingOptions(e.value)}
+									/>
+								</div>
+								<br></br>
+								{retrievingOptions === 'hucName' && (
+									<div>
+										<p style={{ fontSize: '110%' }}>Watershed Selection</p>
+										<Select 
+											styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+											menuPortalTarget={document.body}										
+											// options = {[
+
+											// ]}
+											isMulti
+											isClearable={true}
+											isSearchable={true}
+											placeholder="Select watersheds from the list"
+											theme={(theme) => ({
+												...theme,
+												colors: {
+												...theme.colors,
+													primary: 'gray',
+													primary25: 'lightgray'
+												},
+											})}
+											styles={dropdownStyles}
+										/>
+									</div>
+								)}
+								{retrievingOptions === 'hucID' && (
+									<div>
+										<p style={{ fontSize: '110%' }}>Watershed Selection</p>
+										<Select 
+											styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+											menuPortalTarget={document.body}										
+											// options = {[
+
+											// ]}
+											isMulti
+											isClearable={true}
+											isSearchable={true}
+											placeholder="Select watersheds from the list"
+											theme={(theme) => ({
+												...theme,
+												colors: {
+												...theme.colors,
+													primary: 'gray',
+													primary25: 'lightgray'
+												},
+											})}
+											styles={dropdownStyles}
+										/>
+									</div>
+								)}
 							</Container>
 						)}
 
