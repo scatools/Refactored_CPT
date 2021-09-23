@@ -21,7 +21,10 @@ const Assessment = () => {
 
 	// Download from backend
 	// const downloadHTMLReport = async () =>{
+	// For development on local server
 	// 	const result = await axios.get('http://localhost:5000/report');
+	// For production on Heroku
+	// 	const result = await axios.get('https://sca-cpt-backend.herokuapp.com/report');
 	// 	const url = window.URL.createObjectURL(new Blob([result.data]));
 	// 	console.log(url);
     //     const link = document.createElement('a');

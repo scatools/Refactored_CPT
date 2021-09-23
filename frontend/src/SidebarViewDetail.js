@@ -21,7 +21,11 @@ const SidebarViewDetail = ({aoiSelected,setActiveTable,setDrawingMode,editAOI, s
 				type: 'MultiPolygon',
 				coordinates: newList.map((feature) => feature.geometry.coordinates)
 			};
-			const res = await axios.post('http://localhost:5000/data', { data });
+
+			// For development on local server
+			// const res = await axios.post('http://localhost:5000/data', { data });
+			// For production on Heroku
+			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
 			const planArea = calculateArea(newList);
 			dispatch(
 				edit_aoi(aoi[0].id, {
