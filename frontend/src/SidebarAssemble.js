@@ -993,7 +993,14 @@ const SidebarAssemble = () =>{
 											})
 											const newAoi = mergeIntoArray(newAoiData);
 											const scoreByGoal = calculateMeasures(newAoiData,weights);
-											const result = await axios.post('http://localhost:5000/mcda',{
+											
+											// For development on local server
+											// const result = await axios.post('http://localhost:5000/mcda',{
+											// 	mean: scoreByGoal,
+											// 	std: 0.1
+											// });
+											// For production on Heroku
+											const result = await axios.post('https://sca-cpt-backend.herokuapp.com/mcda',{
 												mean: scoreByGoal,
 												std: 0.1
 											});

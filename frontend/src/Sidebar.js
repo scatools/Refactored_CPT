@@ -44,7 +44,11 @@ const Sidebar = ({
 				type: 'MultiPolygon',
 				coordinates: newList.map((feature) => feature.geometry.coordinates)
 			};
-			const res = await axios.post('http://localhost:5000/data', { data });
+
+			// For development on local server
+			// const res = await axios.post('http://localhost:5000/data', { data });
+			// For production on Heroku
+			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
 			const planArea = calculateArea(newList);
 			dispatch(
 				input_aoi({
@@ -79,7 +83,10 @@ const Sidebar = ({
 			}))
 			const data = features;
 			
-			const res = await axios.post('http://localhost:5000/data', { data });
+			// For development on local server
+			// const res = await axios.post('http://localhost:5000/data', { data });
+			// For production on Heroku
+			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
 			const planArea = calculateArea(newList);
 			dispatch(
 				input_aoi({
