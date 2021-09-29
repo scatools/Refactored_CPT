@@ -19,6 +19,10 @@
 // SET PGPASSWORD=704962b7ca2d22f1311362729c53439949ecfcd339a2254be39b7d9706ad3e63
 // pg_restore -h ec2-54-145-224-156.compute-1.amazonaws.com -d d357fss3k147t7 < cpt_dump.sql
 
+// Share the database of sca-cpt with sca-cpt-backend
+// heroku config:add DATABASE_URL=postgres://ydbtkyjjovdgii:704962b7ca2d22f1311362729c53439949ecfcd339a2254be39b7d9706ad3e63@ec2-54-145-224-156.compute-1.amazonaws.com:5432/d357fss3k147t7 --app sca-cpt-backend
+// heroku addons:attach sca-cpt::DATABASE --app sca-cpt-backend
+
 ///////////////////////////////////////////////////////////
 //// Connection -- Database Settings and Configuration ////
 ///////////////////////////////////////////////////////////
