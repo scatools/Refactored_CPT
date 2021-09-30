@@ -39,7 +39,7 @@ const Sidebar = ({
 		} else {
 			setAlerttext(false);
 			const newList = featureList;
-			// console.log(featureList);
+			// console.log(newList);
 			const data = {
 				type: 'MultiPolygon',
 				coordinates: newList.map((feature) => feature.geometry.coordinates)
@@ -71,17 +71,20 @@ const Sidebar = ({
 
 	const onDrop = useCallback(async (acceptedFiles) => {
 
-		const handleSubmitShapefile = async (features) => {
+		const handleSubmitShapefile = async (geometry, geometryType, aoiNumber) => {
 			setAlerttext(false);
-			const newList = features.coordinates.map((feature)=>({
+			// Coordinates must be a single array for the area to be correctly calculated
+			console.log(geometryType);
+			const newList = geometry.coordinates.map((coordinates)=>({
 				type:"Feature",
 				properties: { },
 				geometry: {
-					type: "Polygon",
-					coordinates: feature,
+					type: geometryType,
+					coordinates: [coordinates],
 				}
 			}))
-			const data = features;
+			// console.log(newList);
+			const data = geometry;
 			
 			// For development on local server
 			// const res = await axios.post('http://localhost:5000/data', { data });
@@ -90,7 +93,7 @@ const Sidebar = ({
 			const planArea = calculateArea(newList);
 			dispatch(
 				input_aoi({
-					name: 'area of interest',
+					name: 'Area of Interest ' + aoiNumber,
 					geometry: newList,
 					hexagons: res.data.data,
 					rawScore: aggregate(res.data.data, planArea),
@@ -98,21 +101,23 @@ const Sidebar = ({
 					id: uuid()
 				})
 			);
+			setMode("view");
 		};
 
 		for(let file of acceptedFiles){
-		  const reader = new FileReader();
-		  // console.log(file);
-		  
-		  reader.onload = async () => {
-			// Do whatever you want with the file contents
-			const result = await shp(reader.result);
-			// console.log(result.features[0].geometry);
-			if(result){
-				handleSubmitShapefile(result.features[0].geometry)
+			const reader = new FileReader();
+			reader.onload = async () => {
+				const result = await shp(reader.result);				
+				if (result) {
+					console.log(result.features);
+					// Features are stored as [0:{}, 1:{}, 2:{}, ...]
+					for (var num in result.features) {
+						// Add geometry type as a parameter to cater to both Polygon and MultiPolygon 
+						handleSubmitShapefile(result.features[num].geometry, result.features[num].geometry.type, parseInt(num)+1);
+					}
+				}
 			}
-		  }
-		  reader.readAsArrayBuffer(file);
+			reader.readAsArrayBuffer(file);
 		}
 		
 	}, [dispatch])
