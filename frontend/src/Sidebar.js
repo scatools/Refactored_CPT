@@ -1,4 +1,4 @@
-import React, { useState,useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Alert, Button, ButtonGroup, Container, Form, FormControl, InputGroup, ToggleButton } from 'react-bootstrap';
 import Select from 'react-select';
 import SidebarMode from './SidebarMode';
@@ -23,7 +23,8 @@ const Sidebar = ({
 	aoiSelected,
 	setAoiSelected,
 	editAOI,
-	setEditAOI
+	setEditAOI,
+	setViewport
 }) => {
 	const [ mode, setMode ] = useState('add');
 	const [ inputMode, setInputMode ] = useState('draw');
@@ -74,7 +75,6 @@ const Sidebar = ({
 		const handleSubmitShapefile = async (geometry, geometryType, aoiNumber) => {
 			setAlerttext(false);
 			// Coordinates must be a single array for the area to be correctly calculated
-			console.log(geometryType);
 			const newList = geometry.coordinates.map((coordinates)=>({
 				type:"Feature",
 				properties: { },
@@ -109,7 +109,7 @@ const Sidebar = ({
 			reader.onload = async () => {
 				const result = await shp(reader.result);				
 				if (result) {
-					console.log(result.features);
+					// console.log(result.features);
 					// Features are stored as [0:{}, 1:{}, 2:{}, ...]
 					for (var num in result.features) {
 						// Add geometry type as a parameter to cater to both Polygon and MultiPolygon 
@@ -140,21 +140,7 @@ const Sidebar = ({
 				<p>Area of Interest</p>
 				<hr />
 				<SidebarMode mode={mode} setMode={setMode} />
-				<hr />
-				{mode === 'view' && (
-					<Container>
-						<SidebarViewGroup aoiSelected={aoiSelected} setAoiSelected={setAoiSelected} />
-						<SidebarViewDetail
-							aoiSelected={aoiSelected}
-							setActiveTable={setActiveTable}
-							setDrawingMode={setDrawingMode}
-							editAOI={editAOI}
-							setEditAOI={setEditAOI}
-							featureList={featureList}
-							setAlerttext={setAlerttext}
-						/>
-					</Container>
-				)}
+				<hr />				
 				{mode === 'add' && (
 					<div>
 						<p>Add Area of Interest</p>
@@ -350,6 +336,22 @@ const Sidebar = ({
 						)}
 					</div>
 				)}
+
+				{mode === 'view' && (
+					<Container>
+						<SidebarViewGroup aoiSelected={aoiSelected} setAoiSelected={setAoiSelected} setViewport={setViewport}/>
+						<SidebarViewDetail
+							aoiSelected={aoiSelected}
+							setActiveTable={setActiveTable}
+							setDrawingMode={setDrawingMode}
+							editAOI={editAOI}
+							setEditAOI={setEditAOI}
+							featureList={featureList}
+							setAlerttext={setAlerttext}
+						/>
+					</Container>
+				)}
+
 				{mode === 'assemble' && (
 					<Container>
 						<SidebarAssemble />
