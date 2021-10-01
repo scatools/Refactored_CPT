@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import MapGL,{Source, Layer} from 'react-map-gl';
+import MapGL, { Source, Layer } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Editor, DrawPolygonMode, EditingMode } from 'react-map-gl-draw';
 import { getFeatureStyle, getEditHandleStyle } from './drawStyle';
@@ -7,14 +7,8 @@ import { useSelector } from 'react-redux';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA';
 
-const Map = ({ drawingMode, setFeatureList, aoiSelected,editAOI }) => {
-	const [ viewport, setViewport ] = useState({
-		latitude: 27.8,
-		longitude: -88.4,
-		zoom: 6,
-		bearing: 0,
-		pitch: 0
-	});
+const Map = ({ drawingMode, setFeatureList, aoiSelected, editAOI, viewport, setViewport }) => {
+
 	const aoi = Object.values(useSelector((state) => state.aoi)).filter((aoi) => aoi.id === aoiSelected);
 	const [ mode, setMode ] = useState(null);
 	const [ selectedFeatureIndex, setSelectedFeatureIndex ] = useState(null);

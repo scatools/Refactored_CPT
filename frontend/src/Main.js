@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import { Button } from 'react-bootstrap';
 import Map from './Map';
@@ -10,8 +10,13 @@ const Main = () => {
 	const [activeTable, setActiveTable] = useState(null);
 	const [drawingMode,setDrawingMode] = useState(false);
 	const [featureList,setFeatureList] = useState([]);
-	const [ aoiSelected, setAoiSelected ] = useState(null);
+	const [aoiSelected, setAoiSelected] = useState(null);
 	const [editAOI, setEditAOI] = useState(false);
+	const [viewport, setViewport] = useState({
+		latitude: 27.8,
+		longitude: -88.4,
+		zoom: 5
+	});
 	
 	return (
 		<div>
@@ -25,6 +30,7 @@ const Main = () => {
 					setAoiSelected={setAoiSelected}
 					editAOI={editAOI} 
 					setEditAOI={setEditAOI}
+					setViewport={setViewport}
 			/>
 			<div className="content">
 				<Button
@@ -37,7 +43,7 @@ const Main = () => {
 				>
 					Start
 				</Button>
-                <Map drawingMode={drawingMode} setFeatureList={setFeatureList} aoiSelected={aoiSelected} editAOI={editAOI}/>				
+                <Map drawingMode={drawingMode} setFeatureList={setFeatureList} aoiSelected={aoiSelected} editAOI={editAOI} viewport={viewport} setViewport={setViewport}/>				
 			</div>			
 		</div>
 	);
