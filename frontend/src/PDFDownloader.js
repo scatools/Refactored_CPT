@@ -1,7 +1,8 @@
 import React from 'react';
 import html2canvas from "html2canvas";
-import {jsPDF} from "jspdf";
-import {Button} from 'react-bootstrap';
+import { jsPDF } from "jspdf";
+import { Dropdown } from 'react-bootstrap';
+import { FaFilePdf } from 'react-icons/fa';
 
 const PDFDownloader = ({rootElementId , downloadFileName}) => {
 
@@ -29,7 +30,7 @@ const PDFDownloader = ({rootElementId , downloadFileName}) => {
             });
     }
 
-    return <Button variant="dark" onClick={downloadPDFDocument}>Download PDF Report</Button>
+    return <Dropdown.Item variant="dark" onClick={downloadPDFDocument}> <FaFilePdf /> &nbsp; Download as PDF</Dropdown.Item>
 
 }
 
