@@ -31,10 +31,16 @@ const Sidebar = ({
 	const [ drawData, setDrawData ] = useState('');
 	const [ alerttext, setAlerttext ] = useState(false);
 	const [ retrievingOptions, setRetrievingOptions ] = useState('hucBoundary');
+	const [ hucList, setHucList ] = useState([]);
+	const [ hucNameList, setHucNameList ] = useState([]);
+	const [ hucIDList, setHucIDList ] = useState([]);
+	const [ hucNameSelected, setHucNameSelected ]= useState([]);
+	const [ hucIDSelected, setHucIDSelected ]= useState([]);
 	const dispatch = useDispatch();
+	
 	const handleSubmit = async () => {
 		if (!drawData) {
-			setAlerttext('Area of interest name is required.');
+			setAlerttext('A name for this area of interest is required.');
 		} else if (featureList.length === 0) {
 			setAlerttext('At least one polygon is required.');
 		} else {
@@ -107,7 +113,7 @@ const Sidebar = ({
 		for(let file of acceptedFiles){
 			const reader = new FileReader();
 			reader.onload = async () => {
-				const result = await shp(reader.result);				
+				const result = await shp(reader.result);
 				if (result) {
 					// console.log(result.features);
 					// Features are stored as [0:{}, 1:{}, 2:{}, ...]
@@ -120,7 +126,88 @@ const Sidebar = ({
 			reader.readAsArrayBuffer(file);
 		}
 		
-	}, [dispatch])
+	}, [dispatch]);
+
+	const onLoad = () => {
+		// To successfully fetch the zip file, it needs to be in the /public folder
+		fetch('HUC12_SCA.zip').then(res => res.arrayBuffer()).then(arrayBuffer => {
+			shp(arrayBuffer).then(function(geojson){
+				console.log(geojson);
+				setHucList(geojson.features);
+				setHucNameList(geojson.features.map((feature) => ({
+					value: feature.properties.NAME, 
+					label: feature.properties.NAME 
+				})))
+				setHucIDList(geojson.features.map((feature) => ({ 
+					value: feature.properties.HUC12, 
+					label: feature.properties.HUC12 
+				})))
+			});
+		});
+	};
+
+	const handleSubmitBoundaryAsSingle = async () => {
+		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
+			setAlerttext('At least one of the existing boundaries is required.');
+		} else {
+			setAlerttext(false);
+			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
+														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
+			// console.log(newList);
+			const data = {
+				type: 'MultiPolygon',
+				coordinates: newList.map((feature) => feature.geometry.coordinates)
+			};
+			
+			// For development on local server
+			// const res = await axios.post('http://localhost:5000/data', { data });
+			// For production on Heroku
+			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
+			const planArea = calculateArea(newList);
+			dispatch(
+				input_aoi({
+					name: 'Watershed Area',
+					geometry: newList,
+					hexagons: res.data.data,
+					rawScore: aggregate(res.data.data, planArea),
+					scaleScore: getStatus(aggregate(res.data.data, planArea)),
+					id: uuid()
+				})
+			);
+			setMode("view");
+		}
+	};
+
+	const handleSubmitBoundaryAsMultiple = () => {
+		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
+			setAlerttext('At least one of the existing boundaries is required.');
+		} else {
+			setAlerttext(false);
+			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
+														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
+			// console.log(newList);
+			newList.forEach(async feature => {
+				const data = feature.geometry;
+				// For development on local server
+				// const res = await axios.post('http://localhost:5000/data', { data });
+				// For production on Heroku
+				const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });				
+				const planArea = calculateArea(newList);
+				// Geometry needs to be a list
+				dispatch(
+					input_aoi({
+						name: 'Watershed Area',
+						geometry: [feature],
+						hexagons: res.data.data,
+						rawScore: aggregate(res.data.data, planArea),
+						scaleScore: getStatus(aggregate(res.data.data, planArea)),
+						id: uuid()
+					})
+				);
+			});
+			setMode("view");
+		}
+	};
 
 	const dropdownStyles = {
 		option: (provided, state) => ({
@@ -131,7 +218,7 @@ const Sidebar = ({
 			const opacity = state.isDisabled ? 0.5 : 1;		
 			return { ...provided, opacity };
 		}
-	}
+	};
 
 	return (
 		<div id="sidebar" className={activeSidebar ? 'active' : ''}>
@@ -143,7 +230,6 @@ const Sidebar = ({
 				<hr />				
 				{mode === 'add' && (
 					<div>
-						<p>Add Area of Interest</p>
 						<Container className="d-flex">
 							<ButtonGroup toggle className="m-auto">
 								<ToggleButton
@@ -172,7 +258,10 @@ const Sidebar = ({
 									name="boundary"
 									value="boundary"
 									checked={inputMode === 'boundary'}
-									onChange={(e) => setInputMode(e.currentTarget.value)}
+									onChange={(e) => {
+										setInputMode(e.currentTarget.value);
+										onLoad();
+									}}
 								>
 									by Existing Boundary
 								</ToggleButton>
@@ -181,8 +270,8 @@ const Sidebar = ({
 						<hr />
 
 						{inputMode === 'draw' && (
-							<Container className="mt-3">
-								<InputGroup className="m-auto" style={{ width: '80%' }}>
+							<Container className="m-auto" style={{ width: '80%' }}>
+								<InputGroup>
 									<InputGroup.Prepend>
 										<InputGroup.Text id="basic-addon1">Plan Name:</InputGroup.Text>
 									</InputGroup.Prepend>
@@ -194,21 +283,19 @@ const Sidebar = ({
 									/>
 								</InputGroup>
 								<hr />
-								<Container>
-									<Button
-										variant="dark"
-										style={{float: "left"}}
-										onClick={() => {
-											setDrawingMode(true);
-											setAoiSelected(false);
-										}}
-									>
-										Add a New Shape
-									</Button>
-									<Button variant="dark" style={{float: "right"}} onClick={handleSubmit}>
-										Finalize Input
-									</Button>
-								</Container>
+								<Button
+									variant="dark"
+									style={{float: "left"}}
+									onClick={() => {
+										setDrawingMode(true);
+										setAoiSelected(false);
+									}}
+								>
+									Add a New Shape
+								</Button>
+								<Button variant="dark" style={{float: "right"}} onClick={handleSubmit}>
+									Finalize Input
+								</Button>
 							</Container>
 						)}
 
@@ -275,11 +362,9 @@ const Sidebar = ({
 									<div>
 										<p style={{ fontSize: '110%' }}>Watershed Selection</p>
 										<Select 
-											styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+											// styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 											menuPortalTarget={document.body}										
-											// options = {[
-
-											// ]}
+											options = {hucNameList}
 											isMulti
 											isClearable={true}
 											isSearchable={true}
@@ -293,6 +378,10 @@ const Sidebar = ({
 												},
 											})}
 											styles={dropdownStyles}
+											value={hucNameSelected}
+											onChange={(selectedOption) => {
+												setHucNameSelected(selectedOption)
+											}}
 										/>
 									</div>
 								)}
@@ -300,11 +389,9 @@ const Sidebar = ({
 									<div>
 										<p style={{ fontSize: '110%' }}>Watershed Selection</p>
 										<Select 
-											styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+											// styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
 											menuPortalTarget={document.body}										
-											// options = {[
-
-											// ]}
+											options = {hucIDList}
 											isMulti
 											isClearable={true}
 											isSearchable={true}
@@ -318,9 +405,20 @@ const Sidebar = ({
 												},
 											})}
 											styles={dropdownStyles}
+											value={hucIDSelected}
+											onChange={(selectedOption) => {
+												setHucIDSelected(selectedOption)
+											}}
 										/>
 									</div>
 								)}
+								<br />
+								<Button variant="dark" style={{float: "left"}} onClick={handleSubmitBoundaryAsSingle}>
+									Add as Single AOI
+								</Button>
+								<Button variant="dark" style={{float: "right"}} onClick={handleSubmitBoundaryAsMultiple}>
+									Add as Multiple AOIs
+								</Button>
 							</Container>
 						)}
 
