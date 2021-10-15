@@ -1,14 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  Container,
-  Form,
-  FormControl,
-  InputGroup,
-  ToggleButton,
-} from "react-bootstrap";
+import { Alert, Button, ButtonGroup, Container, FormControl, InputGroup, ToggleButton } from "react-bootstrap";
 import Select from "react-select";
 import SidebarMode from "./SidebarMode";
 import SidebarViewGroup from "./SidebarViewGroup";
@@ -19,10 +10,10 @@ import axios from "axios";
 import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
 import { v4 as uuid } from "uuid";
 import { input_aoi } from "./action";
+import { setLoader } from "./action";
 import { useDispatch } from "react-redux";
 import Dropzone from "react-dropzone";
 import shp from "shpjs";
-import { setLoader } from "./action";
 
 const Sidebar = ({
   activeSidebar,
@@ -36,26 +27,32 @@ const Sidebar = ({
   setEditAOI,
   setViewport,
 }) => {
-  const [mode, setMode] = useState("add");
-  const [inputMode, setInputMode] = useState("draw");
-  const [drawData, setDrawData] = useState("");
-  const [alerttext, setAlerttext] = useState(false);
-  const [retrievingOptions, setRetrievingOptions] = useState("hucBoundary");
-  const dispatch = useDispatch();
-  const handleSubmit = async () => {
+	const [ mode, setMode ] = useState('add');
+	const [ inputMode, setInputMode ] = useState('draw');
+	const [ drawData, setDrawData ] = useState('');
+	const [ alerttext, setAlerttext ] = useState(false);
+	const [ retrievingOptions, setRetrievingOptions ] = useState('hucBoundary');
+	const [ hucList, setHucList ] = useState([]);
+	const [ hucNameList, setHucNameList ] = useState([]);
+	const [ hucIDList, setHucIDList ] = useState([]);
+	const [ hucNameSelected, setHucNameSelected ]= useState([]);
+	const [ hucIDSelected, setHucIDSelected ]= useState([]);
+	const dispatch = useDispatch();
+	
+	const handleSubmit = async () => {
     dispatch(setLoader(true));
-    if (!drawData) {
-      setAlerttext("Area of interest name is required.");
-    } else if (featureList.length === 0) {
-      setAlerttext("At least one polygon is required.");
-    } else {
-      setAlerttext(false);
-      const newList = featureList;
-      // console.log(newList);
-      const data = {
-        type: "MultiPolygon",
-        coordinates: newList.map((feature) => feature.geometry.coordinates),
-      };
+		if (!drawData) {
+			setAlerttext('A name for this area of interest is required.');
+		} else if (featureList.length === 0) {
+			setAlerttext('At least one polygon is required.');
+		} else {
+			setAlerttext(false);
+			const newList = featureList;
+			// console.log(newList);
+			const data = {
+				type: 'MultiPolygon',
+				coordinates: newList.map((feature) => feature.geometry.coordinates)
+			};
 
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
@@ -106,65 +103,139 @@ const Sidebar = ({
         // console.log(newList);
         const data = geometry;
 
-        // For development on local server
-        // const res = await axios.post('http://localhost:5000/data', { data });
-        // For production on Heroku
-        dispatch(setLoader(true));
-        const res = await axios.post(
-          "https://sca-cpt-backend.herokuapp.com/data",
-          { data }
-        );
-        const planArea = calculateArea(newList);
-        dispatch(
-          input_aoi({
-            name: "Area of Interest " + aoiNumber,
-            geometry: newList,
-            hexagons: res.data.data,
-            rawScore: aggregate(res.data.data, planArea),
-            scaleScore: getStatus(aggregate(res.data.data, planArea)),
-            id: uuid(),
-          })
-        );
-        dispatch(setLoader(false));
-        setMode("view");
-      };
-
-      for (let file of acceptedFiles) {
-        dispatch(setLoader(true));
-        const reader = new FileReader();
-        reader.onload = async () => {
-          const result = await shp(reader.result);
-          if (result) {
-            // console.log(result.features);
-            // Features are stored as [0:{}, 1:{}, 2:{}, ...]
-            for (var num in result.features) {
-              // Add geometry type as a parameter to cater to both Polygon and MultiPolygon
-              handleSubmitShapefile(
-                result.features[num].geometry,
-                result.features[num].geometry.type,
-                parseInt(num) + 1
-              );
-            }
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      }
-
+		  // For development on local server
+      // const res = await axios.post('http://localhost:5000/data', { data });
+      // For production on Heroku
       dispatch(setLoader(true));
-    },
-    [dispatch]
-  );
+      const res = await axios.post(
+        "https://sca-cpt-backend.herokuapp.com/data",
+        { data }
+      );
+      const planArea = calculateArea(newList);
+      dispatch(
+        input_aoi({
+          name: "Area of Interest " + aoiNumber,
+          geometry: newList,
+          hexagons: res.data.data,
+          rawScore: aggregate(res.data.data, planArea),
+          scaleScore: getStatus(aggregate(res.data.data, planArea)),
+          id: uuid(),
+        })
+      );
+      dispatch(setLoader(false));
+      setMode("view");
+    };
 
-  const dropdownStyles = {
-    option: (provided, state) => ({
-      ...provided,
-      color: state.isSelected ? "white" : "black",
-    }),
-    singleValue: (provided, state) => {
-      const opacity = state.isDisabled ? 0.5 : 1;
-      return { ...provided, opacity };
-    },
-  };
+    for(let file of acceptedFiles){
+      dispatch(setLoader(true));
+			const reader = new FileReader();
+			reader.onload = async () => {
+				const result = await shp(reader.result);
+				if (result) {
+					// console.log(result.features);
+					// Features are stored as [0:{}, 1:{}, 2:{}, ...]
+					for (var num in result.features) {
+						// Add geometry type as a parameter to cater to both Polygon and MultiPolygon 
+						handleSubmitShapefile(result.features[num].geometry, result.features[num].geometry.type, parseInt(num)+1);
+					}
+				}
+			}
+			reader.readAsArrayBuffer(file);
+		}
+		dispatch(setLoader(true));
+	}, [dispatch]);
+
+	const onLoad = () => {
+		// To successfully fetch the zip file, it needs to be in the /public folder
+		fetch('HUC12_SCA.zip').then(res => res.arrayBuffer()).then(arrayBuffer => {
+			shp(arrayBuffer).then(function(geojson){
+				console.log(geojson);
+				setHucList(geojson.features);
+				setHucNameList(geojson.features.map((feature) => ({
+					value: feature.properties.NAME, 
+					label: feature.properties.NAME 
+				})))
+				setHucIDList(geojson.features.map((feature) => ({ 
+					value: feature.properties.HUC12, 
+					label: feature.properties.HUC12 
+				})))
+			});
+		});
+	};
+
+	const handleSubmitBoundaryAsSingle = async () => {
+		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
+			setAlerttext('At least one of the existing boundaries is required.');
+		} else {
+			setAlerttext(false);
+			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
+														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
+			// console.log(newList);
+			const data = {
+				type: 'MultiPolygon',
+				coordinates: newList.map((feature) => feature.geometry.coordinates)
+			};
+			
+			// For development on local server
+			// const res = await axios.post('http://localhost:5000/data', { data });
+			// For production on Heroku
+			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
+			const planArea = calculateArea(newList);
+			dispatch(
+				input_aoi({
+					name: 'Watershed Area',
+					geometry: newList,
+					hexagons: res.data.data,
+					rawScore: aggregate(res.data.data, planArea),
+					scaleScore: getStatus(aggregate(res.data.data, planArea)),
+					id: uuid()
+				})
+			);
+			setMode("view");
+		}
+	};
+
+	const handleSubmitBoundaryAsMultiple = () => {
+		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
+			setAlerttext('At least one of the existing boundaries is required.');
+		} else {
+			setAlerttext(false);
+			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
+														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
+			// console.log(newList);
+			newList.forEach(async feature => {
+				const data = feature.geometry;
+				// For development on local server
+				// const res = await axios.post('http://localhost:5000/data', { data });
+				// For production on Heroku
+				const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });				
+				const planArea = calculateArea(newList);
+				// Geometry needs to be a list
+				dispatch(
+					input_aoi({
+						name: 'Watershed Area',
+						geometry: [feature],
+						hexagons: res.data.data,
+						rawScore: aggregate(res.data.data, planArea),
+						scaleScore: getStatus(aggregate(res.data.data, planArea)),
+						id: uuid()
+					})
+				);
+			});
+			setMode("view");
+		}
+	};
+
+	const dropdownStyles = {
+		option: (provided, state) => ({
+			...provided,
+			color: state.isSelected ? 'white' : 'black',
+		}),
+		singleValue: (provided, state) => {
+			const opacity = state.isDisabled ? 0.5 : 1;		
+			return { ...provided, opacity };
+		}
+	};
 
   return (
     <div id="sidebar" className={activeSidebar ? "active" : ""}>
@@ -264,108 +335,112 @@ const Sidebar = ({
               </Container>
             )}
 
-            {inputMode === "boundary" && (
-              <Container className="m-auto" style={{ width: "80%" }}>
-                <div>
-                  <p style={{ fontSize: "110%" }}>Geographic Scale</p>
-                  <Select
-                    placeholder="Select a scale"
-                    options={[
-                      { value: "watershed", label: "Watershed Coastal Zone" },
-                    ]}
-                    theme={(theme) => ({
-                      ...theme,
-                      colors: {
-                        ...theme.colors,
-                        primary: "gray",
-                        primary25: "lightgray",
-                      },
-                    })}
-                    styles={dropdownStyles}
-                  />
-                </div>
-                <br></br>
-                <div>
-                  <p style={{ fontSize: "110%" }}>Retrieving Options</p>
-                  <Select
-                    placeholder="Select an option"
-                    options={[
-                      { value: "hucName", label: "by HUC 12 Watershed Name" },
-                      { value: "hucID", label: "by HUC 12 Watershed ID" },
-                      {
-                        value: "hucBoundary",
-                        label: "by HUC 12 Watershed Boundary",
-                      },
-                    ]}
-                    theme={(theme) => ({
-                      ...theme,
-                      colors: {
-                        ...theme.colors,
-                        primary: "gray",
-                        primary25: "lightgray",
-                      },
-                    })}
-                    styles={dropdownStyles}
-                    onChange={(e) => setRetrievingOptions(e.value)}
-                  />
-                </div>
-                <br></br>
-                {retrievingOptions === "hucName" && (
-                  <div>
-                    <p style={{ fontSize: "110%" }}>Watershed Selection</p>
-                    <Select
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
-                      menuPortalTarget={document.body}
-                      // options = {[
-
-                      // ]}
-                      isMulti
-                      isClearable={true}
-                      isSearchable={true}
-                      placeholder="Select watersheds from the list"
-                      theme={(theme) => ({
-                        ...theme,
-                        colors: {
-                          ...theme.colors,
-                          primary: "gray",
-                          primary25: "lightgray",
-                        },
-                      })}
-                      styles={dropdownStyles}
-                    />
-                  </div>
-                )}
-                {retrievingOptions === "hucID" && (
-                  <div>
-                    <p style={{ fontSize: "110%" }}>Watershed Selection</p>
-                    <Select
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
-                      menuPortalTarget={document.body}
-                      // options = {[
-
-                      // ]}
-                      isMulti
-                      isClearable={true}
-                      isSearchable={true}
-                      placeholder="Select watersheds from the list"
-                      theme={(theme) => ({
-                        ...theme,
-                        colors: {
-                          ...theme.colors,
-                          primary: "gray",
-                          primary25: "lightgray",
-                        },
-                      })}
-                      styles={dropdownStyles}
-                    />
-                  </div>
-                )}
-              </Container>
-            )}
+            {inputMode === 'boundary' && (
+							<Container className="m-auto" style={{ width: '80%' }}>
+								<div>
+									<p style={{ fontSize: '110%' }}>Geographic Scale</p>
+									<Select 
+										placeholder="Select a scale"
+										options = {[
+											{ value: 'watershed', label: 'Watershed Coastal Zone' }
+										]}
+										theme={(theme) => ({
+											...theme,
+											colors: {
+											...theme.colors,
+												primary: 'gray',
+												primary25: 'lightgray'
+											},
+										})}
+										styles={dropdownStyles}
+									/>
+								</div>
+								<br></br>
+								<div>
+									<p style={{ fontSize: '110%' }}>Retrieving Options</p>
+									<Select 
+										placeholder="Select an option"
+										options = {[
+											{ value: 'hucName', label: 'by HUC 12 Watershed Name' },
+											{ value: 'hucID', label: 'by HUC 12 Watershed ID' },
+											{ value: 'hucBoundary', label: 'by HUC 12 Watershed Boundary' }
+										]}
+										theme={(theme) => ({
+											...theme,
+											colors: {
+											...theme.colors,
+												primary: 'gray',
+												primary25: 'lightgray'
+											},
+										})}
+										styles={dropdownStyles}
+										onChange={(e) => setRetrievingOptions(e.value)}
+									/>
+								</div>
+								<br></br>
+								{retrievingOptions === 'hucName' && (
+									<div>
+										<p style={{ fontSize: '110%' }}>Watershed Selection</p>
+										<Select 
+											// styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+											menuPortalTarget={document.body}										
+											options = {hucNameList}
+											isMulti
+											isClearable={true}
+											isSearchable={true}
+											placeholder="Select watersheds from the list"
+											theme={(theme) => ({
+												...theme,
+												colors: {
+												...theme.colors,
+													primary: 'gray',
+													primary25: 'lightgray'
+												},
+											})}
+											styles={dropdownStyles}
+											value={hucNameSelected}
+											onChange={(selectedOption) => {
+												setHucNameSelected(selectedOption)
+											}}
+										/>
+									</div>
+								)}
+								{retrievingOptions === 'hucID' && (
+									<div>
+										<p style={{ fontSize: '110%' }}>Watershed Selection</p>
+										<Select 
+											// styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+											menuPortalTarget={document.body}										
+											options = {hucIDList}
+											isMulti
+											isClearable={true}
+											isSearchable={true}
+											placeholder="Select watersheds from the list"
+											theme={(theme) => ({
+												...theme,
+												colors: {
+												...theme.colors,
+													primary: 'gray',
+													primary25: 'lightgray'
+												},
+											})}
+											styles={dropdownStyles}
+											value={hucIDSelected}
+											onChange={(selectedOption) => {
+												setHucIDSelected(selectedOption)
+											}}
+										/>
+									</div>
+								)}
+								<br />
+								<Button variant="dark" style={{float: "left"}} onClick={handleSubmitBoundaryAsSingle}>
+									Add as Single AOI
+								</Button>
+								<Button variant="dark" style={{float: "right"}} onClick={handleSubmitBoundaryAsMultiple}>
+									Add as Multiple AOIs
+								</Button>
+							</Container>
+						)}
 
             {alerttext && (
               <Alert
