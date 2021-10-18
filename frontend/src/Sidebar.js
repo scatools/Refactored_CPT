@@ -275,12 +275,6 @@ const Sidebar = ({
       const opacity = state.isDisabled ? 0.5 : 1;
       return { ...provided, opacity };
     },
-    menu: (provided, state) => ({
-      ...provided,
-      bottom: "100%",
-      top: "auto",
-    }),
-    menuPlacement: "auto",
   };
 
   const dropdownStyles2 = {
@@ -439,7 +433,7 @@ const Sidebar = ({
                         primary25: "lightgray",
                       },
                     })}
-                    styles={dropdownStyles}
+                    styles={dropdownStyles2}
                     onChange={(e) => setRetrievingOptions(e.value)}
                   />
                 </div>
