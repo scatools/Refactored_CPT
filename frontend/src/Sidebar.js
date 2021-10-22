@@ -24,7 +24,12 @@ const Sidebar = ({
 	setAoiSelected,
 	editAOI,
 	setEditAOI,
-	setViewport
+	setViewport,
+	hucBoundary,
+	setHucBoundary,
+  	hucIDSelected,
+  	setHucIDSelected,
+	setFilterList
 }) => {
 	const [ mode, setMode ] = useState('add');
 	const [ inputMode, setInputMode ] = useState('draw');
@@ -35,7 +40,7 @@ const Sidebar = ({
 	const [ hucNameList, setHucNameList ] = useState([]);
 	const [ hucIDList, setHucIDList ] = useState([]);
 	const [ hucNameSelected, setHucNameSelected ]= useState([]);
-	const [ hucIDSelected, setHucIDSelected ]= useState([]);
+	// const [ hucIDSelected, setHucIDSelected ]= useState([]);
 	const dispatch = useDispatch();
 	
 	const handleSubmit = async () => {
@@ -132,7 +137,7 @@ const Sidebar = ({
 		// To successfully fetch the zip file, it needs to be in the /public folder
 		fetch('HUC12_SCA.zip').then(res => res.arrayBuffer()).then(arrayBuffer => {
 			shp(arrayBuffer).then(function(geojson){
-				console.log(geojson);
+				// console.log(geojson);
 				setHucList(geojson.features);
 				setHucNameList(geojson.features.map((feature) => ({
 					value: feature.properties.NAME, 
@@ -150,6 +155,9 @@ const Sidebar = ({
 		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
 			setAlerttext('At least one of the existing boundaries is required.');
 		} else {
+			if (hucBoundary) {
+				setHucBoundary(false);
+			}
 			setAlerttext(false);
 			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
 														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
@@ -175,6 +183,9 @@ const Sidebar = ({
 				})
 			);
 			setMode("view");
+			setHucNameSelected([]);
+			setHucIDSelected([]);
+			setFilterList([]);
 		}
 	};
 
@@ -182,6 +193,9 @@ const Sidebar = ({
 		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
 			setAlerttext('At least one of the existing boundaries is required.');
 		} else {
+			if (hucBoundary) {
+				setHucBoundary(false);
+			}
 			setAlerttext(false);
 			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
 														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
@@ -206,6 +220,9 @@ const Sidebar = ({
 				);
 			});
 			setMode("view");
+			setHucNameSelected([]);
+			setHucIDSelected([]);
+			setFilterList([]);
 		}
 	};
 
@@ -354,7 +371,17 @@ const Sidebar = ({
 											},
 										})}
 										styles={dropdownStyles}
-										onChange={(e) => setRetrievingOptions(e.value)}
+										onChange={(e) => {
+											setRetrievingOptions(e.value);
+											setHucNameSelected([]);
+											setHucIDSelected([]);
+											setFilterList([]);
+											if (e.value === 'hucBoundary') {
+												setHucBoundary(true);
+											} else {
+												setHucBoundary(false);
+											};
+										}}
 									/>
 								</div>
 								<br></br>
