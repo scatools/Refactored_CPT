@@ -1,13 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  Container,
-  FormControl,
-  InputGroup,
-  ToggleButton,
-} from "react-bootstrap";
+import { Alert, Button, ButtonGroup, Container, FormControl, InputGroup, ToggleButton } from "react-bootstrap";
 import Select from "react-select";
 import SidebarMode from "./SidebarMode";
 import SidebarViewGroup from "./SidebarViewGroup";
@@ -24,28 +16,32 @@ import Dropzone from "react-dropzone";
 import shp from "shpjs";
 
 const Sidebar = ({
-  activeSidebar,
-  setActiveSidebar,
-  setActiveTable,
-  setDrawingMode,
-  featureList,
-  aoiSelected,
-  setAoiSelected,
-  editAOI,
-  setEditAOI,
-  setViewport,
+	activeSidebar,
+	setActiveSidebar,
+	setActiveTable,
+	setDrawingMode,
+	featureList,
+	aoiSelected,
+	setAoiSelected,
+	editAOI,
+	setEditAOI,
+	setViewport,
+	hucBoundary,
+	setHucBoundary,
+  hucIDSelected,
+  setHucIDSelected,
+	setFilterList
 }) => {
-  const [mode, setMode] = useState("add");
-  const [inputMode, setInputMode] = useState("draw");
-  const [drawData, setDrawData] = useState("");
-  const [alerttext, setAlerttext] = useState(false);
-  const [retrievingOptions, setRetrievingOptions] = useState("hucBoundary");
-  const [hucList, setHucList] = useState([]);
-  const [hucNameList, setHucNameList] = useState([]);
-  const [hucIDList, setHucIDList] = useState([]);
-  const [hucNameSelected, setHucNameSelected] = useState([]);
-  const [hucIDSelected, setHucIDSelected] = useState([]);
-  const dispatch = useDispatch();
+	const [ mode, setMode ] = useState('add');
+	const [ inputMode, setInputMode ] = useState('draw');
+	const [ drawData, setDrawData ] = useState('');
+	const [ alerttext, setAlerttext ] = useState(false);
+	const [ retrievingOptions, setRetrievingOptions ] = useState('hucBoundary');
+	const [ hucList, setHucList ] = useState([]);
+	const [ hucNameList, setHucNameList ] = useState([]);
+	const [ hucIDList, setHucIDList ] = useState([]);
+	const [ hucNameSelected, setHucNameSelected ]= useState([]);
+	const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     dispatch(setLoader(true));
@@ -65,10 +61,7 @@ const Sidebar = ({
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
       // For production on Heroku
-      const res = await axios.post(
-        "https://sca-cpt-backend.herokuapp.com/data",
-        { data }
-      );
+      const res = await axios.post("https://sca-cpt-backend.herokuapp.com/data", { data });
       const planArea = calculateArea(newList);
       dispatch(
         input_aoi({
@@ -93,11 +86,7 @@ const Sidebar = ({
 
   const onDrop = useCallback(
     async (acceptedFiles) => {
-      const handleSubmitShapefile = async (
-        geometry,
-        geometryType,
-        aoiNumber
-      ) => {
+      const handleSubmitShapefile = async (geometry, geometryType, aoiNumber) => {
         setAlerttext(false);
         // Coordinates must be a single array for the area to be correctly calculated
         const newList = geometry.coordinates.map((coordinates) => ({
@@ -110,15 +99,11 @@ const Sidebar = ({
         }));
         // console.log(newList);
         const data = geometry;
-
         // For development on local server
         // const res = await axios.post('http://localhost:5000/data', { data });
         // For production on Heroku
         dispatch(setLoader(true));
-        const res = await axios.post(
-          "https://sca-cpt-backend.herokuapp.com/data",
-          { data }
-        );
+        const res = await axios.post("https://sca-cpt-backend.herokuapp.com/data", { data });
         const planArea = calculateArea(newList);
         dispatch(
           input_aoi({
@@ -159,112 +144,98 @@ const Sidebar = ({
     [dispatch]
   );
 
-  const onLoad = () => {
-    // To successfully fetch the zip file, it needs to be in the /public folder
-    fetch("HUC12_SCA.zip")
-      .then((res) => res.arrayBuffer())
-      .then((arrayBuffer) => {
-        shp(arrayBuffer).then(function (geojson) {
-          console.log(geojson);
-          setHucList(geojson.features);
-          setHucNameList(
-            geojson.features.map((feature) => ({
-              value: feature.properties.NAME,
-              label: feature.properties.NAME,
-            }))
-          );
-          setHucIDList(
-            geojson.features.map((feature) => ({
-              value: feature.properties.HUC12,
-              label: feature.properties.HUC12,
-            }))
-          );
-        });
-      });
-  };
+	const onLoad = () => {
+		// To successfully fetch the zip file, it needs to be in the /public folder
+		fetch('HUC12_SCA.zip').then(res => res.arrayBuffer()).then(arrayBuffer => {
+			shp(arrayBuffer).then(function(geojson){
+				// console.log(geojson);
+				setHucList(geojson.features);
+				setHucNameList(geojson.features.map((feature) => ({
+					value: feature.properties.NAME, 
+					label: feature.properties.NAME 
+				})))
+				setHucIDList(geojson.features.map((feature) => ({ 
+					value: feature.properties.HUC12, 
+					label: feature.properties.HUC12 
+				})))
+			});
+		});
+	};
 
-  const handleSubmitBoundaryAsSingle = async () => {
-    if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
-      setAlerttext("At least one of the existing boundaries is required.");
-    } else {
-      setAlerttext(false);
-      const newList = hucList.filter(
-        (feature) =>
-          hucNameSelected
-            .map((hucName) => hucName.value)
-            .includes(feature.properties.NAME) ||
-          hucIDSelected
-            .map((hucID) => hucID.value)
-            .includes(feature.properties.HUC12)
-      );
-      // console.log(newList);
-      const data = {
-        type: "MultiPolygon",
-        coordinates: newList.map((feature) => feature.geometry.coordinates),
-      };
+	const handleSubmitBoundaryAsSingle = async () => {
+		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
+			setAlerttext('At least one of the existing boundaries is required.');
+		} else {
+			if (hucBoundary) {
+				setHucBoundary(false);
+			}
+			setAlerttext(false);
+			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
+														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
+			// console.log(newList);
+			const data = {
+				type: 'MultiPolygon',
+				coordinates: newList.map((feature) => feature.geometry.coordinates)
+			};
+			
+			// For development on local server
+			// const res = await axios.post('http://localhost:5000/data', { data });
+			// For production on Heroku
+			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
+			const planArea = calculateArea(newList);
+			dispatch(
+				input_aoi({
+					name: 'Watershed Area',
+					geometry: newList,
+					hexagons: res.data.data,
+					rawScore: aggregate(res.data.data, planArea),
+					scaleScore: getStatus(aggregate(res.data.data, planArea)),
+					id: uuid()
+				})
+			);
+			setMode("view");
+			setHucNameSelected([]);
+			setHucIDSelected([]);
+			setFilterList([]);
+		}
+	};
 
-      // For development on local server
-      // const res = await axios.post('http://localhost:5000/data', { data });
-      // For production on Heroku
-      const res = await axios.post(
-        "https://sca-cpt-backend.herokuapp.com/data",
-        { data }
-      );
-      const planArea = calculateArea(newList);
-      dispatch(
-        input_aoi({
-          name: "Watershed Area",
-          geometry: newList,
-          hexagons: res.data.data,
-          rawScore: aggregate(res.data.data, planArea),
-          scaleScore: getStatus(aggregate(res.data.data, planArea)),
-          id: uuid(),
-        })
-      );
-      setMode("view");
-    }
-  };
-
-  const handleSubmitBoundaryAsMultiple = () => {
-    if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
-      setAlerttext("At least one of the existing boundaries is required.");
-    } else {
-      setAlerttext(false);
-      const newList = hucList.filter(
-        (feature) =>
-          hucNameSelected
-            .map((hucName) => hucName.value)
-            .includes(feature.properties.NAME) ||
-          hucIDSelected
-            .map((hucID) => hucID.value)
-            .includes(feature.properties.HUC12)
-      );
-      // console.log(newList);
-      newList.forEach(async (feature) => {
-        const data = feature.geometry;
-        // For development on local server
-        // const res = await axios.post('http://localhost:5000/data', { data });
-        // For production on Heroku
-        const res = await axios.post(
-          "https://sca-cpt-backend.herokuapp.com/data",
-          { data }
-        );
-        const planArea = calculateArea(newList);
-        // Geometry needs to be a list
-        dispatch(
-          input_aoi({
-            name: "Watershed Area",
-            geometry: [feature],
-            hexagons: res.data.data,
-            rawScore: aggregate(res.data.data, planArea),
-            scaleScore: getStatus(aggregate(res.data.data, planArea)),
-            id: uuid(),
-          })
-        );
-      });
-      setMode("view");
-    }
-  };
+	const handleSubmitBoundaryAsMultiple = () => {
+		if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
+			setAlerttext('At least one of the existing boundaries is required.');
+		} else {
+			if (hucBoundary) {
+				setHucBoundary(false);
+			}
+			setAlerttext(false);
+			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
+														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
+			// console.log(newList);
+			newList.forEach(async feature => {
+				const data = feature.geometry;
+				// For development on local server
+				// const res = await axios.post('http://localhost:5000/data', { data });
+				// For production on Heroku
+				const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });				
+				const planArea = calculateArea(newList);
+				// Geometry needs to be a list
+				dispatch(
+					input_aoi({
+						name: 'Watershed Area',
+						geometry: [feature],
+						hexagons: res.data.data,
+						rawScore: aggregate(res.data.data, planArea),
+						scaleScore: getStatus(aggregate(res.data.data, planArea)),
+						id: uuid()
+					})
+				);
+			});
+			setMode("view");
+			setHucNameSelected([]);
+			setHucIDSelected([]);
+			setFilterList([]);
+		}
+	};
 
   const dropdownStyles = {
     option: (provided, state) => ({
@@ -304,7 +275,6 @@ const Sidebar = ({
         <hr />
         {mode === "add" && (
           <div>
-            <p>Add Area of Interest</p>
             <Container className="d-flex">
               <ButtonGroup toggle className="m-auto">
                 <ToggleButton
@@ -333,7 +303,10 @@ const Sidebar = ({
                   name="boundary"
                   value="boundary"
                   checked={inputMode === "boundary"}
-                  onChange={(e) => setInputMode(e.currentTarget.value)}
+                  onChange={(e) => {
+                    setInputMode(e.currentTarget.value);
+                    onLoad();
+                  }}
                 >
                   by Existing Boundary
                 </ToggleButton>
@@ -420,10 +393,7 @@ const Sidebar = ({
                     options={[
                       { value: "hucName", label: "by HUC 12 Watershed Name" },
                       { value: "hucID", label: "by HUC 12 Watershed ID" },
-                      {
-                        value: "hucBoundary",
-                        label: "by HUC 12 Watershed Boundary",
-                      },
+                      { value: "hucBoundary", label: "by HUC 12 Watershed Boundary"}
                     ]}
                     theme={(theme) => ({
                       ...theme,
@@ -434,7 +404,17 @@ const Sidebar = ({
                       },
                     })}
                     styles={dropdownStyles2}
-                    onChange={(e) => setRetrievingOptions(e.value)}
+                    onChange={(e) => {
+											setRetrievingOptions(e.value);
+											setHucNameSelected([]);
+											setHucIDSelected([]);
+											setFilterList([]);
+											if (e.value === 'hucBoundary') {
+												setHucBoundary(true);
+											} else {
+												setHucBoundary(false);
+											};
+										}}
                   />
                 </div>
                 <br></br>
