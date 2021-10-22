@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import { Button } from 'react-bootstrap';
-import Map from './Map';
-import AoiDetailTable from './AoiDetailTable';
-
+import React, { useState } from "react";
+import Sidebar from "./Sidebar";
+import { Button } from "react-bootstrap";
+import Map from "./Map";
+import AoiDetailTable from "./AoiDetailTable";
+import { useDispatch } from "react-redux";
+import { setLoader } from "./action";
+import { store } from "./store";
 
 const Main = () => {
 	const [ activeSidebar, setActiveSidebar ] = useState(false);
@@ -16,6 +18,7 @@ const Main = () => {
 	const [ hucBoundary, setHucBoundary ] = useState(false);
 	const [ hucIDSelected, setHucIDSelected ] = useState([]);
 	const [ filterList, setFilterList ] = useState([]);
+	const dispatch = useDispatch();
 	
 	return (
 		<div>
