@@ -86,7 +86,7 @@ const Sidebar = ({
 
   const onDrop = useCallback(
     async (acceptedFiles) => {
-      const handleSubmitShapefile = async (geometry, geometryType, aoiNumber) => {
+      const handleSubmitShapefile = async (geometry, geometryType, aoiNumber, aoiName) => {
         setAlerttext(false);
         // Coordinates must be a single array for the area to be correctly calculated
         const newList = geometry.coordinates.map((coordinates) => ({
@@ -107,7 +107,7 @@ const Sidebar = ({
         const planArea = calculateArea(newList);
         dispatch(
           input_aoi({
-            name: "Area of Interest " + aoiNumber,
+            name: aoiName?aoiName:"Area of Interest " + aoiNumber,
             geometry: newList,
             hexagons: res.data.data,
             rawScore: aggregate(res.data.data, planArea),
@@ -128,11 +128,24 @@ const Sidebar = ({
             // console.log(result.features);
             // Features are stored as [0:{}, 1:{}, 2:{}, ...]
             for (var num in result.features) {
+              var featureGeometry = result.features[num].geometry;
+              var featureGeometryType = result.features[num].geometry.type;
+              var featureNumber = parseInt(num) + 1;
+              var featureName = null;
+              // Check if each feature has a name-like property
+              for (var property in result.features[num].properties) {
+                if (property.indexOf("name") != -1 || 
+                    property.indexOf("Name") != -1 || 
+                    property.indexOf("NAME") != -1) {
+                      featureName = result.features[num].properties[property];
+                }                
+              }
               // Add geometry type as a parameter to cater to both Polygon and MultiPolygon
               handleSubmitShapefile(
-                result.features[num].geometry,
-                result.features[num].geometry.type,
-                parseInt(num) + 1
+                featureGeometry,
+                featureGeometryType,
+                featureNumber,
+                featureName
               );
             }
           }
