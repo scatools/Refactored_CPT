@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import { Button } from 'react-bootstrap';
-import Map from './Map';
-import AoiDetailTable from './AoiDetailTable';
-
+import React, { useState } from "react";
+import Sidebar from "./Sidebar";
+import { Button } from "react-bootstrap";
+import Map from "./Map";
+import AoiDetailTable from "./AoiDetailTable";
+import { useDispatch } from "react-redux";
+import { setLoader } from "./action";
+import { store } from "./store";
 
 const Main = () => {
-	const [activeSidebar, setActiveSidebar] = useState(false);
-	const [activeTable, setActiveTable] = useState(null);
-	const [drawingMode,setDrawingMode] = useState(false);
-	const [featureList,setFeatureList] = useState([]);
-	const [aoiSelected, setAoiSelected] = useState(null);
-	const [editAOI, setEditAOI] = useState(false);
-	const [viewport, setViewport] = useState({
-		latitude: 27.8,
-		longitude: -88.4,
-		zoom: 5
-	});
+	const [ activeSidebar, setActiveSidebar ] = useState(false);
+	const [ activeTable, setActiveTable ] = useState(null);
+	const [ drawingMode,setDrawingMode ] = useState(false);
+	const [ featureList,setFeatureList ] = useState([]);
+	const [ aoiSelected, setAoiSelected ] = useState(null);
+	const [ editAOI, setEditAOI ] = useState(false);
+	const [ viewport, setViewport ] = useState({ latitude: 27.8, longitude: -88.4, zoom: 5 });
+	const [ hucBoundary, setHucBoundary ] = useState(false);
+	const [ hucIDSelected, setHucIDSelected ] = useState([]);
+	const [ filterList, setFilterList ] = useState([]);
+	const dispatch = useDispatch();
 	
 	return (
 		<div>
@@ -31,6 +33,11 @@ const Main = () => {
 					editAOI={editAOI} 
 					setEditAOI={setEditAOI}
 					setViewport={setViewport}
+					hucBoundary={hucBoundary}
+					setHucBoundary={setHucBoundary}
+					hucIDSelected={hucIDSelected}
+					setHucIDSelected={setHucIDSelected}
+					setFilterList={setFilterList}
 			/>
 			<div className="content">
 				<Button
@@ -43,8 +50,17 @@ const Main = () => {
 				>
 					Start
 				</Button>
-                <Map drawingMode={drawingMode} setFeatureList={setFeatureList} aoiSelected={aoiSelected} editAOI={editAOI} viewport={viewport} setViewport={setViewport}/>				
-			</div>			
+                <Map drawingMode={drawingMode} 
+					setFeatureList={setFeatureList} 
+					aoiSelected={aoiSelected} 
+					editAOI={editAOI} 
+					viewport={viewport} 
+					setViewport={setViewport}
+					hucBoundary={hucBoundary}
+					hucIDSelected={hucIDSelected}
+					filterList={filterList}
+				/>
+			</div>
 		</div>
 	);
 };

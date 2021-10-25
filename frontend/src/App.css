@@ -1,7 +1,10 @@
-
 .content {
-  height : 100%;
+  height: 100%;
   position: "relative";
+}
+
+.myLoading {
+  height: 100vh;
 }
 
 #sidebar {
@@ -14,7 +17,7 @@
   color: #fff;
   transition: all 0.3s;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  height:auto;
+  height: auto;
 }
 
 #sidebar.active {
@@ -24,7 +27,7 @@
 .AoiTableContainer {
   width: 600px;
   position: absolute;
-  display:none;
+  display: none;
   right: -600px;
   min-height: 94.3vh;
   z-index: 5;
@@ -32,13 +35,13 @@
   color: #fff;
   transition: all 0.3s;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  height:auto;
+  height: auto;
 }
 
 .AoiTableContainer.active {
-  display:initial;
-  right:0px;
-} 
+  display: initial;
+  right: 0px;
+}
 
 #dismiss {
   width: 35px;
@@ -59,8 +62,6 @@
   background: #fff;
   color: #6f7072;
 }
-
-
 
 #sidebar .ControlWrapper {
   padding: 20px 0;
@@ -85,36 +86,36 @@
 }
 
 .sidebarControlBtn {
-  position: 'absolute'; 
-  top: '80px'; 
-  left: '50px'; 
+  position: "absolute";
+  top: "80px";
+  left: "50px";
   z-index: 1;
 }
 
 nav a {
-  color: white
+  color: white;
 }
 
 nav a:hover {
-  color: white
+  color: white;
 }
 
-.assessmentNav{
+.assessmentNav {
   position: fixed;
   top: 8vh;
   left: 2vw;
   border: 2px solid black;
   border-radius: 15px;
-  padding:5px;
+  padding: 5px;
 }
 
-.assessmentNav a{
+.assessmentNav a {
   display: block;
   text-decoration: none;
   color: black;
 }
 
-.assessmentNav a:hover{
+.assessmentNav a:hover {
   text-decoration: underline;
   color: gray;
 }
@@ -133,5 +134,5 @@ nav a:hover {
 .assessmentDownload {
   position: absolute;
   right: 20px;
-  top: 1%
+  top: 1%;
 }

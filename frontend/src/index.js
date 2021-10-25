@@ -1,29 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import {BrowserRouter} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware, compose} from 'redux';
-import rootReducer from './reducers/rootReducer';
-import thunk from 'redux-thunk';
-import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
-
-const store = createStore(rootReducer, compose(
-  applyMiddleware(thunk),
-  // window.__REDUX_DEVTOOLS_EXTENSION__
-  //   && window.__REDUX_DEVTOOLS_EXTENSION__()
-))
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { BrowserRouter } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
+import { store } from "./store";
 
 ReactDOM.render(
   <Provider store={store}>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
