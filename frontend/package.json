@@ -58,5 +58,8 @@
   },
   "resolutions": {
     "@turf/difference": "6.0.1"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
