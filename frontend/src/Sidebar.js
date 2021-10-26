@@ -51,6 +51,7 @@ const Sidebar = ({
     dispatch(setLoader(true));
     if (!drawData) {
       setAlerttext("A name for this area of interest is required.");
+      window.setTimeout(() => setAlerttext(false), 4000);
     } else if (featureList.length === 0) {
       setAlerttext("At least one polygon is required.");
     } else {
@@ -509,11 +510,12 @@ const Sidebar = ({
             {alerttext && (
               <Alert
                 className="mt-4"
-                variant="light"
+                variant="danger"
                 onClose={() => setAlerttext(false)}
                 dismissible
               >
-                <p style={{ color: "red" }}>{alerttext}</p>
+                <Alert.Heading>You've got an error!</Alert.Heading>
+                <p style={{ color: "#842029" }}>{alerttext}</p>
               </Alert>
             )}
           </div>
