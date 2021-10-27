@@ -198,7 +198,7 @@ const Sidebar = ({
 			const planArea = calculateArea(newList);
 			dispatch(
 				input_aoi({
-					name: 'Watershed Area',
+					name: 'Combined Watershed Area',
 					geometry: newList,
 					hexagons: res.data.data,
 					rawScore: aggregate(res.data.data, planArea),
@@ -232,11 +232,11 @@ const Sidebar = ({
 				// const res = await axios.post('http://localhost:5000/data', { data });
 				// For production on Heroku
 				const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });				
-				const planArea = calculateArea(newList);
+				const planArea = calculateArea([feature]);
 				// Geometry needs to be a list
 				dispatch(
 					input_aoi({
-						name: 'Watershed Area',
+						name: feature.properties.NAME,
 						geometry: [feature],
 						hexagons: res.data.data,
 						rawScore: aggregate(res.data.data, planArea),
