@@ -163,14 +163,14 @@ const Sidebar = ({
 			shp(arrayBuffer).then(function(geojson){
 				// console.log(geojson);
 				setHucList(geojson.features);
-				setHucNameList(geojson.features.map((feature) => ({
-					value: feature.properties.NAME, 
-					label: feature.properties.NAME 
-				})))
-				setHucIDList(geojson.features.map((feature) => ({ 
-					value: feature.properties.HUC12, 
-					label: feature.properties.HUC12 
-				})))
+        // HUC names contain a few unnamed items using their IDs as default names
+        // Those will show up at the bottom of the list
+        var sortedHucNameArray = geojson.features.map((feature) => feature.properties.NAME).sort(function(a, b) {
+          return /^[A-Za-z]/.test(b) - /^[A-Za-z]/.test(a) || a.charCodeAt(0) - b.charCodeAt(0)
+        });
+				setHucNameList(sortedHucNameArray.map((name) => ({value: name, label: name})));
+        var sortedHucIDArray = geojson.features.map((feature) => feature.properties.HUC12).sort();
+				setHucIDList(sortedHucIDArray.map((id) => ({value: id, label: id})));
 			});
 		});
 	};
