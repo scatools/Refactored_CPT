@@ -44,7 +44,6 @@ const Sidebar = ({
 	const dispatch = useDispatch();
 
   const handleSubmit = async () => {
-    dispatch(setLoader(true));
     if (!drawData) {
       setAlerttext("A name for this area of interest is required.");
     } else if (featureList.length === 0) {
@@ -61,6 +60,7 @@ const Sidebar = ({
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
       // For production on Heroku
+      dispatch(setLoader(true));
       const res = await axios.post("https://sca-cpt-backend.herokuapp.com/data", { data });
       const planArea = calculateArea(newList);
       dispatch(
@@ -74,10 +74,9 @@ const Sidebar = ({
         })
       );
       setDrawingMode(false);
+      dispatch(setLoader(false));
       setMode("view");
     }
-
-    dispatch(setLoader(false));
   };
 
   const handleNameChange = (e) => {
@@ -194,6 +193,7 @@ const Sidebar = ({
 			// For development on local server
 			// const res = await axios.post('http://localhost:5000/data', { data });
 			// For production on Heroku
+      dispatch(setLoader(true));
 			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
 			const planArea = calculateArea(newList);
 			dispatch(
@@ -206,6 +206,7 @@ const Sidebar = ({
 					id: uuid()
 				})
 			);
+      dispatch(setLoader(false));
 			setMode("view");
 			setHucNameSelected([]);
 			setHucIDSelected([]);
@@ -224,6 +225,7 @@ const Sidebar = ({
 			const newList = hucList.filter((feature) => hucNameSelected.map((hucName) => hucName.value).includes(feature.properties.NAME) 
 														|| hucIDSelected.map((hucID) => hucID.value).includes(feature.properties.HUC12));
 			// console.log(newList);
+      dispatch(setLoader(true));
 			newList.forEach(async feature => {
 				const data = feature.geometry;
 				// For development on local server
@@ -243,6 +245,7 @@ const Sidebar = ({
 					})
 				);
 			});
+      dispatch(setLoader(false));
 			setMode("view");
 			setHucNameSelected([]);
 			setHucIDSelected([]);
