@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import MapGL, { Source, Layer, WebMercatorViewport } from 'react-map-gl';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { FaChrome } from 'react-icons/fa';
+import bbox from "@turf/bbox";
+// import axios from 'axios';
 import AssessmentTable from './AssessmentTable';
 import AssessmentScoreTable from './AssessmentScoreTable';
 import UserDefinedResult from './UserDefinedResult';
 import MCDAResult from './MCDAResult';
 import PDFDownloader from './PDFDownloader';
 import Appendix from './Appendix';
-import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { FaChrome } from 'react-icons/fa';
-import bbox from "@turf/bbox";
-// import axios from 'axios';
+import Legend from './Legend';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA';
 
@@ -34,7 +35,7 @@ const Assessment = () => {
 	// Format of the bounding box needs to be an array of two opposite corners ([[lon,lat],[lon,lat]])
 	var viewportBbox = [[aoiBbox[0],aoiBbox[1]],[aoiBbox[2],aoiBbox[3]]];
 	// Use WebMercatorViewport to get center longitude/latitude and zoom level
-	var newViewport = new WebMercatorViewport({ width: 800, height: 600}).fitBounds(viewportBbox, { padding: 100 });
+	var newViewport = new WebMercatorViewport({ width: 800, height: 600}).fitBounds(viewportBbox, { padding: 200 });
 	// console.log(newViewport);
 
 	const [ viewport, setViewport ] = useState({ 
@@ -118,9 +119,14 @@ const Assessment = () => {
 								type: "FeatureCollection",
 								features: aoi.geometry
 							}}>
-								<Layer  id={aoi.name} type="fill" paint={{"fill-color": aoiColors[aoiList.indexOf(aoi)], "fill-opacity": 0.5}}/>
+								<Layer  
+									id={aoi.name}
+									type="fill"
+									paint={{"fill-color": aoiColors[aoiList.indexOf(aoi)], "fill-opacity": 0.5}}
+								/>
 							</Source>
 						)}
+						{aoiList.length > 0 && <Legend aoiList={aoiList} aoiColors={aoiColors}></Legend>}
 					</MapGL>
 				</Row>
 				<br/>
