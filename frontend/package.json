@@ -31,7 +31,8 @@
     "recharts": "^1.8.5",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
-    "shpjs": "^4.0.2"
+    "shpjs": "^4.0.2",
+    "webpack": "^4.44.2"
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd ../backend && nodemon server.js\"",
