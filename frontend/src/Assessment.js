@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
+import MapGL, { Source, Layer, WebMercatorViewport } from 'react-map-gl';
 import AssessmentTable from './AssessmentTable';
 import AssessmentScoreTable from './AssessmentScoreTable';
 import UserDefinedResult from './UserDefinedResult';
@@ -9,10 +10,39 @@ import Appendix from './Appendix';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { FaChrome } from 'react-icons/fa';
-import axios from 'axios';
+import bbox from "@turf/bbox";
+// import axios from 'axios';
+
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA';
 
 const Assessment = () => {
 	const assessment = useSelector(state => state.assessment);
+	const aoiList = Object.values(useSelector((state) => state.aoi));	
+	// Up to 10 colors for 10 different AOIs
+	const aoiColors = ["#00188f", "#00bcf2", "#00b294", "#009e49", "#bad80a", "#fff100", "#ff8c00", "#e81123", "#ec008c", "#68217a"];
+	var aoiAssembly = [];
+	
+	// AOIs are stored as [0:{}, 1:{}, 2:{}, ...]
+	for (var num in aoiList) {
+		aoiAssembly = aoiAssembly.concat(aoiList[num].geometry);
+	}
+	// Use the set of all selected AOIs to calculate the bounding box
+	var aoiBbox = bbox({
+		type: 'FeatureCollection',
+		features: aoiAssembly
+	});
+	// Format of the bounding box needs to be an array of two opposite corners ([[lon,lat],[lon,lat]])
+	var viewportBbox = [[aoiBbox[0],aoiBbox[1]],[aoiBbox[2],aoiBbox[3]]];
+	// Use WebMercatorViewport to get center longitude/latitude and zoom level
+	var newViewport = new WebMercatorViewport({ width: 800, height: 600}).fitBounds(viewportBbox, { padding: 100 });
+	// console.log(newViewport);
+
+	const [ viewport, setViewport ] = useState({ 
+		latitude: newViewport.latitude, 
+		longitude: newViewport.longitude, 
+		zoom: newViewport.zoom 
+	});
+
 	if(!assessment.hasOwnProperty('aoi')){
 		return <Redirect to="/"/>
 	}
@@ -61,13 +91,37 @@ const Assessment = () => {
 		<div id="overview">
 			<div className="assessmentNav">
 				<a href="#data">Data Summary</a>			
-				<a href="#userDefined">Overall Scores</a>
+				<a href="#score">Overall Scores</a>
 				<a href="#mcda">MCDA Results</a>
 				<a href="#appendix">Appendix</a>
 			</div>
 			<Container style={{position:"relative", top:"100px"}}>				
 				<Row id="heading">
 					<h2>Data Summary:</h2>			
+				</Row>
+				<br/>
+				<Row id="mapHeading">
+					<h4>Spatial Footprint:</h4>			
+				</Row>
+				<Row id="map">
+					<MapGL
+						{...viewport}
+						style={{ position: 'relative' }}
+						width="100vw"
+						height="50vh"
+						mapStyle="mapbox://styles/mapbox/light-v9"
+						onViewportChange={(nextViewport) => setViewport(nextViewport)}
+						mapboxApiAccessToken={MAPBOX_TOKEN}
+					>
+						{aoiList.length > 0 && aoiList.map(aoi => 
+							<Source type="geojson" data={{
+								type: "FeatureCollection",
+								features: aoi.geometry
+							}}>
+								<Layer  id={aoi.name} type="fill" paint={{"fill-color": aoiColors[aoiList.indexOf(aoi)], "fill-opacity": 0.5}}/>
+							</Source>
+						)}
+					</MapGL>
 				</Row>
 				<br/>
 				<Row id="data">
@@ -83,7 +137,7 @@ const Assessment = () => {
 					<AssessmentScoreTable/>
 				</Row>
 				<hr/>
-				<Row id="userDefined">
+				<Row id="score">
 					<h2>Overall Scores with User-Provided Weights:</h2>
 					<p>
 						The following chart indicates the overall weighted scores for each area of interest (AOI).
