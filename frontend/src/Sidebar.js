@@ -23,6 +23,8 @@ const Sidebar = ({
 	featureList,
 	aoiSelected,
 	setAoiSelected,
+  aoiAssembled,
+  setAoiAssembled,
 	editAOI,
 	setEditAOI,
 	setViewport,
@@ -536,7 +538,10 @@ const Sidebar = ({
 
         {mode === "assemble" && (
           <Container>
-            <SidebarAssemble />
+            <SidebarAssemble 
+              aoiAssembled={aoiAssembled} 
+              setAoiAssembled={setAoiAssembled}
+            />
           </Container>
         )}
       </div>
