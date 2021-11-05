@@ -7,12 +7,11 @@ import { useDispatch } from "react-redux";
 import { setLoader } from "./action";
 import { store } from "./store";
 
-const Main = () => {
+const Main = ({ aoiSelected, setAoiSelected, aoiAssembled, setAoiAssembled }) => {
 	const [ activeSidebar, setActiveSidebar ] = useState(false);
 	const [ activeTable, setActiveTable ] = useState(null);
 	const [ drawingMode,setDrawingMode ] = useState(false);
 	const [ featureList,setFeatureList ] = useState([]);
-	const [ aoiSelected, setAoiSelected ] = useState(null);
 	const [ editAOI, setEditAOI ] = useState(false);
 	const [ viewport, setViewport ] = useState({ latitude: 27.8, longitude: -88.4, zoom: 5 });
 	const [ hucBoundary, setHucBoundary ] = useState(false);
@@ -23,14 +22,16 @@ const Main = () => {
 	return (
 		<div>
 			<AoiDetailTable activeTable={activeTable} setActiveTable={setActiveTable}/>
-			<Sidebar activeSidebar={activeSidebar} 
-					setActiveSidebar={setActiveSidebar} 
-					setActiveTable={setActiveTable} 
-					setDrawingMode={setDrawingMode} 
+			<Sidebar activeSidebar={activeSidebar}
+					setActiveSidebar={setActiveSidebar}
+					setActiveTable={setActiveTable}
+					setDrawingMode={setDrawingMode}
 					featureList={featureList}
-					aoiSelected={aoiSelected} 
+					aoiSelected={aoiSelected}
 					setAoiSelected={setAoiSelected}
-					editAOI={editAOI} 
+					aoiAssembled={aoiAssembled}
+					setAoiAssembled={setAoiAssembled}
+					editAOI={editAOI}
 					setEditAOI={setEditAOI}
 					setViewport={setViewport}
 					hucBoundary={hucBoundary}
