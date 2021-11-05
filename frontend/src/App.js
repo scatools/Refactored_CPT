@@ -4,11 +4,9 @@ import NavBar from "./NavBar";
 import Routes from "./Routes";
 import LoadingOverlay from "react-loading-overlay";
 import BarLoader from "react-spinners/BarLoader";
-
 import { connect } from "react-redux";
 
 function App(props) {
-  console.log(props);
   return (
     <LoadingOverlay
       className="myLoading"
@@ -27,7 +25,6 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     isActive: state.loading.isLoading,
   };

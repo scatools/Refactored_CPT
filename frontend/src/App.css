@@ -139,8 +139,8 @@ nav a:hover {
 
 .legend {
   position: absolute;
-  top: 30vh;
-  right: 2vw;
+  bottom: 2vh;
+  right: 1vw;
   background-color: rgb(245, 245, 245);
   border-radius: 10px;
   padding: 10px;

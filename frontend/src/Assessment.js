@@ -16,9 +16,13 @@ import Legend from './Legend';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA';
 
-const Assessment = () => {
+const Assessment = ({ aoiAssembled }) => {
 	const assessment = useSelector(state => state.assessment);
-	const aoiList = Object.values(useSelector((state) => state.aoi));	
+	const aoi = useSelector((state) => state.aoi);
+	const aoiAssembledList = aoiAssembled.map(aoi => aoi.value);
+	// Constant aoi contains all the AOIs provided so those not assembled need to be filtered out
+	const aoiList = Object.values(aoi).filter(aoi => aoiAssembledList.includes(aoi.id));
+	// console.log(aoiList);
 	// Up to 10 colors for 10 different AOIs
 	const aoiColors = ["#00188f", "#00bcf2", "#00b294", "#009e49", "#bad80a", "#fff100", "#ff8c00", "#e81123", "#ec008c", "#68217a"];
 	var aoiAssembly = [];

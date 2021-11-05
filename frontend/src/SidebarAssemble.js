@@ -1,23 +1,23 @@
-import React,{useState} from 'react';
-import {Accordion,Button,ButtonGroup,Card,Col,Form,Modal,Row,Table,ToggleButton} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Accordion, Button, ButtonGroup, Card, Col, Form, Modal, Row, Table, ToggleButton } from 'react-bootstrap';
 import Select from 'react-select';
-import {changeMeasures,changeMeasuresWeight,changeGoalWeights,generate_assessment} from './action';
-import {useDispatch,useSelector} from 'react-redux';
+import { changeMeasures, changeMeasuresWeight, changeGoalWeights, generate_assessment } from './action';
+import { useDispatch, useSelector } from 'react-redux';
 import RangeSlider from 'react-bootstrap-range-slider';
-import {calculateMeasures,getScaledForAssessment,mergeIntoArray} from './helper/aggregateHex';
-import {Redirect,useHistory} from 'react-router-dom';
+import { calculateMeasures, getScaledForAssessment, mergeIntoArray } from './helper/aggregateHex';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { GoInfo } from 'react-icons/go';
 import ReactTooltip from "react-tooltip";
 
 const RESTOREGoal = ['Habitat', 'Water Quality & Quantity', 'Living Coastal & Marine Resources','Community Resilience','Gulf Economy']
 
-const SidebarAssemble = () =>{
+const SidebarAssemble = ({ aoiAssembled, setAoiAssembled }) =>{
 	const weights =  useSelector(state => state.weights);
 	const aoi = useSelector(state=>state.aoi);
 	let aoiList = Object.values(aoi).length > 0 ? Object.values(aoi).map(item=>({label:item.name, value:item.id })) :[];
 	const dispatch = useDispatch();
-	const [aoiSelected, setAoiSelected]= useState([]);
+	// const [aoiAssembled, setAoiAssembled]= useState([]);
     const handleChange = (value, name, label, type) => {	
 		dispatch(changeMeasuresWeight(value,name, label, type))
 	};
@@ -50,9 +50,9 @@ const SidebarAssemble = () =>{
 										isClearable={false}
 										placeholder="Select areas of interests..."
 										name="colors"
-										value={aoiSelected}
+										value={aoiAssembled}
 										onChange={(selectedOption) => {
-											setAoiSelected(selectedOption)
+											setAoiAssembled(selectedOption)
 										}}    
 										className="basic-multi-select"
 										classNamePrefix="select"
@@ -980,7 +980,7 @@ const SidebarAssemble = () =>{
 									</Table>
 									<Button className="ml-2" variant='dark' onClick={()=>{
 										async function calculateNewData(){
-											const newAoiData = aoiSelected.map(item=>getScaledForAssessment(aoi[item.value].rawScore,aoi[item.value].id,aoi[item.value].name))
+											const newAoiData = aoiAssembled.map(item=>getScaledForAssessment(aoi[item.value].rawScore,aoi[item.value].id,aoi[item.value].name))
 											const goalList ={
 												hab:"Habitat",
 												wq:"Water Quality & Quantity",
@@ -1014,13 +1014,11 @@ const SidebarAssemble = () =>{
 											dispatch(generate_assessment(returnData));
 										}
 										
-										if(Object.values(weights).reduce((a,b)=>{return a+b.weight},0)!==100 || aoiSelected.length<=1){
+										if(Object.values(weights).reduce((a,b)=>{return a+b.weight},0)!==100 || aoiAssembled.length<=1){
 											handleShow()
 										}else{
 											calculateNewData().then(()=>{
 												history.push("/assessment");
-												// This won't work
-												// return <Redirect to="/assessment"/>
 											});
 										}
 										
