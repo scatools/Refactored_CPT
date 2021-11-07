@@ -55,7 +55,7 @@ const Assessment = ({ aoiAssembled }) => {
 	// Download HTML report
 
 	// Download from backend
-	// const downloadHTMLReport = async () =>{
+	// const downloadHTML = async () =>{
 	// For development on local server
 	// 	const result = await axios.get('http://localhost:5000/report');
 	// For production on Heroku
@@ -70,30 +70,30 @@ const Assessment = ({ aoiAssembled }) => {
 	// }
 
 	// Download from frontend	
-	const downloadHTMLReport = () =>{		
+	const downloadHTML = () =>{		
 		var pageHTMLObject = document.getElementsByClassName("container")[0];
 		var pageHTML = pageHTMLObject.outerHTML;
 		var tempElement = document.createElement('a');
 
 		tempElement.href = 'data:text/html;charset=UTF-8,' + encodeURIComponent(pageHTML);
 		tempElement.target = '_blank';
-		tempElement.download = 'report.html';
+		tempElement.download = 'assessment.html';
 		tempElement.click();
 	}
 
 	return (
 		<>		
 		<div className="assessmentDownload">
-			<DropdownButton id="reportDownload" variant="dark" title="Download Report">
-				<Dropdown.Item variant="dark" onClick={downloadHTMLReport}>
+			<DropdownButton id="assessmentDownloadButton" variant="dark" title="Download Assessment">
+				<Dropdown.Item variant="dark" onClick={downloadHTML}>
 					<FaChrome /> &nbsp;
 					Download as HTML
 				</Dropdown.Item>
-				<PDFDownloader downloadFileName="Report" rootElementId="overview" />
+				<PDFDownloader downloadFileName="Assessment" rootElementId="assessmentOverview" />
 			</DropdownButton>			
 		</div>
 		
-		<div id="overview">
+		<div id="assessmentOverview">
 			<div className="assessmentNav">
 				<a href="#data">Data Summary</a>			
 				<a href="#score">Overall Scores</a>

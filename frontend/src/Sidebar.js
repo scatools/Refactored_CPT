@@ -32,7 +32,8 @@ const Sidebar = ({
 	setHucBoundary,
   hucIDSelected,
   setHucIDSelected,
-	setFilterList
+	setFilterList,
+  setReportLink
 }) => {
 	const [ mode, setMode ] = useState('add');
 	const [ inputMode, setInputMode ] = useState('draw');
@@ -348,13 +349,14 @@ const Sidebar = ({
                   />
                 </InputGroup>
                 <hr />
-                <Container>
+                <Container className="m-auto" style={{ width: "85%" }}>
                   <Button
                     variant="dark"
                     style={{ float: "left" }}
                     onClick={() => {
                       setDrawingMode(true);
                       setAoiSelected(false);
+                      setReportLink(false);
                     }}
                   >
                     Add a New Shape
@@ -532,6 +534,7 @@ const Sidebar = ({
               setEditAOI={setEditAOI}
               featureList={featureList}
               setAlerttext={setAlerttext}
+              setReportLink={setReportLink}
             />
           </Container>
         )}
