@@ -1,10 +1,10 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Navbar,Nav } from 'react-bootstrap';
-import {useSelector} from 'react-redux';
+import { Navbar, Nav } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 
-const NavBar = () => {
+const NavBar = ({ reportLink }) => {
 	const assessment = useSelector(state => state.assessment);
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
@@ -21,6 +21,7 @@ const NavBar = () => {
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="mr-auto" >
 						<NavLink to="/" className="ml-3">Map</NavLink>
+						{reportLink && <NavLink to="/report" className="ml-3">Report</NavLink>}
 						{assessment.hasOwnProperty('aoi') && <NavLink to="/assessment" className="ml-3">Assessment</NavLink>}
 						<NavLink to="/" className="ml-3" onClick={handleShow}>About</NavLink>
 						<NavLink to="/help" className="ml-3">Contacts</NavLink>

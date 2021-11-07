@@ -5,7 +5,7 @@ import Help from './Help';
 import Report from "./Report";
 import Assessment from "./Assessment";
 
-const Routes = () =>{
+const Routes = ({ setReportLink }) =>{
     const [ aoiSelected, setAoiSelected ] = useState(null);
     const [ aoiAssembled, setAoiAssembled ] = useState([]);
     return (
@@ -16,6 +16,7 @@ const Routes = () =>{
                     setAoiSelected={setAoiSelected}
                     aoiAssembled={aoiAssembled}
                     setAoiAssembled={setAoiAssembled}
+                    setReportLink={setReportLink}
                 />
             </Route>
             <Route exact path="/help">

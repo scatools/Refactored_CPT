@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setLoader } from "./action";
 import { store } from "./store";
 
-const Main = ({ aoiSelected, setAoiSelected, aoiAssembled, setAoiAssembled }) => {
+const Main = ({ aoiSelected, setAoiSelected, aoiAssembled, setAoiAssembled, setReportLink }) => {
 	const [ activeSidebar, setActiveSidebar ] = useState(false);
 	const [ activeTable, setActiveTable ] = useState(null);
 	const [ drawingMode,setDrawingMode ] = useState(false);
@@ -39,6 +39,7 @@ const Main = ({ aoiSelected, setAoiSelected, aoiAssembled, setAoiAssembled }) =>
 					hucIDSelected={hucIDSelected}
 					setHucIDSelected={setHucIDSelected}
 					setFilterList={setFilterList}
+					setReportLink={setReportLink}
 			/>
 			<div className="content">
 				<Button
