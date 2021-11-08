@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import { Button } from "react-bootstrap";
+import { MdMenu } from 'react-icons/md';
 import Map from "./Map";
 import AoiDetailTable from "./AoiDetailTable";
 import { useDispatch } from "react-redux";
@@ -50,7 +51,7 @@ const Main = ({ aoiSelected, setAoiSelected, aoiAssembled, setAoiAssembled, setR
 						setActiveSidebar(true);
 					}}
 				>
-					Start
+					<MdMenu />
 				</Button>
                 <Map drawingMode={drawingMode} 
 					setFeatureList={setFeatureList} 
