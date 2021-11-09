@@ -1,19 +1,19 @@
 import React, { useState, useCallback } from "react";
 import { Alert, Button, ButtonGroup, Container, FormControl, InputGroup, ToggleButton } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Dropzone from "react-dropzone";
 import Select from "react-select";
+import axios from "axios";
+import shp from "shpjs";
 import SidebarMode from "./SidebarMode";
 import SidebarViewGroup from "./SidebarViewGroup";
 import SidebarViewDetail from "./SidebarViewDetail";
 import SidebarDismiss from "./SidebarDismiss";
 import SidebarAssemble from "./SidebarAssemble";
-import axios from "axios";
 import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
 import { v4 as uuid } from "uuid";
 import { input_aoi } from "./action";
 import { setLoader } from "./action";
-import { useDispatch } from "react-redux";
-import Dropzone from "react-dropzone";
-import shp from "shpjs";
 
 const Sidebar = ({
 	activeSidebar,
@@ -37,7 +37,7 @@ const Sidebar = ({
 }) => {
 	const [ mode, setMode ] = useState('add');
 	const [ inputMode, setInputMode ] = useState('draw');
-	const [ drawData, setDrawData ] = useState('');
+	const [ aoiName, setAoiName ] = useState('');
 	const [ alerttext, setAlerttext ] = useState(false);
 	const [ retrievingOptions, setRetrievingOptions ] = useState('hucBoundary');
 	const [ hucList, setHucList ] = useState([]);
@@ -45,10 +45,14 @@ const Sidebar = ({
 	const [ hucIDList, setHucIDList ] = useState([]);
 	const [ hucNameSelected, setHucNameSelected ]= useState([]);
 	const dispatch = useDispatch();
+  const aoi = Object.values(useSelector((state) => state.aoi));
 
   const handleSubmit = async () => {
-    if (!drawData) {
+    let aoiNameList = aoi.map((aoi) => aoi.name);
+    if (!aoiName) {
       setAlerttext("A name for this area of interest is required.");
+    } else if (aoiNameList.includes(aoiName)) {
+      setAlerttext("AOI name already exists! Please use another one.");
     } else if (featureList.length === 0) {
       setAlerttext("At least one polygon is required.");
     } else {
@@ -68,7 +72,7 @@ const Sidebar = ({
       const planArea = calculateArea(newList);
       dispatch(
         input_aoi({
-          name: drawData,
+          name: aoiName,
           geometry: newList,
           hexagons: res.data.data,
           rawScore: aggregate(res.data.data, planArea),
@@ -83,7 +87,7 @@ const Sidebar = ({
   };
 
   const handleNameChange = (e) => {
-    setDrawData(e.target.value);
+    setAoiName(e.target.value);
   };
 
   const onDrop = useCallback(
@@ -338,12 +342,12 @@ const Sidebar = ({
                 <InputGroup className="m-auto" style={{ width: "80%" }}>
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1">
-                      Plan Name:
+                      AOI Name:
                     </InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
                     name="planName"
-                    value={drawData}
+                    value={aoiName}
                     onChange={handleNameChange}
                     placeholder="Name area of interest here..."
                   />
