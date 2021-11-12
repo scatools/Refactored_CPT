@@ -26,7 +26,11 @@ const Routes = ({ setReportLink }) =>{
                 <Report aoiSelected={aoiSelected}/>
             </Route>
             <Route exact path="/assessment">
-                <Assessment aoiAssembled={aoiAssembled}/>
+                <Assessment 
+                    aoiAssembled={aoiAssembled}
+                    setAoiSelected={setAoiSelected}
+                    setReportLink={setReportLink}
+                />
             </Route>
             <Route>
                 <Redirect to="/"/>
