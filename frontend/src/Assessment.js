@@ -92,22 +92,21 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 				<PDFDownloader downloadFileName="Assessment" rootElementId="assessmentOverview" />
 			</DropdownButton>			
 		</div>
+
+		<div className="assessmentNav">
+			<a href="#mapHeading">Spatial Footprint</a>
+			<a href="#scoreHeading">Overall Scores</a>
+			<a href="#dataHeading">Data Summary</a>
+			<a href="#mcdaHeading">MCDA Results</a>
+			<a href="#appendix">Appendix</a>
+		</div>
 		
 		<div id="assessmentOverview">
-			<div className="assessmentNav">
-				<a href="#data">Data Summary</a>			
-				<a href="#score">Overall Scores</a>
-				<a href="#mcda">MCDA Results</a>
-				<a href="#appendix">Appendix</a>
-			</div>
-			<Container style={{position:"relative", top:"100px"}}>				
-				<Row id="heading">
-					<h2>Data Summary:</h2>			
+			<Container style={{position:"relative", top:"100px"}}>								
+				<Row id="mapHeading">
+					<h2>Spatial Footprint:</h2>			
 				</Row>
 				<br/>
-				<Row id="mapHeading">
-					<h4>Spatial Footprint:</h4>			
-				</Row>
 				<Row id="map">
 					<MapGL
 						{...viewport}
@@ -133,22 +132,12 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 						{aoiList.length > 0 && <Legend aoiList={aoiList} aoiColors={aoiColors}></Legend>}
 					</MapGL>
 				</Row>
-				<br/>
-				<Row id="data">
-					<h4>Values & Weights by Data Measure:</h4>
-					<p> 
-						The following table indicates the weighted scores of all data measures for each area of interest (AOI) achieved, along with user-provided weights for different priority attributes displayed in the rightmost column.
-					</p>
-					<AssessmentTable setAoiSelected={setAoiSelected} setReportLink={setReportLink}/>
-					<h4>Values & Weights by RESTORE Goal:</h4>
-					<p>
-						The following table indicates the weighted scores of all RESTORE goals for each each area of interest (AOI) achieved, along with user-provided weights for different goals displayed in the rightmost column.
-					</p>
-					<AssessmentScoreTable/>
-				</Row>
 				<hr/>
-				<Row id="score">
+				<Row id="scoreHeading">
 					<h2>Overall Scores with User-Provided Weights:</h2>
+				</Row>
+				<br/>
+				<Row id="score">
 					<p>
 						The following chart indicates the overall weighted scores for each area of interest (AOI).
 					</p>
@@ -157,8 +146,28 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 					</div>				
 				</Row>
 				<hr/>
-				<Row id="mcda">
+				<Row id="dataHeading">
+					<h2>Data Summary:</h2>
+				</Row>
+				<br/>
+				<Row id="data">
+					<h4>Values & Weights by RESTORE Goal:</h4>
+					<p>
+						The following table indicates the weighted scores of all RESTORE goals for each each area of interest (AOI) achieved, along with user-provided weights for different goals displayed in the rightmost column.
+					</p>
+					<AssessmentScoreTable/>
+					<h4>Values & Weights by Data Measure:</h4>
+					<p> 
+						The following table indicates the weighted scores of all data measures for each area of interest (AOI) achieved, along with user-provided weights for different priority attributes displayed in the rightmost column.
+					</p>
+					<AssessmentTable setAoiSelected={setAoiSelected} setReportLink={setReportLink}/>
+				</Row>
+				<hr/>
+				<Row id="mcdaHeading">
 					<h2>SMAA MCDA Results:</h2>
+				</Row>
+				<br/>
+				<Row id="mcda">
 					<p>
 						<b>Stochastic Multicriteria Acceptability Analysis (SMAA) </b>
 						 is a collection of

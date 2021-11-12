@@ -11,7 +11,7 @@ const ReportTable = ({ aoiSelected }) => {
 	}
 	
 	return (aoi && (
-                <Table striped bordered size="sm" variant="dark">
+                <Table striped bordered size="sm" variant="light">
                     <thead>
                         <tr>
                             <th>Measures</th>
