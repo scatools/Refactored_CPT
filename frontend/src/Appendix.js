@@ -4,6 +4,7 @@ const Appendix = () => {
     return (
         <div>
             <h2>Appendix:</h2>
+            <br/>
             <div>
                 <h4>Definitions of Raw Data Measures:</h4>
                 <div>
