@@ -1,9 +1,10 @@
 import React from 'react';
-import {Table} from 'react-bootstrap';
-import {useSelector} from 'react-redux';
-import {v4 as uuid} from 'uuid';
+import { Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 
-const AssessmentTable = () =>{
+const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
     const assessment = useSelector(state => state.assessment);
     return(
         <Table striped bordered size="sm" variant="dark">
@@ -12,7 +13,15 @@ const AssessmentTable = () =>{
 								<th>Measures</th>
                                 {assessment.aoi.name.map(name=>(
                                     <th key={uuid()}>
-                                        {name}
+										<Link to="/report" 
+											onClick={() => {
+												// Link to the single-AOI report
+												setAoiSelected(assessment.aoi.id[assessment.aoi.name.indexOf(name)]);
+												setReportLink(true);
+											}}
+										>
+											{name}
+										</Link>
                                     </th>
                                 ))}
 							</tr>
