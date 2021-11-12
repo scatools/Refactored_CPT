@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
     const assessment = useSelector(state => state.assessment);
     return(
-        <Table striped bordered size="sm" variant="dark">
+        <Table striped bordered size="sm" variant="light">
 						<thead>
 							<tr>
 								<th>Measures</th>
