@@ -16,7 +16,7 @@ import Legend from './Legend';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA';
 
-const Assessment = ({ aoiAssembled }) => {
+const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 	const assessment = useSelector(state => state.assessment);
 	const aoi = useSelector((state) => state.aoi);
 	const aoiAssembledList = aoiAssembled.map(aoi => aoi.value);
@@ -139,7 +139,7 @@ const Assessment = ({ aoiAssembled }) => {
 					<p> 
 						The following table indicates the weighted scores of all data measures for each area of interest (AOI) achieved, along with user-provided weights for different priority attributes displayed in the rightmost column.
 					</p>
-					<AssessmentTable/>
+					<AssessmentTable setAoiSelected={setAoiSelected} setReportLink={setReportLink}/>
 					<h4>Values & Weights by RESTORE Goal:</h4>
 					<p>
 						The following table indicates the weighted scores of all RESTORE goals for each each area of interest (AOI) achieved, along with user-provided weights for different goals displayed in the rightmost column.
