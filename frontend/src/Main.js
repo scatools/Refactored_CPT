@@ -7,7 +7,7 @@ import AoiDetailTable from "./AoiDetailTable";
 const Main = () => {
   const [activeSidebar, setActiveSidebar] = useState(true);
   const [activeTable, setActiveTable] = useState(null);
-  const [drawingMode, setDrawingMode] = useState(true);
+  const [drawingMode, setDrawingMode] = useState(false);
   const [featureList, setFeatureList] = useState([]);
   const [aoiSelected, setAoiSelected] = useState(null);
   const [editAOI, setEditAOI] = useState(false);
