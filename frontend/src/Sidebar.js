@@ -61,7 +61,7 @@ const Sidebar = ({
         {view === "createAssess" && (
           <Container>
             {/* <SidebarAssemble /> */}
-            <CreateAssessView />
+            <CreateAssessView setAlerttext={setAlerttext} />
           </Container>
         )}
 

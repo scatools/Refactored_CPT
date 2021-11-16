@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Container } from "react-bootstrap";
 import Select from "react-select";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { Redirect, useHistory } from "react-router-dom";
-
-const SelectAOIForAssess = ({ setAssessStep, setAoiSelected, aoiSelected }) => {
+const SelectAOIForAssess = ({
+  setAssessStep,
+  setAoiSelected,
+  aoiSelected,
+  setAlerttext,
+}) => {
   const aoi = useSelector((state) => state.aoi);
+
+  const handleNext = () => {
+    if (aoiSelected.length < 2) {
+      setAlerttext("Add at least 2 AOIs for comparison");
+      window.setTimeout(() => setAlerttext(false), 4000);
+    } else setAssessStep("selectRestoreWeights");
+  };
+
   let aoiList =
     Object.values(aoi).length > 0
       ? Object.values(aoi).map((item) => ({ label: item.name, value: item.id }))
       : [];
-  const dispatch = useDispatch();
 
   return (
     <Container>
@@ -32,10 +42,7 @@ const SelectAOIForAssess = ({ setAssessStep, setAoiSelected, aoiSelected }) => {
         classNamePrefix="select"
       />
       <br />
-      <Button
-        variant="dark"
-        onClick={() => setAssessStep("selectRestoreWeights")}
-      >
+      <Button variant="dark" onClick={() => handleNext()}>
         Next
       </Button>
     </Container>

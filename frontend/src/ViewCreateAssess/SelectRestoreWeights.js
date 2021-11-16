@@ -1,46 +1,33 @@
 import React, { useState } from "react";
-import {
-  Accordion,
-  Button,
-  Container,
-  ButtonGroup,
-  Card,
-  Col,
-  Form,
-  Modal,
-  Row,
-  Table,
-  ToggleButton,
-} from "react-bootstrap";
-import Select from "react-select";
-import {
-  changeMeasures,
-  changeMeasuresWeight,
-  changeGoalWeights,
-  generate_assessment,
-} from "../action";
+import { Button, Container, Col, Form, Row } from "react-bootstrap";
+import { changeGoalWeights } from "../action";
 import { useDispatch, useSelector } from "react-redux";
 import RangeSlider from "react-bootstrap-range-slider";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const SelectRestoreWeights = ({ setAssessStep }) => {
+const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
-  let aoiList =
-    Object.values(aoi).length > 0
-      ? Object.values(aoi).map((item) => ({ label: item.name, value: item.id }))
-      : [];
   const dispatch = useDispatch();
+
+  const handleNext = () => {
+    if (
+      weights.hab.weight +
+        weights.wq.weight +
+        weights.lcmr.weight +
+        weights.cl.weight +
+        weights.eco.weight !=
+      100
+    ) {
+      setAlerttext("Make sure all weights add to exactly 100");
+      window.setTimeout(() => setAlerttext(false), 4000);
+    } else setAssessStep("selectDataMeasures");
+  };
 
   const handleWeights = (value, goal) => {
     const newValue = Number(value) > 100 ? 100 : Number(value);
     dispatch(changeGoalWeights(newValue, goal));
   };
-
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const history = useHistory();
 
   return (
     <Container>
@@ -159,10 +146,7 @@ const SelectRestoreWeights = ({ setAssessStep }) => {
       </span>
       <br></br>
       <br></br>
-      <Button
-        variant="dark"
-        onClick={() => setAssessStep("selectDataMeasures")}
-      >
+      <Button variant="dark" onClick={() => handleNext()}>
         Next
       </Button>
     </Container>

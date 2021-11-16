@@ -1,31 +1,13 @@
 import React, { useState } from "react";
-import {
-  Accordion,
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Container,
-  Form,
-  Modal,
-  Row,
-  Table,
-  ToggleButton,
-} from "react-bootstrap";
-import Select from "react-select";
-import {
-  changeMeasures,
-  changeMeasuresWeight,
-  changeGoalWeights,
-  generate_assessment,
-} from "../action";
+import { Button, Container, Table } from "react-bootstrap";
+import { generate_assessment } from "../action";
 import { useDispatch, useSelector } from "react-redux";
 import {
   calculateMeasures,
   getScaledForAssessment,
   mergeIntoArray,
 } from "../helper/aggregateHex";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { GoInfo } from "react-icons/go";
 import ReactTooltip from "react-tooltip";

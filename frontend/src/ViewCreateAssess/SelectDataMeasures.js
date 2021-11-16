@@ -1,35 +1,18 @@
-import React, { useState } from "react";
-import {
-  Accordion,
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Container,
-  Form,
-  Modal,
-  Row,
-  Table,
-  ToggleButton,
-} from "react-bootstrap";
+import React from "react";
+import { Button, ButtonGroup, Container, ToggleButton } from "react-bootstrap";
 import Select from "react-select";
 import {
   changeMeasures,
   changeMeasuresWeight,
   changeGoalWeights,
-  generate_assessment,
 } from "../action";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 
 const SelectDataMeasures = ({ setAssessStep }) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
-  let aoiList =
-    Object.values(aoi).length > 0
-      ? Object.values(aoi).map((item) => ({ label: item.name, value: item.id }))
-      : [];
+
   const dispatch = useDispatch();
   const handleChange = (value, name, label, type) => {
     dispatch(changeMeasuresWeight(value, name, label, type));
