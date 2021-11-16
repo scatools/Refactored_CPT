@@ -129,6 +129,19 @@ nav a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 !important;
+  transition: all ease 0.3s;
+}
+
+.file-drop div {
+  text-align: center;
+  width: 100%;
+  padding: 85px;
+  cursor: pointer;
+}
+
+.file-drop:hover {
+  background: gray;
 }
 
 .assessmentDownload {
