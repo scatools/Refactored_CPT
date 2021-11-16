@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Alert, Container } from "react-bootstrap";
 import SidebarMode from "./SidebarMode";
-import SidebarViewGroup from "./SidebarViewGroup";
 import SidebarViewDetail from "./SidebarViewDetail";
 import SidebarDismiss from "./SidebarDismiss";
 import SidebarAssemble from "./SidebarAssemble";
-import AddAOIView from "./AddAOIView/AddAOIView";
+import AddAOIView from "./ViewAddAOI/AddAOIView";
+import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
+import CreateAssessView from "./ViewCreateAssess/CreateAssessView";
 
 const Sidebar = ({
   activeSidebar,
@@ -26,7 +27,7 @@ const Sidebar = ({
     <div id="sidebar" className={activeSidebar ? "active" : ""}>
       <SidebarDismiss setActiveSidebar={setActiveSidebar} />
       <div className="ControlWrapper">
-        {/* <SidebarMode view={view} setView={setView} /> */}
+        <SidebarMode view={view} setView={setView} />
         <hr />
         {view === "add" && (
           <AddAOIView
@@ -40,7 +41,7 @@ const Sidebar = ({
 
         {view === "viewCurrent" && (
           <Container>
-            <SidebarViewGroup
+            <CurrentAOIView
               aoiSelected={aoiSelected}
               setAoiSelected={setAoiSelected}
               setViewport={setViewport}
@@ -57,9 +58,10 @@ const Sidebar = ({
           </Container>
         )}
 
-        {view === "assemble" && (
+        {view === "createAssess" && (
           <Container>
-            <SidebarAssemble />
+            {/* <SidebarAssemble /> */}
+            <CreateAssessView />
           </Container>
         )}
 
