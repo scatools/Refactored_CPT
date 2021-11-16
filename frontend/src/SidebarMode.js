@@ -27,9 +27,9 @@ const SidebarMode = ({ view, setView }) => {
       <ToggleButton
         type="radio"
         variant="outline-secondary"
-        name="assemble"
-        value="assemble"
-        checked={view === "assemble"}
+        name="createAssess"
+        value="createAssess"
+        checked={view === "createAssess"}
         onChange={(e) => setView(e.currentTarget.value)}
       >
         Create Assessment
