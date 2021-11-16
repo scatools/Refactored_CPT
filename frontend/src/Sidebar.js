@@ -27,7 +27,7 @@ const Sidebar = ({
     <div id="sidebar" className={activeSidebar ? "active" : ""}>
       <SidebarDismiss setActiveSidebar={setActiveSidebar} />
       <div className="ControlWrapper">
-        <SidebarMode view={view} setView={setView} />
+        {/* <SidebarMode view={view} setView={setView} /> */}
         <hr />
         {view === "add" && (
           <AddAOIView
@@ -45,6 +45,7 @@ const Sidebar = ({
               aoiSelected={aoiSelected}
               setAoiSelected={setAoiSelected}
               setViewport={setViewport}
+              setView={setView}
             />
             <SidebarViewDetail
               aoiSelected={aoiSelected}
