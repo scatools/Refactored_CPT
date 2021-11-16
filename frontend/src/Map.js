@@ -163,10 +163,13 @@ const Map = ({ drawingMode, setFeatureList, aoiSelected, editAOI, viewport, setV
 	
 	useEffect(
 		() => {
-			if(!drawingMode){
+			if (hucBoundary) {
+				setInteractiveLayerIds(['huc']);
+			}
+			else if (!drawingMode) {
 				setInteractiveLayerIds([]);
-			};
-		}, [drawingMode]
+			}
+		}, [drawingMode, hucBoundary]
 	);
 
 	useEffect(
