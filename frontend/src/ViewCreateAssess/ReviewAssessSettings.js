@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
-import { generate_assessment } from "../action";
+import { generate_assessment, setLoader } from "../action";
 import { useDispatch, useSelector } from "react-redux";
 import {
   calculateMeasures,
@@ -127,6 +127,7 @@ const ReviewAssessSettings = ({ aoiSelected }) => {
           className="ml-2"
           variant="dark"
           onClick={() => {
+            dispatch(setLoader(true));
             async function calculateNewData() {
               const newAoiData = aoiSelected.map((item) =>
                 getScaledForAssessment(
