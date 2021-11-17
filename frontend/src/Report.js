@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
+import { Button, Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import MapGL, { Source, Layer, WebMercatorViewport } from 'react-map-gl';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { FaChrome } from 'react-icons/fa';
+import { download } from 'shp-write';
 import bbox from "@turf/bbox";
 // import axios from 'axios';
 import ReportTable from "./ReportTable";
@@ -69,6 +70,17 @@ const Report = ({ aoiSelected }) => {
 		tempElement.click();
 	}
 
+    const downloadFootprint = () => {
+		var aoiGeoJson = {type: 'FeatureCollection', features: aoiList[0].geometry};
+        var options = {
+            folder: 'Spatial Footprint',
+            types: {
+                polygon: aoiList[0].name
+            }
+        };
+        download(aoiGeoJson, options);
+	}
+
 	return (
 		<>		
 		<div className="reportDownload">
@@ -79,6 +91,12 @@ const Report = ({ aoiSelected }) => {
 				</Dropdown.Item>
 				<PDFDownloader downloadFileName="Report" rootElementId="reportOverview" />
 			</DropdownButton>			
+		</div>
+
+        <div className="footprintDownload">
+			<Button id="footprintDownloadButton" variant="dark" onClick={downloadFootprint}>
+                Download Footprint
+			</Button>
 		</div>
 		
 		<div id="reportOverview">

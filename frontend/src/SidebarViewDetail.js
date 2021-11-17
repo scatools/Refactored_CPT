@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card, Container, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { MdViewList, MdEdit, MdDelete } from 'react-icons/md';
+import { MdViewList, MdEdit, MdDelete, MdFileDownload } from 'react-icons/md';
 import { HiDocumentReport } from 'react-icons/hi';
 import axios from 'axios';
+import { download } from 'shp-write';
 import { delete_aoi, edit_aoi } from './action';
 import { calculateArea, aggregate, getStatus } from './helper/aggregateHex';
 
 const SidebarViewDetail = ({ aoiSelected, setActiveTable, setDrawingMode, editAOI, setEditAOI, featureList, setAlerttext, setReportLink}) => {
-	const aoi = Object.values(useSelector((state) => state.aoi)).filter(aoi=>aoi.id===aoiSelected);
+	const aoiList = Object.values(useSelector((state) => state.aoi)).filter(aoi=>aoi.id===aoiSelected);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const [ aoiName, setAoiName ] = useState("");
@@ -31,13 +32,13 @@ const SidebarViewDetail = ({ aoiSelected, setActiveTable, setDrawingMode, editAO
 			const res = await axios.post('https://sca-cpt-backend.herokuapp.com/data', { data });
 			const planArea = calculateArea(newList);
 			dispatch(
-				edit_aoi(aoi[0].id, {
+				edit_aoi(aoiList[0].id, {
 				name: aoiName,
-				geometry: newList.length ? newList: aoi[0].geometry,
-				hexagons: newList.length ? res.data.data: aoi[0].hexagons ,
-				rawScore: newList.length ? aggregate(res.data.data,planArea): aoi[0].rawScore,
-				scaleScore: newList.length ? getStatus(aggregate(res.data.data,planArea)): aoi[0].scaleScore,
-				id: aoi[0].id})
+				geometry: newList.length ? newList: aoiList[0].geometry,
+				hexagons: newList.length ? res.data.data: aoiList[0].hexagons ,
+				rawScore: newList.length ? aggregate(res.data.data,planArea): aoiList[0].rawScore,
+				scaleScore: newList.length ? getStatus(aggregate(res.data.data,planArea)): aoiList[0].scaleScore,
+				id: aoiList[0].id})
 			);
 			setDrawingMode(false);
 		}
@@ -45,16 +46,16 @@ const SidebarViewDetail = ({ aoiSelected, setActiveTable, setDrawingMode, editAO
 
 	return (
 		<>
-		{aoi && aoi.length>0 &&
+		{aoiList && aoiList.length>0 &&
 		<Card>
 			<Card.Header>Area of Interest Details:</Card.Header>
 			<Card.Body>
-				<Card.Title>{aoi[0].name}</Card.Title>
+				<Card.Title>{aoiList[0].name}</Card.Title>
 				<ul>
-					<li>This area of interest has an area of {Math.round(aoi[0].rawScore.hab0*100)/100} km<sup>2</sup></li>
-					<li>This area of interest contains {aoi[0].hexagons.length} hexagons</li>
+					<li>This area of interest has an area of {Math.round(aoiList[0].rawScore.hab0*100)/100} km<sup>2</sup></li>
+					<li>This area of interest contains {aoiList[0].hexagons.length} hexagons</li>
 				</ul>
-				<Container className="m-auto" style={{ width: "80%" }}>
+				<Container className="m-auto" style={{ width: "110%" }}>
 					<Button variant="dark" className="ml-1"
 						onClick={()=>{setActiveTable(aoiSelected)}}
 					>
@@ -65,7 +66,7 @@ const SidebarViewDetail = ({ aoiSelected, setActiveTable, setDrawingMode, editAO
 							onClick={()=>{
 								setEditAOI(true);
 								setDrawingMode(true);
-								setAoiName(aoi[0].name);
+								setAoiName(aoiList[0].name);
 							}}
 					>
 						<MdEdit /> &nbsp;
@@ -74,7 +75,7 @@ const SidebarViewDetail = ({ aoiSelected, setActiveTable, setDrawingMode, editAO
 					<Button variant="dark" className="ml-1"
 						onClick={()=>{
 							setActiveTable(false);
-							dispatch(delete_aoi(aoi[0].id));
+							dispatch(delete_aoi(aoiList[0].id));
 						}}
 					>
 						<MdDelete /> &nbsp;
@@ -88,6 +89,21 @@ const SidebarViewDetail = ({ aoiSelected, setActiveTable, setDrawingMode, editAO
 					>
 						<HiDocumentReport /> &nbsp;
 						Report
+					</Button>
+					<Button variant="dark" className="ml-1"
+						onClick={() => {
+							var aoiGeoJson = {type: 'FeatureCollection', features: aoiList[0].geometry};
+							var options = {
+								folder: 'Spatial Footprint',
+								types: {
+									polygon: aoiList[0].name
+								}
+							};
+							download(aoiGeoJson, options);
+						}}
+					>
+						<MdFileDownload /> &nbsp;
+						Download
 					</Button>
 				</Container>	
 				{editAOI && (
