@@ -159,6 +159,12 @@ nav a:hover {
   top: 1%;
 }
 
+.footprintDownload {
+  position: absolute;
+  right: 20px;
+  top: 2%;
+}
+
 .reportDownload {
   position: absolute;
   right: 20px;

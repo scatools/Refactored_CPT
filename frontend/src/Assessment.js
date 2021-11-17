@@ -3,7 +3,10 @@ import { Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import MapGL, { Source, Layer, WebMercatorViewport } from 'react-map-gl';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { ImDownload } from "react-icons/im";
 import { FaChrome } from 'react-icons/fa';
+import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
+import { download } from 'shp-write';
 import bbox from "@turf/bbox";
 // import axios from 'axios';
 import AssessmentTable from './AssessmentTable';
@@ -22,7 +25,6 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 	const aoiAssembledList = aoiAssembled.map(aoi => aoi.value);
 	// Constant aoi contains all the AOIs provided so those not assembled need to be filtered out
 	const aoiList = Object.values(aoi).filter(aoi => aoiAssembledList.includes(aoi.id));
-	// console.log(aoiList);
 	// Up to 10 colors for 10 different AOIs
 	const aoiColors = ["#00188f", "#00bcf2", "#00b294", "#009e49", "#bad80a", "#fff100", "#ff8c00", "#e81123", "#ec008c", "#68217a"];
 	var aoiAssembly = [];
@@ -81,6 +83,30 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 		tempElement.click();
 	}
 
+	const downloadFootprintAsSingle = () => {
+		var aoiGeoJson = {type: 'FeatureCollection', features: aoiAssembly};
+		var options = {
+			folder: 'Spatial Footprint',
+			types: {
+				polygon: 'Combined Assessment Area'
+			}
+		};
+		download(aoiGeoJson, options);
+	}
+
+	const downloadFootprintAsMultiple = () => {
+		aoiList.forEach((aoi, index) => {
+			var aoiGeoJson = {type: 'FeatureCollection', features: aoi.geometry};
+			var options = {
+				folder: 'Spatial Footprint ' + (index+1).toString,
+				types: {
+					polygon: aoi.name
+				}
+			};
+			download(aoiGeoJson, options);
+		});
+	}
+
 	return (
 		<>		
 		<div className="assessmentDownload">
@@ -91,6 +117,19 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 				</Dropdown.Item>
 				<PDFDownloader downloadFileName="Assessment" rootElementId="assessmentOverview" />
 			</DropdownButton>			
+		</div>
+
+		<div className="footprintDownload">
+			<DropdownButton id="footprintDownloadButton" variant="dark" title="Download Footprint">
+				<Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>
+					<VscFolder /> &nbsp;
+					Download as Single Shapefile
+				</Dropdown.Item>
+				<Dropdown.Item variant="dark" onClick={downloadFootprintAsMultiple}>
+					<VscFileSubmodule /> &nbsp;
+					Download as Multiple Shapefiles
+				</Dropdown.Item>
+			</DropdownButton>
 		</div>
 
 		<div className="assessmentNav">
