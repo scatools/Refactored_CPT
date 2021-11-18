@@ -13,6 +13,12 @@ function App(props) {
     <LoadingOverlay
       className="myLoading"
       active={props.isActive}
+      styles={{
+        overlay: (base) => ({
+          ...base,
+          position: "fixed",
+        }),
+      }}
       spinner
       text="Loading..."
     >
