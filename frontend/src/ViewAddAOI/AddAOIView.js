@@ -3,6 +3,7 @@ import { ButtonGroup, Container, ToggleButton } from "react-bootstrap";
 import AddZip from "./AddZip";
 import AddBoundary from "./AddBoundary";
 import AddDraw from "./AddDraw";
+import shp from "shpjs";
 
 const AddAOIView = ({
   setDrawingMode,
@@ -10,8 +11,17 @@ const AddAOIView = ({
   featureList,
   setAlerttext,
   setView,
+  hucBoundary,
+  setHucBoundary,
+  hucIDSelected,
+  setHucIDSelected,
+  setFilterList,
 }) => {
   const [inputMode, setInputMode] = useState("draw");
+  const [hucList, setHucList] = useState([]);
+  const [hucNameList, setHucNameList] = useState([]);
+  const [hucIDList, setHucIDList] = useState([]);
+  const [hucNameSelected, setHucNameSelected] = useState([]);
 
   const onLoad = () => {
     // To successfully fetch the zip file, it needs to be in the /public folder
@@ -108,7 +118,20 @@ const AddAOIView = ({
       )}
 
       {inputMode === "boundary" && (
-        <AddBoundary setAlerttext={setAlerttext} setView={setView} />
+        <AddBoundary
+          setAlerttext={setAlerttext}
+          setView={setView}
+          hucList={hucList}
+          hucNameList={hucNameList}
+          hucIDList={hucIDList}
+          hucNameSelected={hucNameSelected}
+          setHucNameSelected={setHucNameSelected}
+          hucIDSelected={hucIDSelected}
+          setHucIDSelected={setHucIDSelected}
+          hucBoundary={hucBoundary}
+          setHucBoundary={setHucBoundary}
+          setFilterList={setFilterList}
+        />
       )}
     </>
   );

@@ -16,6 +16,7 @@ import MCDAResult from "./MCDAResult";
 import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
 import Legend from "./Legend";
+import { setLoader } from "./action";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";

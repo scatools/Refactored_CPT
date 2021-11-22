@@ -13,6 +13,7 @@ const AddDraw = ({
   featureList,
   setAlerttext,
   setView,
+  setReportLink,
 }) => {
   const dispatch = useDispatch();
   const [drawData, setDrawData] = useState("");

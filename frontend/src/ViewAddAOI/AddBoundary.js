@@ -7,14 +7,22 @@ import { setLoader, input_aoi } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { v4 as uuid } from "uuid";
 
-const AddBoundary = ({ setAlerttext, setView }) => {
+const AddBoundary = ({
+  setAlerttext,
+  setView,
+  hucList,
+  hucNameList,
+  hucIDList,
+  hucNameSelected,
+  setHucNameSelected,
+  hucIDSelected,
+  setHucIDSelected,
+  hucBoundary,
+  setHucBoundary,
+  setFilterList,
+}) => {
   const dispatch = useDispatch();
   const [retrievingOptions, setRetrievingOptions] = useState("hucBoundary");
-  const [hucList, setHucList] = useState([]);
-  const [hucNameList, setHucNameList] = useState([]);
-  const [hucIDList, setHucIDList] = useState([]);
-  const [hucNameSelected, setHucNameSelected] = useState([]);
-  const [hucIDSelected, setHucIDSelected] = useState([]);
 
   const handleSubmitBoundaryAsSingle = async () => {
     if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
@@ -59,7 +67,7 @@ const AddBoundary = ({ setAlerttext, setView }) => {
         })
       );
       dispatch(setLoader(false));
-      setMode("viewCurrent");
+      setView("viewCurrent");
       setHucNameSelected([]);
       setHucIDSelected([]);
       setFilterList([]);
@@ -108,7 +116,7 @@ const AddBoundary = ({ setAlerttext, setView }) => {
         );
       });
       dispatch(setLoader(false));
-      setMode("viewCurrent");
+      setView("viewCurrent");
       setHucNameSelected([]);
       setHucIDSelected([]);
       setFilterList([]);

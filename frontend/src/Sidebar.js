@@ -28,6 +28,12 @@ const Sidebar = ({
   editAOI,
   setEditAOI,
   setViewport,
+  hucBoundary,
+  setHucBoundary,
+  hucIDSelected,
+  setHucIDSelected,
+  setFilterList,
+  setReportLink,
 }) => {
   const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
@@ -46,6 +52,12 @@ const Sidebar = ({
             featureList={featureList}
             setAlerttext={setAlerttext}
             setView={setView}
+            hucBoundary={hucBoundary}
+            setHucBoundary={setHucBoundary}
+            hucIDSelected={hucIDSelected}
+            setHucIDSelected={setHucIDSelected}
+            setFilterList={setFilterList}
+            setReportLink={setReportLink}
           />
 
           /*Befre Merge End*/
@@ -303,15 +315,13 @@ const Sidebar = ({
             {/* <SidebarAssemble /> */}
             <CreateAssessView setAlerttext={setAlerttext} />
 
-            {
-              /* /*After Merge */
+            {/* /*After Merge 
 
               <SidebarAssemble
                 aoiAssembled={aoiAssembled}
                 setAoiAssembled={setAoiAssembled}
               />
-              /*After Merge End  */
-            }
+              /*After Merge End  */}
           </Container>
         )}
         {alerttext && (
