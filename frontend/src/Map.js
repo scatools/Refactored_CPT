@@ -33,12 +33,13 @@ const Map = ({
   const [clicked, setClicked] = useState(false);
   const [clickedProperty, setClickedProperty] = useState(null);
   const [filter, setFilter] = useState(["in", "HUC12", "default"]);
+  const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
+  const editorRef = useRef(null);
 
   const onSelect = (options) => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
   };
 
-  const editorRef = useRef(null);
   const onDelete = () => {
     const selectedIndex = selectedFeatureIndex;
     if (selectedIndex !== null && selectedIndex >= 0) {
@@ -52,35 +53,6 @@ const Map = ({
     }
   };
 
-  useEffect(() => {
-    if (editorRef.current) {
-      const featureList = editorRef.current.getFeatures();
-      setFeatureList(featureList);
-    }
-  });
-
-  useEffect(() => {
-    if (!drawingMode && editorRef.current) {
-      const featureList = editorRef.current.getFeatures();
-      const featureListIdx = featureList.map((feature, idx) => idx);
-      setFeatureList([]);
-      if (featureListIdx.length > 0) {
-        editorRef.current.deleteFeatures(featureListIdx);
-      }
-    }
-  }, [drawingMode, setFeatureList]);
-
-  useEffect(() => {
-    if (
-      editAOI &&
-      aoiSelected &&
-      drawingMode &&
-      editorRef.current.getFeatures().length === 0
-    ) {
-      editorRef.current.addFeatures(aoi[0].geometry);
-    }
-  }, [editAOI, aoi, drawingMode, aoiSelected]);
-
   const renderDrawTools = () => {
     // Copy from mapbox
     return (
@@ -91,6 +63,8 @@ const Map = ({
             title="Polygon tool (p)"
             onClick={async () => {
               setMode(new DrawPolygonMode());
+              // Use crosshair as cursor style when drawing new shapes over SCA boundary
+              setInteractiveLayerIds(["sca-boundry"]);
             }}
           />
 
@@ -102,6 +76,10 @@ const Map = ({
         </div>
       </div>
     );
+  };
+
+  const getCursor = ({ isHovering, isDragging }) => {
+    return isDragging ? "grabbing" : isHovering ? "crosshair" : "default";
   };
 
   const onHover = (e) => {
@@ -125,29 +103,6 @@ const Map = ({
       }
     }
   };
-
-  useEffect(() => {
-    if (clickedProperty) {
-      // Same watershed area won't be counted twice
-      if (
-        clickedProperty.HUC12 &&
-        !hucIDSelected.includes(clickedProperty.HUC12)
-      ) {
-        // Array hucIDSelected is stored in a format like [{value: 'xx', label: 'xx'}]
-        hucIDSelected.push({
-          value: clickedProperty.HUC12,
-          label: clickedProperty.HUC12,
-        });
-        setFilter(["in", "HUC12", clickedProperty.HUC12]);
-      }
-      // console.log(hucIDSelected);
-    }
-  }, [clickedProperty]);
-
-  useEffect(() => {
-    filterList.push(filter);
-    // console.log(filterList);
-  }, [filter]);
 
   const renderPopup = () => {
     var aoiBbox = bbox({
@@ -196,6 +151,66 @@ const Map = ({
       });
   };
 
+  useEffect(() => {
+    if (editorRef.current) {
+      const featureList = editorRef.current.getFeatures();
+      setFeatureList(featureList);
+    }
+  });
+
+  useEffect(() => {
+    if (!drawingMode && editorRef.current) {
+      const featureList = editorRef.current.getFeatures();
+      const featureListIdx = featureList.map((feature, idx) => idx);
+      setFeatureList([]);
+      if (featureListIdx.length > 0) {
+        editorRef.current.deleteFeatures(featureListIdx);
+      }
+    }
+  }, [drawingMode, setFeatureList]);
+
+  useEffect(() => {
+    if (
+      editAOI &&
+      aoiSelected &&
+      drawingMode &&
+      editorRef.current.getFeatures().length === 0
+    ) {
+      editorRef.current.addFeatures(aoi[0].geometry);
+    }
+  }, [editAOI, aoi, drawingMode, aoiSelected]);
+
+  useEffect(() => {
+    if (hucBoundary) {
+      setInteractiveLayerIds(["huc"]);
+    } else if (!drawingMode) {
+      setInteractiveLayerIds([]);
+    }
+  }, [drawingMode, hucBoundary]);
+
+  useEffect(() => {
+    if (clickedProperty) {
+      // Same watershed area won't be counted twice
+      if (
+        clickedProperty.HUC12 &&
+        !hucIDSelected.includes(clickedProperty.HUC12)
+      ) {
+        // Array hucIDSelected is stored in a format like [{value: 'xx', label: 'xx'}]
+        hucIDSelected.push({
+          value: clickedProperty.HUC12,
+          label: clickedProperty.HUC12,
+        });
+        setFilter(["in", "HUC12", clickedProperty.HUC12]);
+      }
+      // console.log(hucIDSelected);
+    }
+  }, [clickedProperty]);
+
+  useEffect(() => {
+    filterList.push(filter);
+    // console.log(filterList);
+  }, [filter]);
+
   return (
     <MapGL
       {...viewport}
@@ -208,6 +223,8 @@ const Map = ({
       onHover={onHover}
       onClick={onClick}
       onLoad={loadHucBoundary}
+      getCursor={getCursor}
+      interactiveLayerIds={interactiveLayerIds}
     >
       {!hucBoundary && (
         <Source

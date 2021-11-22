@@ -13,6 +13,37 @@ const AddAOIView = ({
 }) => {
   const [inputMode, setInputMode] = useState("draw");
 
+  const onLoad = () => {
+    // To successfully fetch the zip file, it needs to be in the /public folder
+    fetch("HUC12_SCA.zip")
+      .then((res) => res.arrayBuffer())
+      .then((arrayBuffer) => {
+        shp(arrayBuffer).then(function (geojson) {
+          // console.log(geojson);
+          setHucList(geojson.features);
+          // HUC names contain a few unnamed items using their IDs as default names
+          // Those will show up at the bottom of the list
+          var sortedHucNameArray = geojson.features
+            .map((feature) => feature.properties.NAME)
+            .sort(function (a, b) {
+              return (
+                /^[A-Za-z]/.test(b) - /^[A-Za-z]/.test(a) ||
+                a.charCodeAt(0) - b.charCodeAt(0)
+              );
+            });
+          setHucNameList(
+            sortedHucNameArray.map((name) => ({ value: name, label: name }))
+          );
+          var sortedHucIDArray = geojson.features
+            .map((feature) => feature.properties.HUC12)
+            .sort();
+          setHucIDList(
+            sortedHucIDArray.map((id) => ({ value: id, label: id }))
+          );
+        });
+      });
+  };
+
   return (
     <>
       <p>Add Area of Interest</p>
@@ -53,6 +84,7 @@ const AddAOIView = ({
             onChange={(e) => {
               setDrawingMode(false);
               setInputMode(e.currentTarget.value);
+              onLoad();
             }}
           >
             by Existing Boundary

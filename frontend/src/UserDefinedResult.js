@@ -1,12 +1,13 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useSelector } from 'react-redux';
 
 const UserDefinedResult = () => {
+	const aoiColors = ["#00188f", "#00bcf2", "#00b294", "#009e49", "#bad80a", "#fff100", "#ff8c00", "#e81123", "#ec008c", "#68217a"];
 	const assessment = useSelector((state) => state.assessment);
 	const data = assessment.aoiScore.map((aoi,index)=>{
 			return {
-				score: Math.floor(aoi.reduce((a,b,idx)=>{return a+b*assessment.weights[idx].weights},0)*100)/100,
+				score: Math.floor(aoi.reduce((a,b,index)=>{return a+b*assessment.weights[index].weights},0)*100)/100,
 				name:assessment.aoi.name[index]}
 	});
 	return (
@@ -16,7 +17,11 @@ const UserDefinedResult = () => {
 			<YAxis />
 			<Tooltip />
 			<Legend />
-			<Bar dataKey="score" fill="#8884d8" />
+			<Bar dataKey="score" fill="#8884d8">
+				{data.map((entry, index) => (
+					<Cell key={`cell-${index}`} fill={aoiColors[index % 20]} fillOpacity={0.5} />
+				))}
+			</Bar>
 		</BarChart>
 	);
 };

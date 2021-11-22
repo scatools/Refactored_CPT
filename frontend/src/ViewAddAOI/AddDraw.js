@@ -26,10 +26,10 @@ const AddDraw = ({
       window.setTimeout(() => setAlerttext(false), 4000);
     } else if (featureList.length === 0) {
       setAlerttext("At least one polygon is required.");
+      window.setTimeout(() => setAlerttext(false), 4000);
     } else {
       setAlerttext(false);
       const newList = featureList;
-      // console.log(newList);
       const data = {
         type: "MultiPolygon",
         coordinates: newList.map((feature) => feature.geometry.coordinates),
@@ -81,6 +81,7 @@ const AddDraw = ({
           onClick={() => {
             setDrawingMode(true);
             setAoiSelected(false);
+            setReportLink(false);
           }}
         >
           Add a New Shape

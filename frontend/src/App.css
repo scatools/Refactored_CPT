@@ -107,6 +107,7 @@ nav a:hover {
   border: 2px solid black;
   border-radius: 15px;
   padding: 5px;
+  z-index: 10;
 }
 
 .assessmentNav a {
@@ -116,6 +117,27 @@ nav a:hover {
 }
 
 .assessmentNav a:hover {
+  text-decoration: underline;
+  color: gray;
+}
+
+.reportNav {
+  position: fixed;
+  top: 8vh;
+  left: 2vw;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 5px;
+  z-index: 10;
+}
+
+.reportNav a {
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+.reportNav a:hover {
   text-decoration: underline;
   color: gray;
 }
@@ -166,4 +188,59 @@ nav a:hover {
 
 .mt-4 .h4 {
   font-size: 20px;
+}
+
+.footprintDownload {
+  position: absolute;
+  right: 20px;
+  top: 2%;
+}
+
+.reportDownload {
+  position: absolute;
+  right: 20px;
+  top: 1%;
+}
+
+.legend {
+  position: absolute;
+  bottom: 2vh;
+  right: 1vw;
+  background-color: rgb(245, 245, 245);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.legend .legend-title {
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 90%;
+  white-space: pre-wrap;
+}
+
+.legend .legend-scale ul {
+  margin: 0;
+  margin-bottom: 5px;
+  padding: 0;
+  float: left;
+  list-style: none;
+}
+
+.legend .legend-scale ul li {
+  font-size: 80%;
+  list-style: none;
+  margin-left: 0;
+  line-height: 18px;
+  margin-bottom: 2px;
+}
+
+.legend ul.legend-labels li span {
+  display: block;
+  float: left;
+  height: 16px;
+  width: 30px;
+  margin-right: 5px;
+  margin-left: 0;
+  border: 1px solid #999;
 }

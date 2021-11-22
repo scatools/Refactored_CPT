@@ -19,8 +19,10 @@ const AddBoundary = ({ setAlerttext, setView }) => {
   const handleSubmitBoundaryAsSingle = async () => {
     if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
       setAlerttext("At least one of the existing boundaries is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
     } else {
+      if (hucBoundary) {
+        setHucBoundary(false);
+      }
       setAlerttext(false);
       const newList = hucList.filter(
         (feature) =>
@@ -40,6 +42,7 @@ const AddBoundary = ({ setAlerttext, setView }) => {
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
       // For production on Heroku
+      dispatch(setLoader(true));
       const res = await axios.post(
         "https://sca-cpt-backend.herokuapp.com/data",
         { data }
@@ -47,7 +50,7 @@ const AddBoundary = ({ setAlerttext, setView }) => {
       const planArea = calculateArea(newList);
       dispatch(
         input_aoi({
-          name: "Watershed Area",
+          name: "Combined Watershed Area",
           geometry: newList,
           hexagons: res.data.data,
           rawScore: aggregate(res.data.data, planArea),
@@ -55,15 +58,21 @@ const AddBoundary = ({ setAlerttext, setView }) => {
           id: uuid(),
         })
       );
-      setView("viewCurrent");
+      dispatch(setLoader(false));
+      setMode("viewCurrent");
+      setHucNameSelected([]);
+      setHucIDSelected([]);
+      setFilterList([]);
     }
   };
 
   const handleSubmitBoundaryAsMultiple = () => {
     if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
       setAlerttext("At least one of the existing boundaries is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
     } else {
+      if (hucBoundary) {
+        setHucBoundary(false);
+      }
       setAlerttext(false);
       const newList = hucList.filter(
         (feature) =>
@@ -75,6 +84,7 @@ const AddBoundary = ({ setAlerttext, setView }) => {
             .includes(feature.properties.HUC12)
       );
       // console.log(newList);
+      dispatch(setLoader(true));
       newList.forEach(async (feature) => {
         const data = feature.geometry;
         // For development on local server
@@ -84,11 +94,11 @@ const AddBoundary = ({ setAlerttext, setView }) => {
           "https://sca-cpt-backend.herokuapp.com/data",
           { data }
         );
-        const planArea = calculateArea(newList);
+        const planArea = calculateArea([feature]);
         // Geometry needs to be a list
         dispatch(
           input_aoi({
-            name: "Watershed Area",
+            name: feature.properties.NAME,
             geometry: [feature],
             hexagons: res.data.data,
             rawScore: aggregate(res.data.data, planArea),
@@ -97,7 +107,11 @@ const AddBoundary = ({ setAlerttext, setView }) => {
           })
         );
       });
-      setView("viewCurrent");
+      dispatch(setLoader(false));
+      setMode("viewCurrent");
+      setHucNameSelected([]);
+      setHucIDSelected([]);
+      setFilterList([]);
     }
   };
 
@@ -169,7 +183,17 @@ const AddBoundary = ({ setAlerttext, setView }) => {
             },
           })}
           styles={dropdownStyles2}
-          onChange={(e) => setRetrievingOptions(e.value)}
+          onChange={(e) => {
+            setRetrievingOptions(e.value);
+            setHucNameSelected([]);
+            setHucIDSelected([]);
+            setFilterList([]);
+            if (e.value === "hucBoundary") {
+              setHucBoundary(true);
+            } else {
+              setHucBoundary(false);
+            }
+          }}
         />
       </div>
       <br></br>

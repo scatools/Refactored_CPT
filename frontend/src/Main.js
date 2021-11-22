@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import { Button } from "react-bootstrap";
+import { MdMenu } from "react-icons/md";
 import Map from "./Map";
 import AoiDetailTable from "./AoiDetailTable";
 
-const Main = () => {
-  const [activeSidebar, setActiveSidebar] = useState(true);
+const Main = ({
+  aoiSelected,
+  setAoiSelected,
+  aoiAssembled,
+  setAoiAssembled,
+  setReportLink,
+}) => {
+  const [activeSidebar, setActiveSidebar] = useState(false);
   const [activeTable, setActiveTable] = useState(null);
   const [drawingMode, setDrawingMode] = useState(false);
   const [featureList, setFeatureList] = useState([]);
-  const [aoiSelected, setAoiSelected] = useState(null);
   const [editAOI, setEditAOI] = useState(false);
   const [viewport, setViewport] = useState({
     latitude: 27.8,
@@ -19,6 +25,7 @@ const Main = () => {
   const [hucBoundary, setHucBoundary] = useState(false);
   const [hucIDSelected, setHucIDSelected] = useState([]);
   const [filterList, setFilterList] = useState([]);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -34,6 +41,8 @@ const Main = () => {
         featureList={featureList}
         aoiSelected={aoiSelected}
         setAoiSelected={setAoiSelected}
+        aoiAssembled={aoiAssembled}
+        setAoiAssembled={setAoiAssembled}
         editAOI={editAOI}
         setEditAOI={setEditAOI}
         setViewport={setViewport}
@@ -42,6 +51,7 @@ const Main = () => {
         hucIDSelected={hucIDSelected}
         setHucIDSelected={setHucIDSelected}
         setFilterList={setFilterList}
+        setReportLink={setReportLink}
       />
       <div className="content">
         <Button
@@ -52,7 +62,7 @@ const Main = () => {
             setActiveSidebar(true);
           }}
         >
-          Start
+          <MdMenu />
         </Button>
         <Map
           drawingMode={drawingMode}
