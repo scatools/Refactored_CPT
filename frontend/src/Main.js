@@ -25,7 +25,6 @@ const Main = ({
   const [hucBoundary, setHucBoundary] = useState(false);
   const [hucIDSelected, setHucIDSelected] = useState([]);
   const [filterList, setFilterList] = useState([]);
-  const dispatch = useDispatch();
 
   return (
     <div>

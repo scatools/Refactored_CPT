@@ -10,7 +10,7 @@ import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
-import { download } from "shp-write";
+//import { download } from "shp-write";
 import bbox from "@turf/bbox";
 // import axios from 'axios';
 import ReportTable from "./ReportTable";
@@ -95,7 +95,7 @@ const Report = ({ aoiSelected }) => {
         polygon: aoiList[0].name,
       },
     };
-    download(aoiGeoJson, options);
+    //download(aoiGeoJson, options);
   };
 
   return (

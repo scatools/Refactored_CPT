@@ -44,7 +44,6 @@ const Sidebar = ({
       <div className="ControlWrapper">
         {/* <SidebarMode view={view} setView={setView} /> */}
         <hr />
-        /*Before Merge*/
         {view === "add" && (
           <AddAOIView
             setDrawingMode={setDrawingMode}

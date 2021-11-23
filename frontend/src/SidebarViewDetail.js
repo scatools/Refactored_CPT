@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdFileDownload } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
 import axios from "axios";
-import { download } from "shp-write";
+// import { download } from "shp-write";
 import { delete_aoi, edit_aoi } from "./action";
 import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
 
@@ -142,7 +142,7 @@ const SidebarViewDetail = ({
                       polygon: aoiList[0].name,
                     },
                   };
-                  download(aoiGeoJson, options);
+                  //download(aoiGeoJson, options);
                 }}
               >
                 <MdFileDownload /> &nbsp; Download

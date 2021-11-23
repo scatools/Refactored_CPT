@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 import { ImDownload } from "react-icons/im";
 import { FaChrome } from "react-icons/fa";
 import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
-import { download } from "shp-write";
+// import { download } from "shp-write";
 import bbox from "@turf/bbox";
 // import axios from 'axios';
 import AssessmentTable from "./AssessmentTable";
@@ -115,7 +115,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
         polygon: "Combined Assessment Area",
       },
     };
-    download(aoiGeoJson, options);
+    // download(aoiGeoJson, options);
   };
 
   const downloadFootprintAsMultiple = () => {
@@ -127,7 +127,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
           polygon: aoi.name,
         },
       };
-      download(aoiGeoJson, options);
+      //download(aoiGeoJson, options);
     });
   };
 
