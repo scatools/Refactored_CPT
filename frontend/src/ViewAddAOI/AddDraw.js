@@ -3,8 +3,7 @@ import { Button, Container, FormControl, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { v4 as uuid } from "uuid";
-import { input_aoi } from "../action";
-import { setLoader } from "../action";
+import { input_aoi, setLoader } from "../action";
 import { useDispatch } from "react-redux";
 
 const AddDraw = ({
@@ -14,6 +13,7 @@ const AddDraw = ({
   setAlerttext,
   setView,
   setReportLink,
+  autoDraw,
 }) => {
   const dispatch = useDispatch();
   const [drawData, setDrawData] = useState("");
@@ -81,6 +81,7 @@ const AddDraw = ({
           style={{ float: "left" }}
           onClick={() => {
             setDrawingMode(true);
+            autoDraw();
             setAoiSelected(false);
             setReportLink(false);
           }}

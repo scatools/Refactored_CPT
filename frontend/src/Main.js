@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { MdMenu } from "react-icons/md";
 import Map from "./Map";
 import AoiDetailTable from "./AoiDetailTable";
+import { DrawPolygonMode } from "react-map-gl-draw";
 
 const Main = ({
   aoiSelected,
@@ -12,7 +13,9 @@ const Main = ({
   setAoiAssembled,
   setReportLink,
 }) => {
-  const [activeSidebar, setActiveSidebar] = useState(false);
+  const [mode, setMode] = useState(null);
+  const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
+  const [activeSidebar, setActiveSidebar] = useState(true);
   const [activeTable, setActiveTable] = useState(null);
   const [drawingMode, setDrawingMode] = useState(false);
   const [featureList, setFeatureList] = useState([]);
@@ -25,6 +28,12 @@ const Main = ({
   const [hucBoundary, setHucBoundary] = useState(false);
   const [hucIDSelected, setHucIDSelected] = useState([]);
   const [filterList, setFilterList] = useState([]);
+
+  const autoDraw = async () => {
+    setMode(new DrawPolygonMode());
+    // Use crosshair as cursor style when drawing new shapes over SCA boundary
+    setInteractiveLayerIds(["sca-boundry"]);
+  };
 
   return (
     <div>
@@ -51,6 +60,7 @@ const Main = ({
         setHucIDSelected={setHucIDSelected}
         setFilterList={setFilterList}
         setReportLink={setReportLink}
+        autoDraw={autoDraw}
       />
       <div className="content">
         <Button
@@ -73,6 +83,11 @@ const Main = ({
           hucBoundary={hucBoundary}
           hucIDSelected={hucIDSelected}
           filterList={filterList}
+          mode={mode}
+          setMode={setMode}
+          interactiveLayerIds={interactiveLayerIds}
+          setInteractiveLayerIds={setInteractiveLayerIds}
+          autoDraw={autoDraw}
         />
       </div>
     </div>

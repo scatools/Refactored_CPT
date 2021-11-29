@@ -17,6 +17,7 @@ const AddAOIView = ({
   setHucIDSelected,
   setFilterList,
   setReportLink,
+  autoDraw,
 }) => {
   const [inputMode, setInputMode] = useState("draw");
   const [hucList, setHucList] = useState([]);
@@ -112,6 +113,7 @@ const AddAOIView = ({
           setAlerttext={setAlerttext}
           setView={setView}
           setReportLink={setReportLink}
+          autoDraw={autoDraw}
         />
       )}
 
