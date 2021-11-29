@@ -11,7 +11,6 @@ import ReactTooltip from "react-tooltip";
 
 const SelectDataMeasures = ({ setAssessStep }) => {
   const weights = useSelector((state) => state.weights);
-  const aoi = useSelector((state) => state.aoi);
 
   const dispatch = useDispatch();
   const handleChange = (value, name, label, type) => {

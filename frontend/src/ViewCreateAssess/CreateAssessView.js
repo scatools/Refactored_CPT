@@ -4,9 +4,8 @@ import SelectRestoreWeights from "./SelectRestoreWeights";
 import SelectDataMeasures from "./SelectDataMeasures";
 import ReviewAssessSettings from "./ReviewAssessSettings";
 
-const CreateAssessView = ({ setAlerttext }) => {
+const CreateAssessView = ({ setAlerttext, aoiAssembled, setAoiAssembled }) => {
   const [assessStep, setAssessStep] = useState("selectAOI");
-  const [aoiSelected, setAoiSelected] = useState([]);
 
   return (
     <>
@@ -15,8 +14,8 @@ const CreateAssessView = ({ setAlerttext }) => {
       {assessStep === "selectAOI" && (
         <SelectAOIForAssess
           setAssessStep={setAssessStep}
-          aoiSelected={aoiSelected}
-          setAoiSelected={setAoiSelected}
+          aoiAssembled={aoiAssembled}
+          setAoiAssembled={setAoiAssembled}
           setAlerttext={setAlerttext}
         />
       )}
@@ -33,7 +32,7 @@ const CreateAssessView = ({ setAlerttext }) => {
       )}
 
       {assessStep === "reviewAssessSettings" && (
-        <ReviewAssessSettings aoiSelected={aoiSelected} />
+        <ReviewAssessSettings aoiAssembled={aoiAssembled} />
       )}
     </>
   );

@@ -1,14 +1,13 @@
-import React, { useState, useDispatch } from "react";
+import React, { useState } from "react";
 import { Container, Dropdown, DropdownButton, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { ImDownload } from "react-icons/im";
+// import { ImDownload } from "react-icons/im";
 import { FaChrome } from "react-icons/fa";
-import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
+// import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
 // import { download } from "shp-write";
 import bbox from "@turf/bbox";
-// import axios from 'axios';
 import AssessmentTable from "./AssessmentTable";
 import AssessmentScoreTable from "./AssessmentScoreTable";
 import UserDefinedResult from "./UserDefinedResult";
@@ -107,29 +106,29 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     tempElement.click();
   };
 
-  const downloadFootprintAsSingle = () => {
-    var aoiGeoJson = { type: "FeatureCollection", features: aoiAssembly };
-    var options = {
-      folder: "Spatial Footprint",
-      types: {
-        polygon: "Combined Assessment Area",
-      },
-    };
-    // download(aoiGeoJson, options);
-  };
+  // const downloadFootprintAsSingle = () => {
+  //   var aoiGeoJson = { type: "FeatureCollection", features: aoiAssembly };
+  //   var options = {
+  //     folder: "Spatial Footprint",
+  //     types: {
+  //       polygon: "Combined Assessment Area",
+  //     },
+  //   };
+  //   download(aoiGeoJson, options);
+  // };
 
-  const downloadFootprintAsMultiple = () => {
-    aoiList.forEach((aoi, index) => {
-      var aoiGeoJson = { type: "FeatureCollection", features: aoi.geometry };
-      var options = {
-        folder: "Spatial Footprint " + (index + 1).toString,
-        types: {
-          polygon: aoi.name,
-        },
-      };
-      //download(aoiGeoJson, options);
-    });
-  };
+  // const downloadFootprintAsMultiple = () => {
+  //   aoiList.forEach((aoi, index) => {
+  //     var aoiGeoJson = { type: "FeatureCollection", features: aoi.geometry };
+  //     var options = {
+  //       folder: "Spatial Footprint " + (index + 1).toString,
+  //       types: {
+  //         polygon: aoi.name,
+  //       },
+  //     };
+  //     // download(aoiGeoJson, options);
+  //   });
+  // };
 
   return (
     <>
@@ -155,12 +154,12 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
           variant="dark"
           title="Download Footprint"
         >
-          <Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>
+          {/* <Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>
             <VscFolder /> &nbsp; Download as Single Shapefile
           </Dropdown.Item>
           <Dropdown.Item variant="dark" onClick={downloadFootprintAsMultiple}>
             <VscFileSubmodule /> &nbsp; Download as Multiple Shapefiles
-          </Dropdown.Item>
+          </Dropdown.Item> */}
         </DropdownButton>
       </div>
 

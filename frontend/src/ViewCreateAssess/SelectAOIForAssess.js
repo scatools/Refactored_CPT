@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 
 const SelectAOIForAssess = ({
   setAssessStep,
-  setAoiSelected,
-  aoiSelected,
+  aoiAssembled,
+  setAoiAssembled,
   setAlerttext,
 }) => {
   const aoi = useSelector((state) => state.aoi);
 
   const handleNext = () => {
-    if (aoiSelected.length < 2) {
+    if (aoiAssembled.length < 2) {
       setAlerttext("Add at least 2 AOIs for comparison");
       window.setTimeout(() => setAlerttext(false), 4000);
     } else setAssessStep("selectRestoreWeights");
@@ -34,9 +34,9 @@ const SelectAOIForAssess = ({
         isClearable={false}
         placeholder="Select areas of interests..."
         name="colors"
-        value={aoiSelected}
+        value={aoiAssembled}
         onChange={(selectedOption) => {
-          setAoiSelected(selectedOption);
+          setAoiAssembled(selectedOption);
         }}
         className="basic-multi-select"
         classNamePrefix="select"

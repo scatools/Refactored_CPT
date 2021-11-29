@@ -20,7 +20,7 @@ const RESTOREGoal = [
   "Gulf Economy",
 ];
 
-const ReviewAssessSettings = ({ aoiSelected }) => {
+const ReviewAssessSettings = ({ aoiAssembled }) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
 
@@ -129,7 +129,7 @@ const ReviewAssessSettings = ({ aoiSelected }) => {
           onClick={() => {
             dispatch(setLoader(true));
             async function calculateNewData() {
-              const newAoiData = aoiSelected.map((item) =>
+              const newAoiData = aoiAssembled.map((item) =>
                 getScaledForAssessment(
                   aoi[item.value].rawScore,
                   aoi[item.value].id,
@@ -179,7 +179,7 @@ const ReviewAssessSettings = ({ aoiSelected }) => {
               Object.values(weights).reduce((a, b) => {
                 return a + b.weight;
               }, 0) !== 100 ||
-              aoiSelected.length <= 1
+              aoiAssembled.length <= 1
             ) {
               handleShow();
             } else {

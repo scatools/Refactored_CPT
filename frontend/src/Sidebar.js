@@ -1,23 +1,14 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  Container,
-  FormControl,
-  InputGroup,
-  ToggleButton,
-} from "react-bootstrap";
-import Dropzone from "react-dropzone";
-import Select from "react-select";
+import { Alert, Container } from "react-bootstrap";
 import SidebarViewDetail from "./SidebarViewDetail";
 import SidebarDismiss from "./SidebarDismiss";
-import SidebarAssemble from "./SidebarAssemble";
 import AddAOIView from "./ViewAddAOI/AddAOIView";
 import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
 import CreateAssessView from "./ViewCreateAssess/CreateAssessView";
 
 const Sidebar = ({
+  aoiAssembled,
+  setAoiAssembled,
   activeSidebar,
   setActiveSidebar,
   setActiveTable,
@@ -312,7 +303,11 @@ const Sidebar = ({
         {view === "createAssess" && (
           <Container>
             {/* <SidebarAssemble /> */}
-            <CreateAssessView setAlerttext={setAlerttext} />
+            <CreateAssessView
+              aoiAssembled={aoiAssembled}
+              setAoiAssembled={setAoiAssembled}
+              setAlerttext={setAlerttext}
+            />
 
             {/* /*After Merge 
 
