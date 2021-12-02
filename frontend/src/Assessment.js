@@ -157,7 +157,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
       <div className="footprintDownload">
         <Dropdown>
           <Dropdown.Toggle id="footprintDownloadButton" variant="dark">
-            {downloadIcon} Spacial Footprint
+            {downloadIcon} Spatial Footprint
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>
