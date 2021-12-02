@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^7.2.1",
@@ -32,8 +36,7 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "shp-write": "^0.3.2",
-    "shpjs": "^4.0.2",
-    "webpack": "^4.44.2"
+    "shpjs": "^4.0.2"
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd ../backend && nodemon server.js\"",

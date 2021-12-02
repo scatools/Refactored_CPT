@@ -16,6 +16,8 @@ import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
 import Legend from "./Legend";
 import { setLoader } from "./action";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
@@ -44,6 +46,10 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     "#68217a",
   ];
   var aoiAssembly = [];
+
+  const downloadIcon = (
+    <FontAwesomeIcon icon={faDownload} color="white" size="lg" />
+  );
 
   // AOIs are stored as [0:{}, 1:{}, 2:{}, ...]
   for (var num in aoiList) {
@@ -133,34 +139,34 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
   return (
     <>
       <div className="assessmentDownload">
-        <DropdownButton
-          id="assessmentDownloadButton"
-          variant="dark"
-          title="Download Assessment"
-        >
-          <Dropdown.Item variant="dark" onClick={downloadHTML}>
-            <FaChrome /> &nbsp; Download as HTML
-          </Dropdown.Item>
-          <PDFDownloader
-            downloadFileName="Assessment"
-            rootElementId="assessmentOverview"
-          />
-        </DropdownButton>
+        <Dropdown>
+          <Dropdown.Toggle id="assessmentDownloadButton" variant="dark">
+            {downloadIcon} Assessment
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item variant="dark" onClick={downloadHTML}>
+              <FaChrome /> &nbsp; Download as HTML
+            </Dropdown.Item>
+            <PDFDownloader
+              downloadFileName="Assessment"
+              rootElementId="assessmentOverview"
+            />
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <div className="footprintDownload">
-        <DropdownButton
-          id="footprintDownloadButton"
-          variant="dark"
-          title="Download Footprint"
-        >
+        <Dropdown>
+          <Dropdown.Toggle id="footprintDownloadButton" variant="dark">
+            {downloadIcon} Footprint
+          </Dropdown.Toggle>
           {/* <Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>
             <VscFolder /> &nbsp; Download as Single Shapefile
           </Dropdown.Item>
           <Dropdown.Item variant="dark" onClick={downloadFootprintAsMultiple}>
             <VscFileSubmodule /> &nbsp; Download as Multiple Shapefiles
           </Dropdown.Item> */}
-        </DropdownButton>
+        </Dropdown>
       </div>
 
       <div className="assessmentNav">

@@ -5,6 +5,7 @@ import SidebarDismiss from "./SidebarDismiss";
 import AddAOIView from "./ViewAddAOI/AddAOIView";
 import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
 import CreateAssessView from "./ViewCreateAssess/CreateAssessView";
+import SidebarMode from "./SidebarMode";
 
 const Sidebar = ({
   aoiAssembled,
@@ -34,7 +35,7 @@ const Sidebar = ({
     <div id="sidebar" className={activeSidebar ? "active" : ""}>
       <SidebarDismiss setActiveSidebar={setActiveSidebar} />
       <div className="ControlWrapper">
-        {/* <SidebarMode view={view} setView={setView} /> */}
+        <SidebarMode view={view} setView={setView} />
         <hr />
         {view === "add" && (
           <AddAOIView
