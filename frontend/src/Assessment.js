@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Dropdown, DropdownButton, Row } from "react-bootstrap";
+import { Container, Dropdown, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
