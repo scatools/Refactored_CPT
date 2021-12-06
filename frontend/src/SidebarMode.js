@@ -27,7 +27,7 @@ const SidebarMode = ({ view, setView }) => {
           checked={view === "viewCurrent"}
           onChange={(e) => setView(e.currentTarget.value)}
         >
-          Review Current AOIs
+          Review/Edit Current AOIs
         </ToggleButton>
       ) : (
         <ToggleButton
@@ -39,7 +39,7 @@ const SidebarMode = ({ view, setView }) => {
           checked={view === "viewCurrent"}
           onChange={(e) => setView(e.currentTarget.value)}
         >
-          View Current
+          Review/Edit Current AOIs
         </ToggleButton>
       )}
 
@@ -52,7 +52,7 @@ const SidebarMode = ({ view, setView }) => {
           checked={view === "createAssess"}
           onChange={(e) => setView(e.currentTarget.value)}
         >
-          Create Assessment
+          I Can't Remember What Amanda Said
         </ToggleButton>
       ) : (
         <ToggleButton
@@ -64,7 +64,7 @@ const SidebarMode = ({ view, setView }) => {
           checked={view === "createAssess"}
           onChange={(e) => setView(e.currentTarget.value)}
         >
-          Create Assessment
+          I Can't Remember What Amanda Said
         </ToggleButton>
       )}
     </ButtonGroup>

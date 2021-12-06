@@ -11,7 +11,7 @@
   width: 600px;
   position: absolute;
   left: -600px;
-  min-height: 91.6vh;
+  min-height: calc(100vh - 55px);
   z-index: 5;
   background: #292a2b;
   color: #fff;
@@ -64,7 +64,7 @@
 }
 
 #sidebar .ControlWrapper {
-  padding: 20px 0;
+  padding: 60px 0;
 }
 
 #sidebar .ControlWrapper p {
@@ -243,4 +243,12 @@ nav a:hover {
   margin-right: 5px;
   margin-left: 0;
   border: 1px solid #999;
+}
+
+#mapHeading {
+  margin-top: 50px;
+}
+
+.assessment-h1 {
+  text-align: center;
 }
