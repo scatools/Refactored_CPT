@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Container, Dropdown, DropdownButton, Row } from "react-bootstrap";
+import { Container, Dropdown, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
-// import { ImDownload } from "react-icons/im";
 import { FaChrome } from "react-icons/fa";
-// import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
-// import { download } from "shp-write";
+import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
+import { download } from "shp-write";
 import bbox from "@turf/bbox";
 import AssessmentTable from "./AssessmentTable";
 import AssessmentScoreTable from "./AssessmentScoreTable";
@@ -16,6 +15,8 @@ import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
 import Legend from "./Legend";
 import { setLoader } from "./action";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
@@ -44,6 +45,10 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     "#68217a",
   ];
   var aoiAssembly = [];
+
+  const downloadIcon = (
+    <FontAwesomeIcon icon={faDownload} color="white" size="lg" />
+  );
 
   // AOIs are stored as [0:{}, 1:{}, 2:{}, ...]
   for (var num in aoiList) {
@@ -106,61 +111,63 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     tempElement.click();
   };
 
-  // const downloadFootprintAsSingle = () => {
-  //   var aoiGeoJson = { type: "FeatureCollection", features: aoiAssembly };
-  //   var options = {
-  //     folder: "Spatial Footprint",
-  //     types: {
-  //       polygon: "Combined Assessment Area",
-  //     },
-  //   };
-  //   download(aoiGeoJson, options);
-  // };
+  const downloadFootprintAsSingle = () => {
+    var aoiGeoJson = { type: "FeatureCollection", features: aoiAssembly };
+    var options = {
+      folder: "Spatial Footprint",
+      types: {
+        polygon: "Combined Assessment Area",
+      },
+    };
+    download(aoiGeoJson, options);
+  };
 
-  // const downloadFootprintAsMultiple = () => {
-  //   aoiList.forEach((aoi, index) => {
-  //     var aoiGeoJson = { type: "FeatureCollection", features: aoi.geometry };
-  //     var options = {
-  //       folder: "Spatial Footprint " + (index + 1).toString,
-  //       types: {
-  //         polygon: aoi.name,
-  //       },
-  //     };
-  //     // download(aoiGeoJson, options);
-  //   });
-  // };
+  const downloadFootprintAsMultiple = () => {
+    aoiList.forEach((aoi, index) => {
+      var aoiGeoJson = { type: "FeatureCollection", features: aoi.geometry };
+      var options = {
+        folder: "Spatial Footprint " + (index + 1).toString,
+        types: {
+          polygon: aoi.name,
+        },
+      };
+      download(aoiGeoJson, options);
+    });
+  };
 
   return (
     <>
       <div className="assessmentDownload">
-        <DropdownButton
-          id="assessmentDownloadButton"
-          variant="dark"
-          title="Download Assessment"
-        >
-          <Dropdown.Item variant="dark" onClick={downloadHTML}>
-            <FaChrome /> &nbsp; Download as HTML
-          </Dropdown.Item>
-          <PDFDownloader
-            downloadFileName="Assessment"
-            rootElementId="assessmentOverview"
-          />
-        </DropdownButton>
+        <Dropdown>
+          <Dropdown.Toggle id="assessmentDownloadButton" variant="dark">
+            {downloadIcon} Assessment
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item variant="dark" onClick={downloadHTML}>
+              <FaChrome /> &nbsp; Download as HTML
+            </Dropdown.Item>
+            <PDFDownloader
+              downloadFileName="Assessment"
+              rootElementId="assessmentOverview"
+            />
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <div className="footprintDownload">
-        <DropdownButton
-          id="footprintDownloadButton"
-          variant="dark"
-          title="Download Footprint"
-        >
-          {/* <Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>
-            <VscFolder /> &nbsp; Download as Single Shapefile
-          </Dropdown.Item>
-          <Dropdown.Item variant="dark" onClick={downloadFootprintAsMultiple}>
-            <VscFileSubmodule /> &nbsp; Download as Multiple Shapefiles
-          </Dropdown.Item> */}
-        </DropdownButton>
+        <Dropdown>
+          <Dropdown.Toggle id="footprintDownloadButton" variant="dark">
+            {downloadIcon} Spacial Footprint
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>
+              <VscFolder /> &nbsp; Download as Single Shapefile
+            </Dropdown.Item>
+            <Dropdown.Item variant="dark" onClick={downloadFootprintAsMultiple}>
+              <VscFileSubmodule /> &nbsp; Download as Multiple Shapefiles
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <div className="assessmentNav">

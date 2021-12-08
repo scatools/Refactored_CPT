@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import MapGL, { Source, Layer, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Editor, DrawPolygonMode, EditingMode } from "react-map-gl-draw";
+import { Editor, EditingMode } from "react-map-gl-draw";
 import { getFeatureStyle, getEditHandleStyle } from "./drawStyle";
 import { useSelector } from "react-redux";
 import bbox from "@turf/bbox";
@@ -20,11 +20,16 @@ const Map = ({
   hucBoundary,
   hucIDSelected,
   filterList,
+  mode,
+  setMode,
+  interactiveLayerIds,
+  setInteractiveLayerIds,
+  autoDraw,
 }) => {
   const aoi = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
   );
-  const [mode, setMode] = useState(null);
+
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null);
   const [hucData, setHucData] = useState(null);
   const [hovered, setHovered] = useState(false);
@@ -33,7 +38,6 @@ const Map = ({
   const [clicked, setClicked] = useState(false);
   const [clickedProperty, setClickedProperty] = useState(null);
   const [filter, setFilter] = useState(["in", "HUC12", "default"]);
-  const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
   const editorRef = useRef(null);
 
   const onSelect = (options) => {
@@ -61,11 +65,7 @@ const Map = ({
           <button
             className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
             title="Polygon tool (p)"
-            onClick={async () => {
-              setMode(new DrawPolygonMode());
-              // Use crosshair as cursor style when drawing new shapes over SCA boundary
-              setInteractiveLayerIds(["sca-boundry"]);
-            }}
+            onClick={autoDraw}
           />
 
           <button
