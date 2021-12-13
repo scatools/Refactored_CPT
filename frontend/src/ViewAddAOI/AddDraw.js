@@ -61,6 +61,10 @@ const AddDraw = ({
     dispatch(setLoader(false));
   };
 
+  const resetButton = () => {
+    window.location.reload(true);
+  };
+
   return (
     <Container className="mt-3">
       <InputGroup className="m-auto" style={{ width: "80%" }}>
@@ -87,6 +91,9 @@ const AddDraw = ({
           }}
         >
           Add a New Shape
+        </Button>
+        <Button variant="dark" style={{ float: "left" }} onClick={resetButton}>
+          Start Over
         </Button>
         <Button
           variant="dark"
