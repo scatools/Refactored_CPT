@@ -100,6 +100,30 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 
   // Download from frontend
   const downloadHTML = () => {
+    let headNodes = [...document.head.childNodes];
+    let links = headNodes.filter(({ nodeName }) => nodeName === "LINK");
+    console.log(links);
+    fetch(links[0].href)
+      .then((response) => response.text())
+      .then((text) => {
+        let newElement = document.createElement("style");
+        newElement.textContent = text;
+        document.head.appendChild(newElement);
+      });
+    // let bodyScripts = [...document.body.childNodes];
+    // let scriptLinks = bodyScripts.filter(
+    //   ({ nodeName }) => nodeName === "SCRIPT"
+    // );
+    // let baseURI = scriptLinks[0].baseURI;
+    // let scriptSrc = scriptLinks[0].attributes.src.nodeValue;
+    // fetch(`${baseURI}${scriptSrc}`)
+    //   .then((response) => response.text())
+    //   .then((text) => {
+    //     let newElement = document.createElement("script");
+    //     newElement.textContent = text;
+    //     document.body.appendChild(newElement);
+    //   });
+
     let pageHTML = document.documentElement.outerHTML;
     let tempElement = document.createElement("a");
     let removeTopSpace = '<div class="content"></div>';
@@ -108,7 +132,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     pageHTML = pageHTML
       .replace(removeTopSpace, "")
       .replace(removeDownloadButtons, "");
-    console.log(pageHTML);
+    // console.log(pageHTML);
     tempElement.href =
       "data:text/html;charset=UTF-8," + encodeURIComponent(pageHTML);
     tempElement.target = "_blank";
