@@ -9,6 +9,7 @@ const NavBar = ({ reportLink }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <div>
@@ -39,14 +40,22 @@ const NavBar = ({ reportLink }) => {
             <NavLink to="/help" className="ml-3">
               Contacts
             </NavLink>
-            <div className="nav-right">
-              <NavLink to="/login" className="ml-3 login">
-                Login
-              </NavLink>
-              <NavLink to="/register" className="ml-3 register">
-                Register
-              </NavLink>
-            </div>
+            {loggedIn ? (
+              <div className="nav-right">
+                <NavLink to="/user" className="ml-3 login">
+                  Profile
+                </NavLink>
+              </div>
+            ) : (
+              <div className="nav-right">
+                <NavLink to="/login" className="ml-3 login">
+                  Login
+                </NavLink>
+                <NavLink to="/register" className="ml-3 register">
+                  Register
+                </NavLink>
+              </div>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
