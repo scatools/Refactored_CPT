@@ -6,6 +6,7 @@ import Report from "./Report";
 import Login from "./Login";
 import Register from "./Register";
 import Assessment from "./Assessment";
+import UserData from "./UserData";
 
 const Routes = ({ setReportLink }) => {
   const [aoiSelected, setAoiSelected] = useState(null);
@@ -26,6 +27,9 @@ const Routes = ({ setReportLink }) => {
       </Route>
       <Route exact path="/login">
         <Login />
+      </Route>
+      <Route exact path="/user">
+        <UserData />
       </Route>
       <Route exact path="/help">
         <Help />
