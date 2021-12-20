@@ -4,6 +4,7 @@ import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
+import { MdDownload } from "react-icons/md";
 import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
 import { download } from "shp-write";
 import bbox from "@turf/bbox";
@@ -15,8 +16,6 @@ import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
 import Legend from "./Legend";
 import { setLoader } from "./action";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
@@ -45,10 +44,6 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     "#68217a",
   ];
   var aoiAssembly = [];
-
-  const downloadIcon = (
-    <FontAwesomeIcon icon={faDownload} color="white" size="lg" />
-  );
 
   // AOIs are stored as [0:{}, 1:{}, 2:{}, ...]
   for (var num in aoiList) {
@@ -144,8 +139,8 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     <>
       <div className="assessmentDownload">
         <Dropdown>
-          <Dropdown.Toggle id="assessmentDownloadButton" variant="dark">
-            {downloadIcon} Assessment
+          <Dropdown.Toggle id="assessmentDownloadButton" variant="dark" style={{height: '40px', width : '200px'}}>
+            <MdDownload /> Assessment Report
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item variant="dark" onClick={downloadHTML}>
@@ -161,8 +156,8 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 
       <div className="footprintDownload">
         <Dropdown>
-          <Dropdown.Toggle id="footprintDownloadButton" variant="dark">
-            {downloadIcon} Spatial Footprint
+          <Dropdown.Toggle id="footprintDownloadButton" variant="dark" style={{height: '40px', width : '200px'}}>
+            <MdDownload /> Spatial Footprint
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item variant="dark" onClick={downloadFootprintAsSingle}>

@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Container,
-  Dropdown,
-  DropdownButton,
-  Row,
-} from "react-bootstrap";
+import { Button, Container, Dropdown, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
+import { MdDownload } from "react-icons/md";
 //import { download } from "shp-write";
 import bbox from "@turf/bbox";
 // import axios from 'axios';
@@ -101,28 +96,30 @@ const Report = ({ aoiSelected }) => {
   return (
     <>
       <div className="reportDownload">
-        <DropdownButton
-          id="reportDownloadButton"
-          variant="dark"
-          title="Download Report"
-        >
-          <Dropdown.Item variant="dark" onClick={downloadHTML}>
-            <FaChrome /> &nbsp; Download as HTML
-          </Dropdown.Item>
-          <PDFDownloader
-            downloadFileName="Report"
-            rootElementId="reportOverview"
-          />
-        </DropdownButton>
+        <Dropdown>
+          <Dropdown.Toggle id="assessmentDownloadButton" variant="dark" style={{height: '40px', width : '200px'}}>
+            <MdDownload /> Detailed Report
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item variant="dark" onClick={downloadHTML}>
+              <FaChrome /> &nbsp; Download as HTML
+            </Dropdown.Item>
+            <PDFDownloader
+              downloadFileName="Report"
+              rootElementId="reportOverview"
+            />
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <div className="footprintDownload">
         <Button
           id="footprintDownloadButton"
           variant="dark"
+          style={{height: '40px', width : '200px'}}
           onClick={downloadFootprint}
         >
-          Download Footprint
+          <MdDownload /> Spatial Footprint
         </Button>
       </div>
 
