@@ -3,11 +3,10 @@ import "./App.css";
 import NavBar from "./NavBar";
 import Routes from "./Routes";
 import LoadingOverlay from "react-loading-overlay";
-import BarLoader from "react-spinners/BarLoader";
 import { connect } from "react-redux";
 
 function App(props) {
-  const [ reportLink, setReportLink ] = useState(false);
+  const [reportLink, setReportLink] = useState(false);
   return (
     <LoadingOverlay
       className="myLoading"
@@ -22,9 +21,9 @@ function App(props) {
       text="Loading..."
     >
       <div className="App">
-        <NavBar reportLink={reportLink}/>
+        <NavBar reportLink={reportLink} />
         <div style={{ position: "relative", top: "55px" }}>
-          <Routes setReportLink={setReportLink}/>
+          <Routes setReportLink={setReportLink} />
         </div>
       </div>
     </LoadingOverlay>
