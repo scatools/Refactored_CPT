@@ -190,16 +190,27 @@ nav a:hover {
   top: 1%;
 }
 
+.reportDownload {
+  position: absolute;
+  right: 20px;
+  top: 1%;
+}
+
 .footprintDownload {
   position: absolute;
   right: 20px;
   top: 2%;
 }
 
-.reportDownload {
+.tableDownload {
   position: absolute;
   right: 20px;
-  top: 1%;
+  top: 3%;
+}
+
+.downloadButton {
+  height: 40px; 
+  width : 200px;
 }
 
 .legend {

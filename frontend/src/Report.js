@@ -97,7 +97,7 @@ const Report = ({ aoiSelected }) => {
     <>
       <div className="reportDownload">
         <Dropdown>
-          <Dropdown.Toggle id="assessmentDownloadButton" variant="dark" style={{height: '40px', width : '200px'}}>
+          <Dropdown.Toggle id="assessmentDownloadButton" className="downloadButton" variant="dark">
             <MdDownload /> Detailed Report
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -115,8 +115,8 @@ const Report = ({ aoiSelected }) => {
       <div className="footprintDownload">
         <Button
           id="footprintDownloadButton"
+          className="downloadButton"
           variant="dark"
-          style={{height: '40px', width : '200px'}}
           onClick={downloadFootprint}
         >
           <MdDownload /> Spatial Footprint

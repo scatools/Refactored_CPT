@@ -7,6 +7,7 @@ import { FaChrome } from "react-icons/fa";
 import { MdDownload } from "react-icons/md";
 import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
 import { download } from "shp-write";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import bbox from "@turf/bbox";
 import AssessmentTable from "./AssessmentTable";
 import AssessmentScoreTable from "./AssessmentScoreTable";
@@ -139,7 +140,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     <>
       <div className="assessmentDownload">
         <Dropdown>
-          <Dropdown.Toggle id="assessmentDownloadButton" variant="dark" style={{height: '40px', width : '200px'}}>
+          <Dropdown.Toggle id="assessmentDownloadButton" className="downloadButton" variant="dark">
             <MdDownload /> Assessment Report
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -156,7 +157,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
 
       <div className="footprintDownload">
         <Dropdown>
-          <Dropdown.Toggle id="footprintDownloadButton" variant="dark" style={{height: '40px', width : '200px'}}>
+          <Dropdown.Toggle id="footprintDownloadButton" className="downloadButton" variant="dark">
             <MdDownload /> Spatial Footprint
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -165,6 +166,36 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
             </Dropdown.Item>
             <Dropdown.Item variant="dark" onClick={downloadFootprintAsMultiple}>
               <VscFileSubmodule /> &nbsp; Download as Multiple Shapefiles
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+
+      <div className="tableDownload">
+        <Dropdown>
+          <Dropdown.Toggle id="footprintDownloadButton" className="downloadButton" variant="dark">
+            <MdDownload /> Data Table
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item variant="dark">
+              <ReactHTMLTableToExcel
+                id="tableDownloadButton"
+                className="downloadButton"
+                table="assessmentTable"
+                filename="Assessment Table"
+                sheet="Assessment"
+                buttonText="Raw Data Table"
+              />
+            </Dropdown.Item>
+            <Dropdown.Item variant="dark">
+              <ReactHTMLTableToExcel
+                id="tableDownloadButton"
+                className="downloadButton"
+                table="assessmentTable"
+                filename="Assessment Table"
+                sheet="Assessment"
+                buttonText="Scaled Data Table"
+              />
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
