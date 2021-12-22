@@ -5,8 +5,8 @@ import Help from "./Help";
 import Report from "./Report";
 import Login from "./Login";
 import Register from "./Register";
-import Assessment from "./Assessment";
 import UserData from "./UserData";
+import Assessment from "./Assessment";
 
 const Routes = ({ setReportLink }) => {
   const [aoiSelected, setAoiSelected] = useState(null);
