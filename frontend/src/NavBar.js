@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 
 const NavBar = ({ reportLink }) => {
   const assessment = useSelector((state) => state.assessment);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [loggedIn, setLoggedIn] = useState(false);
