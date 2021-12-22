@@ -37,7 +37,7 @@ const Routes = ({ setReportLink }) => {
       <Route exact path="/report">
         <Report aoiSelected={aoiSelected} />
       </Route>
-      {aoiAssembled >= 2 ? (
+      {aoiAssembled.length > 1 ? (
         <Route exact path="/assessment">
           <Assessment
             aoiAssembled={aoiAssembled}
