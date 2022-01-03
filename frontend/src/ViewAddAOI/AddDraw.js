@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Button, Container, FormControl, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { v4 as uuid } from "uuid";
 import { input_aoi, setLoader } from "../action";
 import { useDispatch } from "react-redux";
+import TimeoutError from "../TimeoutError";
 
 const AddDraw = ({
   setDrawingMode,
@@ -17,11 +18,29 @@ const AddDraw = ({
 }) => {
   const dispatch = useDispatch();
   const [drawData, setDrawData] = useState("");
+  const [timeoutError, setTimeoutError] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const ref = useRef(countdown);
+
+  function updateState(newState) {
+    ref.current = newState;
+    setCountdown(newState);
+  }
+
+  const timeoutHandler = () => {
+    setTimeoutError(true);
+    setInterval(() => {
+      updateState(ref.current - 1);
+    }, 1000);
+    window.setTimeout(resetButton, 5000);
+  };
+
   const handleNameChange = (e) => {
     setDrawData(e.target.value);
   };
   const handleSubmit = async () => {
     dispatch(setLoader(true));
+    let loadTimer = setTimeout(() => timeoutHandler(), 3000);
     if (!drawData) {
       setAlerttext("A name for this area of interest is required.");
       window.setTimeout(() => setAlerttext(false), 4000);
@@ -59,6 +78,7 @@ const AddDraw = ({
     }
 
     dispatch(setLoader(false));
+    clearTimeout(loadTimer);
   };
 
   const resetButton = () => {
@@ -67,6 +87,7 @@ const AddDraw = ({
 
   return (
     <Container className="mt-3">
+      {timeoutError && <TimeoutError countdown={countdown} />}
       <InputGroup className="m-auto" style={{ width: "80%" }}>
         <InputGroup.Prepend>
           <InputGroup.Text id="basic-addon1">Plan Name:</InputGroup.Text>

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useRef } from "react";
 import Dropzone from "react-dropzone";
 import { Container } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -7,9 +7,30 @@ import { setLoader, input_aoi } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import shp from "shpjs";
 import { v4 as uuid } from "uuid";
+import TimeoutError from "../TimeoutError";
 
 const AddZip = ({ setAlerttext, setView }) => {
   const dispatch = useDispatch();
+  const [timeoutError, setTimeoutError] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const zipRef = useRef(countdown);
+
+  function updateState(newState) {
+    zipRef.current = newState;
+    setCountdown(newState);
+  }
+
+  const timeoutHandler = () => {
+    setTimeoutError(true);
+    setInterval(() => {
+      updateState(zipRef.current - 1);
+    }, 1000);
+    window.setTimeout(resetButton, 5000);
+  };
+
+  const resetButton = () => {
+    window.location.reload(true);
+  };
 
   const onDrop = useCallback(
     async (acceptedFiles) => {
@@ -36,6 +57,7 @@ const AddZip = ({ setAlerttext, setView }) => {
         // const res = await axios.post('http://localhost:5000/data', { data });
         // For production on Heroku
         dispatch(setLoader(true));
+        let loadTimer = setTimeout(() => timeoutHandler(), 3000);
         const res = await axios.post(
           "https://sca-cpt-backend.herokuapp.com/data",
           { data }
@@ -51,8 +73,9 @@ const AddZip = ({ setAlerttext, setView }) => {
             id: uuid(),
           })
         );
-        dispatch(setLoader(false));
         setView("viewCurrent");
+        dispatch(setLoader(false));
+        clearTimeout(loadTimer);
       };
 
       for (let file of acceptedFiles) {
@@ -97,6 +120,7 @@ const AddZip = ({ setAlerttext, setView }) => {
 
   return (
     <div>
+      {timeoutError && <TimeoutError countdown={countdown} />}
       <Container className="m-auto file-drop">
         <Dropzone onDrop={onDrop} accept=".zip">
           {({ getRootProps, getInputProps }) => (
