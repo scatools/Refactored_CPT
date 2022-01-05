@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import { Button } from "react-bootstrap";
-import { MdMenu } from "react-icons/md";
 import Map from "./Map";
 import AoiDetailTable from "./AoiDetailTable";
 import { DrawPolygonMode } from "react-map-gl-draw";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+
+const arrowIcon = (
+  <FontAwesomeIcon icon={faArrowRight} color="white" size="lg" />
+);
 
 const Main = ({
   aoiSelected,
@@ -64,14 +69,19 @@ const Main = ({
       />
       <div className="content">
         <Button
-          style={{ position: "absolute", top: "20px", left: "50px", zIndex: 1 }}
+          style={{
+            position: "absolute",
+            top: "10px",
+            left: "-10px",
+            zIndex: 1,
+          }}
           className="sidebarControlBtn"
           variant="secondary"
           onClick={() => {
             setActiveSidebar(true);
           }}
         >
-          <MdMenu />
+          {arrowIcon}
         </Button>
         <Map
           drawingMode={drawingMode}
