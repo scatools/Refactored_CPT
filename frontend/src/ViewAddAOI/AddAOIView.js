@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { ButtonGroup, Container, ToggleButton } from "react-bootstrap";
 import AddZip from "./AddZip";
 import AddBoundary from "./AddBoundary";
@@ -24,6 +24,28 @@ const AddAOIView = ({
   const [hucNameList, setHucNameList] = useState([]);
   const [hucIDList, setHucIDList] = useState([]);
   const [hucNameSelected, setHucNameSelected] = useState([]);
+  const [timeoutError, setTimeoutError] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const ref = useRef(countdown);
+
+  function updateState(newState) {
+    ref.current = newState;
+    setCountdown(newState);
+  }
+
+  const timeoutHandler = () => {
+    setTimeoutError(true);
+    setInterval(() => {
+      updateState(ref.current - 1);
+    }, 1000);
+    window.setTimeout(resetButton, 5000);
+  };
+
+  const resetButton = () => {
+    setCountdown(5);
+    console.log(countdown);
+    window.location.reload(true);
+  };
 
   const onLoad = () => {
     // To successfully fetch the zip file, it needs to be in the /public folder
@@ -114,11 +136,24 @@ const AddAOIView = ({
           setView={setView}
           setReportLink={setReportLink}
           autoDraw={autoDraw}
+          timeoutError={timeoutError}
+          setTimeoutError={setTimeoutError}
+          countdown={countdown}
+          timeoutHandler={timeoutHandler}
+          resetButton={resetButton}
         />
       )}
 
       {inputMode === "shapefile" && (
-        <AddZip setAlerttext={setAlerttext} setView={setView} />
+        <AddZip
+          setAlerttext={setAlerttext}
+          setView={setView}
+          timeoutError={timeoutError}
+          setTimeoutError={setTimeoutError}
+          countdown={countdown}
+          timeoutHandler={timeoutHandler}
+          resetButton={resetButton}
+        />
       )}
 
       {inputMode === "boundary" && (

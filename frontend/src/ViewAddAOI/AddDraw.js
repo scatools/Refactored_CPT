@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Button, Container, FormControl, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
@@ -15,25 +15,13 @@ const AddDraw = ({
   setView,
   setReportLink,
   autoDraw,
+  timeoutError,
+  countdown,
+  timeoutHandler,
+  resetButton,
 }) => {
   const dispatch = useDispatch();
   const [drawData, setDrawData] = useState("");
-  const [timeoutError, setTimeoutError] = useState(false);
-  const [countdown, setCountdown] = useState(5);
-  const ref = useRef(countdown);
-
-  function updateState(newState) {
-    ref.current = newState;
-    setCountdown(newState);
-  }
-
-  const timeoutHandler = () => {
-    setTimeoutError(true);
-    setInterval(() => {
-      updateState(ref.current - 1);
-    }, 1000);
-    window.setTimeout(resetButton, 5000);
-  };
 
   const handleNameChange = (e) => {
     setDrawData(e.target.value);
@@ -79,10 +67,6 @@ const AddDraw = ({
 
     dispatch(setLoader(false));
     clearTimeout(loadTimer);
-  };
-
-  const resetButton = () => {
-    window.location.reload(true);
   };
 
   return (
