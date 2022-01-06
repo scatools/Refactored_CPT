@@ -43,11 +43,7 @@ const Report = ({ aoiSelected }) => {
     latitude: newViewport.latitude,
     longitude: newViewport.longitude,
     zoom: newViewport.zoom,
-  });
-
-  if (!aoiSelected) {
-    return <Redirect to="/" />;
-  }
+  });  
 
   // Download HTML report
 
@@ -92,6 +88,10 @@ const Report = ({ aoiSelected }) => {
     };
     //download(aoiGeoJson, options);
   };
+
+  if (!aoiSelected) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -274,16 +274,14 @@ const Report = ({ aoiSelected }) => {
                 ? "Lands within " +
                   aoiList[0].name +
                   " are not known to support habitat ranges for any federally listed species."
-                : aoiList[0].scaleScore.lcmr3 === 1
-                ? "Lands within " +
-                  aoiList[0].name +
-                  " support the habitat range of the [TE_Name], a federally listed species."
                 : [
                     "Lands within " +
                       aoiList[0].name +
                       " support habitat ranges for ",
-                    <b>{aoiList[0].scaleScore.lcmr3}</b>,
-                    " federally listed species, including the [TE_List].",
+                    <b>{aoiList[0].speciesName.length}</b>,
+                    " federally listed species, including the ",
+                    <em style={{color:"DodgerBlue"}}>{aoiList[0].speciesName.join(", ")}</em>,
+                    ".",
                   ]}{" "}
               &nbsp;
               {aoiList[0].scaleScore.lcmr4 === "No"

@@ -48,6 +48,18 @@ const { Client } = require("pg");
 //   connectionString: DB_URI
 // });
 
+// For development on local server
+
+// var db = new Client({
+//   user: "postgres",
+//   password: "password",
+//   database: "cpt",
+//   port: 5432,
+//   host: "localhost"
+// });
+
+// For production on Heroku
+
 // Need to specify ssl attribute
 var db = new Client({
   user: "ydbtkyjjovdgii",
