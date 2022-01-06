@@ -100,6 +100,16 @@ nav a:hover {
   color: white;
 }
 
+.navbar-nav {
+  width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
 .assessmentNav {
   position: fixed;
   top: 8vh;
@@ -166,12 +176,6 @@ nav a:hover {
   background: gray;
 }
 
-.assessmentDownload {
-  position: absolute;
-  right: 20px;
-  top: 1%;
-}
-
 .mt-4 {
   position: fixed !important;
   right: 30px;
@@ -190,16 +194,33 @@ nav a:hover {
   font-size: 20px;
 }
 
-.footprintDownload {
+.assessmentDownload {
   position: absolute;
   right: 20px;
-  top: 2%;
+  top: 1%;
 }
 
 .reportDownload {
   position: absolute;
   right: 20px;
   top: 1%;
+}
+
+.footprintDownload {
+  position: absolute;
+  right: 20px;
+  top: 2%;
+}
+
+.tableDownload {
+  position: absolute;
+  right: 20px;
+  top: 3%;
+}
+
+.downloadButton {
+  height: 40px; 
+  width : 200px;
 }
 
 .legend {
@@ -251,4 +272,38 @@ nav a:hover {
 
 .assessment-h1 {
   text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.form-group input {
+  margin: 0;
+}
+
+.form-btn-container {
+  margin: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-success {
+  width: 50%;
+  margin: 10px;
+}
+
+.btn-danger {
+  margin: 10px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
 }

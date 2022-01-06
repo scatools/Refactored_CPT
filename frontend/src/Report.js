@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Container,
-  Dropdown,
-  DropdownButton,
-  Row,
-} from "react-bootstrap";
+import { Button, Container, Dropdown, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
+import { MdDownload } from "react-icons/md";
 //import { download } from "shp-write";
 import bbox from "@turf/bbox";
 // import axios from 'axios';
@@ -48,11 +43,7 @@ const Report = ({ aoiSelected }) => {
     latitude: newViewport.latitude,
     longitude: newViewport.longitude,
     zoom: newViewport.zoom,
-  });
-
-  if (!aoiSelected) {
-    return <Redirect to="/" />;
-  }
+  });  
 
   // Download HTML report
 
@@ -98,31 +89,37 @@ const Report = ({ aoiSelected }) => {
     //download(aoiGeoJson, options);
   };
 
+  if (!aoiSelected) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <>
       <div className="reportDownload">
-        <DropdownButton
-          id="reportDownloadButton"
-          variant="dark"
-          title="Download Report"
-        >
-          <Dropdown.Item variant="dark" onClick={downloadHTML}>
-            <FaChrome /> &nbsp; Download as HTML
-          </Dropdown.Item>
-          <PDFDownloader
-            downloadFileName="Report"
-            rootElementId="reportOverview"
-          />
-        </DropdownButton>
+        <Dropdown>
+          <Dropdown.Toggle id="assessmentDownloadButton" className="downloadButton" variant="dark">
+            <MdDownload /> Detailed Report
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item variant="dark" onClick={downloadHTML}>
+              <FaChrome /> &nbsp; Download as HTML
+            </Dropdown.Item>
+            <PDFDownloader
+              downloadFileName="Report"
+              rootElementId="reportOverview"
+            />
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <div className="footprintDownload">
         <Button
           id="footprintDownloadButton"
+          className="downloadButton"
           variant="dark"
           onClick={downloadFootprint}
         >
-          Download Footprint
+          <MdDownload /> Spatial Footprint
         </Button>
       </div>
 
@@ -277,16 +274,14 @@ const Report = ({ aoiSelected }) => {
                 ? "Lands within " +
                   aoiList[0].name +
                   " are not known to support habitat ranges for any federally listed species."
-                : aoiList[0].scaleScore.lcmr3 === 1
-                ? "Lands within " +
-                  aoiList[0].name +
-                  " support the habitat range of the [TE_Name], a federally listed species."
                 : [
                     "Lands within " +
                       aoiList[0].name +
                       " support habitat ranges for ",
-                    <b>{aoiList[0].scaleScore.lcmr3}</b>,
-                    " federally listed species, including the [TE_List].",
+                    <b>{aoiList[0].speciesName.length}</b>,
+                    " federally listed species, including the ",
+                    <em style={{color:"DodgerBlue"}}>{aoiList[0].speciesName.join(", ")}</em>,
+                    ".",
                   ]}{" "}
               &nbsp;
               {aoiList[0].scaleScore.lcmr4 === "No"
