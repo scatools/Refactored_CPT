@@ -51,6 +51,7 @@ const AddDraw = ({
           hexagons: res.data.data,
           rawScore: aggregate(res.data.data, planArea),
           scaleScore: getStatus(aggregate(res.data.data, planArea)),
+          speciesName: res.data.speciesName,
           id: uuid(),
         })
       );
