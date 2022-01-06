@@ -100,6 +100,16 @@ nav a:hover {
   color: white;
 }
 
+.navbar-nav {
+  width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
 .assessmentNav {
   position: fixed;
   top: 8vh;
@@ -262,4 +272,38 @@ nav a:hover {
 
 .assessment-h1 {
   text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.form-group input {
+  margin: 0;
+}
+
+.form-btn-container {
+  margin: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-success {
+  width: 50%;
+  margin: 10px;
+}
+
+.btn-danger {
+  margin: 10px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
 }
