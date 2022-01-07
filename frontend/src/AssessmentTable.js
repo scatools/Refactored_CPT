@@ -102,6 +102,30 @@ const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
                                 ))}
 							</tr>
 							<tr>
+								<td>Lateral Connectivity to Floodplain:</td>
+								{assessment.aoi.wq4.map(value=>(
+                                    <td key={uuid()}>
+                                        {Math.floor(value*100)/100}
+                                    </td>
+                                ))}
+							</tr>
+							<tr>
+								<td>Composition of Riparian Zone Lands:</td>
+								{assessment.aoi.wq5.map(value=>(
+                                    <td key={uuid()}>
+                                        {Math.floor(value*100)/100}
+                                    </td>
+                                ))}
+							</tr>
+							<tr>
+								<td>Presence of Impoundments:</td>
+								{assessment.aoi.wq6.map(value=>(
+                                    <td key={uuid()}>
+                                        {Math.floor(value*100)/100}
+                                    </td>
+                                ))}
+							</tr>
+							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
 									<b>Living Coastal & Marine Resources:</b>{' '}
 								</td>
@@ -133,6 +157,22 @@ const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
 							<tr>
 								<td>Light Pollution Index:</td>
 								{assessment.aoi.lcmr4.map(value=>(
+                                    <td key={uuid()}>
+                                        {Math.floor(value*100)/100}
+                                    </td>
+                                ))}
+							</tr>
+							<tr>
+								<td>Terrestrial Vertebrate Biodiversity:</td>
+								{assessment.aoi.lcmr5.map(value=>(
+                                    <td key={uuid()}>
+                                        {Math.floor(value*100)/100}
+                                    </td>
+                                ))}
+							</tr>
+							<tr>
+								<td>Vulnerability to Invasive Plants:</td>
+								{assessment.aoi.lcmr6.map(value=>(
                                     <td key={uuid()}>
                                         {Math.floor(value*100)/100}
                                     </td>
