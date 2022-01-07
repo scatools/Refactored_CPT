@@ -24,9 +24,16 @@ const SelectDataMeasures = ({ setAssessStep }) => {
 
   return (
     <Container>
-      Data Measures:
+      <br/>
+      <h5>Data Measures:</h5>
+      <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
+        style={{float:"right"}}
+      >
+        <em>What are Utility and Weight?</em>
+      </a>
+      <br/>
       <div>
-        <span>Habitat:</span>
+        <span><b>Habitat:</b></span>
         <Select
           styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
           menuPortalTarget={document.body}
@@ -71,11 +78,12 @@ const SelectDataMeasures = ({ setAssessStep }) => {
               <span style={{ display: "block" }} className="my-1">
                 {measure.label}
               </span>
+              &nbsp;&nbsp; <label>Utility</label> &nbsp;
               <ButtonGroup toggle>
                 <ToggleButton
                   type="radio"
                   data-tip
-                  data-for="more"
+                  data-for="positive-hab"
                   variant="outline-secondary"
                   name="utility"
                   value="-1"
@@ -89,15 +97,15 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                     )
                   }
                 >
-                  Higher
+                  Positive
                 </ToggleButton>
-                <ReactTooltip id="more" place="top">
-                  More is better
+                <ReactTooltip id="positive-hab" place="top">
+                  More or higher of this measure is desirable
                 </ReactTooltip>
                 <ToggleButton
                   type="radio"
                   data-tip
-                  data-for="less"
+                  data-for="negative-hab"
                   variant="outline-secondary"
                   name="utility"
                   value="1"
@@ -111,12 +119,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                     )
                   }
                 >
-                  Lower
+                  Negative
                 </ToggleButton>
-                <ReactTooltip id="less" place="top">
-                  Less is better
+                <ReactTooltip id="negative-hab" place="top">
+                  Less or lower of this measure is desirable
                 </ReactTooltip>
               </ButtonGroup>
+              &nbsp;&nbsp; <label>Weight</label> &nbsp;
               <ButtonGroup toggle className="ml-2">
                 <ToggleButton
                   type="radio"
@@ -174,7 +183,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           ))}
       </div>
       <br />
-      <span>Water Quality & Quantity:</span>
+      <span><b>Water Quality & Quantity:</b></span>
       <Select
         styles={{ menuPortal: (base, state) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
@@ -234,12 +243,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
             <span style={{ display: "block" }} className="my-1">
               {measure.label}
             </span>
+            &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 data-tip
-                data-for="More1"
+                data-for="positive-wq"
                 name="utility"
                 value="-1"
                 checked={measure.utility === "-1"}
@@ -252,16 +262,16 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                More
+                Positive
               </ToggleButton>
-              <ReactTooltip id="More1" place="top">
-                Higher is better
+              <ReactTooltip id="positive-wq" place="top">
+                More or higher of this measure is desirable
               </ReactTooltip>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 data-tip
-                data-for="Less1"
+                data-for="negative-wq"
                 name="utility"
                 value="1"
                 checked={measure.utility === "1"}
@@ -274,12 +284,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                Less
+                Negative
               </ToggleButton>
-              <ReactTooltip id="Less1" place="top">
-                Lower is better
+              <ReactTooltip id="negative-wq" place="top">
+                Less or lower of this measure is desirable
               </ReactTooltip>
             </ButtonGroup>
+            &nbsp;&nbsp; <label>Weight</label> &nbsp;
             <ButtonGroup toggle className="ml-2">
               <ToggleButton
                 type="radio"
@@ -336,7 +347,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </div>
         ))}
       <br />
-      <span>Living Coastal & Marine Resources:</span>
+      <span><b>Living Coastal & Marine Resources:</b></span>
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
@@ -385,13 +396,14 @@ const SelectDataMeasures = ({ setAssessStep }) => {
             <span style={{ display: "block" }} className="my-1">
               {measure.label}
             </span>
+            &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 name="utility"
                 data-tip
-                data-for="More"
+                data-for="positive-lcmr"
                 value="-1"
                 checked={measure.utility === "-1"}
                 onChange={(e) =>
@@ -403,17 +415,17 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                More
+                Positive
               </ToggleButton>
-              <ReactTooltip id="More" place="top">
-                More impact less conservations
+              <ReactTooltip id="positive-lcmr" place="top">
+                More or higher of this measure is desirable
               </ReactTooltip>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 name="utility"
                 data-tip
-                data-for="Less"
+                data-for="negative-lcmr"
                 value="1"
                 checked={measure.utility === "1"}
                 onChange={(e) =>
@@ -425,12 +437,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                Less
+                Negative
               </ToggleButton>
-              <ReactTooltip id="Less" place="top">
-                Less impact better conservations
+              <ReactTooltip id="negative-lcmr" place="top">
+                Less or lower of this measure is desirable
               </ReactTooltip>
             </ButtonGroup>
+            &nbsp;&nbsp; <label>Weight</label> &nbsp;
             <ButtonGroup toggle className="ml-2">
               <ToggleButton
                 type="radio"
@@ -487,7 +500,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </div>
         ))}
       <br />
-      <span>Community Resilience:</span>
+      <span><b>Community Resilience:</b></span>
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
@@ -529,12 +542,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
             <span style={{ display: "block" }} className="my-1">
               {measure.label}
             </span>
+            &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 data-tip
-                data-for="more"
+                data-for="positive-cl"
                 name="utility"
                 value="-1"
                 checked={measure.utility === "-1"}
@@ -547,16 +561,16 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                More
+                Positive
               </ToggleButton>
-              <ReactTooltip id="more" place="top">
-                More score the better
+              <ReactTooltip id="positive-cl" place="top">
+                More or higher of this measure is desirable
               </ReactTooltip>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 data-tip
-                data-for="less"
+                data-for="negative-cl"
                 name="utility"
                 value="1"
                 checked={measure.utility === "1"}
@@ -569,12 +583,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                Less
+                Negative
               </ToggleButton>
-              <ReactTooltip id="less" place="top">
-                Less score the better
+              <ReactTooltip id="negative-cl" place="top">
+                Less or lower of this measure is desirable
               </ReactTooltip>
             </ButtonGroup>
+            &nbsp;&nbsp; <label>Weight</label> &nbsp;
             <ButtonGroup toggle className="ml-2">
               <ToggleButton
                 type="radio"
@@ -631,7 +646,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </div>
         ))}
       <br />
-      <span>Gulf Economy:</span>
+      <span><b>Gulf Economy:</b></span>
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
@@ -674,12 +689,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
             <span style={{ display: "block" }} className="my-1">
               {measure.label}
             </span>
+            &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 data-tip
-                data-for="more"
+                data-for="positive-eco"
                 name="utility"
                 value="-1"
                 checked={measure.utility === "-1"}
@@ -692,16 +708,16 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                More
+                Positive
               </ToggleButton>
-              <ReactTooltip id="more" place="top">
-                More score the better
+              <ReactTooltip id="positive-eco" place="top">
+                More or higher of this measure is desirable
               </ReactTooltip>
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
                 data-tip
-                data-for="less"
+                data-for="negative-eco"
                 name="utility"
                 value="1"
                 checked={measure.utility === "1"}
@@ -714,12 +730,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                   )
                 }
               >
-                Less
+                Negative
               </ToggleButton>
-              <ReactTooltip id="less" place="top">
-                Less score the better
+              <ReactTooltip id="negative-eco" place="top">
+                Less or lower of this measure is desirable
               </ReactTooltip>
             </ButtonGroup>
+            &nbsp;&nbsp; <label>Weight</label> &nbsp;
             <ButtonGroup toggle className="ml-2">
               <ToggleButton
                 type="radio"
