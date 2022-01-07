@@ -82,12 +82,12 @@ const SelectDataMeasures = ({ setAssessStep }) => {
               <ButtonGroup toggle>
                 <ToggleButton
                   type="radio"
+                  variant="outline-secondary"
                   data-tip
                   data-for="positive-hab"
-                  variant="outline-secondary"
                   name="utility"
-                  value="-1"
-                  checked={measure.utility === "-1"}
+                  value="1"
+                  checked={measure.utility === "1"}
                   onChange={(e) =>
                     handleChange(
                       e.currentTarget.value,
@@ -104,12 +104,12 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                 </ReactTooltip>
                 <ToggleButton
                   type="radio"
+                  variant="outline-secondary"
                   data-tip
                   data-for="negative-hab"
-                  variant="outline-secondary"
                   name="utility"
-                  value="1"
-                  checked={measure.utility === "1"}
+                  value="-1"
+                  checked={measure.utility === "-1"}
                   onChange={(e) =>
                     handleChange(
                       e.currentTarget.value,
@@ -251,8 +251,8 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                 data-tip
                 data-for="positive-wq"
                 name="utility"
-                value="-1"
-                checked={measure.utility === "-1"}
+                value="1"
+                checked={measure.utility === "1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
@@ -273,8 +273,8 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                 data-tip
                 data-for="negative-wq"
                 name="utility"
-                value="1"
-                checked={measure.utility === "1"}
+                value="-1"
+                checked={measure.utility === "-1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
@@ -401,11 +401,11 @@ const SelectDataMeasures = ({ setAssessStep }) => {
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
-                name="utility"
                 data-tip
                 data-for="positive-lcmr"
-                value="-1"
-                checked={measure.utility === "-1"}
+                name="utility"
+                value="1"
+                checked={measure.utility === "1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
@@ -423,11 +423,11 @@ const SelectDataMeasures = ({ setAssessStep }) => {
               <ToggleButton
                 type="radio"
                 variant="outline-secondary"
-                name="utility"
                 data-tip
                 data-for="negative-lcmr"
-                value="1"
-                checked={measure.utility === "1"}
+                name="utility"
+                value="-1"
+                checked={measure.utility === "-1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
@@ -550,8 +550,8 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                 data-tip
                 data-for="positive-cl"
                 name="utility"
-                value="-1"
-                checked={measure.utility === "-1"}
+                value="1"
+                checked={measure.utility === "1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
@@ -572,8 +572,8 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                 data-tip
                 data-for="negative-cl"
                 name="utility"
-                value="1"
-                checked={measure.utility === "1"}
+                value="-1"
+                checked={measure.utility === "-1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
@@ -697,8 +697,8 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                 data-tip
                 data-for="positive-eco"
                 name="utility"
-                value="-1"
-                checked={measure.utility === "-1"}
+                value="1"
+                checked={measure.utility === "1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
@@ -719,8 +719,8 @@ const SelectDataMeasures = ({ setAssessStep }) => {
                 data-tip
                 data-for="negative-eco"
                 name="utility"
-                value="1"
-                checked={measure.utility === "1"}
+                value="-1"
+                checked={measure.utility === "-1"}
                 onChange={(e) =>
                   handleChange(
                     e.currentTarget.value,
