@@ -115,11 +115,11 @@ const NavBar = ({ reportLink }) => {
               <a href="https://www.fws.gov/">
                 <img src="/Logo_USFWS.png" alt="image" height="100px"/>
               </a>
-              <a href="https://www.fwrc.msstate.edu/">
-                <img src="/Logo_CFR.png" alt="image" height="100px"/>
-              </a>
               <a href="https://www.msstate.edu/">
                 <img src="/Logo_MSSTATE.png" alt="image" height="100px"/>
+              </a>
+              <a href="https://www.fwrc.msstate.edu/">
+                <img src="/Logo_CFR.png" alt="image" height="100px"/>
               </a>
             </div>
             <br />
