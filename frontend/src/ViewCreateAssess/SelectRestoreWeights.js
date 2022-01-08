@@ -4,6 +4,7 @@ import { changeGoalWeights } from "../action";
 import { useDispatch, useSelector } from "react-redux";
 import RangeSlider from "react-bootstrap-range-slider";
 import { useHistory } from "react-router-dom";
+import { HiExternalLink } from "react-icons/hi"
 
 const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
   const weights = useSelector((state) => state.weights);
@@ -31,7 +32,15 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
 
   return (
     <Container>
-      <p>RESTORE Goal Weights:</p>
+      <br/>
+      <h5>RESTORE Goal Weights:</h5>
+      <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
+        style={{float:"right"}}
+      >
+        <HiExternalLink/> &nbsp;
+        <em>Learn More about RESTORE Goals</em>
+      </a>
+      <br/>
       <Form>
         <>
           <span>Habitat:</span>

@@ -1,13 +1,11 @@
 import React from "react";
 import { Button, ButtonGroup, Container, ToggleButton } from "react-bootstrap";
 import Select from "react-select";
-import {
-  changeMeasures,
-  changeMeasuresWeight,
-  changeGoalWeights,
-} from "../action";
+import { changeMeasures, changeMeasuresWeight, changeGoalWeights } from "../action";
 import { useDispatch, useSelector } from "react-redux";
 import ReactTooltip from "react-tooltip";
+import { GoQuestion } from "react-icons/go"
+import { HiExternalLink } from "react-icons/hi"
 
 const SelectDataMeasures = ({ setAssessStep }) => {
   const weights = useSelector((state) => state.weights);
@@ -29,6 +27,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
         style={{float:"right"}}
       >
+        <GoQuestion/> &nbsp;
         <em>What are Utility and Weight?</em>
       </a>
       <br/>
@@ -71,7 +70,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           className="basic-multi-select"
           classNamePrefix="select"
         />
-
+        <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat"
+          style={{float:"right"}}
+        >
+          <HiExternalLink/> &nbsp;
+          <em>Learn More</em>
+        </a>
+        <br/>
         {weights.hab.selected &&
           weights.hab.selected.map((measure) => (
             <div className="m-2" key={measure.value}>
@@ -183,6 +188,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           ))}
       </div>
       <br />
+      
       <span><b>Water Quality & Quantity:</b></span>
       <Select
         styles={{ menuPortal: (base, state) => ({ ...base, zIndex: 9999 }) }}
@@ -237,6 +243,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           dispatch(changeMeasures("wq", state));
         }}
       />
+      <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity"
+        style={{float:"right"}}
+      >
+        <HiExternalLink/> &nbsp;
+        <em>Learn More</em>
+      </a>
+      <br/>
       {weights.wq.selected &&
         weights.wq.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
@@ -347,6 +360,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </div>
         ))}
       <br />
+
       <span><b>Living Coastal & Marine Resources:</b></span>
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
@@ -390,6 +404,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           dispatch(changeMeasures("lcmr", state));
         }}
       />
+      <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/lcmr"
+        style={{float:"right"}}
+      >
+        <HiExternalLink/> &nbsp;
+        <em>Learn More</em>
+      </a>
+      <br/>
       {weights.lcmr.selected &&
         weights.lcmr.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
@@ -500,6 +521,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </div>
         ))}
       <br />
+
       <span><b>Community Resilience:</b></span>
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
@@ -536,6 +558,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           dispatch(changeMeasures("cl", state));
         }}
       />
+      <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/community_resilience"
+        style={{float:"right"}}
+      >
+        <HiExternalLink/> &nbsp;
+        <em>Learn More</em>
+      </a>
+      <br/>
       {weights.cl.selected &&
         weights.cl.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
@@ -646,6 +675,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </div>
         ))}
       <br />
+
       <span><b>Gulf Economy:</b></span>
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
@@ -660,7 +690,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           },
         ]}
         isMulti
-        placeholder="Select Gulf Economy..."
+        placeholder="Select Gulf Economy measures..."
         name="colors"
         isClearable={false}
         className="basic-multi-select"
@@ -683,6 +713,13 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           dispatch(changeMeasures("eco", state));
         }}
       />
+      <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/economy"
+        style={{float:"right"}}
+      >
+        <HiExternalLink/> &nbsp;
+        <em>Learn More</em>
+      </a>
+      <br/>
       {weights.eco.selected &&
         weights.eco.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
