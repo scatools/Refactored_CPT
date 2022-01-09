@@ -34,7 +34,10 @@ const CreateAssessView = ({
       )}
 
       {assessStep === "selectDataMeasures" && (
-        <SelectDataMeasures setAssessStep={setAssessStep} />
+        <SelectDataMeasures 
+          setAssessStep={setAssessStep}
+          aoiAssembled={aoiAssembled}
+        />
       )}
 
       {assessStep === "reviewAssessSettings" && (
