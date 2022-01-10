@@ -23,6 +23,14 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
   );
   const dispatch = useDispatch();
 
+  const handleBack = () => {
+    setAssessStep("selectRestoreWeights");
+  };
+  
+  const handleNext = () => {
+    setAssessStep("reviewAssessSettings");
+  };
+
   // For predefined data measures
 
   const handleChange = (value, name, label, type) => {
@@ -1418,10 +1426,10 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
             </div>
           ))}
       <br />
-      <Button
-        variant="dark"
-        onClick={() => setAssessStep("reviewAssessSettings")}
-      >
+      <Button variant="dark" onClick={handleBack} style={{float:"left"}}>
+        Back
+      </Button>
+      <Button variant="dark" onClick={handleNext} style={{float:"right"}}>
         Next
       </Button>
     </Container>

@@ -16,7 +16,7 @@ const RESTOREGoal = [
   "Gulf Economy",
 ];
 
-const ReviewAssessSettings = ({ aoiAssembled, customizedMeasures }) => {
+const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures }) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
 
@@ -26,6 +26,73 @@ const ReviewAssessSettings = ({ aoiAssembled, customizedMeasures }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const history = useHistory();
+
+  const handleBack = () => {
+    setAssessStep("selectDataMeasures");
+  };
+
+  const createAssessment = () => {
+    dispatch(setLoader(true));
+    async function calculateNewData() {
+      const newAoiData = aoiAssembled.map((item) =>
+        getScaledForAssessment(
+          aoi[item.value].rawScore,
+          aoi[item.value].id,
+          aoi[item.value].name
+        )
+      );
+      const goalList = {
+        hab: "Habitat",
+        wq: "Water Quality & Quantity",
+        lcmr: "Living Costal & Marine Resources",
+        cl: "Community Resilience",
+        eco: "Gulf Economy",
+      };
+      const newWeights = Object.entries(weights).map((goal) => {
+        return {
+          goal: goalList[goal[0]],
+          weights: goal[1].weight / 100,
+        };
+      });
+      const newAoi = mergeIntoArray(newAoiData);
+      const scoreByGoal = calculateMeasures(newAoiData, weights);
+
+      // For development on local server
+      // const result = await axios.post('http://localhost:5000/mcda',{
+      // 	mean: scoreByGoal,
+      // 	std: 0.1
+      // });
+      // For production on Heroku
+      const result = await axios.post(
+        "https://sca-cpt-backend.herokuapp.com/mcda",
+        {
+          mean: scoreByGoal,
+          std: 0.1,
+        }
+      );
+      const returnData = {
+        aoi: newAoi,
+        aoiScore: scoreByGoal,
+        weights: newWeights,
+        rankAccept: result.data.rankAccept,
+        centralWeight: result.data.centralWeight,
+      };
+      dispatch(generate_assessment(returnData));
+    }
+
+    if (
+      Object.values(weights).reduce((a, b) => {
+        return a + b.weight;
+      }, 0) !== 100 ||
+      aoiAssembled.length <= 1
+    ) {
+      handleShow();
+    } else {
+      calculateNewData().then(() => {
+        history.push("/assessment");
+      });
+    }
+  }
 
   return (
     <>
@@ -180,72 +247,10 @@ const ReviewAssessSettings = ({ aoiAssembled, customizedMeasures }) => {
             })}
           </tbody>
         </Table>
-        <Button
-          className="ml-2"
-          variant="dark"
-          onClick={() => {
-            dispatch(setLoader(true));
-            async function calculateNewData() {
-              const newAoiData = aoiAssembled.map((item) =>
-                getScaledForAssessment(
-                  aoi[item.value].rawScore,
-                  aoi[item.value].id,
-                  aoi[item.value].name
-                )
-              );
-              const goalList = {
-                hab: "Habitat",
-                wq: "Water Quality & Quantity",
-                lcmr: "Living Costal & Marine Resources",
-                cl: "Community Resilience",
-                eco: "Gulf Economy",
-              };
-              const newWeights = Object.entries(weights).map((goal) => {
-                return {
-                  goal: goalList[goal[0]],
-                  weights: goal[1].weight / 100,
-                };
-              });
-              const newAoi = mergeIntoArray(newAoiData);
-              const scoreByGoal = calculateMeasures(newAoiData, weights);
-
-              // For development on local server
-              // const result = await axios.post('http://localhost:5000/mcda',{
-              // 	mean: scoreByGoal,
-              // 	std: 0.1
-              // });
-              // For production on Heroku
-              const result = await axios.post(
-                "https://sca-cpt-backend.herokuapp.com/mcda",
-                {
-                  mean: scoreByGoal,
-                  std: 0.1,
-                }
-              );
-              const returnData = {
-                aoi: newAoi,
-                aoiScore: scoreByGoal,
-                weights: newWeights,
-                rankAccept: result.data.rankAccept,
-                centralWeight: result.data.centralWeight,
-              };
-              dispatch(generate_assessment(returnData));
-            }
-
-            if (
-              Object.values(weights).reduce((a, b) => {
-                return a + b.weight;
-              }, 0) !== 100 ||
-              aoiAssembled.length <= 1
-            ) {
-              handleShow();
-            } else {
-              calculateNewData().then(() => {
-                history.push("/assessment");
-              });
-            }
-          }}
-        >
+        <Button className="my-5" variant="dark" onClick={handleBack} style={{float:"left"}}>
+          Back
+        </Button>
+        <Button className="my-5" variant="dark" onClick={createAssessment} style={{float:"right"}}>
           Generate Assessment
         </Button>
       </Container>
