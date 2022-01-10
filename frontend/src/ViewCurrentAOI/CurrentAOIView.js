@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, ButtonGroup, Container, ToggleButton } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { WebMercatorViewport } from "react-map-gl";
 import bbox from "@turf/bbox";
+import SidebarViewDetail from "./SidebarViewDetail";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
 const CurrentAOIView = ({
   aoiSelected,
   setAoiSelected,
+  setActiveTable,
   setViewport,
   setView,
+  setDrawingMode,
+  editAOI,
+  setEditAOI,
+  featureList,
+  setAlerttext,
+  setReportLink,
+  view,
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi));
+
+  useEffect(() => {
+    if (view === "viewCurrent" && aoiList.length > 0) {
+      setAoiSelected(aoiList[0].id);
+    }
+  }, [view]);
+
   return (
     <Container>
-      <h2>Review Current AOIs</h2>
+      <h3 style={{ marginBottom: "20px" }}>Review Current AOIs</h3>
       <ButtonGroup toggle className="mb-2 " vertical style={{ width: "100%" }}>
         {aoiList.length > 0 &&
           aoiList.map((aoi) => (
@@ -53,13 +73,24 @@ const CurrentAOIView = ({
               {aoi.name}
             </ToggleButton>
           ))}
+
+        <SidebarViewDetail
+          aoiSelected={aoiSelected}
+          setActiveTable={setActiveTable}
+          setDrawingMode={setDrawingMode}
+          editAOI={editAOI}
+          setEditAOI={setEditAOI}
+          featureList={featureList}
+          setAlerttext={setAlerttext}
+          setReportLink={setReportLink}
+        />
       </ButtonGroup>
-      <Container>
-        <Button variant="dark" onClick={() => setView("add")}>
-          Add More AOIs
+      <Container className="add-assess-cont">
+        <Button variant="secondary" onClick={() => setView("add")}>
+          {arrowIcon} Add More AOIs
         </Button>
-        <Button variant="dark" onClick={() => setView("createAssess")}>
-          Next
+        <Button variant="primary" onClick={() => setView("createAssess")}>
+          Evaluate AOIs
         </Button>
       </Container>
     </Container>

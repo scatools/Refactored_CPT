@@ -15,7 +15,6 @@ const AddZip = ({
   timeoutError,
   countdown,
   timeoutHandler,
-  resetButton,
 }) => {
   const dispatch = useDispatch();
 
@@ -109,6 +108,21 @@ const AddZip = ({
   return (
     <div>
       {/* {timeoutError && <TimeoutError countdown={countdown} />} */}
+
+      <Container className="instruction">
+        <p>
+          You can upload a shapefile with one more areas of interest. Each
+          record in the file will become a separate area of interest.{" "}
+        </p>
+        <p>
+          Your zip file must include at least the following files:
+          <ul>
+            <li>.shp</li>
+            <li>.shx</li>
+            <li>.prj</li>
+          </ul>
+        </p>
+      </Container>
       <Container className="m-auto file-drop">
         <Dropzone onDrop={onDrop} accept=".zip">
           {({ getRootProps, getInputProps }) => (

@@ -1,11 +1,23 @@
 import React, { useState } from "react";
-import { Alert, Container } from "react-bootstrap";
-import SidebarViewDetail from "./SidebarViewDetail";
+import { Alert, Container, Button } from "react-bootstrap";
 import SidebarDismiss from "./SidebarDismiss";
 import AddAOIView from "./ViewAddAOI/AddAOIView";
 import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
 import CreateAssessView from "./ViewCreateAssess/CreateAssessView";
 import SidebarMode from "./SidebarMode";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+
+const arrowIcon = (
+  <FontAwesomeIcon
+    icon={faRedo}
+    color="red"
+    size="lg"
+    flip="horizontal"
+    style={{ paddingLeft: "30px;" }}
+  />
+);
 
 const Sidebar = ({
   aoiAssembled,
@@ -30,6 +42,10 @@ const Sidebar = ({
 }) => {
   const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
+  const aoi = useSelector((state) => state.aoi);
+  const resetButton = () => {
+    window.location.reload(true);
+  };
 
   return (
     <div id="sidebar" className={activeSidebar ? "active" : ""}>
@@ -58,18 +74,16 @@ const Sidebar = ({
             <CurrentAOIView
               aoiSelected={aoiSelected}
               setAoiSelected={setAoiSelected}
+              setActiveTable={setActiveTable}
               setViewport={setViewport}
               setView={setView}
-            />
-            <SidebarViewDetail
-              aoiSelected={aoiSelected}
-              setActiveTable={setActiveTable}
               setDrawingMode={setDrawingMode}
               editAOI={editAOI}
               setEditAOI={setEditAOI}
               featureList={featureList}
               setAlerttext={setAlerttext}
               setReportLink={setReportLink}
+              view={view}
             />
           </Container>
         )}
@@ -95,6 +109,17 @@ const Sidebar = ({
           </Alert>
         )}
       </div>
+
+      {Object.keys(aoi).length > 0 && (
+        <Button
+          id="resetButton"
+          variant="dark"
+          style={{ float: "left" }}
+          onClick={resetButton}
+        >
+          Start Over {arrowIcon}
+        </Button>
+      )}
     </div>
   );
 };

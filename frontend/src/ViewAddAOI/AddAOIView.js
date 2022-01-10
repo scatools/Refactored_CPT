@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ButtonGroup, Container, ToggleButton } from "react-bootstrap";
 import AddZip from "./AddZip";
 import AddBoundary from "./AddBoundary";
@@ -19,7 +19,7 @@ const AddAOIView = ({
   setReportLink,
   autoDraw,
 }) => {
-  const [inputMode, setInputMode] = useState("draw");
+  const [inputMode, setInputMode] = useState("");
   const [hucList, setHucList] = useState([]);
   const [hucNameList, setHucNameList] = useState([]);
   const [hucIDList, setHucIDList] = useState([]);
@@ -38,10 +38,10 @@ const AddAOIView = ({
     setInterval(() => {
       updateState(ref.current - 1);
     }, 1000);
-    window.setTimeout(resetButton, 5000);
+    window.setTimeout(timeoutReload, 5000);
   };
 
-  const resetButton = () => {
+  const timeoutReload = () => {
     setCountdown(5);
     console.log(countdown);
     window.location.reload(true);
@@ -78,9 +78,18 @@ const AddAOIView = ({
       });
   };
 
+  useEffect(() => {
+    if (inputMode === "draw") {
+      setDrawingMode(true);
+      autoDraw();
+      setAoiSelected(false);
+      setReportLink(false);
+    }
+  }, [inputMode]);
+
   return (
     <>
-      <p>Add Area of Interest</p>
+      <h3 style={{ marginBottom: "20px" }}>Define Your Area of Interest</h3>
       <Container className="d-flex">
         <ButtonGroup toggle className="m-auto">
           <ToggleButton
@@ -126,6 +135,14 @@ const AddAOIView = ({
         </ButtonGroup>
       </Container>
       <hr />
+      {inputMode === "" && (
+        <p>
+          You can define one or more areas of interest by uploading a shapefile
+          with one or more areas, choose from an existing set of areas of
+          interest like watersheds, or draw your own. Choose the type above to
+          get started.
+        </p>
+      )}
 
       {inputMode === "draw" && (
         <AddDraw
@@ -140,7 +157,7 @@ const AddAOIView = ({
           setTimeoutError={setTimeoutError}
           countdown={countdown}
           timeoutHandler={timeoutHandler}
-          resetButton={resetButton}
+          timeoutReload={timeoutReload}
         />
       )}
 
@@ -152,7 +169,7 @@ const AddAOIView = ({
           setTimeoutError={setTimeoutError}
           countdown={countdown}
           timeoutHandler={timeoutHandler}
-          resetButton={resetButton}
+          timeoutReload={timeoutReload}
         />
       )}
 
