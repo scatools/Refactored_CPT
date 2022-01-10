@@ -27,6 +27,7 @@ const Sidebar = ({
   setFilterList,
   setReportLink,
   autoDraw,
+  customizedMeasures
 }) => {
   const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
@@ -80,6 +81,7 @@ const Sidebar = ({
               setAoiAssembled={setAoiAssembled}
               setAlerttext={setAlerttext}
               setView={setView}
+              customizedMeasures={customizedMeasures}
             />
           </Container>
         )}

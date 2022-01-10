@@ -21,16 +21,14 @@ import { setLoader } from "./action";
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
 
-const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
+const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink, customizedMeasures }) => {
   const dispatch = useDispatch();
   dispatch(setLoader(false));
+  
   const assessment = useSelector((state) => state.assessment);
   const aoi = useSelector((state) => state.aoi);
-  const aoiAssembledList = aoiAssembled.map((aoi) => aoi.value);
-  // Constant aoi contains all the AOIs provided so those not assembled need to be filtered out
-  const aoiList = Object.values(aoi).filter((aoi) =>
-    aoiAssembledList.includes(aoi.id)
-  );
+  var aoiAssembly = [];
+  
   // Up to 10 colors for 10 different AOIs
   const aoiColors = [
     "#00188f",
@@ -44,22 +42,32 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
     "#ec008c",
     "#68217a",
   ];
-  var aoiAssembly = [];
-
+  
+  // Get the list of IDs of assembled AOIs
+  const aoiAssembledList = aoiAssembled.map((aoi) => aoi.value);
+  
+  // Constant aoi contains all the AOIs provided so those not assembled need to be filtered out
+  const aoiList = Object.values(aoi).filter((aoi) =>
+    aoiAssembledList.includes(aoi.id)
+  );
+  
   // AOIs are stored as [0:{}, 1:{}, 2:{}, ...]
   for (var num in aoiList) {
     aoiAssembly = aoiAssembly.concat(aoiList[num].geometry);
   }
+  
   // Use the set of all selected AOIs to calculate the bounding box
   var aoiBbox = bbox({
     type: "FeatureCollection",
     features: aoiAssembly,
   });
+  
   // Format of the bounding box needs to be an array of two opposite corners ([[lon,lat],[lon,lat]])
   var viewportBbox = [
     [aoiBbox[0], aoiBbox[1]],
     [aoiBbox[2], aoiBbox[3]],
   ];
+  
   // Use WebMercatorViewport to get center longitude/latitude and zoom level
   var newViewport = new WebMercatorViewport({
     width: 800,
@@ -67,15 +75,110 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
   }).fitBounds(viewportBbox, { padding: 200 });
   // console.log(newViewport);
 
+  // Adjust the zoom level according to the extent of the AOIs
   const [viewport, setViewport] = useState({
     latitude: newViewport.latitude,
     longitude: newViewport.longitude,
     zoom: newViewport.zoom,
   });
 
-  if (!assessment.hasOwnProperty("aoi")) {
-    return <Redirect to="/" />;
-  }
+  // Calculate the final scores with user-customized measures
+  const aoiScoreCustomized = assessment.aoiScore.map((planScore, index) => {
+		const planScoreList = [];
+		const weightList = {
+			"low" : 0.33,
+			"medium" : 0.67,
+			"high" : 1
+		};
+		
+		// hab
+		if (customizedMeasures.hab.length > 0) {
+			let planScoreValue = 0;
+			for (var i=0; i<customizedMeasures.hab.length; i++) {
+				if (customizedMeasures.hab[i].utility === "1") {
+					planScoreValue = planScoreValue 
+					+ customizedMeasures.hab[i].data[index] * weightList[customizedMeasures.hab[i].weight];
+				} else {
+					planScoreValue = planScoreValue 
+					+ 1 - customizedMeasures.hab[i].data[index] * weightList[customizedMeasures.hab[i].weight];
+				}
+			}
+			planScoreList[0] = planScore[0] + planScoreValue;
+		} else {
+			planScoreList[0] = planScore[0];
+		}
+
+		// wq
+		if (customizedMeasures.wq.length > 0) {
+			let planScoreValue = 0;
+			for (var i=0; i<customizedMeasures.wq.length; i++) {
+				if (customizedMeasures.wq[i].utility === "1") {
+					planScoreValue = planScoreValue 
+					+ customizedMeasures.wq[i].data[index] * weightList[customizedMeasures.wq[i].weight];
+				} else {
+					planScoreValue = planScoreValue 
+					+ 1 - customizedMeasures.wq[i].data[index] * weightList[customizedMeasures.wq[i].weight];
+				}
+			}
+			planScoreList[1] = planScore[1] + planScoreValue;
+		} else {
+			planScoreList[1] = planScore[1];
+		}
+
+		// lcmr
+		if (customizedMeasures.lcmr.length > 0) {
+			let planScoreValue = 0;
+			for (var i=0; i<customizedMeasures.lcmr.length; i++) {
+				if (customizedMeasures.lcmr[i].utility === "1") {
+					planScoreValue = planScoreValue 
+					+ customizedMeasures.lcmr[i].data[index] * weightList[customizedMeasures.lcmr[i].weight];
+				} else {
+					planScoreValue = planScoreValue 
+					+ 1 - customizedMeasures.lcmr[i].data[index] * weightList[customizedMeasures.lcmr[i].weight];
+				}
+			}
+			planScoreList[2] = planScore[2] + planScoreValue;
+		} else {
+			planScoreList[2] = planScore[2];
+		}
+
+		// cl
+		if (customizedMeasures.cl.length > 0) {
+			let planScoreValue = 0;
+			for (var i=0; i<customizedMeasures.cl.length; i++) {
+				if (customizedMeasures.cl[i].utility === "1") {
+					planScoreValue = planScoreValue 
+					+ customizedMeasures.cl[i].data[index] * weightList[customizedMeasures.cl[i].weight];
+				} else {
+					planScoreValue = planScoreValue 
+					+ 1 - customizedMeasures.cl[i].data[index] * weightList[customizedMeasures.cl[i].weight];
+				}
+			}
+			planScoreList[3] = planScore[3] + planScoreValue;
+		} else {
+			planScoreList[3] = planScore[3];
+		}
+
+		// eco
+		if (customizedMeasures.eco.length > 0) {
+			let planScoreValue = 0;
+			for (var i=0; i<customizedMeasures.eco.length; i++) {
+				if (customizedMeasures.eco[i].utility === "1") {
+					planScoreValue = planScoreValue 
+					+ customizedMeasures.eco[i].data[index] * weightList[customizedMeasures.eco[i].weight];
+				} else {
+					planScoreValue = planScoreValue 
+					+ 1 - customizedMeasures.eco[i].data[index] * weightList[customizedMeasures.eco[i].weight];
+				}
+			}
+			planScoreList[4] = planScore[4] + planScoreValue;
+		} else {
+			planScoreList[4] = planScore[4];
+		}
+
+		return planScoreList;
+	})
+	// console.log(aoiScoreCustomized);
 
   // Download HTML report
 
@@ -159,6 +262,10 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
       download(aoiGeoJson, options);
     });
   };
+
+  if (!assessment.hasOwnProperty("aoi")) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -285,7 +392,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
               area of interest (AOI).
             </p>
             <div>
-              <UserDefinedResult />
+              <UserDefinedResult aoiScoreCustomized={aoiScoreCustomized} />
             </div>
           </Row>
           <hr />
@@ -301,7 +408,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
               user-provided weights for different goals displayed in the
               rightmost column.
             </p>
-            <AssessmentScoreTable />
+            <AssessmentScoreTable aoiScoreCustomized={aoiScoreCustomized} />
             <h4>Values & Weights by Data Measure:</h4>
             <p>
               The following table indicates the weighted scores of all data
@@ -312,6 +419,7 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink }) => {
             <AssessmentTable
               setAoiSelected={setAoiSelected}
               setReportLink={setReportLink}
+              customizedMeasures={customizedMeasures}
             />
           </Row>
           <hr />
