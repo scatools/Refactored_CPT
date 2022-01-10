@@ -88,7 +88,7 @@ const AddAOIView = ({
   }, [inputMode]);
 
   return (
-    <>
+    <Container>
       <h3 style={{ marginBottom: "20px" }}>Define Your Area of Interest</h3>
       <Container className="d-flex">
         <ButtonGroup toggle className="m-auto">
@@ -134,16 +134,16 @@ const AddAOIView = ({
           </ToggleButton>
         </ButtonGroup>
       </Container>
-      <hr />
-      {inputMode === "" && (
-        <p>
-          You can define one or more areas of interest by uploading a shapefile
-          with one or more areas, choose from an existing set of areas of
-          interest like watersheds, or draw your own. Choose the type above to
-          get started.
-        </p>
-      )}
-
+      <Container className="instruction">
+        {inputMode === "" && (
+          <p>
+            You can define one or more areas of interest by uploading a
+            shapefile with one or more areas, choose from an existing set of
+            areas of interest like watersheds, or draw your own. Choose the type
+            above to get started.
+          </p>
+        )}
+      </Container>
       {inputMode === "draw" && (
         <AddDraw
           setDrawingMode={setDrawingMode}
@@ -189,7 +189,7 @@ const AddAOIView = ({
           setFilterList={setFilterList}
         />
       )}
-    </>
+    </Container>
   );
 };
 

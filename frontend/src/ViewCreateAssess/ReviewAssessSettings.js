@@ -11,6 +11,10 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { GoInfo } from "react-icons/go";
 import ReactTooltip from "react-tooltip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
 const RESTOREGoal = [
   "Habitat",
@@ -20,7 +24,7 @@ const RESTOREGoal = [
   "Gulf Economy",
 ];
 
-const ReviewAssessSettings = ({ aoiAssembled }) => {
+const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
 
@@ -33,7 +37,7 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
 
   return (
     <>
-      <Container className="card-body">
+      <Container id="assessment-card" className="card-body">
         Data Measure Weights Summary:
         <Table striped bordered hover size="sm">
           <thead>
@@ -124,8 +128,16 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
           </tbody>
         </Table>
         <Button
+          style={{ float: "left" }}
+          variant="secondary"
+          onClick={() => setAssessStep("selectDataMeasures")}
+        >
+          {arrowIcon} Edit Data Measures
+        </Button>
+        <Button
           className="ml-2"
-          variant="dark"
+          variant="primary"
+          style={{ float: "right" }}
           onClick={() => {
             dispatch(setLoader(true));
             async function calculateNewData() {

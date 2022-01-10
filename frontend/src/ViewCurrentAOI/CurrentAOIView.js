@@ -5,9 +5,10 @@ import { WebMercatorViewport } from "react-map-gl";
 import bbox from "@turf/bbox";
 import SidebarViewDetail from "./SidebarViewDetail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
+const arrowLeft = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
+const arrowRight = <FontAwesomeIcon icon={faArrowRight} size="lg" />;
 
 const CurrentAOIView = ({
   aoiSelected,
@@ -32,8 +33,8 @@ const CurrentAOIView = ({
   }, [view]);
 
   return (
-    <Container>
-      <h3 style={{ marginBottom: "20px" }}>Review Current AOIs</h3>
+    <Container className="test">
+      <h3 style={{ marginBottom: "20px" }}>Review/Edit Current AOIs</h3>
       <ButtonGroup toggle className="mb-2 " vertical style={{ width: "100%" }}>
         {aoiList.length > 0 &&
           aoiList.map((aoi) => (
@@ -87,10 +88,10 @@ const CurrentAOIView = ({
       </ButtonGroup>
       <Container className="add-assess-cont">
         <Button variant="secondary" onClick={() => setView("add")}>
-          {arrowIcon} Add More AOIs
+          {arrowLeft} Add More AOIs
         </Button>
         <Button variant="primary" onClick={() => setView("createAssess")}>
-          Evaluate AOIs
+          Evaluate AOIs {arrowRight}
         </Button>
       </Container>
     </Container>

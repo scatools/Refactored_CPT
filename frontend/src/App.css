@@ -70,7 +70,7 @@
 
 #sidebar .ControlWrapper .card {
   border: 1px solid #363c3f;
-  margin: 30px 0;
+  margin: 30px auto;
 }
 
 #sidebar .ControlWrapper .card-header {
@@ -332,4 +332,20 @@ button.btn-dark.ml-1.btn {
 .add-assess-cont {
   display: flex;
   justify-content: space-between;
+}
+
+.error-text {
+  color: red;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  background: lightcoral;
+}
+
+.sum-text {
+  font-size: 24px;
+}
+
+#assessment-card {
+  padding-bottom: 60px;
 }

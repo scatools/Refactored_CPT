@@ -3,22 +3,25 @@ import { Button, Container, Col, Form, Row } from "react-bootstrap";
 import { changeGoalWeights } from "../action";
 import { useDispatch, useSelector } from "react-redux";
 import RangeSlider from "react-bootstrap-range-slider";
-import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
 const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
   const dispatch = useDispatch();
 
+  let sumWeights =
+    weights.hab.weight +
+    weights.wq.weight +
+    weights.lcmr.weight +
+    weights.cl.weight +
+    weights.eco.weight;
+
   const handleNext = () => {
-    if (
-      weights.hab.weight +
-        weights.wq.weight +
-        weights.lcmr.weight +
-        weights.cl.weight +
-        weights.eco.weight !=
-      100
-    ) {
+    if (sumWeights !== 100) {
       setAlerttext("Make sure all weights add to exactly 100");
       window.setTimeout(() => setAlerttext(false), 4000);
     } else setAssessStep("selectDataMeasures");
@@ -34,7 +37,7 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
       <p>RESTORE Goal Weights:</p>
       <Form>
         <>
-          <span>Habitat:</span>
+          <span>Habitat: {weights.hab.weight}</span>
           <Form.Group as={Row}>
             <Col xs="9">
               <RangeSlider
@@ -44,16 +47,16 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
                 variant="secondary"
               />
             </Col>
-            <Col xs="3">
+            {/* <Col xs="3">
               <Form.Control
                 value={weights.hab.weight}
                 onChange={(e) => handleWeights(e.target.value, "hab")}
               />
-            </Col>
+            </Col> */}
           </Form.Group>
         </>
         <>
-          <span>Water Quality & Quantity:</span>
+          <span>Water Quality & Quantity: {weights.wq.weight}</span>
           <Form.Group as={Row}>
             <Col xs="9">
               <RangeSlider
@@ -63,16 +66,16 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
                 variant="secondary"
               />
             </Col>
-            <Col xs="3">
+            {/* <Col xs="3">
               <Form.Control
                 value={weights.wq.weight}
                 onChange={(e) => handleWeights(e.target.value, "wq")}
               />
-            </Col>
+            </Col> */}
           </Form.Group>
         </>
         <>
-          <span>Living Coastal & Marine Resources:</span>
+          <span>Living Coastal & Marine Resources: {weights.lcmr.weight}</span>
           <Form.Group as={Row}>
             <Col xs="9">
               <RangeSlider
@@ -82,16 +85,16 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
                 variant="secondary"
               />
             </Col>
-            <Col xs="3">
+            {/* <Col xs="3">
               <Form.Control
                 value={weights.lcmr.weight}
                 onChange={(e) => handleWeights(e.target.value, "lcmr")}
               />
-            </Col>
+            </Col> */}
           </Form.Group>
         </>
         <>
-          <span>Community Resilience:</span>
+          <span>Community Resilience: {weights.cl.weight}</span>
           <Form.Group as={Row}>
             <Col xs="9">
               <RangeSlider
@@ -101,16 +104,16 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
                 variant="secondary"
               />
             </Col>
-            <Col xs="3">
+            {/* <Col xs="3">
               <Form.Control
                 value={weights.cl.weight}
                 onChange={(e) => handleWeights(e.target.value, "cl")}
               />
-            </Col>
+            </Col> */}
           </Form.Group>
         </>
         <>
-          <span>Gulf Economy:</span>
+          <span>Gulf Economy: {weights.eco.weight}</span>
           <Form.Group as={Row}>
             <Col xs="9">
               <RangeSlider
@@ -120,35 +123,31 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
                 variant="secondary"
               />
             </Col>
-            <Col xs="3">
+            {/* <Col xs="3">
               <Form.Control
                 value={weights.eco.weight}
                 onChange={(e) => handleWeights(e.target.value, "eco")}
               />
-            </Col>
+            </Col> */}
           </Form.Group>
         </>
       </Form>
-      <br />
-      <label>Total Sum: &nbsp;&nbsp;</label>
-      <span>
-        <input
-          type="text"
-          value={
-            weights.hab.weight +
-            weights.wq.weight +
-            weights.lcmr.weight +
-            weights.cl.weight +
-            weights.eco.weight
-          }
-          disabled
-        ></input>
+      <span className="sum-text">
+        Total Sum:
+        {sumWeights !== 100 ? (
+          <span className="error-text">{sumWeights}</span>
+        ) : (
+          sumWeights
+        )}
       </span>
-      <br></br>
-      <br></br>
-      <Button variant="dark" onClick={() => handleNext()}>
-        Next
-      </Button>
+      <Container className="add-assess-cont">
+        <Button variant="secondary" onClick={() => setAssessStep("selectAOI")}>
+          {arrowIcon} Select AOIs
+        </Button>
+        <Button variant="primary" onClick={() => handleNext()}>
+          Select Weights
+        </Button>
+      </Container>
     </Container>
   );
 };

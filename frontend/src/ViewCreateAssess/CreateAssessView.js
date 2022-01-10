@@ -3,6 +3,11 @@ import SelectAOIForAssess from "./SelectAOIForAssess";
 import SelectRestoreWeights from "./SelectRestoreWeights";
 import SelectDataMeasures from "./SelectDataMeasures";
 import ReviewAssessSettings from "./ReviewAssessSettings";
+import { Button, Container } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
 const CreateAssessView = ({
   setAlerttext,
@@ -13,8 +18,8 @@ const CreateAssessView = ({
   const [assessStep, setAssessStep] = useState("selectAOI");
 
   return (
-    <>
-      <h2>Create Assesment for Two or More AOIs</h2>
+    <Container>
+      <h3>Evaluate AOIs</h3>
       {console.log(assessStep)}
       {assessStep === "selectAOI" && (
         <SelectAOIForAssess
@@ -38,9 +43,12 @@ const CreateAssessView = ({
       )}
 
       {assessStep === "reviewAssessSettings" && (
-        <ReviewAssessSettings aoiAssembled={aoiAssembled} />
+        <ReviewAssessSettings
+          setAssessStep={setAssessStep}
+          aoiAssembled={aoiAssembled}
+        />
       )}
-    </>
+    </Container>
   );
 };
 

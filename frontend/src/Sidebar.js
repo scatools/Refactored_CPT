@@ -70,32 +70,28 @@ const Sidebar = ({
           />
         )}
         {view === "viewCurrent" && (
-          <Container>
-            <CurrentAOIView
-              aoiSelected={aoiSelected}
-              setAoiSelected={setAoiSelected}
-              setActiveTable={setActiveTable}
-              setViewport={setViewport}
-              setView={setView}
-              setDrawingMode={setDrawingMode}
-              editAOI={editAOI}
-              setEditAOI={setEditAOI}
-              featureList={featureList}
-              setAlerttext={setAlerttext}
-              setReportLink={setReportLink}
-              view={view}
-            />
-          </Container>
+          <CurrentAOIView
+            aoiSelected={aoiSelected}
+            setAoiSelected={setAoiSelected}
+            setActiveTable={setActiveTable}
+            setViewport={setViewport}
+            setView={setView}
+            setDrawingMode={setDrawingMode}
+            editAOI={editAOI}
+            setEditAOI={setEditAOI}
+            featureList={featureList}
+            setAlerttext={setAlerttext}
+            setReportLink={setReportLink}
+            view={view}
+          />
         )}
         {view === "createAssess" && (
-          <Container>
-            <CreateAssessView
-              aoiAssembled={aoiAssembled}
-              setAoiAssembled={setAoiAssembled}
-              setAlerttext={setAlerttext}
-              setView={setView}
-            />
-          </Container>
+          <CreateAssessView
+            aoiAssembled={aoiAssembled}
+            setAoiAssembled={setAoiAssembled}
+            setAlerttext={setAlerttext}
+            setView={setView}
+          />
         )}
         {alerttext && (
           <Alert

@@ -2,6 +2,10 @@ import React from "react";
 import { Button, Container } from "react-bootstrap";
 import Select from "react-select";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
 const SelectAOIForAssess = ({
   setAssessStep,
@@ -26,7 +30,7 @@ const SelectAOIForAssess = ({
 
   return (
     <Container>
-      Select Areas of Interests:
+      Select two or more areas of interest
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
@@ -43,12 +47,14 @@ const SelectAOIForAssess = ({
         classNamePrefix="select"
       />
       <br />
-      <Button variant="dark" onClick={() => setView("add")}>
-        Add More AOIs
-      </Button>
-      <Button variant="dark" onClick={() => handleNext()}>
-        Next
-      </Button>
+      <Container className="add-assess-cont">
+        <Button variant="secondary" onClick={() => setView("viewCurrent")}>
+          {arrowIcon} Review/Edit AOIs
+        </Button>
+        <Button variant="primary" onClick={() => handleNext()}>
+          Select AOIs
+        </Button>
+      </Container>
     </Container>
   );
 };
