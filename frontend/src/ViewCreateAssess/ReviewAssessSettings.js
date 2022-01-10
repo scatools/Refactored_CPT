@@ -16,7 +16,7 @@ const RESTOREGoal = [
   "Gulf Economy",
 ];
 
-const ReviewAssessSettings = ({ aoiAssembled }) => {
+const ReviewAssessSettings = ({ aoiAssembled, customizedMeasures }) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
 
@@ -61,7 +61,18 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))}
+              ))
+            }
+            {!!customizedMeasures.hab.length &&
+              customizedMeasures.hab.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Habitat</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))
+            }
             {weights.wq.selected &&
               weights.wq.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -70,7 +81,18 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))}
+              ))
+            }
+            {!!customizedMeasures.wq.length &&
+              customizedMeasures.wq.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Water</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))
+            }
             {weights.lcmr.selected &&
               weights.lcmr.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -79,7 +101,18 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))}
+              ))
+            }
+            {!!customizedMeasures.lcmr.length &&
+              customizedMeasures.lcmr.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>LCMR</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))
+            }
             {weights.cl.selected &&
               weights.cl.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -88,7 +121,18 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))}
+              ))
+            }
+            {!!customizedMeasures.cl.length &&
+              customizedMeasures.cl.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Resilience</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))
+            }
             {weights.eco.selected &&
               weights.eco.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -97,7 +141,18 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))}
+              ))
+            }
+            {!!customizedMeasures.eco.length &&
+              customizedMeasures.eco.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Economy</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))
+            }
           </tbody>
         </Table>
         Goal Weights:
@@ -187,8 +242,6 @@ const ReviewAssessSettings = ({ aoiAssembled }) => {
             } else {
               calculateNewData().then(() => {
                 history.push("/assessment");
-                // This won't work
-                // return <Redirect to="/assessment"/>
               });
             }
           }}

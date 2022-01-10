@@ -12,6 +12,7 @@ const Main = ({
   aoiAssembled,
   setAoiAssembled,
   setReportLink,
+  customizedMeasures
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
@@ -61,6 +62,7 @@ const Main = ({
         setFilterList={setFilterList}
         setReportLink={setReportLink}
         autoDraw={autoDraw}
+        customizedMeasures={customizedMeasures}
       />
       <div className="content">
         <Button

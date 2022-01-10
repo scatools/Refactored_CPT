@@ -9,6 +9,7 @@ const CreateAssessView = ({
   aoiAssembled,
   setAoiAssembled,
   setView,
+  customizedMeasures
 }) => {
   const [assessStep, setAssessStep] = useState("selectAOI");
 
@@ -37,11 +38,15 @@ const CreateAssessView = ({
         <SelectDataMeasures 
           setAssessStep={setAssessStep}
           aoiAssembled={aoiAssembled}
+          customizedMeasures={customizedMeasures}
         />
       )}
 
       {assessStep === "reviewAssessSettings" && (
-        <ReviewAssessSettings aoiAssembled={aoiAssembled} />
+        <ReviewAssessSettings 
+        aoiAssembled={aoiAssembled}
+        customizedMeasures={customizedMeasures}
+        />
       )}
     </>
   );

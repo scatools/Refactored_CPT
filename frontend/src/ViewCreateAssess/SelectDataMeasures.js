@@ -9,15 +9,12 @@ import { GoQuestion } from "react-icons/go"
 import { FiPlusCircle } from "react-icons/fi"
 import { HiExternalLink } from "react-icons/hi"
 
-const SelectDataMeasures = ({ setAssessStep, aoiAssembled }) => {
+const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures }) => {
   const [ show, setShow ] = useState(false);
   const [ restoreGoal, setRestoreGoal ] = useState("");
   const [ inputType, setInputType ] = useState("scaled");
   const [ inputMeasureName, setInputMeasureName ] = useState("");
   const [ inputMeasureValueList, setInputMeasureValueList ] = useState([]);
-  const [ customizedMeasures, setCustomizedMeasures ] = useState(
-    {"hab":[], "wq":[], "lcmr":[], "cl":[], "eco":[]}
-  );
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
   const aoiAssembledList = aoiAssembled.map((aoi) => aoi.value);
@@ -44,6 +41,7 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled }) => {
 
   const customizeMeasure = (goal) => {
     setInputMeasureName("");
+    setInputMeasureValueList([]);
     setRestoreGoal(goal);
     handleShow();
   };
@@ -57,18 +55,18 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled }) => {
       utility : "1",
       weight : "medium"
     });
-    console.log(customizedMeasures);
+    // console.log(customizedMeasures);
     handleClose();
   };
 
   const setMeasureUtility = (goal, index, newUtility) => {
     customizedMeasures[goal][index].utility = newUtility;
-    console.log(customizedMeasures);
+    // console.log(customizedMeasures);
   }
 
   const setMeasureWeight = (goal, index, newWeight) => {
     customizedMeasures[goal][index].weight = newWeight;
-    console.log(customizedMeasures);
+    // console.log(customizedMeasures);
   }
 
   return (
@@ -92,7 +90,6 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled }) => {
             style={{width:"150px", height:"30px", fontSize:"12px"}}
             onChange={(e) => {
               setInputType(e.target.value);
-              console.log(inputType);
             }}
           >
               <option value="scaled">Scaled Values</option>
@@ -121,12 +118,12 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled }) => {
                     }}
                 />
               </td>
-              {aoiList.map((aoi)=>
+              {aoiList.map((aoi, index)=>
                 <td>
                   <input
                       type="number"
                       onChange={(e) => {
-                        inputMeasureValueList[aoiList.indexOf(aoi)] = parseFloat(e.target.value);
+                        inputMeasureValueList[index] = parseFloat(e.target.value);
                       }}
                   />
                 </td>

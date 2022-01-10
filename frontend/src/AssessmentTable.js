@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 
-const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
+const AssessmentTable = ({ setAoiSelected, setReportLink, customizedMeasures }) =>{
     const assessment = useSelector(state => state.assessment);
     return(
         <Table id="assessmentTable" striped bordered size="sm" variant="light">
@@ -72,6 +72,15 @@ const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
                                     </td>
                                 ))}
 							</tr>
+							{!!customizedMeasures.hab.length && 
+							customizedMeasures.hab.map((measure)=>( 
+								<tr>
+									<td>{measure.name}:</td>
+									{measure.data.map((value)=>( 
+										<td key={uuid()}>{Math.floor(value*100)/100}</td>
+									))}
+								</tr>
+							))}
 							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
 									<b>Water Quality & Quantity:</b>{' '}
@@ -125,6 +134,15 @@ const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
                                     </td>
                                 ))}
 							</tr>
+							{!!customizedMeasures.wq.length && 
+							customizedMeasures.wq.map((measure)=>( 
+								<tr>
+									<td>{measure.name}:</td>
+									{measure.data.map((value)=>( 
+										<td key={uuid()}>{Math.floor(value*100)/100}</td>
+									))}
+								</tr>
+							))}
 							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
 									<b>Living Coastal & Marine Resources:</b>{' '}
@@ -178,6 +196,15 @@ const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
                                     </td>
                                 ))}
 							</tr>
+							{!!customizedMeasures.lcmr.length && 
+							customizedMeasures.lcmr.map((measure)=>( 
+								<tr>
+									<td>{measure.name}:</td>
+									{measure.data.map((value)=>( 
+										<td key={uuid()}>{Math.floor(value*100)/100}</td>
+									))}
+								</tr>
+							))}
 							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
 									<b>Community Resilience:</b>{' '}
@@ -215,6 +242,15 @@ const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
                                     </td>
                                 ))}
 							</tr>
+							{!!customizedMeasures.cl.length && 
+							customizedMeasures.cl.map((measure)=>( 
+								<tr>
+									<td>{measure.name}:</td>
+									{measure.data.map((value)=>( 
+										<td key={uuid()}>{Math.floor(value*100)/100}</td>
+									))}
+								</tr>
+							))}
 							<tr>
 								<td colSpan={""+ (assessment.aoi.id.length+1)}>
 									<b>Gulf Economy:</b>{' '}
@@ -252,6 +288,15 @@ const AssessmentTable = ({ setAoiSelected, setReportLink }) =>{
                                     </td>
                                 ))}
 							</tr>
+							{!!customizedMeasures.eco.length && 
+							customizedMeasures.eco.map((measure)=>( 
+								<tr>
+									<td>{measure.name}:</td>
+									{measure.data.map((value)=>( 
+										<td key={uuid()}>{Math.floor(value*100)/100}</td>
+									))}
+								</tr>
+							))}
 						</tbody>
 					</Table>
     )

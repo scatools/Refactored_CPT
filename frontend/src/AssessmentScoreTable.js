@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import {v4 as uuid} from 'uuid';
 
-const AssessmentScoreTable = () => {
+const AssessmentScoreTable = ({ aoiScoreCustomized }) => {
     const assessment = useSelector((state) => state.assessment);
 	return (
 		<Table striped bordered size="sm" variant="light">
@@ -15,13 +15,13 @@ const AssessmentScoreTable = () => {
 				</tr>
 			</thead>
 			<tbody>
-                {assessment.aoiScore[0].map((goal,idx)=>
+                {assessment.aoiScore[0].map((goal, index)=>
                     (<tr key={uuid()}>
-                        <td>{assessment.weights[idx].goal}</td>
-                        {assessment.aoiScore.map(planScore=>(
-                            <td key={uuid()}>{Math.floor(planScore[idx]*100)/100}</td>
+                        <td>{assessment.weights[index].goal}</td>
+                        {aoiScoreCustomized.map(planScore=>(
+                            <td key={uuid()}>{Math.floor(planScore[index]*100)/100}</td>
                         ))}
-                        <td>{assessment.weights[idx].weights*100+"%"}</td>
+                        <td>{assessment.weights[index].weights*100+"%"}</td>
                     </tr>)
                 )}
             </tbody>
