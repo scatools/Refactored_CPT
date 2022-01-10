@@ -11,6 +11,10 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
   const aoi = useSelector((state) => state.aoi);
   const dispatch = useDispatch();
 
+  const handleBack = () => {
+    setAssessStep("selectAOI");
+  };
+
   const handleNext = () => {
     if (
       weights.hab.weight +
@@ -155,7 +159,10 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
       </span>
       <br></br>
       <br></br>
-      <Button variant="dark" onClick={() => handleNext()}>
+      <Button variant="dark" onClick={handleBack} style={{float:"left"}}>
+        Back
+      </Button>
+      <Button variant="dark" onClick={handleNext} style={{float:"right"}}>
         Next
       </Button>
     </Container>
