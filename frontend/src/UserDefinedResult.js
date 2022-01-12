@@ -2,10 +2,10 @@ import React from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useSelector } from 'react-redux';
 
-const UserDefinedResult = () => {
+const UserDefinedResult = ({ aoiScoreCustomized }) => {
 	const aoiColors = ["#00188f", "#00bcf2", "#00b294", "#009e49", "#bad80a", "#fff100", "#ff8c00", "#e81123", "#ec008c", "#68217a"];
 	const assessment = useSelector((state) => state.assessment);
-	const data = assessment.aoiScore.map((aoi,index)=>{
+	const data = aoiScoreCustomized.map((aoi,index)=>{
 			return {
 				score: Math.floor(aoi.reduce((a,b,index)=>{return a+b*assessment.weights[index].weights},0)*100)/100,
 				name:assessment.aoi.name[index]}

@@ -8,7 +8,7 @@ const SelectAOIForAssess = ({
   aoiAssembled,
   setAoiAssembled,
   setAlerttext,
-  setView,
+  setView
 }) => {
   const aoi = useSelector((state) => state.aoi);
 
@@ -43,10 +43,10 @@ const SelectAOIForAssess = ({
         classNamePrefix="select"
       />
       <br />
-      <Button variant="dark" onClick={() => setView("add")}>
+      <Button variant="dark" onClick={() => setView("add")} style={{float:"left"}}>
         Add More AOIs
       </Button>
-      <Button variant="dark" onClick={() => handleNext()}>
+      <Button variant="dark" onClick={handleNext} style={{float:"right"}}>
         Next
       </Button>
     </Container>

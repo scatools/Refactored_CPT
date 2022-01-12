@@ -12,6 +12,7 @@ const Main = ({
   aoiAssembled,
   setAoiAssembled,
   setReportLink,
+  customizedMeasures
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
@@ -28,6 +29,7 @@ const Main = ({
   const [hucBoundary, setHucBoundary] = useState(false);
   const [hucIDSelected, setHucIDSelected] = useState([]);
   const [filterList, setFilterList] = useState([]);
+  const [hexGrid, setHexGrid] = useState(false);
 
   const autoDraw = async () => {
     setMode(new DrawPolygonMode());
@@ -61,6 +63,8 @@ const Main = ({
         setFilterList={setFilterList}
         setReportLink={setReportLink}
         autoDraw={autoDraw}
+        customizedMeasures={customizedMeasures}
+        setHexGrid={setHexGrid}
       />
       <div className="content">
         <Button
@@ -88,6 +92,7 @@ const Main = ({
           interactiveLayerIds={interactiveLayerIds}
           setInteractiveLayerIds={setInteractiveLayerIds}
           autoDraw={autoDraw}
+          hexGrid={hexGrid}
         />
       </div>
     </div>

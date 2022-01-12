@@ -27,6 +27,8 @@ const Sidebar = ({
   setFilterList,
   setReportLink,
   autoDraw,
+  customizedMeasures,
+  setHexGrid
 }) => {
   const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
@@ -70,6 +72,7 @@ const Sidebar = ({
               featureList={featureList}
               setAlerttext={setAlerttext}
               setReportLink={setReportLink}
+              setHexGrid={setHexGrid}
             />
           </Container>
         )}
@@ -80,6 +83,7 @@ const Sidebar = ({
               setAoiAssembled={setAoiAssembled}
               setAlerttext={setAlerttext}
               setView={setView}
+              customizedMeasures={customizedMeasures}
             />
           </Container>
         )}

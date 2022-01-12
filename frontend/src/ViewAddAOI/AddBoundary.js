@@ -93,12 +93,13 @@ const AddBoundary = ({
             .includes(feature.properties.HUC12)
       );
       // console.log(newList);
-      dispatch(setLoader(true));
+      
       newList.forEach(async (feature) => {
         const data = feature.geometry;
         // For development on local server
         // const res = await axios.post('http://localhost:5000/data', { data });
         // For production on Heroku
+        dispatch(setLoader(true));
         const res = await axios.post(
           "https://sca-cpt-backend.herokuapp.com/data",
           { data }
@@ -112,11 +113,12 @@ const AddBoundary = ({
             hexagons: res.data.data,
             rawScore: aggregate(res.data.data, planArea),
             scaleScore: getStatus(aggregate(res.data.data, planArea)),
+            speciesName: res.data.speciesName,
             id: uuid(),
           })
         );
-      });
-      dispatch(setLoader(false));
+        dispatch(setLoader(false));
+      });      
       setView("viewCurrent");
       setHucNameSelected([]);
       setHucIDSelected([]);
