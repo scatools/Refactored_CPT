@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  Card,
-  Container,
-  Button,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import { Card, Container, Button, InputGroup, FormControl } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdFileDownload } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
@@ -62,6 +56,7 @@ const SidebarViewDetail = ({
           scaleScore: newList.length
             ? getStatus(aggregate(res.data.data, planArea))
             : aoiList[0].scaleScore,
+          speciesName: newList.length ? res.data.speciesName : aoiList[0].speciesName,
           id: aoiList[0].id,
         })
       );

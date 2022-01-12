@@ -19,9 +19,37 @@ app.post('/data', async function(req, res, next) {
 			WHERE ST_Intersects(ST_SetSRID(ST_GeomFromGeoJSON($1), 4326), ST_SetSRID(sca_landonly_withdata7_renamed.geom, 4326))`,
 			[req.body.data]
 		);
+		
+		const hexIDList = results.rows.map((hex) => {return parseInt(hex.objectid)});
+		// console.log(hexIDList);
+		// Use double quotes if there are capital letters in the column name
+		const speciesCode = await db.query(
+			`SELECT "SPPCodeNew" 
+			FROM te_index 
+			WHERE "OBJECTID" IN (`+ hexIDList.toString() +`)`
+		);
+		// Split and flatten the SPPCodeNew values into segments of 4 characters for the list of species codes
+		var speciesCodeList = speciesCode.rows.map((code) => {
+			return code.SPPCodeNew.match(/.{4}/g)
+		}).flat();
+		// Remove the duplicate codes
+		speciesCodeList = [...new Set(speciesCodeList)];
+		// console.log(speciesCodeList);
+
+		// Use single quotes if there are capital letters in the string values
+		const speciesName = await db.query(
+			`SELECT "COMNAME" 
+			FROM te_name 
+			WHERE "SPPCodeNew" IN ('`+ speciesCodeList.join("','") +`')`
+		);
+		var speciesNameList = speciesName.rows.map((name) => {return name.COMNAME});
+		speciesNameList = [...new Set(speciesNameList)];
+
 		return res.json({
 			length: results.rows.length,
-			data: results.rows
+			data: results.rows,
+			speciesCode: speciesCodeList,
+			speciesName: speciesNameList
 		});
 	} catch (e) {
 		next(e);
@@ -48,7 +76,7 @@ app.get('/report', async function(req,res,next){
 	}
 })
 
-
+/** general error handler */
 
 app.use(function(req, res, next) {
 	const err = new ExpressError('Not Found', 404);
@@ -56,8 +84,6 @@ app.use(function(req, res, next) {
 	// pass err to the next middleware
 	return next(err);
 });
-
-/** general error handler */
 
 app.use(function(err, req, res, next) {
 	// the default status is 500 Internal Server Error

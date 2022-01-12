@@ -201,16 +201,33 @@ nav a:hover {
   font-size: 20px;
 }
 
-.footprintDownload {
+.assessmentDownload {
   position: absolute;
   right: 20px;
-  top: 2%;
+  top: 1%;
 }
 
 .reportDownload {
   position: absolute;
   right: 20px;
   top: 1%;
+}
+
+.footprintDownload {
+  position: absolute;
+  right: 20px;
+  top: 2%;
+}
+
+.tableDownload {
+  position: absolute;
+  right: 20px;
+  top: 3%;
+}
+
+.downloadButton {
+  height: 40px;
+  width: 200px;
 }
 
 .legend {

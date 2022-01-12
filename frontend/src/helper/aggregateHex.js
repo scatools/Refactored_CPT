@@ -90,6 +90,7 @@ export function aggregate(input,area) {
 export function getStatus(input){
   // console.log(input);
   let scaledResult = {
+    // NEED TO DOUBLE CHECK
     hab0: Math.round((input.hab0*247.105)*100)/100 + " acres",
     hab1: input.hab1===1? "Yes" : "No",
     hab2: String((Math.round((input.hab2*10000))/100)) + "%",
@@ -98,9 +99,9 @@ export function getStatus(input){
     wq1: String(Math.round((input.wq1*10000))/100) + "%",
     wq2: String(Math.round((input.wq2*10000))/100) + "%",
     wq3: String(Math.round((input.wq3*10000))/100) + "%",
-    wq4: String(Math.round((input.wq3*10000))/100) + "%",
-    wq5: Math.round((input.wq3*100))/100,
-    wq6: input.hab1===1? "Yes" : "No",
+    wq4: String(Math.round((input.wq4*10000))/100) + "%",
+    wq5: Math.round((input.wq5*100))/100,
+    wq6: input.wq6===1? "Yes" : "No",
     lcmr1: input.lcmr1 > 6 ? "High": input.lcmr1 > 3 ? "Medium" : input.lcmr1 > 0 ? "Low" : "NA",
     lcmr2: String(Math.round((input.lcmr2*10000))/100) + "%",
     lcmr3: Math.round(input.lcmr3),
@@ -111,7 +112,6 @@ export function getStatus(input){
     cl2: String(Math.round((input.cl2*10000))/100) + "%",
     cl3: input.cl3 >= 1 ? "High": input.cl3 >= 0.75 ? "Medium-High" : input.cl3 >= 0.5 ? "Medium" : input.cl3 >= 0.25 ? "Medium-Low" : input.cl3 > 0 ? "Low" : "No Threat",
     cl4: input.cl4 >= 1 ? "High": input.cl4 >= 0.75 ? "Medium-High" : input.cl4 >= 0.5 ? "Medium" : input.cl4 >= 0.25 ? "Medium-Low" : input.cl4 > 0 ? "Low" : "Insufficient data",
-    cl2: String(Math.round((input.cl2*10000))/100) + "%",
     eco1: String(Math.round((input.eco1*10000))/100) + "%",
     eco2: input.eco2 > 3 ? "High": input.eco2 > 2 ? "Medium-High" : input.eco2 > 1 ? "Medium" : input.eco2 > 0 ? "Low" : "Insufficient data",
     eco3: input.eco3 > 3 ? "High": input.eco3 > 2 ? "Medium-High" : input.eco3 > 1 ? "Medium" : input.eco3 > 0 ? "Low" : "Insufficient data",
