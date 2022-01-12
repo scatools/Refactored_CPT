@@ -18,6 +18,7 @@ const SidebarViewDetail = ({
   featureList,
   setAlerttext,
   setReportLink,
+  setHexGrid
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -25,6 +26,11 @@ const SidebarViewDetail = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const [aoiName, setAoiName] = useState("");
+  const [showButtonState, setShowButtonState] = useState("show");
+  const [showButtonLabel, setShowButtonLabel] = useState("Show Hexagon Grid");
+  const [deselectButtonState, setDeselectButtonState] = useState("deselect");
+  const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
+  
   const handleEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
@@ -63,6 +69,30 @@ const SidebarViewDetail = ({
       setDrawingMode(false);
     }
   };
+  
+  console.log(aoiList);
+
+  const showHexagon = () => {
+    if (showButtonState === "show") {
+      setHexGrid(true);
+      setShowButtonState("hide");
+      setShowButtonLabel("Hide Hexagon Grid");
+    } else {
+      setHexGrid(false);
+      setShowButtonState("show");
+      setShowButtonLabel("Show Hexagon Grid");
+    }
+  }
+
+  const deselectHexagon = () => {
+    if (deselectButtonState === "deselect") {
+      setDeselectButtonState("confirm");
+      setDeselectButtonLabel("Deselect Hexagon");
+    } else {
+      setDeselectButtonState("deselect");
+      setDeselectButtonLabel("Finalize Hexagon");
+    }
+  }
 
   return (
     <>
@@ -146,7 +176,9 @@ const SidebarViewDetail = ({
             {editAOI && (
               <>
                 <hr />
-                <InputGroup className="mb-3" style={{ width: "60%" }}>
+                <label>Basic Options:</label>
+                <br />
+                <InputGroup className="mb-3" style={{width: "70%", float: "left"}}>
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1">
                       Plan Name:
@@ -161,8 +193,18 @@ const SidebarViewDetail = ({
                     placeholder="Name area of interest here..."
                   />
                 </InputGroup>
-                <Button variant="dark" onClick={handleEdit}>
-                  Finalize Changes
+                <Button variant="dark" style={{float:"right"}} onClick={handleEdit}>
+                  Confirm Change
+                </Button>
+                <br /><br />
+                <hr />
+                <label>Advanced Options:</label>
+                <br />
+                <Button variant="dark" style={{float:"left"}} value={showButtonState} onClick={showHexagon}>
+                  {showButtonLabel}
+                </Button>
+                <Button variant="dark" style={{float:"right"}} value={deselectButtonState} onClick={deselectHexagon}>
+                  {deselectButtonLabel}
                 </Button>
               </>
             )}
