@@ -349,6 +349,7 @@ button.btn-dark.ml-1.btn {
 .add-assess-cont {
   display: flex;
   justify-content: space-between;
+  padding-top: 20px;
 }
 
 .error-text {
@@ -356,7 +357,8 @@ button.btn-dark.ml-1.btn {
   border-radius: 5px;
   margin: 5px;
   padding: 5px;
-  background: lightcoral;
+  background: rgb(255, 193, 193);
+  margin-left: 15px;
 }
 
 .sum-text {
@@ -365,4 +367,12 @@ button.btn-dark.ml-1.btn {
 
 #assessment-card {
   padding-bottom: 60px;
+}
+
+.smaller-text {
+  font-size: 16px !important;
+}
+
+.total-text {
+  margin-left: 20px;
 }

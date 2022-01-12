@@ -33,7 +33,8 @@ const SelectDataMeasures = ({ setAssessStep }) => {
 
   return (
     <Container>
-      Data Measures:
+      <h3>Data Measures </h3>
+      <br />
       {dataStep === "habitat" && (
         <Container>
           <span>Habitat:</span>
@@ -199,7 +200,6 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </Container>
         </Container>
       )}
-      <br />
       {dataStep === "water" && (
         <Container>
           <span>Water Quality & Quantity:</span>
@@ -370,7 +370,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           <br />
           <Container className="add-assess-cont">
             <Button variant="secondary" onClick={() => setDataStep("habitat")}>
-              {arrowIcon} Back
+              {arrowIcon} Edit Habitat Measures
             </Button>
             <Button variant="primary" onClick={() => setDataStep("resource")}>
               {waterSelect ? "Next" : "Skip"}
@@ -378,7 +378,6 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           </Container>
         </Container>
       )}
-      <br />
       {dataStep === "resource" && (
         <Container>
           <span>Living Coastal & Marine Resources:</span>
@@ -537,7 +536,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
           <br />
           <Container className="add-assess-cont">
             <Button variant="secondary" onClick={() => setDataStep("water")}>
-              {arrowIcon} Back
+              {arrowIcon} Edit Water Measures
             </Button>
             <Button variant="primary" onClick={() => setDataStep("resilience")}>
               {resourceSelect ? "Next" : "Skip"}
@@ -696,7 +695,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
 
           <Container className="add-assess-cont">
             <Button variant="secondary" onClick={() => setDataStep("resource")}>
-              {arrowIcon} Back
+              {arrowIcon} Edit Resources Measures
             </Button>
             <Button variant="primary" onClick={() => setDataStep("eco")}>
               {resilienceSelect ? "Next" : "Skip"}
@@ -859,7 +858,7 @@ const SelectDataMeasures = ({ setAssessStep }) => {
               variant="secondary"
               onClick={() => setDataStep("resilience")}
             >
-              {arrowIcon} Back
+              {arrowIcon} Edit Resilience Measures
             </Button>
             <Button
               variant="primary"

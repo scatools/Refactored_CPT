@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Container, Col, Form, Row } from "react-bootstrap";
 import { changeGoalWeights } from "../action";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,6 @@ const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
 const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
   const weights = useSelector((state) => state.weights);
-  const aoi = useSelector((state) => state.aoi);
   const dispatch = useDispatch();
 
   let sumWeights =
@@ -34,7 +33,8 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
 
   return (
     <Container>
-      <p>RESTORE Goal Weights:</p>
+      <h3>RESTORE Goal Weights:</h3>
+      <p className="smaller-text">Total must add up to 100</p>
       <Form>
         <>
           <span>Habitat: {weights.hab.weight}</span>
@@ -133,20 +133,27 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
         </>
       </Form>
       <span className="sum-text">
-        Total Sum:
+        Total:
         {sumWeights !== 100 ? (
           <span className="error-text">{sumWeights}</span>
         ) : (
-          sumWeights
+          <span className="total-text">{sumWeights}</span>
         )}
       </span>
       <Container className="add-assess-cont">
         <Button variant="secondary" onClick={() => setAssessStep("selectAOI")}>
           {arrowIcon} Select AOIs
         </Button>
-        <Button variant="primary" onClick={() => handleNext()}>
-          Select Weights
-        </Button>
+
+        {sumWeights === 100 ? (
+          <Button variant="primary" onClick={() => handleNext()}>
+            Next
+          </Button>
+        ) : (
+          <Button variant="secondary" disabled onClick={() => handleNext()}>
+            Next
+          </Button>
+        )}
       </Container>
     </Container>
   );

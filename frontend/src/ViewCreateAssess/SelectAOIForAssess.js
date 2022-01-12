@@ -30,7 +30,8 @@ const SelectAOIForAssess = ({
 
   return (
     <Container>
-      Select two or more areas of interest
+      <h3>Select two or more areas of interest</h3>
+      <br />
       <Select
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
@@ -51,9 +52,15 @@ const SelectAOIForAssess = ({
         <Button variant="secondary" onClick={() => setView("viewCurrent")}>
           {arrowIcon} Review/Edit AOIs
         </Button>
-        <Button variant="primary" onClick={() => handleNext()}>
-          Select AOIs
-        </Button>
+        {aoiAssembled.length < 2 ? (
+          <Button variant="secondary" disabled onClick={() => handleNext()}>
+            Next
+          </Button>
+        ) : (
+          <Button variant="primary" onClick={() => handleNext()}>
+            Next
+          </Button>
+        )}
       </Container>
     </Container>
   );
