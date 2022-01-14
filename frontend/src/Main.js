@@ -30,6 +30,9 @@ const Main = ({
   const [hucIDSelected, setHucIDSelected] = useState([]);
   const [filterList, setFilterList] = useState([]);
   const [hexGrid, setHexGrid] = useState(false);
+  const [hexDeselection, setHexDeselection] = useState(false);
+  const [hexIDDeselected, setHexIDDeselected] = useState([]);
+  const [hexFilterList, setHexFilterList] = useState([]);
 
   const autoDraw = async () => {
     setMode(new DrawPolygonMode());
@@ -65,6 +68,10 @@ const Main = ({
         autoDraw={autoDraw}
         customizedMeasures={customizedMeasures}
         setHexGrid={setHexGrid}
+        setHexDeselection={setHexDeselection}
+        hexIDDeselected={hexIDDeselected}
+        setHexIDDeselected={setHexIDDeselected}
+        setHexFilterList={setHexFilterList}
       />
       <div className="content">
         <Button
@@ -93,6 +100,9 @@ const Main = ({
           setInteractiveLayerIds={setInteractiveLayerIds}
           autoDraw={autoDraw}
           hexGrid={hexGrid}
+          hexDeselection={hexDeselection}
+          hexIDDeselected={hexIDDeselected}
+          hexFilterList={hexFilterList}
         />
       </div>
     </div>
