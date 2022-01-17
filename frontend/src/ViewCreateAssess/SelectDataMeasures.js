@@ -157,6 +157,7 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
       <br/>
       <h5>Data Measures:</h5>
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
+        target="_blank"
         style={{float:"right"}}
       >
         <GoQuestion/> &nbsp;
@@ -209,6 +210,7 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
           <span>Customize Measure</span>
         </div>
         <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat"
+          target="_blank"
           style={{float:"right"}}
         >
           <HiExternalLink/> &nbsp;
@@ -475,6 +477,7 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         <span>Customize Measure</span>
       </div>
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity"
+        target="_blank"
         style={{float:"right"}}
       >
         <HiExternalLink/> &nbsp;
@@ -729,6 +732,7 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         <span>Customize Measure</span>
       </div>
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/lcmr"
+        target="_blank"
         style={{float:"right"}}
       >
         <HiExternalLink/> &nbsp;
@@ -976,6 +980,7 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         <span>Customize Measure</span>
       </div>
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/community_resilience"
+        target="_blank"
         style={{float:"right"}}
       >
         <HiExternalLink/> &nbsp;
@@ -1224,6 +1229,7 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         <span>Customize Measure</span>
       </div>
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/economy"
+        target="_blank"
         style={{float:"right"}}
       >
         <HiExternalLink/> &nbsp;

@@ -61,7 +61,7 @@ const NavBar = ({ reportLink }) => {
       </Navbar>
 
       <div className="content">
-        <Modal show={show} onHide={handleClose} size="lg">
+        <Modal centered show={show} onHide={handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>
               Welcome to the Conservation Prioritization Tool
@@ -100,25 +100,25 @@ const NavBar = ({ reportLink }) => {
             <b>Sponsorship</b>
             <p>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funding for this project was provided by the 
-              <a href="https://www.restorethegulf.gov/"> Gulf Coast Ecosystem Restoration Council </a> 
+              <a href="https://www.restorethegulf.gov/" target="_blank"> Gulf Coast Ecosystem Restoration Council </a> 
               through an agreement with the 
-              <a href="https://www.fws.gov/"> U.S. Fish and Wildlife Service </a>
+              <a href="https://www.fws.gov/" target="_blank"> U.S. Fish and Wildlife Service </a>
               (Grant no. F17AC00267), and was produced with support from the 
-              <a href="https://www.fwrc.msstate.edu/"> Forest and Wildlife Research Center at Mississippi State University</a>
+              <a href="https://www.fwrc.msstate.edu/" target="_blank"> Forest and Wildlife Research Center at Mississippi State University</a>
               . The findings and conclusions in this tool are those of the authors and do not necessarily represent the
               views of the U.S. Fish and Wildlife Service or Gulf Coast Ecosystem Restoration Council.
             </p>
-            <div class="d-flex justify-content-between">
-              <a href="https://www.restorethegulf.gov/">
+            <div className="d-flex justify-content-between">
+              <a href="https://www.restorethegulf.gov/" target="_blank">
                 <img src="/Logo_RESTORE.png" alt="image" height="100px"/>
               </a>
-              <a href="https://www.fws.gov/">
+              <a href="https://www.fws.gov/" target="_blank">
                 <img src="/Logo_USFWS.png" alt="image" height="100px"/>
               </a>
-              <a href="https://www.msstate.edu/">
+              <a href="https://www.msstate.edu/" target="_blank">
                 <img src="/Logo_MSSTATE.png" alt="image" height="100px"/>
               </a>
-              <a href="https://www.fwrc.msstate.edu/">
+              <a href="https://www.fwrc.msstate.edu/" target="_blank">
                 <img src="/Logo_CFR.png" alt="image" height="100px"/>
               </a>
             </div>

@@ -33,7 +33,7 @@ const Help = () => {
             Send an email
           </Button>
           <br /> <br />
-          <a href="https://scatools.github.io/learnmore/">
+          <a href="https://scatools.github.io/learnmore/" target="_blank">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -46,7 +46,7 @@ const Help = () => {
             </svg>
           </a>{" "}
           <span /> <span /> <span /> <span /> <span />
-          <a href="https://www.quest.fwrc.msstate.edu/sca/help-docs.php">
+          <a href="https://www.quest.fwrc.msstate.edu/sca/help-docs.php" target="_blank">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
