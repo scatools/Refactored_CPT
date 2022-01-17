@@ -38,7 +38,7 @@ const NavBar = ({ reportLink }) => {
               About
             </NavLink>
             <NavLink to="/help" className="ml-3">
-              Contacts
+              Support
             </NavLink>
             {loggedIn ? (
               <div className="nav-right">
@@ -104,9 +104,10 @@ const NavBar = ({ reportLink }) => {
               through an agreement with the 
               <a href="https://www.fws.gov/" target="_blank"> U.S. Fish and Wildlife Service </a>
               (Grant no. F17AC00267), and was produced with support from the 
-              <a href="https://www.fwrc.msstate.edu/" target="_blank"> Forest and Wildlife Research Center at Mississippi State University</a>
-              . The findings and conclusions in this tool are those of the authors and do not necessarily represent the
-              views of the U.S. Fish and Wildlife Service or Gulf Coast Ecosystem Restoration Council.
+              <a href="https://www.fwrc.msstate.edu/" target="_blank"> Forest and Wildlife Research Center </a>
+              at Mississippi State University. The findings and conclusions in this tool are those of the 
+              authors and do not necessarily represent the views of the U.S. Fish and Wildlife Service or 
+              Gulf Coast Ecosystem Restoration Council.
             </p>
             <div className="d-flex justify-content-between">
               <a href="https://www.restorethegulf.gov/" target="_blank">

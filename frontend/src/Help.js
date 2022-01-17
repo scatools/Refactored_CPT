@@ -1,64 +1,111 @@
 import React from "react";
 import { Container, Jumbotron, Button } from "react-bootstrap";
+import * as Survey from "survey-react";
+import "survey-react/modern.css";
+import { SiGitbook, SiGithub } from "react-icons/si"
+import { MdVideoLibrary } from "react-icons/md"
 
 const Help = () => {
+  Survey.StylesManager.applyTheme("modern");
+
+  const json = {
+    elements: [
+      {
+        type: "text",
+        name: "name",
+        title: "Please enter your name",
+        isRequired: true
+      },
+      {
+        type: "text",
+        name: "institution",
+        title: "Please enter your institution",
+        isRequired: false
+      },
+      {
+        type: "text",
+        name: "email",
+        title: "Please enter your Email",
+        isRequired: true
+      },
+      {
+        type: "text", 
+        name: "feedback", 
+        title: "Please tell us any support you need or any feedback you have", 
+        isRequired: true
+      }
+    ]
+  };
+
+  const onComplete = (survey, options) => {
+    console.log("Survey results: " + JSON.stringify(survey.data));
+  };
+
+  const model = new Survey.Model(json);
+  
   return (
     <div>
       <Container>
         <Jumbotron>
+          <h2>Support Ticket</h2>
+          <p className="lead">
+            Please open a support ticket or leave your feedback here
+          </p>
+          <Survey.Survey model={model} onComplete={onComplete}/>
+          <hr/>
           <h2>Contact Us</h2>
           <p className="lead">
-            Your input is really valuable to us. Please let us know!
+            Please contact our project managers for more information about SCA Project
           </p>
-          <hr></hr>
-          <p>For more information, please contact our Project Coordinator</p>
-          <b>Dr. Amanda Sesser</b>
-          <p className="text-muted">Project Coordinator</p>
-          <Button variant="success" href="mailto:scaprojectgulf@gmail.com">
-            Send an email
-          </Button>
-          <hr></hr>
-          <p>Or one of our project's Principal Investigators:</p>
-          <b className="mb-2">Dr. Kristine Evans</b>
-          <p className="mb-0 text-muted">
-            Co-Director of the Quantitative Ecology and Spatial Technologies Lab
-            (QuEST) Lab
+          <div className="d-flex">
+            <div style={{width:"50%"}}>
+              <b>Dr. Amanda Sesser</b>
+              <p className="text-muted my-1">Project Coordinator</p>
+              <p className="text-muted my-1">Director, 21sustainability LLC.</p>
+              <br/><br/>
+              <Button className="mx-0 mt-2.5" variant="success" href="mailto:scaprojectgulf@gmail.com">
+                Send Email
+              </Button>
+            </div>
+            <div style={{width:"50%"}}>
+              <b>Dr. Kristine Evans</b>
+              <p className="text-muted my-1">Principal Investigator</p>
+              <p className="text-muted my-1">
+                Assistant Professor of Conservation Biology, Mississippi State University
+              </p>
+              <p className="text-muted my-1">
+                Co-Director of the Quantitative Ecology and Spatial Technologies Lab (QuEST) Lab
+              </p>
+              <Button className="mx-0 mt-2" variant="success" href="mailto:scaprojectgulf@gmail.com">
+                Send Email
+              </Button>
+            </div>
+          </div>
+          <hr/>
+          <h2>Documentation</h2>
+          <p className="lead">
+            Please visit our documentation page to get the glossary and know more about the methodology
           </p>
-          <p className="mb-0 text-muted">Mississippi State University</p>
-          <Button
-            className="mt-2"
-            variant="success"
-            href="mailto:scaprojectgulf@gmail.com"
-          >
-            Send an email
-          </Button>
-          <br /> <br />
-          <a href="https://scatools.github.io/learnmore/" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              fill="black"
-              class="bi bi-github"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-            </svg>
-          </a>{" "}
-          <span /> <span /> <span /> <span /> <span />
-          <a href="https://www.quest.fwrc.msstate.edu/sca/help-docs.php" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              fill="black"
-              class="bi bi-file-earmark-play"
-              viewBox="0 0 16 16"
-            >
-              <path d="M6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z" />
-              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-            </svg>
-          </a>
+          <div className="d-flex justify-content-between">
+            <p className="text-muted">
+              <b>GitBook Glossary </b>
+              <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/" target="_blank">
+                <SiGitbook size={30}/>
+              </a>
+            </p>
+            <p className="text-muted">
+              <b>GitHub Repository </b>
+              <a href="https://github.com/scatools/Refactored_CPT" target="_blank">
+                <SiGithub size={30}/>
+              </a>
+            </p>
+            <p className="text-muted">
+              <b>Video Tutorial </b>
+              <a href="https://www.quest.fwrc.msstate.edu/sca/help-docs.php" target="_blank">
+                <MdVideoLibrary size={30}/>
+              </a>
+            </p>
+          </div>
         </Jumbotron>
       </Container>
     </div>
