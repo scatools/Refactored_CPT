@@ -40,7 +40,7 @@ const Sidebar = ({
   setReportLink,
   autoDraw,
   customizedMeasures,
-  setHexGrid
+  setHexGrid,
 }) => {
   const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
@@ -72,7 +72,6 @@ const Sidebar = ({
           />
         )}
         {view === "viewCurrent" && (
-<<<<<<< HEAD
           <CurrentAOIView
             aoiSelected={aoiSelected}
             setAoiSelected={setAoiSelected}
@@ -94,39 +93,8 @@ const Sidebar = ({
             setAoiAssembled={setAoiAssembled}
             setAlerttext={setAlerttext}
             setView={setView}
+            customizedMeasures={customizedMeasures}
           />
-=======
-          <Container>
-            <CurrentAOIView
-              aoiSelected={aoiSelected}
-              setAoiSelected={setAoiSelected}
-              setViewport={setViewport}
-              setView={setView}
-            />
-            <SidebarViewDetail
-              aoiSelected={aoiSelected}
-              setActiveTable={setActiveTable}
-              setDrawingMode={setDrawingMode}
-              editAOI={editAOI}
-              setEditAOI={setEditAOI}
-              featureList={featureList}
-              setAlerttext={setAlerttext}
-              setReportLink={setReportLink}
-              setHexGrid={setHexGrid}
-            />
-          </Container>
-        )}
-        {view === "createAssess" && (
-          <Container>
-            <CreateAssessView
-              aoiAssembled={aoiAssembled}
-              setAoiAssembled={setAoiAssembled}
-              setAlerttext={setAlerttext}
-              setView={setView}
-              customizedMeasures={customizedMeasures}
-            />
-          </Container>
->>>>>>> 1a087b9059bbd0db4fa426bc38978069ff9cea6e
         )}
         {alerttext && (
           <Alert

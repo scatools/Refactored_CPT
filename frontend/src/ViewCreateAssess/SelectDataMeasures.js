@@ -29,17 +29,17 @@ const SelectDataMeasures = ({
   const [inputMeasureName, setInputMeasureName] = useState("");
   const [inputMeasureValueList, setInputMeasureValueList] = useState([]);
   const weights = useSelector((state) => state.weights);
-  const [dataStep, setDataStep] = useState("habitat");
-  const [habitatSelect, setHabitatSelect] = useState(false);
-  const [waterSelect, setWaterSelect] = useState(false);
-  const [resourceSelect, setResourceSelect] = useState(false);
-  const [resilienceSelect, setResilienceSelect] = useState(false);
-  const [ecoSelect, setEcoSelect] = useState(false);
   const aoi = useSelector((state) => state.aoi);
   const aoiAssembledList = aoiAssembled.map((aoi) => aoi.value);
   const aoiList = Object.values(aoi).filter((aoi) =>
     aoiAssembledList.includes(aoi.id)
   );
+  const [dataStep, setDataStep] = useState("hab");
+  const [habitatSelect, setHabitatSelect] = useState(false);
+  const [waterSelect, setWaterSelect] = useState(false);
+  const [resourceSelect, setResourceSelect] = useState(false);
+  const [resilienceSelect, setResilienceSelect] = useState(false);
+  const [ecoSelect, setEcoSelect] = useState(false);
   const dispatch = useDispatch();
   const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
   const plusCircle = (
@@ -47,11 +47,10 @@ const SelectDataMeasures = ({
       icon={faPlusCircle}
       size="lg"
       onClick={() => {
-        customizeMeasure("hab");
+        customizeMeasure(dataStep);
       }}
     />
   );
-
   // For predefined data measures
 
   const handleChange = (value, name, label, type) => {
@@ -101,6 +100,7 @@ const SelectDataMeasures = ({
 
   return (
     <Container>
+      {console.log(weights)}
       <Modal centered show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Input Your Customized Measure</Modal.Title>
@@ -113,7 +113,6 @@ const SelectDataMeasures = ({
             <b style={{ marginRight: "10px" }}>Input Type:</b>
             <select
               name="inputType"
-              value="scaled"
               className="form-control"
               style={{ width: "150px", height: "30px", fontSize: "12px" }}
               onChange={(e) => {
@@ -185,7 +184,7 @@ const SelectDataMeasures = ({
 
       <h3>Data Measures </h3>
       <br />
-      {dataStep === "habitat" && (
+      {dataStep === "hab" && (
         <Container>
           <span>Habitat:</span>
           <Select
@@ -233,6 +232,8 @@ const SelectDataMeasures = ({
             {plusCircle}
             <span>Customize Measure</span>
           </div>
+
+          <br />
 
           {weights.hab.selected &&
             weights.hab.selected.map((measure) => (
@@ -422,13 +423,13 @@ const SelectDataMeasures = ({
             >
               {arrowIcon} Edit RESTORE Weights
             </Button>
-            <Button variant="primary" onClick={() => setDataStep("water")}>
+            <Button variant="primary" onClick={() => setDataStep("wq")}>
               {habitatSelect ? "Next" : "Skip"}
             </Button>
           </Container>
         </Container>
       )}
-      {dataStep === "water" && (
+      {dataStep === "wq" && (
         <Container>
           <span>Water Quality & Quantity:</span>
           <Select
@@ -492,6 +493,7 @@ const SelectDataMeasures = ({
             {plusCircle}
             <span>Customize Measure</span>
           </div>
+          <br />
           {weights.wq.selected &&
             weights.wq.selected.map((measure) => (
               <div className="m-2" key={measure.value}>
@@ -516,10 +518,10 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    More
+                    Higher
                   </ToggleButton>
                   <ReactTooltip id="More1" place="top">
-                    Higher is better
+                    More is better
                   </ReactTooltip>
                   <ToggleButton
                     type="radio"
@@ -538,10 +540,10 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    Less
+                    Lower
                   </ToggleButton>
                   <ReactTooltip id="Less1" place="top">
-                    Lower is better
+                    Less is better
                   </ReactTooltip>
                 </ButtonGroup>
                 <ButtonGroup toggle className="ml-2">
@@ -674,17 +676,17 @@ const SelectDataMeasures = ({
 
           <br />
           <Container className="add-assess-cont">
-            <Button variant="secondary" onClick={() => setDataStep("habitat")}>
+            <Button variant="secondary" onClick={() => setDataStep("hab")}>
               {arrowIcon} Edit Habitat Measures
             </Button>
-            <Button variant="primary" onClick={() => setDataStep("resource")}>
+            <Button variant="primary" onClick={() => setDataStep("lcmr")}>
               {waterSelect ? "Next" : "Skip"}
             </Button>
           </Container>
         </Container>
       )}
 
-      {dataStep === "resource" && (
+      {dataStep === "lcmr" && (
         <Container>
           <span>Living Coastal & Marine Resources:</span>
           <Select
@@ -737,6 +739,7 @@ const SelectDataMeasures = ({
             {plusCircle}
             <span>Customize Measure</span>
           </div>
+          <br />
           {weights.lcmr.selected &&
             weights.lcmr.selected.map((measure) => (
               <div className="m-2" key={measure.value}>
@@ -761,10 +764,10 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    More
+                    Higher
                   </ToggleButton>
                   <ReactTooltip id="More" place="top">
-                    More impact less conservations
+                    More is better
                   </ReactTooltip>
                   <ToggleButton
                     type="radio"
@@ -783,10 +786,10 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    Less
+                    Lower
                   </ToggleButton>
                   <ReactTooltip id="Less" place="top">
-                    Less impact better conservations
+                    Less is better
                   </ReactTooltip>
                 </ButtonGroup>
                 <ButtonGroup toggle className="ml-2">
@@ -920,16 +923,16 @@ const SelectDataMeasures = ({
 
           <br />
           <Container className="add-assess-cont">
-            <Button variant="secondary" onClick={() => setDataStep("water")}>
+            <Button variant="secondary" onClick={() => setDataStep("wq")}>
               {arrowIcon} Edit Water Measures
             </Button>
-            <Button variant="primary" onClick={() => setDataStep("resilience")}>
+            <Button variant="primary" onClick={() => setDataStep("cl")}>
               {resourceSelect ? "Next" : "Skip"}
             </Button>
           </Container>
         </Container>
       )}
-      {dataStep === "resilience" && (
+      {dataStep === "cl" && (
         <Container>
           <span>Community Resilience:</span>
           <Select
@@ -974,7 +977,7 @@ const SelectDataMeasures = ({
             {plusCircle}
             <span>Customize Measure</span>
           </div>
-
+          <br />
           {weights.cl.selected &&
             weights.cl.selected.map((measure) => (
               <div className="m-2" key={measure.value}>
@@ -999,7 +1002,7 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    More
+                    Higher
                   </ToggleButton>
                   <ReactTooltip id="more" place="top">
                     More score the better
@@ -1021,7 +1024,7 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    Less
+                    Lower
                   </ToggleButton>
                   <ReactTooltip id="less" place="top">
                     Less score the better
@@ -1159,7 +1162,7 @@ const SelectDataMeasures = ({
           <br />
 
           <Container className="add-assess-cont">
-            <Button variant="secondary" onClick={() => setDataStep("resource")}>
+            <Button variant="secondary" onClick={() => setDataStep("lcmr")}>
               {arrowIcon} Edit Resources Measures
             </Button>
             <Button variant="primary" onClick={() => setDataStep("eco")}>
@@ -1215,6 +1218,7 @@ const SelectDataMeasures = ({
             {plusCircle}
             <span>Customize Measure</span>
           </div>
+          <br />
           {weights.eco.selected &&
             weights.eco.selected.map((measure) => (
               <div className="m-2" key={measure.value}>
@@ -1239,7 +1243,7 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    More
+                    Higher
                   </ToggleButton>
                   <ReactTooltip id="more" place="top">
                     More score the better
@@ -1261,7 +1265,7 @@ const SelectDataMeasures = ({
                       )
                     }
                   >
-                    Less
+                    Lower
                   </ToggleButton>
                   <ReactTooltip id="less" place="top">
                     Less score the better
@@ -1361,7 +1365,6 @@ const SelectDataMeasures = ({
                     Less is better
                   </ReactTooltip>
                 </ButtonGroup>
-                &nbsp;&nbsp; <label>Weight</label> &nbsp;
                 <ButtonGroup toggle className="ml-2">
                   <ToggleButton
                     type="radio"
@@ -1400,10 +1403,7 @@ const SelectDataMeasures = ({
           <br />
 
           <Container className="add-assess-cont">
-            <Button
-              variant="secondary"
-              onClick={() => setDataStep("resilience")}
-            >
+            <Button variant="secondary" onClick={() => setDataStep("cl")}>
               {arrowIcon} Edit Resilience Measures
             </Button>
             <Button

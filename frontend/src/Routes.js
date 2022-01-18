@@ -11,9 +11,13 @@ import Assessment from "./Assessment";
 const Routes = ({ setReportLink }) => {
   const [aoiSelected, setAoiSelected] = useState(null);
   const [aoiAssembled, setAoiAssembled] = useState([]);
-  const [ customizedMeasures, setCustomizedMeasures ] = useState(
-    {"hab":[], "wq":[], "lcmr":[], "cl":[], "eco":[]}
-  );
+  const [customizedMeasures, setCustomizedMeasures] = useState({
+    hab: [],
+    wq: [],
+    lcmr: [],
+    cl: [],
+    eco: [],
+  });
 
   return (
     <Switch>
