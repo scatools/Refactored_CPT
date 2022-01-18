@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactTooltip from "react-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { Label } from "recharts";
 
 const SelectDataMeasures = ({
   setAssessStep,
@@ -44,6 +45,7 @@ const SelectDataMeasures = ({
   const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
   const plusCircle = (
     <FontAwesomeIcon
+      className="hover-icon"
       icon={faPlusCircle}
       size="lg"
       onClick={() => {
@@ -100,7 +102,6 @@ const SelectDataMeasures = ({
 
   return (
     <Container>
-      {console.log(weights)}
       <Modal centered show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Input Your Customized Measure</Modal.Title>
@@ -183,7 +184,14 @@ const SelectDataMeasures = ({
       </Modal>
 
       <h3>Data Measures </h3>
-      <br />
+      <p className="smaller-text">
+        For each of the previously selected goals, here are data measures
+        associated with each goal.
+        <br />
+        <br />
+        Select each relevant data measure and set your prioritization level(Low,
+        Medium, or High)
+      </p>
       {dataStep === "hab" && (
         <Container>
           <span>Habitat:</span>
@@ -230,191 +238,211 @@ const SelectDataMeasures = ({
 
           <div style={{ float: "left" }}>
             {plusCircle}
-            <span>Customize Measure</span>
+            <span>Add Custom Measures</span>
           </div>
 
           <br />
+          <Container className="utility-wrap">
+            {weights.hab.selected &&
+              weights.hab.selected.map((measure) => (
+                <div className="m-2 measure-container" key={measure.value}>
+                  <span style={{ display: "block" }} className="my-1">
+                    <h4>{measure.label}</h4>
+                  </span>
+                  <div className="utility-btn-cont">
+                    <div>
+                      <div>
+                        <p className="smaller-text no-margin no-padding">
+                          Are higher or lower values better?
+                        </p>
+                      </div>
+                      <ButtonGroup toggle>
+                        <ToggleButton
+                          type="radio"
+                          data-tip
+                          data-for="more"
+                          variant="outline-secondary"
+                          name="utility"
+                          value="-1"
+                          checked={measure.utility === "-1"}
+                          onChange={(e) =>
+                            handleChange(
+                              e.currentTarget.value,
+                              e.currentTarget.name,
+                              measure.value,
+                              "hab"
+                            )
+                          }
+                        >
+                          Higher
+                        </ToggleButton>
+                        <ReactTooltip id="more" place="top">
+                          More is better
+                        </ReactTooltip>
+                        <ToggleButton
+                          type="radio"
+                          data-tip
+                          data-for="less"
+                          variant="outline-secondary"
+                          name="utility"
+                          value="1"
+                          checked={measure.utility === "1"}
+                          onChange={(e) =>
+                            handleChange(
+                              e.currentTarget.value,
+                              e.currentTarget.name,
+                              measure.value,
+                              "hab"
+                            )
+                          }
+                        >
+                          Lower
+                        </ToggleButton>
+                        <ReactTooltip id="less" place="top">
+                          Less is better
+                        </ReactTooltip>
+                      </ButtonGroup>
+                    </div>
+                    <div>
+                      <div>
+                        <p className="smaller-text no-margin">
+                          Select the priority
+                        </p>
+                      </div>
+                      <ButtonGroup toggle className="ml-2">
+                        <ToggleButton
+                          type="radio"
+                          variant="outline-secondary"
+                          name="weight"
+                          value="low"
+                          checked={measure.weight === "low"}
+                          onChange={(e) =>
+                            handleChange(
+                              e.currentTarget.value,
+                              e.currentTarget.name,
+                              measure.value,
+                              "hab"
+                            )
+                          }
+                        >
+                          Low
+                        </ToggleButton>
+                        <ToggleButton
+                          type="radio"
+                          variant="outline-secondary"
+                          name="weight"
+                          value="medium"
+                          checked={measure.weight === "medium"}
+                          onChange={(e) =>
+                            handleChange(
+                              e.currentTarget.value,
+                              e.currentTarget.name,
+                              measure.value,
+                              "hab"
+                            )
+                          }
+                        >
+                          Medium
+                        </ToggleButton>
+                        <ToggleButton
+                          type="radio"
+                          variant="outline-secondary"
+                          name="weight"
+                          value="high"
+                          checked={measure.weight === "high"}
+                          onChange={(e) =>
+                            handleChange(
+                              e.currentTarget.value,
+                              e.currentTarget.name,
+                              measure.value,
+                              "hab"
+                            )
+                          }
+                        >
+                          High
+                        </ToggleButton>
+                      </ButtonGroup>
+                    </div>
+                  </div>
+                </div>
+              ))}
 
-          {weights.hab.selected &&
-            weights.hab.selected.map((measure) => (
-              <div className="m-2" key={measure.value}>
-                <span style={{ display: "block" }} className="my-1">
-                  {measure.label}
-                </span>
-                <ButtonGroup toggle>
-                  <ToggleButton
-                    type="radio"
-                    data-tip
-                    data-for="more"
-                    variant="outline-secondary"
-                    name="utility"
-                    value="-1"
-                    checked={measure.utility === "-1"}
-                    onChange={(e) =>
-                      handleChange(
-                        e.currentTarget.value,
-                        e.currentTarget.name,
-                        measure.value,
-                        "hab"
-                      )
-                    }
-                  >
-                    Higher
-                  </ToggleButton>
-                  <ReactTooltip id="more" place="top">
-                    More is better
-                  </ReactTooltip>
-                  <ToggleButton
-                    type="radio"
-                    data-tip
-                    data-for="less"
-                    variant="outline-secondary"
-                    name="utility"
-                    value="1"
-                    checked={measure.utility === "1"}
-                    onChange={(e) =>
-                      handleChange(
-                        e.currentTarget.value,
-                        e.currentTarget.name,
-                        measure.value,
-                        "hab"
-                      )
-                    }
-                  >
-                    Lower
-                  </ToggleButton>
-                  <ReactTooltip id="less" place="top">
-                    Less is better
-                  </ReactTooltip>
-                </ButtonGroup>
-                <ButtonGroup toggle className="ml-2">
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    name="weight"
-                    value="low"
-                    checked={measure.weight === "low"}
-                    onChange={(e) =>
-                      handleChange(
-                        e.currentTarget.value,
-                        e.currentTarget.name,
-                        measure.value,
-                        "hab"
-                      )
-                    }
-                  >
-                    Low
-                  </ToggleButton>
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    name="weight"
-                    value="medium"
-                    checked={measure.weight === "medium"}
-                    onChange={(e) =>
-                      handleChange(
-                        e.currentTarget.value,
-                        e.currentTarget.name,
-                        measure.value,
-                        "hab"
-                      )
-                    }
-                  >
-                    Medium
-                  </ToggleButton>
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    name="weight"
-                    value="high"
-                    checked={measure.weight === "high"}
-                    onChange={(e) =>
-                      handleChange(
-                        e.currentTarget.value,
-                        e.currentTarget.name,
-                        measure.value,
-                        "hab"
-                      )
-                    }
-                  >
-                    High
-                  </ToggleButton>
-                </ButtonGroup>
-              </div>
-            ))}
-
-          {!!customizedMeasures.hab.length &&
-            customizedMeasures.hab.map((measure, index) => (
-              <div className="m-2" key={measure.name}>
-                <span style={{ display: "block" }} className="my-1">
-                  {measure.name}
-                </span>
-                <ButtonGroup toggle>
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    data-tip
-                    data-for="positive-hab-c"
-                    name="utility"
-                    value="1"
-                    checked={measure.utility === "1"}
-                    onChange={(e) => setMeasureUtility("hab", index, "1")}
-                  >
-                    Higher
-                  </ToggleButton>
-                  <ReactTooltip id="positive-hab-c" place="top">
-                    More is better
-                  </ReactTooltip>
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    data-tip
-                    data-for="negative-hab-c"
-                    name="utility"
-                    value="-1"
-                    checked={measure.utility === "-1"}
-                    onChange={(e) => setMeasureUtility("hab", index, "-1")}
-                  >
-                    Lower
-                  </ToggleButton>
-                  <ReactTooltip id="negative-hab-c" place="top">
-                    Less is better
-                  </ReactTooltip>
-                </ButtonGroup>
-                <ButtonGroup toggle className="ml-2">
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    name="weight"
-                    value="low"
-                    checked={measure.weight === "low"}
-                    onChange={(e) => setMeasureWeight("hab", index, "low")}
-                  >
-                    Low
-                  </ToggleButton>
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    name="weight"
-                    value="medium"
-                    checked={measure.weight === "medium"}
-                    onChange={(e) => setMeasureWeight("hab", index, "medium")}
-                  >
-                    Medium
-                  </ToggleButton>
-                  <ToggleButton
-                    type="radio"
-                    variant="outline-secondary"
-                    name="weight"
-                    value="high"
-                    checked={measure.weight === "high"}
-                    onChange={(e) => setMeasureWeight("hab", index, "high")}
-                  >
-                    High
-                  </ToggleButton>
-                </ButtonGroup>
-              </div>
-            ))}
+            {!!customizedMeasures.hab.length &&
+              customizedMeasures.hab.map((measure, index) => (
+                <div className="m-2" key={measure.name}>
+                  <span style={{ display: "block" }} className="my-1">
+                    {measure.name}
+                  </span>
+                  <ButtonGroup className="utility-inner" toggle>
+                    <div>
+                      <p>Are higher or lower values better?</p>
+                    </div>
+                    <ToggleButton
+                      type="radio"
+                      variant="outline-secondary"
+                      data-tip
+                      data-for="positive-hab-c"
+                      name="utility"
+                      value="1"
+                      checked={measure.utility === "1"}
+                      onChange={(e) => setMeasureUtility("hab", index, "1")}
+                    >
+                      Higher
+                    </ToggleButton>
+                    <ReactTooltip id="positive-hab-c" place="top">
+                      More is better
+                    </ReactTooltip>
+                    <ToggleButton
+                      type="radio"
+                      variant="outline-secondary"
+                      data-tip
+                      data-for="negative-hab-c"
+                      name="utility"
+                      value="-1"
+                      checked={measure.utility === "-1"}
+                      onChange={(e) => setMeasureUtility("hab", index, "-1")}
+                    >
+                      Lower
+                    </ToggleButton>
+                    <ReactTooltip id="negative-hab-c" place="top">
+                      Less is better
+                    </ReactTooltip>
+                  </ButtonGroup>
+                  <ButtonGroup toggle className="ml-2 weight-inner">
+                    <ToggleButton
+                      type="radio"
+                      variant="outline-secondary"
+                      name="weight"
+                      value="low"
+                      checked={measure.weight === "low"}
+                      onChange={(e) => setMeasureWeight("hab", index, "low")}
+                    >
+                      Low
+                    </ToggleButton>
+                    <ToggleButton
+                      type="radio"
+                      variant="outline-secondary"
+                      name="weight"
+                      value="medium"
+                      checked={measure.weight === "medium"}
+                      onChange={(e) => setMeasureWeight("hab", index, "medium")}
+                    >
+                      Medium
+                    </ToggleButton>
+                    <ToggleButton
+                      type="radio"
+                      variant="outline-secondary"
+                      name="weight"
+                      value="high"
+                      checked={measure.weight === "high"}
+                      onChange={(e) => setMeasureWeight("hab", index, "high")}
+                    >
+                      High
+                    </ToggleButton>
+                  </ButtonGroup>
+                </div>
+              ))}
+          </Container>
           <br />
           <Container className="add-assess-cont">
             <Button
@@ -491,7 +519,7 @@ const SelectDataMeasures = ({
           />
           <div style={{ float: "left" }}>
             {plusCircle}
-            <span>Customize Measure</span>
+            <span>Add Custom Measure</span>
           </div>
           <br />
           {weights.wq.selected &&
@@ -737,7 +765,7 @@ const SelectDataMeasures = ({
 
           <div style={{ float: "left" }}>
             {plusCircle}
-            <span>Customize Measure</span>
+            <span>Add Custom Measures</span>
           </div>
           <br />
           {weights.lcmr.selected &&
@@ -975,7 +1003,7 @@ const SelectDataMeasures = ({
 
           <div style={{ float: "left" }}>
             {plusCircle}
-            <span>Customize Measure</span>
+            <span>Add Custom Measures</span>
           </div>
           <br />
           {weights.cl.selected &&
@@ -1216,7 +1244,7 @@ const SelectDataMeasures = ({
 
           <div style={{ float: "left" }}>
             {plusCircle}
-            <span>Customize Measure</span>
+            <span>Add Custom Measures</span>
           </div>
           <br />
           {weights.eco.selected &&

@@ -35,18 +35,23 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
 
   return (
     <Container>
-      {/* <h3>RESTORE Goal Weights:</h3>
-      <p className="smaller-text">Total must add up to 100</p> */}
-      <br />
-      <h5>RESTORE Goal Weights:</h5>
-      <a
+      <h3>RESTORE Goal Weights:</h3>
+      <p className="smaller-text">
+        Below are the 5 RESTORE Council Goals
+        <br />
+        Rank them by importance to your organization
+        <br />
+        Total must add up to 100
+      </p>
+      {/* <a
         href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
+        target="_blank"
+        rel="noreferrer noopener"
         style={{ float: "right" }}
       >
-        <HiExternalLink /> &nbsp;
         <em>Learn More about RESTORE Goals</em>
       </a>
-      <br />
+      <br /> */}
       <Form>
         <>
           <span>Habitat: {weights.hab.weight}</span>

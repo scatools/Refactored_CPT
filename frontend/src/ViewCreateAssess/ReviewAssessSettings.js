@@ -271,7 +271,7 @@ const ReviewAssessSettings = ({
           style={{ float: "right" }}
           onClick={createAssessment}
         >
-          Generate Assessment
+          Generate Evaluation
         </Button>
       </Container>
     </>
