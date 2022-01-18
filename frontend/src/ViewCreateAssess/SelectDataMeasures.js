@@ -5,7 +5,7 @@ import Select from "react-select";
 import { changeMeasures, changeMeasuresWeight, changeGoalWeights } from "../action";
 import { useDispatch, useSelector } from "react-redux";
 import ReactTooltip from "react-tooltip";
-import { GoQuestion } from "react-icons/go"
+import { GoInfo, GoQuestion } from "react-icons/go"
 import { FiPlusCircle } from "react-icons/fi"
 import { HiExternalLink } from "react-icons/hi"
 
@@ -170,16 +170,10 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
           styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
           menuPortalTarget={document.body}
           options={[
-            {
-              value: "hab1",
-              label: "Padus - Connectivity to Existing Protected Area",
-            },
+            { value: "hab1", label: "Connectivity to Existing Protected Area" },
             { value: "hab2", label: "Connectivity of Natural Lands" },
             { value: "hab3", label: "Threat of Urbanization" },
-            {
-              value: "hab4",
-              label: "Land Cover - Composition of Natural Lands ",
-            },
+            { value: "hab4", label: "Composition of Priority Natural Lands" }
           ]}
           isMulti
           isClearable={false}
@@ -222,7 +216,17 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
           weights.hab.selected.map((measure) => (
             <div className="m-2" key={measure.value}>
               <span style={{ display: "block" }} className="my-1">
-                {measure.label}
+                {measure.label} &nbsp;
+                <GoInfo data-tip data-for={measure.value} />
+                <ReactTooltip id={measure.value} type='dark'>
+                  <span>
+                    {measure.label==='Connectivity to Existing Protected Area'? 'Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by PAD-US 2.0 data.':
+                    (measure.label==='Connectivity of Natural Lands'? 'A percent attribute that stands for the proportion of area classified as a hub or corridor.':
+                    (measure.label==='Threat of Urbanization'? 'Threat of urbanization (ToU) indicates the likelihood of the given project area or area of interest (AoI) being urbanized by the year 2060.':
+                    (measure.label==='Composition of Priority Natural Lands'? 'This attribute prioritizes rare habitat types and those that have been identified as conservation priorities in state and regional plans.':
+                    "")))}
+                  </span>
+                </ReactTooltip>
               </span>
               &nbsp;&nbsp; <label>Utility</label> &nbsp;
               <ButtonGroup toggle>
@@ -421,31 +425,12 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         styles={{ menuPortal: (base, state) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
         options={[
-          {
-            value: "wq1",
-            type: "checkbox",
-            label: "303(D): Impaired Watershed Area ",
-          },
-          {
-            value: "wq2",
-            type: "checkbox",
-            label: "Hydrologic Response to Land-Use Change",
-          },
-          {
-            value: "wq3",
-            type: "checkbox",
-            label: "Percent Irrigated Agriculture",
-          },
-          {
-            value: "wq4",
-            type: "checkbox",
-            label: "Lateral Connectivity to Floodplain",
-          },
-          {
-            value: "wq5",
-            type: "checkbox",
-            label: "Composition of Riparizan Zone Lands",
-          },
+          { value: "wq1", label: "303(d): Impaired Watershed Area" },
+          { value: "wq2", label: "Hydrologic Response to Land-Use Change" },
+          { value: "wq3", label: "Percent Irrigated Agriculture" },
+          { value: "wq4", label: "Lateral Connectivity of Floodplain" },
+          { value: "wq5", label: "Composition of Riparizan Zone Lands" },
+          { value: "wq6", label: "Presence of Impoundments" }
         ]}
         isMulti
         placeholder="Select Water Quality & Quantity measures..."
@@ -489,7 +474,19 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         weights.wq.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
             <span style={{ display: "block" }} className="my-1">
-              {measure.label}
+              {measure.label} &nbsp;
+              <GoInfo data-tip data-for={measure.value} />
+              <ReactTooltip id={measure.value} type='dark'>
+                <span>
+                  {measure.label==='303(d): Impaired Watershed Area'? 'A percent attribute that stands for the proportion of impaired watershed within each hexagon.':
+                  (measure.label==='Hydrologic Response to Land-Use Change'? 'The magnitude of change in peak flow due to Land-Use/Land-Cover change from 1996 to 2016.':
+                  (measure.label==='Percent Irrigated Agriculture'? 'The proportion (%) of the area of interest that is covered by irrigated agriculture.':
+                  (measure.label==='Lateral Connectivity of Floodplain'? 'The proportion of floodplain within the area of interest that is connected.':
+                  (measure.label==='Composition of Riparizan Zone Lands'? 'An average index value of the composition of lands within a 100-meter buffer of streams.':
+                  (measure.label==='Presence of Impoundments'? 'This measure describes whether or not an area is impacted by hydromodification.':
+                  "")))))}
+                </span>
+              </ReactTooltip>
             </span>
             &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
@@ -687,19 +684,12 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
         options={[
-          {
-            value: "lcmr1",
-            label: "Vulnerable Area of Terrestrial Endemic Species",
-          },
-          {
-            value: "lcmr2",
-            label: "Threatened and Endangered Species - Critical Habitat Area ",
-          },
-          {
-            value: "lcmr3",
-            label: "Threatened and Endangered Species - Number of Species ",
-          },
+          { value: "lcmr1", label: "Vulnerable Areas of Terrestrial Endemic Species" },
+          { value: "lcmr2", label: "Threatened and Endangered Species - Critical Habitat Area" },
+          { value: "lcmr3", label: "Threatened and Endangered Species - Number of Species" },
           { value: "lcmr4", label: "Light Pollution Index" },
+          { value: "lcmr5", label: "Terrestrial Vertebrate Biodiversity" },
+          { value: "lcmr6", label: "Vulnerability to Invasive Plants" }
         ]}
         isMulti
         placeholder="Select Living Coastal & Marine Resources measures..."
@@ -744,7 +734,19 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         weights.lcmr.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
             <span style={{ display: "block" }} className="my-1">
-              {measure.label}
+              {measure.label} &nbsp;
+              <GoInfo data-tip data-for={measure.value} />
+              <ReactTooltip id={measure.value} type='dark'>
+                <span>
+                  {measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'This measure represents the ratio of endemic species to the amount of protected land in the contiguous U.S.':
+                  (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'The measure is based on the U.S. Fish and Wildlife Service designated federally threatened and endangered (T&E) critical habitat.':
+                  (measure.label==='Threatened and Endangered Species - Number of Species'? 'This attribute measures the number of federally threatened and endangered (T&E) species that have habitat ranges identified within each hexagon.':
+                  (measure.label==='Light Pollution Index'? 'An index that measures the intensity of light pollution within each hexagon.':
+                  (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Definition of Terrestrial Vertebrate Biodiversity.':
+                  (measure.label==='Vulnerability to Invasive Plants'? 'Definition of Vulnerability to Invasive Plants.':
+                  "")))))}
+                </span>
+              </ReactTooltip>
             </span>
             &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
@@ -944,11 +946,8 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         options={[
           { value: "cl1", label: "National Register of Historic Places" },
           { value: "cl2", label: "National Heritage Area" },
-          {
-            value: "cl3",
-            label: "Proximity to Socially Vulnerability Communities",
-          },
-          { value: "cl4", label: "Community Threat Index " },
+          { value: "cl3", label: "Proximity to Socially Vulnerability Communities" },
+          { value: "cl4", label: "Community Threat Index" }
         ]}
         isMulti
         placeholder="Select Community Resilience measures..."
@@ -992,7 +991,17 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         weights.cl.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
             <span style={{ display: "block" }} className="my-1">
-              {measure.label}
+              {measure.label} &nbsp;
+              <GoInfo data-tip data-for={measure.value} />
+              <ReactTooltip id={measure.value} type='dark'>
+                <span>
+                  {measure.label==='National Register of Historic Places'? 'A numeric attribute that represents the counts of historic places within each hexagon.':
+                  (measure.label==='National Heritage Area'? 'A percent attribute that stands for the proportion of heritage area within each hexagon.':
+                  (measure.label==='Proximity to Socially Vulnerability Communities'? 'This measure indicates the proximity to communities that are socially vulnerable according to the National Oceanic and Atmospheric Administration’s (NOAA) Social Vulnerability Index.':
+                  (measure.label==='Community Threat Index'? 'The Community Threat Index (CTI) comes from the Coastal Resilience Evaluation and Siting Tool (CREST).':
+                  "")))}
+                </span>
+              </ReactTooltip>
             </span>
             &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
@@ -1191,12 +1200,9 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         menuPortalTarget={document.body}
         options={[
           { value: "eco1", label: "High Priority Working Lands" },
-          { value: "eco2", label: "Commercial Fishery Reliance" },
-          { value: "eco3", label: "Recreational Fishery Engagement" },
-          {
-            value: "eco4",
-            label: "Access & Recreation - Number of Access Points",
-          },
+          { value: "eco2", label: "Commercial Fishing Reliance" },
+          { value: "eco3", label: "Recreational Fishing Engagement" },
+          { value: "eco4", label: "Access & Recreation - Number of Access Points" }
         ]}
         isMulti
         placeholder="Select Gulf Economy measures..."
@@ -1241,7 +1247,17 @@ const SelectDataMeasures = ({ setAssessStep, aoiAssembled, customizedMeasures })
         weights.eco.selected.map((measure) => (
           <div className="m-2" key={measure.value}>
             <span style={{ display: "block" }} className="my-1">
-              {measure.label}
+              {measure.label} &nbsp;
+              <GoInfo data-tip data-for={measure.value} />
+              <ReactTooltip id={measure.value} type='dark'>
+                <span>
+                  {measure.label==='High Priority Working Lands'? 'The percentage area of pine, cropland, and pasture/hay classes from the National Land Cover Database (NLCD) 2016 classification map.':
+                  (measure.label==='Commercial Fishing Reliance'? 'Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. ':
+                  (measure.label==='Recreational Fishing Engagement'? 'Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure.':
+                  (measure.label==='Access & Recreation - Number of Access Points'? 'This measure indicates the number of points within a 25 km buffer radius of a hexagon, where the public can access places to engage in outdoor recreation.':
+                  "")))}
+                </span>
+              </ReactTooltip>
             </span>
             &nbsp;&nbsp; <label>Utility</label> &nbsp;
             <ButtonGroup toggle>
