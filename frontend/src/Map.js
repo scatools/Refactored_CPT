@@ -25,11 +25,8 @@ const Map = ({
   interactiveLayerIds,
   setInteractiveLayerIds,
   autoDraw,
+  hexGrid
 }) => {
-  const aoi = Object.values(useSelector((state) => state.aoi)).filter(
-    (aoi) => aoi.id === aoiSelected
-  );
-
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null);
   const [hucData, setHucData] = useState(null);
   const [hovered, setHovered] = useState(false);
@@ -40,6 +37,10 @@ const Map = ({
   const [filter, setFilter] = useState(["in", "HUC12", "default"]);
   const editorRef = useRef(null);
 
+  const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
+    (aoi) => aoi.id === aoiSelected
+  );
+  
   const onSelect = (options) => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
   };
@@ -151,6 +152,46 @@ const Map = ({
       });
   };
 
+  const renderHexGrid = () => {
+    const hexFeatureList = aoiList[0].hexagons.map((hex) => {
+      return {
+        type: 'Feature',
+        geometry:JSON.parse(hex.geometry),
+        properties: {gid: hex.gid, objectid: hex.objectid}
+      }
+    });
+    // console.log(hexFeatureList);
+    const hexData = {
+      type: "FeatureCollection",
+      features: hexFeatureList
+    };
+    return (
+      <Source type="geojson" data={hexData}>
+        <Layer
+          id="hex"
+          type="fill"
+          paint={{
+            "fill-outline-color": "#484896",
+            "fill-color": "#6e599f",
+            "fill-opacity": 0.2,
+          }}
+        />
+        {/* {filterList.map((filter) => (
+          <Layer
+            id={filter[2]}
+            type="fill"
+            paint={{
+              "fill-outline-color": "#484896",
+              "fill-color": "#00ffff",
+              "fill-opacity": 0.2,
+            }}
+            filter={filter}
+          />
+        ))} */}
+      </Source>
+    )
+  };
+
   useEffect(() => {
     if (editorRef.current) {
       const featureList = editorRef.current.getFeatures();
@@ -176,9 +217,9 @@ const Map = ({
       drawingMode &&
       editorRef.current.getFeatures().length === 0
     ) {
-      editorRef.current.addFeatures(aoi[0].geometry);
+      editorRef.current.addFeatures(aoiList[0].geometry);
     }
-  }, [editAOI, aoi, drawingMode, aoiSelected]);
+  }, [editAOI, aoiList, drawingMode, aoiSelected]);
 
   useEffect(() => {
     if (hucBoundary) {
@@ -258,12 +299,12 @@ const Map = ({
         featureStyle={getFeatureStyle}
         editHandleStyle={getEditHandleStyle}
       />
-      {aoi.length > 0 && !editAOI && !hucBoundary && (
+      {aoiList.length > 0 && !editAOI && !hucBoundary && (
         <Source
           type="geojson"
           data={{
             type: "FeatureCollection",
-            features: aoi[0].geometry,
+            features: aoiList[0].geometry,
           }}
         >
           <Layer
@@ -298,6 +339,7 @@ const Map = ({
           ))}
         </Source>
       )}
+      {aoiList.length > 0 && hexGrid && renderHexGrid()}
       {drawingMode && renderDrawTools()}
       {hucBoundary && hovered && renderPopup()}
     </MapGL>

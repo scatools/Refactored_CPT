@@ -64,20 +64,20 @@ const NavBar = ({ reportLink }) => {
         <Modal show={show} onHide={handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>
-              Welcome to the Gulf State's Land Conservation Prioritization Tool
+              Welcome to the Conservation Prioritization Tool
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             Using this tool, you can create a custom report on your areas of
-            interest (up to 10), with our catalog of over 15 metrics and address
-            particular conservation and restoration questions.
+            interest (up to 10), with our catalog of over 20 metrics and address
+            particular conservation and restoration concerns.
             <br /> <br />
             <b>Key Features</b>
             <br />
             <ul>
               <li>Quickly create custom prioritization maps</li>
               <li>HTML and CSV outputs</li>
-              <li>Over 15 metrics</li>
+              <li>Over 20 metrics</li>
             </ul>
             <b>Intended Use</b>
             <br />
@@ -97,6 +97,32 @@ const NavBar = ({ reportLink }) => {
               multi-criteria decision analysis (MCDA) framework, or user-defined
               values.
             </p>
+            <b>Sponsorship</b>
+            <p>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funding for this project was provided by the 
+              <a href="https://www.restorethegulf.gov/"> Gulf Coast Ecosystem Restoration Council </a> 
+              through an agreement with the 
+              <a href="https://www.fws.gov/"> U.S. Fish and Wildlife Service </a>
+              (Grant no. F17AC00267), and was produced with support from the 
+              <a href="https://www.fwrc.msstate.edu/"> Forest and Wildlife Research Center at Mississippi State University</a>
+              . The findings and conclusions in this tool are those of the authors and do not necessarily represent the
+              views of the U.S. Fish and Wildlife Service or Gulf Coast Ecosystem Restoration Council.
+            </p>
+            <div class="d-flex justify-content-between">
+              <a href="https://www.restorethegulf.gov/">
+                <img src="/Logo_RESTORE.png" alt="image" height="100px"/>
+              </a>
+              <a href="https://www.fws.gov/">
+                <img src="/Logo_USFWS.png" alt="image" height="100px"/>
+              </a>
+              <a href="https://www.msstate.edu/">
+                <img src="/Logo_MSSTATE.png" alt="image" height="100px"/>
+              </a>
+              <a href="https://www.fwrc.msstate.edu/">
+                <img src="/Logo_CFR.png" alt="image" height="100px"/>
+              </a>
+            </div>
+            <br />
           </Modal.Body>
         </Modal>
       </div>

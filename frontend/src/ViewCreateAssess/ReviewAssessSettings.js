@@ -24,7 +24,11 @@ const RESTOREGoal = [
   "Gulf Economy",
 ];
 
-const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
+const ReviewAssessSettings = ({
+  setAssessStep,
+  aoiAssembled,
+  customizedMeasures,
+}) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
 
@@ -35,6 +39,73 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
   const handleShow = () => setShow(true);
   const history = useHistory();
 
+  const handleBack = () => {
+    setAssessStep("selectDataMeasures");
+  };
+
+  const createAssessment = () => {
+    dispatch(setLoader(true));
+    async function calculateNewData() {
+      const newAoiData = aoiAssembled.map((item) =>
+        getScaledForAssessment(
+          aoi[item.value].rawScore,
+          aoi[item.value].id,
+          aoi[item.value].name
+        )
+      );
+      const goalList = {
+        hab: "Habitat",
+        wq: "Water Quality & Quantity",
+        lcmr: "Living Costal & Marine Resources",
+        cl: "Community Resilience",
+        eco: "Gulf Economy",
+      };
+      const newWeights = Object.entries(weights).map((goal) => {
+        return {
+          goal: goalList[goal[0]],
+          weights: goal[1].weight / 100,
+        };
+      });
+      const newAoi = mergeIntoArray(newAoiData);
+      const scoreByGoal = calculateMeasures(newAoiData, weights);
+
+      // For development on local server
+      // const result = await axios.post('http://localhost:5000/mcda',{
+      // 	mean: scoreByGoal,
+      // 	std: 0.1
+      // });
+      // For production on Heroku
+      const result = await axios.post(
+        "https://sca-cpt-backend.herokuapp.com/mcda",
+        {
+          mean: scoreByGoal,
+          std: 0.1,
+        }
+      );
+      const returnData = {
+        aoi: newAoi,
+        aoiScore: scoreByGoal,
+        weights: newWeights,
+        rankAccept: result.data.rankAccept,
+        centralWeight: result.data.centralWeight,
+      };
+      dispatch(generate_assessment(returnData));
+    }
+
+    if (
+      Object.values(weights).reduce((a, b) => {
+        return a + b.weight;
+      }, 0) !== 100 ||
+      aoiAssembled.length <= 1
+    ) {
+      handleShow();
+    } else {
+      calculateNewData().then(() => {
+        history.push("/assessment");
+      });
+    }
+  };
+
   return (
     <>
       <Container id="assessment-card" className="card-body">
@@ -42,20 +113,26 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>Measure Name</th>
-              <th>Goal Related</th>
-              <th>
+              <th class="align-top">Measure Name</th>
+              <th class="align-top">Goal Related</th>
+              <th class="align-top">
                 Utility &nbsp;
-                <GoInfo data-tip data-for="GoInfo" />
-                <ReactTooltip id="GoInfo" type="dark">
-                  <span>Pragna this thing worked</span>
+                <GoInfo data-tip data-for="utility" />
+                <ReactTooltip id="utility" type="dark">
+                  <span>
+                    Utility functions are mathematical representations of how
+                    users prefer varying values of a single measure
+                  </span>
                 </ReactTooltip>
               </th>
-              <th>
+              <th class="align-top">
                 Weights &nbsp;
-                <GoInfo data-tip data-for="GoInfo" />
-                <ReactTooltip id="GoInfo" type="dark">
-                  <span>Pragna this thing worked</span>
+                <GoInfo data-tip data-for="measureWeights" />
+                <ReactTooltip id="measureWeights" type="dark">
+                  <span>
+                    Measure weights are set by users to emphasize certain
+                    priority attributes
+                  </span>
                 </ReactTooltip>
               </th>
             </tr>
@@ -66,7 +143,16 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
                 <tr key={measure.value}>
                   <td>{measure.label}</td>
                   <td>Habitat</td>
-                  <td>{measure.utility === "1" ? "Desired" : "UnDesired"}</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))}
+            {!!customizedMeasures.hab.length &&
+              customizedMeasures.hab.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Habitat</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -75,7 +161,16 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
                 <tr key={measure.value}>
                   <td>{measure.label}</td>
                   <td>Water</td>
-                  <td>{measure.utility === "1" ? "Desired" : "UnDesired"}</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))}
+            {!!customizedMeasures.wq.length &&
+              customizedMeasures.wq.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Water</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -84,7 +179,16 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
                 <tr key={measure.value}>
                   <td>{measure.label}</td>
                   <td>LCMR</td>
-                  <td>{measure.utility === "1" ? "Desired" : "UnDesired"}</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))}
+            {!!customizedMeasures.lcmr.length &&
+              customizedMeasures.lcmr.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>LCMR</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -93,7 +197,16 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
                 <tr key={measure.value}>
                   <td>{measure.label}</td>
                   <td>Resilience</td>
-                  <td>{measure.utility === "1" ? "Desired" : "UnDesired"}</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))}
+            {!!customizedMeasures.cl.length &&
+              customizedMeasures.cl.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Resilience</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -102,7 +215,16 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
                 <tr key={measure.value}>
                   <td>{measure.label}</td>
                   <td>Economy</td>
-                  <td>{measure.utility === "1" ? "Desired" : "UnDesired"}</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.weight.toUpperCase()}</td>
+                </tr>
+              ))}
+            {!!customizedMeasures.eco.length &&
+              customizedMeasures.eco.map((measure) => (
+                <tr key={measure.value}>
+                  <td>{measure.name}</td>
+                  <td>Economy</td>
+                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -113,7 +235,16 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
           <thead>
             <tr>
               <th>RESTORE Goal</th>
-              <th>Goal Weights</th>
+              <th>
+                Goal Weights &nbsp;
+                <GoInfo data-tip data-for="goalWeights" />
+                <ReactTooltip id="goalWeights" type="dark">
+                  <span>
+                    Goal weights are set by users to emphasize specific RESTORE
+                    goals
+                  </span>
+                </ReactTooltip>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -138,70 +269,7 @@ const ReviewAssessSettings = ({ aoiAssembled, setAssessStep }) => {
           className="ml-2"
           variant="primary"
           style={{ float: "right" }}
-          onClick={() => {
-            dispatch(setLoader(true));
-            async function calculateNewData() {
-              const newAoiData = aoiAssembled.map((item) =>
-                getScaledForAssessment(
-                  aoi[item.value].rawScore,
-                  aoi[item.value].id,
-                  aoi[item.value].name
-                )
-              );
-              const goalList = {
-                hab: "Habitat",
-                wq: "Water Quality & Quantity",
-                lcmr: "Living Costal & Marine Resources",
-                cl: "Community Resilience",
-                eco: "Gulf Economy",
-              };
-              const newWeights = Object.entries(weights).map((goal) => {
-                return {
-                  goal: goalList[goal[0]],
-                  weights: goal[1].weight / 100,
-                };
-              });
-              const newAoi = mergeIntoArray(newAoiData);
-              const scoreByGoal = calculateMeasures(newAoiData, weights);
-
-              // For development on local server
-              // const result = await axios.post('http://localhost:5000/mcda',{
-              // 	mean: scoreByGoal,
-              // 	std: 0.1
-              // });
-              // For production on Heroku
-              const result = await axios.post(
-                "https://sca-cpt-backend.herokuapp.com/mcda",
-                {
-                  mean: scoreByGoal,
-                  std: 0.1,
-                }
-              );
-              const returnData = {
-                aoi: newAoi,
-                aoiScore: scoreByGoal,
-                weights: newWeights,
-                rankAccept: result.data.rankAccept,
-                centralWeight: result.data.centralWeight,
-              };
-              dispatch(generate_assessment(returnData));
-            }
-
-            if (
-              Object.values(weights).reduce((a, b) => {
-                return a + b.weight;
-              }, 0) !== 100 ||
-              aoiAssembled.length <= 1
-            ) {
-              handleShow();
-            } else {
-              calculateNewData().then(() => {
-                history.push("/assessment");
-                // This won't work
-                // return <Redirect to="/assessment"/>
-              });
-            }
-          }}
+          onClick={createAssessment}
         >
           Generate Assessment
         </Button>

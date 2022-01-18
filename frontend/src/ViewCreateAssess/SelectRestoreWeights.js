@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import RangeSlider from "react-bootstrap-range-slider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
+import { HiExternalLink } from "react-icons/hi";
 
 const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
@@ -33,8 +35,18 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
 
   return (
     <Container>
-      <h3>RESTORE Goal Weights:</h3>
-      <p className="smaller-text">Total must add up to 100</p>
+      {/* <h3>RESTORE Goal Weights:</h3>
+      <p className="smaller-text">Total must add up to 100</p> */}
+      <br />
+      <h5>RESTORE Goal Weights:</h5>
+      <a
+        href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
+        style={{ float: "right" }}
+      >
+        <HiExternalLink /> &nbsp;
+        <em>Learn More about RESTORE Goals</em>
+      </a>
+      <br />
       <Form>
         <>
           <span>Habitat: {weights.hab.weight}</span>

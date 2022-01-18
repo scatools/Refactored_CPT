@@ -12,9 +12,14 @@ app.use(morgan('tiny'));
 
 app.post('/data', async function(req, res, next) {
 	try {
-		// Set 4326 as the SRID for both geometries to avoid operations on mixed SRID geometries
+		// Set 4326 as the SRID for both geometries to avoid operations on mixed projections
 		const results = await db.query(
-			`SELECT gid,objectid,hab1,hab2,hab3,hab4,wq1,wq2,wq3,wq4,wq5,wq6,lcmr1,lcmr2,lcmr3,lcmr4,lcmr5,lcmr6,cl1,cl2,cl3,cl4,eco1,eco2,eco3,eco4 
+			`SELECT gid,objectid,
+			hab1,hab2,hab3,hab4,
+			wq1,wq2,wq3,wq4,wq5,wq6,
+			lcmr1,lcmr2,lcmr3,lcmr4,lcmr5,lcmr6,
+			cl1,cl2,cl3,cl4,eco1,eco2,eco3,eco4,
+			ST_AsGeoJSON(ST_SetSRID(geom, 4326)) AS geometry 
 			FROM sca_landonly_withdata7_renamed 
 			WHERE ST_Intersects(ST_SetSRID(ST_GeomFromGeoJSON($1), 4326), ST_SetSRID(sca_landonly_withdata7_renamed.geom, 4326))`,
 			[req.body.data]
