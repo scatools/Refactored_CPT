@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 
@@ -21,37 +21,49 @@ const NavBar = ({ reportLink }) => {
         </Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <NavLink to="/" className="ml-3">
+            <NavLink to="/" className="ml-3 mt-2" onClick={handleShow}>
+              About
+            </NavLink>
+            <NavLink to="/" className="ml-3 mt-2">
               Map
             </NavLink>
             {reportLink && (
-              <NavLink to="/report" className="ml-3">
+              <NavLink to="/report" className="ml-3 mt-2">
                 Report
               </NavLink>
             )}
             {assessment.hasOwnProperty("aoi") && (
-              <NavLink to="/assessment" className="ml-3">
+              <NavLink to="/assessment" className="ml-3 mt-2">
                 Assessment
               </NavLink>
             )}
-            <NavLink to="/" className="ml-3" onClick={handleShow}>
-              About
-            </NavLink>
-            <NavLink to="/help" className="ml-3">
+            <NavLink to="/help" className="ml-3 mt-2">
               Support
             </NavLink>
+            <NavDropdown title="More"  className="ml-3">
+              <NavDropdown.Item href="https://www.quest.fwrc.msstate.edu/sca/about-the-project.php" target="_blank">
+                Strategic Conservation Assessment (SCA) Project
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="http://sca-cit.herokuapp.com/" target="_blank">
+                Conservation Planning Inventory Tool (CIT)
+              </NavDropdown.Item>
+              <NavDropdown.Item href="https://sca-cvt.netlify.app/" target="_blank">
+                Conservation Visualization Tool (CVT)
+              </NavDropdown.Item>
+            </NavDropdown>
             {loggedIn ? (
               <div className="nav-right">
-                <NavLink to="/user" className="ml-3 login">
+                <NavLink to="/user" className="ml-3 mt-2 login">
                   Profile
                 </NavLink>
               </div>
             ) : (
               <div className="nav-right">
-                <NavLink to="/login" className="ml-3 login">
+                <NavLink to="/login" className="ml-3 mt-2 login">
                   Login
                 </NavLink>
-                <NavLink to="/register" className="ml-3 register">
+                <NavLink to="/register" className="ml-3 mt-2 register">
                   Register
                 </NavLink>
               </div>
