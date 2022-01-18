@@ -39,6 +39,7 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
       <br/>
       <h5>RESTORE Goal Weights:</h5>
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
+        target="_blank"
         style={{float:"right"}}
       >
         <HiExternalLink/> &nbsp;

@@ -39,7 +39,8 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "shp-write": "^0.3.2",
-    "shpjs": "^4.0.2"
+    "shpjs": "^4.0.2",
+    "survey-react": "^1.9.5"
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd ../backend && nodemon server.js\"",
