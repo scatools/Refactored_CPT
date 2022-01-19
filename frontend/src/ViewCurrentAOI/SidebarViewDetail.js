@@ -18,11 +18,16 @@ const SidebarViewDetail = ({
   featureList,
   setAlerttext,
   setReportLink,
-  setHexGrid
+  setHexGrid,
+  setHexDeselection,
+  hexIDDeselected,
+  setHexIDDeselected,
+  setHexFilterList
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
   );
+  console.log(aoiList);
   const dispatch = useDispatch();
   const history = useHistory();
   const [aoiName, setAoiName] = useState("");
@@ -31,7 +36,7 @@ const SidebarViewDetail = ({
   const [deselectButtonState, setDeselectButtonState] = useState("deselect");
   const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
   
-  const handleEdit = async () => {
+  const handleBasicEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
     } else {
@@ -42,6 +47,7 @@ const SidebarViewDetail = ({
         type: "MultiPolygon",
         coordinates: newList.map((feature) => feature.geometry.coordinates),
       };
+      // console.log(data);
 
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
@@ -56,12 +62,8 @@ const SidebarViewDetail = ({
           name: aoiName,
           geometry: newList.length ? newList : aoiList[0].geometry,
           hexagons: newList.length ? res.data.data : aoiList[0].hexagons,
-          rawScore: newList.length
-            ? aggregate(res.data.data, planArea)
-            : aoiList[0].rawScore,
-          scaleScore: newList.length
-            ? getStatus(aggregate(res.data.data, planArea))
-            : aoiList[0].scaleScore,
+          rawScore: newList.length ? aggregate(res.data.data, planArea) : aoiList[0].rawScore,
+          scaleScore: newList.length ? getStatus(aggregate(res.data.data, planArea)) : aoiList[0].scaleScore,
           speciesName: newList.length ? res.data.speciesName : aoiList[0].speciesName,
           id: aoiList[0].id,
         })
@@ -69,30 +71,95 @@ const SidebarViewDetail = ({
       setDrawingMode(false);
     }
   };
-  
-  console.log(aoiList);
+
+  const handleAdvancedEdit = async () => {
+    if (!aoiName) {
+      setAlerttext("Name is required.");
+    } else {
+      setEditAOI(false);
+      setAlerttext(false);
+      // Use the unselected hexagons as new geometry to recalculate AOI
+      const newList = aoiList[0].hexagons.filter((hexagon) => !hexIDDeselected.includes(hexagon.objectid));
+      const data = {
+        type: "MultiPolygon",
+        coordinates: newList.map((feature) => {
+          const geometry =  JSON.parse(feature.geometry);
+          // Database returns all hexagons intersecting with the input shape, including overlapping and touching
+          // Shrink the size of input shapes so that the hexagons only sharing mutual sides won't be involved
+          const coordinates = geometry.coordinates[0][0].map((coords, index) => {
+            var longitude = coords[0];
+            var latitude = coords[1];
+            if (index === 0 || index === 6) {
+              longitude = coords[0] - 0.0001;
+            } else if (index === 1 || index === 2) {
+              latitude = coords[1] + 0.0001;
+            } else if (index === 3) {
+              longitude = coords[0] + 0.0001;
+            } else if (index === 4 || index === 5) {
+              latitude = coords[1] - 0.0001;
+            }
+            return [longitude, latitude];
+          })
+          
+          return [coordinates];
+        }),
+      };
+      // console.log(data);
+
+      // For development on local server
+      // const res = await axios.post('http://localhost:5000/data', { data });
+      // For production on Heroku
+      const res = await axios.post(
+        "https://sca-cpt-backend.herokuapp.com/data",
+        { data }
+      );
+      const planArea = aoiList[0].rawScore.hab0;
+      dispatch(
+        edit_aoi(aoiList[0].id, {
+          name: aoiName,
+          geometry: newList.length ? newList : aoiList[0].geometry,
+          hexagons: newList.length ? res.data.data : aoiList[0].hexagons,
+          rawScore: newList.length ? aggregate(res.data.data, planArea) : aoiList[0].rawScore,
+          scaleScore: newList.length ? getStatus(aggregate(res.data.data, planArea)) : aoiList[0].scaleScore,
+          speciesName: newList.length ? res.data.speciesName : aoiList[0].speciesName,
+          id: aoiList[0].id,
+        })
+      );
+    };
+  };
 
   const showHexagon = () => {
+    setDrawingMode(false);
     if (showButtonState === "show") {
       setHexGrid(true);
       setShowButtonState("hide");
       setShowButtonLabel("Hide Hexagon Grid");
+      setHexIDDeselected([]);
+      setHexFilterList([]);
     } else {
       setHexGrid(false);
       setShowButtonState("show");
       setShowButtonLabel("Show Hexagon Grid");
-    }
-  }
+    };
+  };
 
   const deselectHexagon = () => {
+    setDrawingMode(false);
     if (deselectButtonState === "deselect") {
+      setHexDeselection(true);
       setDeselectButtonState("confirm");
-      setDeselectButtonLabel("Deselect Hexagon");
-    } else {
-      setDeselectButtonState("deselect");
       setDeselectButtonLabel("Finalize Hexagon");
-    }
-  }
+      setHexIDDeselected([]);
+      setHexFilterList([]);
+    } else {
+      setHexDeselection(false);
+      setDeselectButtonState("deselect");
+      setDeselectButtonLabel("Deselect Hexagon");
+      if (hexIDDeselected.length) {
+        handleAdvancedEdit();
+      };
+    };
+  };
 
   return (
     <>
@@ -193,7 +260,7 @@ const SidebarViewDetail = ({
                     placeholder="Name area of interest here..."
                   />
                 </InputGroup>
-                <Button variant="dark" style={{float:"right"}} onClick={handleEdit}>
+                <Button variant="dark" style={{float:"right"}} onClick={handleBasicEdit}>
                   Confirm Change
                 </Button>
                 <br /><br />

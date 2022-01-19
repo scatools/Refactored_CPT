@@ -43,11 +43,10 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
         <br />
         Total must add up to 100
       </p>
-      {/* <a
-        href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
+      {/* 
+      <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
         target="_blank"
-        rel="noreferrer noopener"
-        style={{ float: "right" }}
+        style={{float:"right"}}
       >
         <em>Learn More about RESTORE Goals</em>
       </a>

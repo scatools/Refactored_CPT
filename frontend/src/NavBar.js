@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 
@@ -21,37 +21,49 @@ const NavBar = ({ reportLink }) => {
         </Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <NavLink to="/" className="ml-3">
+            <NavLink to="/" className="ml-3 mt-2" onClick={handleShow}>
+              About
+            </NavLink>
+            <NavLink to="/" className="ml-3 mt-2">
               Map
             </NavLink>
             {reportLink && (
-              <NavLink to="/report" className="ml-3">
+              <NavLink to="/report" className="ml-3 mt-2">
                 Report
               </NavLink>
             )}
             {assessment.hasOwnProperty("aoi") && (
-              <NavLink to="/assessment" className="ml-3">
+              <NavLink to="/assessment" className="ml-3 mt-2">
                 Assessment
               </NavLink>
             )}
-            <NavLink to="/" className="ml-3" onClick={handleShow}>
-              About
+            <NavLink to="/help" className="ml-3 mt-2">
+              Support
             </NavLink>
-            <NavLink to="/help" className="ml-3">
-              Contacts
-            </NavLink>
+            <NavDropdown title="More"  className="ml-3">
+              <NavDropdown.Item href="https://www.quest.fwrc.msstate.edu/sca/about-the-project.php" target="_blank">
+                Strategic Conservation Assessment (SCA) Project
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="http://sca-cit.herokuapp.com/" target="_blank">
+                Conservation Planning Inventory Tool (CIT)
+              </NavDropdown.Item>
+              <NavDropdown.Item href="https://sca-cvt.netlify.app/" target="_blank">
+                Conservation Visualization Tool (CVT)
+              </NavDropdown.Item>
+            </NavDropdown>
             {loggedIn ? (
               <div className="nav-right">
-                <NavLink to="/user" className="ml-3 login">
+                <NavLink to="/user" className="ml-3 mt-2 login">
                   Profile
                 </NavLink>
               </div>
             ) : (
               <div className="nav-right">
-                <NavLink to="/login" className="ml-3 login">
+                <NavLink to="/login" className="ml-3 mt-2 login">
                   Login
                 </NavLink>
-                <NavLink to="/register" className="ml-3 register">
+                <NavLink to="/register" className="ml-3 mt-2 register">
                   Register
                 </NavLink>
               </div>
@@ -61,7 +73,7 @@ const NavBar = ({ reportLink }) => {
       </Navbar>
 
       <div className="content">
-        <Modal show={show} onHide={handleClose} size="lg">
+        <Modal centered show={show} onHide={handleClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>
               Welcome to the Conservation Prioritization Tool
@@ -100,25 +112,26 @@ const NavBar = ({ reportLink }) => {
             <b>Sponsorship</b>
             <p>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funding for this project was provided by the 
-              <a href="https://www.restorethegulf.gov/"> Gulf Coast Ecosystem Restoration Council </a> 
+              <a href="https://www.restorethegulf.gov/" target="_blank"> Gulf Coast Ecosystem Restoration Council </a> 
               through an agreement with the 
-              <a href="https://www.fws.gov/"> U.S. Fish and Wildlife Service </a>
+              <a href="https://www.fws.gov/" target="_blank"> U.S. Fish and Wildlife Service </a>
               (Grant no. F17AC00267), and was produced with support from the 
-              <a href="https://www.fwrc.msstate.edu/"> Forest and Wildlife Research Center at Mississippi State University</a>
-              . The findings and conclusions in this tool are those of the authors and do not necessarily represent the
-              views of the U.S. Fish and Wildlife Service or Gulf Coast Ecosystem Restoration Council.
+              <a href="https://www.fwrc.msstate.edu/" target="_blank"> Forest and Wildlife Research Center </a>
+              at Mississippi State University. The findings and conclusions in this tool are those of the 
+              authors and do not necessarily represent the views of the U.S. Fish and Wildlife Service or 
+              Gulf Coast Ecosystem Restoration Council.
             </p>
-            <div class="d-flex justify-content-between">
-              <a href="https://www.restorethegulf.gov/">
+            <div className="d-flex justify-content-between">
+              <a href="https://www.restorethegulf.gov/" target="_blank">
                 <img src="/Logo_RESTORE.png" alt="image" height="100px"/>
               </a>
-              <a href="https://www.fws.gov/">
+              <a href="https://www.fws.gov/" target="_blank">
                 <img src="/Logo_USFWS.png" alt="image" height="100px"/>
               </a>
-              <a href="https://www.msstate.edu/">
+              <a href="https://www.msstate.edu/" target="_blank">
                 <img src="/Logo_MSSTATE.png" alt="image" height="100px"/>
               </a>
-              <a href="https://www.fwrc.msstate.edu/">
+              <a href="https://www.fwrc.msstate.edu/" target="_blank">
                 <img src="/Logo_CFR.png" alt="image" height="100px"/>
               </a>
             </div>
