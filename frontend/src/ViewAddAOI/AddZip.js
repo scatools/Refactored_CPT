@@ -7,8 +7,15 @@ import { setLoader, input_aoi } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import shp from "shpjs";
 import { v4 as uuid } from "uuid";
+import TimeoutError from "../TimeoutError";
 
-const AddZip = ({ setAlerttext, setView }) => {
+const AddZip = ({
+  setAlerttext,
+  setView,
+  timeoutError,
+  countdown,
+  timeoutHandler,
+}) => {
   const dispatch = useDispatch();
 
   const onDrop = useCallback(
@@ -35,7 +42,7 @@ const AddZip = ({ setAlerttext, setView }) => {
         // For development on local server
         // const res = await axios.post('http://localhost:5000/data', { data });
         // For production on Heroku
-        dispatch(setLoader(true));
+
         const res = await axios.post(
           "https://sca-cpt-backend.herokuapp.com/data",
           { data }
@@ -52,12 +59,13 @@ const AddZip = ({ setAlerttext, setView }) => {
             id: uuid(),
           })
         );
-        dispatch(setLoader(false));
+
+        // clearTimeout(loadTimer);
         setView("viewCurrent");
+        dispatch(setLoader(false));
       };
 
       for (let file of acceptedFiles) {
-        dispatch(setLoader(true));
         const reader = new FileReader();
         reader.onload = async () => {
           const result = await shp(reader.result);
@@ -92,12 +100,30 @@ const AddZip = ({ setAlerttext, setView }) => {
         reader.readAsArrayBuffer(file);
       }
       dispatch(setLoader(true));
+      // let loadTimer = setTimeout(() => timeoutHandler(), 20);
     },
+
     [dispatch]
   );
 
   return (
     <div>
+      {/* {timeoutError && <TimeoutError countdown={countdown} />} */}
+
+      <Container className="instruction">
+        <p>
+          You can upload a shapefile with one more areas of interest. Each
+          record in the file will become a separate area of interest.{" "}
+        </p>
+        <p>
+          Your zip file must include at least the following files:
+          <ul>
+            <li>.shp</li>
+            <li>.shx</li>
+            <li>.prj</li>
+          </ul>
+        </p>
+      </Container>
       <Container className="m-auto file-drop">
         <Dropzone onDrop={onDrop} accept=".zip">
           {({ getRootProps, getInputProps }) => (

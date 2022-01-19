@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
 import { generate_assessment, setLoader } from "../action";
 import { useDispatch, useSelector } from "react-redux";
-import { calculateMeasures, getScaledForAssessment, mergeIntoArray } from "../helper/aggregateHex";
+import {
+  calculateMeasures,
+  getScaledForAssessment,
+  mergeIntoArray,
+} from "../helper/aggregateHex";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { GoInfo } from "react-icons/go";
 import ReactTooltip from "react-tooltip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
+const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
 const RESTOREGoal = [
   "Habitat",
@@ -16,7 +24,11 @@ const RESTOREGoal = [
   "Gulf Economy",
 ];
 
-const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures }) => {
+const ReviewAssessSettings = ({
+  setAssessStep,
+  aoiAssembled,
+  customizedMeasures,
+}) => {
   const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
 
@@ -92,11 +104,11 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
         history.push("/assessment");
       });
     }
-  }
+  };
 
   return (
     <>
-      <Container className="card-body">
+      <Container id="assessment-card" className="card-body">
         Data Measure Weights Summary:
         <Table striped bordered hover size="sm">
           <thead>
@@ -107,14 +119,20 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                 Utility &nbsp;
                 <GoInfo data-tip data-for="utility" />
                 <ReactTooltip id="utility" type="dark">
-                  <span>Utility functions are mathematical representations of how users prefer varying values of a single measure</span>
+                  <span>
+                    Utility functions are mathematical representations of how
+                    users prefer varying values of a single measure
+                  </span>
                 </ReactTooltip>
               </th>
               <th class="align-top">
                 Weights &nbsp;
                 <GoInfo data-tip data-for="measureWeights" />
                 <ReactTooltip id="measureWeights" type="dark">
-                  <span>Measure weights are set by users to emphasize certain priority attributes</span>
+                  <span>
+                    Measure weights are set by users to emphasize certain
+                    priority attributes
+                  </span>
                 </ReactTooltip>
               </th>
             </tr>
@@ -140,8 +158,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {!!customizedMeasures.hab.length &&
               customizedMeasures.hab.map((measure) => (
                 <tr key={measure.value}>
@@ -150,8 +167,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {weights.wq.selected &&
               weights.wq.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -174,8 +190,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {!!customizedMeasures.wq.length &&
               customizedMeasures.wq.map((measure) => (
                 <tr key={measure.value}>
@@ -184,8 +199,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {weights.lcmr.selected &&
               weights.lcmr.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -208,8 +222,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {!!customizedMeasures.lcmr.length &&
               customizedMeasures.lcmr.map((measure) => (
                 <tr key={measure.value}>
@@ -218,8 +231,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {weights.cl.selected &&
               weights.cl.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -240,8 +252,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {!!customizedMeasures.cl.length &&
               customizedMeasures.cl.map((measure) => (
                 <tr key={measure.value}>
@@ -250,8 +261,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {weights.eco.selected &&
               weights.eco.selected.map((measure) => (
                 <tr key={measure.value}>
@@ -272,8 +282,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
             {!!customizedMeasures.eco.length &&
               customizedMeasures.eco.map((measure) => (
                 <tr key={measure.value}>
@@ -282,8 +291,7 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                   <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
-              ))
-            }
+              ))}
           </tbody>
         </Table>
         Goal Weights:
@@ -295,7 +303,10 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
                 Goal Weights &nbsp;
                 <GoInfo data-tip data-for="goalWeights" />
                 <ReactTooltip id="goalWeights" type="dark">
-                  <span>Goal weights are set by users to emphasize specific RESTORE goals</span>
+                  <span>
+                    Goal weights are set by users to emphasize specific RESTORE
+                    goals
+                  </span>
                 </ReactTooltip>
               </th>
             </tr>
@@ -311,11 +322,20 @@ const ReviewAssessSettings = ({ setAssessStep, aoiAssembled, customizedMeasures 
             })}
           </tbody>
         </Table>
-        <Button className="my-5" variant="dark" onClick={handleBack} style={{float:"left"}}>
-          Back
+        <Button
+          style={{ float: "left" }}
+          variant="secondary"
+          onClick={() => setAssessStep("selectDataMeasures")}
+        >
+          {arrowIcon} Edit Data Measures
         </Button>
-        <Button className="my-5" variant="dark" onClick={createAssessment} style={{float:"right"}}>
-          Generate Assessment
+        <Button
+          className="ml-2"
+          variant="primary"
+          style={{ float: "right" }}
+          onClick={createAssessment}
+        >
+          Generate Evaluation
         </Button>
       </Container>
     </>
