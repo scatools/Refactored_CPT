@@ -5,6 +5,7 @@ import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { v4 as uuid } from "uuid";
 import { input_aoi, setLoader } from "../action";
 import { useDispatch } from "react-redux";
+import TimeoutError from "../TimeoutError";
 
 const AddDraw = ({
   setDrawingMode,
@@ -14,14 +15,19 @@ const AddDraw = ({
   setView,
   setReportLink,
   autoDraw,
+  timeoutError,
+  countdown,
+  timeoutHandler,
 }) => {
   const dispatch = useDispatch();
   const [drawData, setDrawData] = useState("");
+
   const handleNameChange = (e) => {
     setDrawData(e.target.value);
   };
   const handleSubmit = async () => {
     dispatch(setLoader(true));
+    // let loadTimer = setTimeout(() => timeoutHandler(), 30000);
     if (!drawData) {
       setAlerttext("A name for this area of interest is required.");
       window.setTimeout(() => setAlerttext(false), 4000);
@@ -60,17 +66,25 @@ const AddDraw = ({
     }
 
     dispatch(setLoader(false));
-  };
-
-  const resetButton = () => {
-    window.location.reload(true);
+    // clearTimeout(loadTimer);
   };
 
   return (
     <Container className="mt-3">
+      {timeoutError && <TimeoutError countdown={countdown} />}
+      <Container className="instruction">
+        <p>Give your AOI a unique name.</p>
+        <p>Click on the map to start drawing. </p>
+        <p>Click again for each corner of your drawing.</p>
+        <p>Click 1st point again to stop drawing. </p>
+        <p className="note">
+          Note: you can draw multiple shapes here. To do so, click "New Shape"
+          each time. These will all become part of the same area of interest.
+        </p>
+      </Container>
       <InputGroup className="m-auto" style={{ width: "80%" }}>
         <InputGroup.Prepend>
-          <InputGroup.Text id="basic-addon1">Plan Name:</InputGroup.Text>
+          <InputGroup.Text id="basic-addon1">AOI Name:</InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl
           name="planName"
@@ -82,7 +96,7 @@ const AddDraw = ({
       <hr />
       <Container>
         <Button
-          variant="dark"
+          variant="warning"
           style={{ float: "left" }}
           onClick={() => {
             setDrawingMode(true);
@@ -93,17 +107,26 @@ const AddDraw = ({
         >
           Add a New Shape
         </Button>
-        <Button variant="dark" style={{ float: "left" }} onClick={resetButton}>
-          Start Over
-        </Button>
-        <Button
-          variant="dark"
-          style={{ float: "right" }}
-          onClick={handleSubmit}
-        >
-          Finalize Input
-        </Button>
+
+        {drawData && featureList.length !== 0 ? (
+          <Button
+            variant="primary"
+            style={{ float: "right" }}
+            onClick={handleSubmit}
+          >
+            Add AOI
+          </Button>
+        ) : (
+          <Button
+            variant="secondary"
+            style={{ float: "right" }}
+            onClick={handleSubmit}
+          >
+            Add AOI
+          </Button>
+        )}
       </Container>
+      <hr />
     </Container>
   );
 };

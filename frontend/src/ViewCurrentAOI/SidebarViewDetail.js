@@ -6,8 +6,8 @@ import { MdViewList, MdEdit, MdDelete, MdFileDownload } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
 import axios from "axios";
 // import { download } from "shp-write";
-import { delete_aoi, edit_aoi } from "./action";
-import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
+import { delete_aoi, edit_aoi } from "../action";
+import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 
 const SidebarViewDetail = ({
   aoiSelected,
@@ -164,7 +164,7 @@ const SidebarViewDetail = ({
   return (
     <>
       {aoiList && aoiList.length > 0 && (
-        <Card>
+        <Card id="sidebar-view-detial">
           <Card.Header>Area of Interest Details:</Card.Header>
           <Card.Body>
             <Card.Title>{aoiList[0].name}</Card.Title>
@@ -179,7 +179,7 @@ const SidebarViewDetail = ({
                 hexagons
               </li>
             </ul>
-            <Container className="m-auto" style={{ width: "110%" }}>
+            <Container className="detail-buttons">
               <Button
                 variant="dark"
                 className="ml-1"

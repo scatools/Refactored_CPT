@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ButtonGroup, Container, ToggleButton } from "react-bootstrap";
 import AddZip from "./AddZip";
 import AddBoundary from "./AddBoundary";
@@ -19,11 +19,33 @@ const AddAOIView = ({
   setReportLink,
   autoDraw,
 }) => {
-  const [inputMode, setInputMode] = useState("draw");
+  const [inputMode, setInputMode] = useState("");
   const [hucList, setHucList] = useState([]);
   const [hucNameList, setHucNameList] = useState([]);
   const [hucIDList, setHucIDList] = useState([]);
   const [hucNameSelected, setHucNameSelected] = useState([]);
+  const [timeoutError, setTimeoutError] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const ref = useRef(countdown);
+
+  function updateState(newState) {
+    ref.current = newState;
+    setCountdown(newState);
+  }
+
+  const timeoutHandler = () => {
+    setTimeoutError(true);
+    setInterval(() => {
+      updateState(ref.current - 1);
+    }, 1000);
+    window.setTimeout(timeoutReload, 5000);
+  };
+
+  const timeoutReload = () => {
+    setCountdown(5);
+    console.log(countdown);
+    window.location.reload(true);
+  };
 
   const onLoad = () => {
     // To successfully fetch the zip file, it needs to be in the /public folder
@@ -56,9 +78,18 @@ const AddAOIView = ({
       });
   };
 
+  useEffect(() => {
+    if (inputMode === "draw") {
+      setDrawingMode(true);
+      autoDraw();
+      setAoiSelected(false);
+      setReportLink(false);
+    }
+  }, [inputMode]);
+
   return (
-    <>
-      <p>Add Area of Interest</p>
+    <Container>
+      <h3 style={{ marginBottom: "20px" }}>Define Your Area of Interest</h3>
       <Container className="d-flex">
         <ButtonGroup toggle className="m-auto">
           <ToggleButton
@@ -103,8 +134,16 @@ const AddAOIView = ({
           </ToggleButton>
         </ButtonGroup>
       </Container>
-      <hr />
-
+      <Container className="instruction">
+        {inputMode === "" && (
+          <p>
+            You can define one or more areas of interest by uploading a
+            shapefile with one or more areas, choose from an existing set of
+            areas of interest like watersheds, or draw your own. Choose the type
+            above to get started.
+          </p>
+        )}
+      </Container>
       {inputMode === "draw" && (
         <AddDraw
           setDrawingMode={setDrawingMode}
@@ -114,11 +153,24 @@ const AddAOIView = ({
           setView={setView}
           setReportLink={setReportLink}
           autoDraw={autoDraw}
+          timeoutError={timeoutError}
+          setTimeoutError={setTimeoutError}
+          countdown={countdown}
+          timeoutHandler={timeoutHandler}
+          timeoutReload={timeoutReload}
         />
       )}
 
       {inputMode === "shapefile" && (
-        <AddZip setAlerttext={setAlerttext} setView={setView} />
+        <AddZip
+          setAlerttext={setAlerttext}
+          setView={setView}
+          timeoutError={timeoutError}
+          setTimeoutError={setTimeoutError}
+          countdown={countdown}
+          timeoutHandler={timeoutHandler}
+          timeoutReload={timeoutReload}
+        />
       )}
 
       {inputMode === "boundary" && (
@@ -137,7 +189,7 @@ const AddAOIView = ({
           setFilterList={setFilterList}
         />
       )}
-    </>
+    </Container>
   );
 };
 

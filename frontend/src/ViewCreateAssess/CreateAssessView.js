@@ -3,19 +3,19 @@ import SelectAOIForAssess from "./SelectAOIForAssess";
 import SelectRestoreWeights from "./SelectRestoreWeights";
 import SelectDataMeasures from "./SelectDataMeasures";
 import ReviewAssessSettings from "./ReviewAssessSettings";
+import { Container } from "react-bootstrap";
 
 const CreateAssessView = ({
   setAlerttext,
   aoiAssembled,
   setAoiAssembled,
   setView,
-  customizedMeasures
+  customizedMeasures,
 }) => {
   const [assessStep, setAssessStep] = useState("selectAOI");
 
   return (
-    <>
-      <h2>Create Assesment for Two or More AOIs</h2>
+    <Container>
       {console.log(assessStep)}
       {assessStep === "selectAOI" && (
         <SelectAOIForAssess
@@ -44,12 +44,12 @@ const CreateAssessView = ({
 
       {assessStep === "reviewAssessSettings" && (
         <ReviewAssessSettings
-        setAssessStep={setAssessStep}
-        aoiAssembled={aoiAssembled}
-        customizedMeasures={customizedMeasures}
+          setAssessStep={setAssessStep}
+          aoiAssembled={aoiAssembled}
+          customizedMeasures={customizedMeasures}
         />
       )}
-    </>
+    </Container>
   );
 };
 

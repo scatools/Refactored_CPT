@@ -52,7 +52,7 @@ const SidebarMode = ({ view, setView }) => {
           checked={view === "createAssess"}
           onChange={(e) => setView(e.currentTarget.value)}
         >
-          Evaluate AOI's
+          Evaluate AOIs
         </ToggleButton>
       ) : (
         <ToggleButton
@@ -64,7 +64,7 @@ const SidebarMode = ({ view, setView }) => {
           checked={view === "createAssess"}
           onChange={(e) => setView(e.currentTarget.value)}
         >
-          Evaluate AOI's
+          Evaluate AOIs
         </ToggleButton>
       )}
     </ButtonGroup>
