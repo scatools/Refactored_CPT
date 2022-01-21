@@ -242,6 +242,14 @@ const AssessmentTable = ({ setAoiSelected, setReportLink, customizedMeasures }) 
                                     </td>
                                 ))}
 							</tr>
+							<tr>
+								<td>Social Vulnerability Index:</td>
+								{assessment.aoi.cl5.map(value=>(
+                                    <td key={uuid()}>
+                                        {Math.floor(value*100)/100}
+                                    </td>
+                                ))}
+							</tr>
 							{!!customizedMeasures.cl.length && 
 							customizedMeasures.cl.map((measure)=>( 
 								<tr>

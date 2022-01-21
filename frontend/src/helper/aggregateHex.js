@@ -21,6 +21,7 @@ import area from "@turf/area";
         cl2: National Heritage Area -Mean
         cl3: Proximity to Socially Vulnerable Communities -Max
         cl4: Community Threat Index -Max
+        cl5: Social Vulnerability Index -Max?
         eco1: High Priority Working Lands -Mean
         eco2: Commercial Fishing Reliance -Max
         eco3: Recreational Fishing Engagement -Max
@@ -59,6 +60,7 @@ export function aggregate(input,area) {
         cl2: parseFloat(a.cl2)+parseFloat(b.cl2),
         cl3: parseFloat(a.cl3)>=parseFloat(b.cl3)?parseFloat(a.cl3):parseFloat(b.cl3),
         cl4: parseFloat(a.cl4)>=parseFloat(b.cl4)?parseFloat(a.cl4):parseFloat(b.cl4),
+        cl5: parseFloat(a.cl5)>=parseFloat(b.cl5)?parseFloat(a.cl5):parseFloat(b.cl5),
         eco1: parseFloat(a.eco1)+parseFloat(b.eco1),
         eco2: parseFloat(a.eco2)>=parseFloat(b.eco2)?parseFloat(a.eco2):parseFloat(b.eco2),
         eco3: parseFloat(a.eco3)>=parseFloat(b.eco3)?parseFloat(a.eco3):parseFloat(b.eco3),
@@ -68,7 +70,7 @@ export function aggregate(input,area) {
         hab1:0,hab2:0,hab3:0,hab4:0,
         wq1:0,wq2:0,wq3:0,wq4:0,wq5:0,wq6:0,
         lcmr1:0,lcmr2:0,lcmr3:0,lcmr4:1,lcmr5:0,lcmr6:0,
-        cl1:0,cl2:0,cl3:0,cl4:0,
+        cl1:0,cl2:0,cl3:0,cl4:0,cl5:0,
         eco1:0,eco2:0,eco3:0,eco4:0
     })
     
@@ -112,6 +114,7 @@ export function getStatus(input){
     cl2: String(Math.round((input.cl2*10000))/100) + "%",
     cl3: input.cl3 >= 1 ? "High": input.cl3 >= 0.75 ? "Medium-High" : input.cl3 >= 0.5 ? "Medium" : input.cl3 >= 0.25 ? "Medium-Low" : input.cl3 > 0 ? "Low" : "No Threat",
     cl4: input.cl4 >= 1 ? "High": input.cl4 >= 0.75 ? "Medium-High" : input.cl4 >= 0.5 ? "Medium" : input.cl4 >= 0.25 ? "Medium-Low" : input.cl4 > 0 ? "Low" : "Insufficient data",
+    cl5: input.cl5 == 1 ? "High": input.cl5 == 0.75 ? "Medium-High" : input.cl5 == 0.5 ? "Medium" : input.cl5 == 0.25 ? "Low" : "Insufficient data",
     eco1: String(Math.round((input.eco1*10000))/100) + "%",
     eco2: input.eco2 > 3 ? "High": input.eco2 > 2 ? "Medium-High" : input.eco2 > 1 ? "Medium" : input.eco2 > 0 ? "Low" : "Insufficient data",
     eco3: input.eco3 > 3 ? "High": input.eco3 > 2 ? "Medium-High" : input.eco3 > 1 ? "Medium" : input.eco3 > 0 ? "Low" : "Insufficient data",
@@ -145,6 +148,7 @@ export function getScaledForAssessment(input,id,name){
     cl2: Math.round((input.cl2*100))/100,
     cl3: input.cl3,
     cl4: input.cl4,
+    cl5: input.cl5,
     eco1: Math.round((input.eco1*100))/100,
     eco2: input.eco2/4,
     eco3: input.eco3/4,
@@ -178,6 +182,7 @@ export function mergeIntoArray(input){
     cl2: [],
     cl3: [],
     cl4: [],
+    cl5: [],
     eco1: [],
     eco2: [],
     eco3: [],
