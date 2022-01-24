@@ -10,11 +10,18 @@ const Login = ({ setLoggedIn, setUserLoggedIn }) => {
   const [ password, setPassword ] = useState("");
   
   const onSubmit = async () => {
-    const result = await axios.post('http://localhost:5000/login',{
-    	username: username,
-    	password: password
-    });
-    console.log(result);
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/login',
+    //   { username: username, password: password }
+    // );
+
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/login',
+      { username: username, password: password }
+    );
+
     if (result.data.credentials.length === 0) {
 			alert("Username doesn't exist! Please register.");
 		} else if (!result.data.validLogin) {

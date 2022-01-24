@@ -15,15 +15,32 @@ const Register = ({ setLoggedIn, setUserLoggedIn }) => {
   
   const onSubmit = async () => {
     try {
-      const result = await axios.post('http://localhost:5000/register',{
-        username: username,
-        password: password,
-        email: email,
-        first_name: firstName,
-        last_name: lastName,
-        is_admin: false
-      });
-      // console.log(result);
+      // For development on local server
+      // const result = await axios.post(
+      //   'http://localhost:5000/register',
+      //   {
+      //     username: username,
+      //     password: password,
+      //     email: email,
+      //     first_name: firstName,
+      //     last_name: lastName,
+      //     is_admin: false
+      //   }
+      // );
+
+      // For production on Heroku
+      const result = await axios.post(
+        'https://sca-cpt-backend.herokuapp.com/register',
+        {
+          username: username,
+          password: password,
+          email: email,
+          first_name: firstName,
+          last_name: lastName,
+          is_admin: false
+        }
+      );
+
       if (result) {
         setLoggedIn(true);
         setUserLoggedIn(username);

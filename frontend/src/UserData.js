@@ -15,9 +15,18 @@ const UserData = ({ userLoggedIn }) => {
   const [ admin, setAdmin ] = useState(false);
   
   const getUserData = async () => {
-    const result = await axios.post('http://localhost:5000/user',{
-    	username: userLoggedIn
-    });
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/user',
+    //   { username: userLoggedIn }
+    // );
+
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/user',
+      { username: userLoggedIn }
+    );
+    
     setUsername(result.data.rows[0].username);
     setPassword(result.data.rows[0].password);
     setFirstName(result.data.rows[0].first_name);
