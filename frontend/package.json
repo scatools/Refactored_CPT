@@ -13,6 +13,7 @@
     "@turf/area": "^6.0.1",
     "@turf/difference": "^6.5.0",
     "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.2",
     "concurrently": "^6.2.1",
     "crypto-js": "^4.1.1",

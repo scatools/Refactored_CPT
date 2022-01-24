@@ -4,11 +4,12 @@ import Main from "./Main";
 import Help from "./Help";
 import Report from "./Report";
 import Login from "./Login";
+import Logout from "./Logout";
 import Register from "./Register";
 import UserData from "./UserData";
 import Assessment from "./Assessment";
 
-const Routes = ({ setReportLink }) => {
+const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) => {
   const [aoiSelected, setAoiSelected] = useState(null);
   const [aoiAssembled, setAoiAssembled] = useState([]);
   const [customizedMeasures, setCustomizedMeasures] = useState({
@@ -32,13 +33,16 @@ const Routes = ({ setReportLink }) => {
         />
       </Route>
       <Route exact path="/register">
-        <Register />
+        <Register setLoggedIn={setLoggedIn} setUserLoggedIn={setUserLoggedIn} />
       </Route>
       <Route exact path="/login">
-        <Login />
+        <Login setLoggedIn={setLoggedIn} setUserLoggedIn={setUserLoggedIn} />
+      </Route>
+      <Route exact path="/logout">
+        <Logout setLoggedIn={setLoggedIn} />
       </Route>
       <Route exact path="/user">
-        <UserData />
+        <UserData userLoggedIn={userLoggedIn} />
       </Route>
       <Route exact path="/help">
         <Help />
