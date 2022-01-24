@@ -1,115 +1,85 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Jumbotron } from "react-bootstrap";
+import axios from "axios";
 import "./App.css";
 
-const user = {
-  first_name: "Anthony",
-  last_name: "Collini",
-  username: "A_Town0789",
-  email: "collini.anthony@gmail.com",
-  is_admin: true,
-  plans: {},
-  likes: {},
-};
+let userShapefiles = [];
+let userReports = [];
 
-let userPlans = [];
-let userLikes = [];
+const UserData = ({ userLoggedIn }) => {
+  const [ username, setUsername ] = useState(null);
+  const [ password, setPassword ] = useState(null);
+  const [ firstName, setFirstName ] = useState(null);
+  const [ lastName, setLastName ] = useState(null);
+  const [ email, setEmail ] = useState(null);
+  const [ admin, setAdmin ] = useState(false);
+  
+  const getUserData = async () => {
+    const result = await axios.post('http://localhost:5000/user',{
+    	username: userLoggedIn
+    });
+    setUsername(result.data.rows[0].username);
+    setPassword(result.data.rows[0].password);
+    setFirstName(result.data.rows[0].first_name);
+    setLastName(result.data.rows[0].last_name);
+    setEmail(result.data.rows[0].email);
+    setAdmin(result.data.rows[0].is_admin);
+  };
 
-for (const plan in user.plans) {
-  userPlans.push(
-    <div className="card my-3">
-      <div className="card-body">
-        <h5 className="card-title">{plan.plan_name}</h5>
-        <p className="card-text">{plan.plan_url}</p>
-        <div className="btn-container">
-          <a href="/" className="btn btn-success">
-            View submissions{" "}
-          </a>
-          <a href="/" className="btn btn-success">
-            Edit submissions{" "}
-          </a>
-        </div>
-        <form action="#" method="post">
-          <a href="/" className="btn btn-danger">
-            Delete submissions{" "}
-          </a>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-for (const like in user.likes) {
-  userLikes.push(
-    <div className="card my-3">
-      <div className="card-body">
-        <h5 className="card-title">{like.plan_name}</h5>
-        <p className="card-text">{like.plan_url}</p>
-        <a href="/plans/{{like.id}}" className="btn btn-success">
-          View plan
-        </a>
-      </div>
-    </div>
-  );
-}
-
-const UserData = () => {
-  return (
-    <Container>
-      <Jumbotron>
-        <h1 className="display-4">
-          Welcome back, {user.first_name} {user.last_name}
-        </h1>
-        <p className="lead">Your input is valuable to us!</p>
-        <hr className="my-4" />
-        <p className="h3">User Profile</p>
-        <p>Your username: {user.username}</p>
-        <p>Your email: {user.email}</p>
-        <div className="btn-container">
-          {user.is_admin && (
-            <a className="btn btn-success" href="/admin">
-              Admin module
+  useEffect(() => {
+    getUserData()
+  }, [userLoggedIn]);
+  
+  if (userLoggedIn) {
+    return (
+      <Container>
+        <Jumbotron>
+          <h1 className="display-4">
+            Welcome back, {firstName} {lastName}
+          </h1>
+          <p className="lead">Please review or modify your personal information here</p>
+          <hr className="my-4" />
+          <p className="h3">User Profile</p>
+          <p>Your username: {username}</p>
+          <p>Your email: {email}</p>
+          <div className="btn-container">
+            {admin && (
+              <a className="btn btn-success" href="/admin">
+                Admin module
+              </a>
+            )}
+            <a className="btn btn-success" href="/users/profile">
+              Update user information
             </a>
+            <a className="btn btn-success" href="/users/changepassword">
+              Change password
+            </a>
+            <a className="btn btn-danger" href="/">
+              Delete user
+            </a>
+          </div>
+  
+          <hr className="my-4" />
+          <p className="h3">Saved Shapefiles</p>
+          <br />
+          {userShapefiles.length > 0 ? (
+            { userShapefiles }
+          ) : (
+            <p className="lead">No shapefile saved yet!</p>
           )}
-          <a className="btn btn-success" href="/users/profile">
-            Update user information
-          </a>
-          <a className="btn btn-success" href="/users/changepassword">
-            Change password
-          </a>
-        </div>
-        <form action="/users/{{user.username}}/delete" method="post">
-          <a className="btn btn-danger" href="/" onclick="">
-            Delete user
-          </a>
-        </form>
 
-        <hr className="my-4" />
-        <p className="h3">New plans submitted</p>
-        <br />
-        <a
-          className="btn btn-success mb-2"
-          href="/users/{{user.username}}/plan/add"
-        >
-          Add new Plan
-        </a>
-        {userPlans.length > 0 ? (
-          { userPlans }
-        ) : (
-          <p className="lead">No plan has been added yet!</p>
-        )}
-
-        <hr className="my-4" />
-        <p className="h3">Liked plans</p>
-        <br />
-        {userLikes.length > 0 ? (
-          { userLikes }
-        ) : (
-          <p className="lead">No plan liked yet!</p>
-        )}
-      </Jumbotron>
-    </Container>
-  );
+          <hr className="my-4" />
+          <p className="h3">Saved Reports</p>
+          <br />
+          {userReports.length > 0 ? (
+            { userReports }
+          ) : (
+            <p className="lead">No report saved yet!</p>
+          )}
+        </Jumbotron>
+      </Container>
+    );
+  }
 };
 
 export default UserData;

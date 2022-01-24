@@ -306,17 +306,23 @@ button.btn-dark.ml-1.btn {
 }
 
 .btn-success {
-  width: 50%;
+  width: 30%;
   margin: 10px;
 }
 
 .btn-danger {
+  width: 30%;
+  margin: 10px;
+}
+
+.btn-secondary {
+  width: 30%;
   margin: 10px;
 }
 
 .btn-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 #resetButton {

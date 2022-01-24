@@ -4,12 +4,11 @@ import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 
-const NavBar = ({ reportLink }) => {
+const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
   const assessment = useSelector((state) => state.assessment);
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <div>
@@ -55,13 +54,16 @@ const NavBar = ({ reportLink }) => {
             {loggedIn ? (
               <div className="nav-right">
                 <NavLink to="/user" className="ml-3 mt-2 login">
-                  Profile
+                  {userLoggedIn}
+                </NavLink>
+                <NavLink to="/logout" className="ml-3 mt-2 login">
+                  Log Out
                 </NavLink>
               </div>
             ) : (
               <div className="nav-right">
                 <NavLink to="/login" className="ml-3 mt-2 login">
-                  Login
+                  Log In
                 </NavLink>
                 <NavLink to="/register" className="ml-3 mt-2 register">
                   Register

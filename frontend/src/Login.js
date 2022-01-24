@@ -1,40 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import { Container, Jumbotron } from "react-bootstrap";
+import axios from "axios";
 import "./App.css";
 
-const Login = () => {
+const Login = ({ setLoggedIn, setUserLoggedIn }) => {
+  const history = useHistory();
+  const [ username, setUsername ] = useState("");
+  const [ password, setPassword ] = useState("");
+  
+  const onSubmit = async () => {
+    const result = await axios.post('http://localhost:5000/login',{
+    	username: username,
+    	password: password
+    });
+    console.log(result);
+    if (result.data.credentials.length === 0) {
+			alert("Username doesn't exist! Please register.");
+		} else if (!result.data.validLogin) {
+			alert("Incorrect password! Please enter again.");
+		} else {
+      setLoggedIn(true);
+      setUserLoggedIn(username);
+      history.push("/user");
+		}
+  };
+
   return (
     <Container>
       <Jumbotron>
-        <div class="form-container">
+        <div className="form-container">
           <h2>Welcome back, please login</h2>
           <hr />
-          <form action="#" id="login-form" method="POST">
-            <div class="form-group">
-              <label for="username">Username</label>
+          <form id="login-form">
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
               <input
                 type="text"
                 id="username"
                 name="username"
                 placeholder="Enter Username"
+                value={username}
                 required
+                onChange={(e) => setUsername(e.target.value)}
               ></input>
-              <label for="password">Password</label>
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
                 name="password"
                 placeholder="Enter Password"
+                value={password}
                 required
+                onChange={(e) => setPassword(e.target.value)}
               ></input>
             </div>
-            <div class="form-btn-container">
-              <button class="btn btn-success" type="submit">
-                Log in
+            <div className="form-btn-container">
+              <button className="btn btn-success" type="button" onClick={onSubmit}>
+                Log In
               </button>
-              <a href="/" class="btn btn-secondary">
-                Back to home
-              </a>
+              <button href="/" className="btn btn-secondary">
+                Go Back
+              </button>
             </div>
           </form>
         </div>
