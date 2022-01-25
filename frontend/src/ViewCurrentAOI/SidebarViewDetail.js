@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Card, Container, Button, InputGroup, FormControl } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { MdViewList, MdEdit, MdDelete, MdFileDownload } from "react-icons/md";
+import { MdViewList, MdEdit, MdDelete } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
+import { FaFileExport } from "react-icons/fa"; 
+import { download } from "shp-write";
 import axios from "axios";
-// import { download } from "shp-write";
 import { delete_aoi, edit_aoi } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 
@@ -184,15 +185,6 @@ const SidebarViewDetail = ({
                 variant="dark"
                 className="ml-1"
                 onClick={() => {
-                  setActiveTable(aoiSelected);
-                }}
-              >
-                <MdViewList /> &nbsp; View
-              </Button>
-              <Button
-                variant="dark"
-                className="ml-1"
-                onClick={() => {
                   setEditAOI(true);
                   setDrawingMode(true);
                   setAoiName(aoiList[0].name);
@@ -204,11 +196,10 @@ const SidebarViewDetail = ({
                 variant="dark"
                 className="ml-1"
                 onClick={() => {
-                  setActiveTable(false);
-                  dispatch(delete_aoi(aoiList[0].id));
+                  setActiveTable(aoiSelected);
                 }}
               >
-                <MdDelete /> &nbsp; Delete
+                <MdViewList /> &nbsp; Summary
               </Button>
               <Button
                 variant="dark"
@@ -234,10 +225,20 @@ const SidebarViewDetail = ({
                       polygon: aoiList[0].name,
                     },
                   };
-                  //download(aoiGeoJson, options);
+                  download(aoiGeoJson, options);
                 }}
               >
-                <MdFileDownload /> &nbsp; Download
+                <FaFileExport /> &nbsp; Export
+              </Button>
+              <Button
+                variant="dark"
+                className="ml-1"
+                onClick={() => {
+                  setActiveTable(false);
+                  dispatch(delete_aoi(aoiList[0].id));
+                }}
+              >
+                <MdDelete /> &nbsp; Delete
               </Button>
             </Container>
             {editAOI && (
