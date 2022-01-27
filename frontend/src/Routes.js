@@ -30,6 +30,7 @@ const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) =
           setAoiAssembled={setAoiAssembled}
           setReportLink={setReportLink}
           customizedMeasures={customizedMeasures}
+          userLoggedIn={userLoggedIn}
         />
       </Route>
       <Route exact path="/register">
@@ -39,7 +40,7 @@ const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) =
         <Login setLoggedIn={setLoggedIn} setUserLoggedIn={setUserLoggedIn} />
       </Route>
       <Route exact path="/logout">
-        <Logout setLoggedIn={setLoggedIn} />
+        <Logout setLoggedIn={setLoggedIn} setUserLoggedIn={setUserLoggedIn} />
       </Route>
       <Route exact path="/user">
         <UserData userLoggedIn={userLoggedIn} />

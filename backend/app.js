@@ -143,6 +143,59 @@ app.post('/user', async function(req, res, next){
 	}
 })
 
+app.post('/user/shapefile', async function(req, res, next){
+	try{
+		const result = await db_user.query(
+			`SELECT file_name, geometry
+			FROM user_shapefile
+			WHERE username = $1`,
+			[req.body.username]
+		);
+		return res.json(result);
+	} catch(e) {
+		next(e);
+	}
+});
+
+app.post('/save/shapefile', async function(req, res, next){
+	try{
+		const maxID = await db_user.query(
+			`SELECT MAX(file_id) AS max_id
+			FROM user_shapefile`
+		);
+		var new_id = 1;
+		if (maxID.rows[0].max_id) {
+			new_id = maxID.rows[0].max_id + 1;
+		}
+		const result = await db_user.query(
+			`INSERT INTO user_shapefile(file_id, file_name, geometry, username)
+			VALUES ($1, $2, $3, $4)`,
+			[
+				new_id,
+				req.body.file_name,
+				req.body.geometry,
+				req.body.username
+			]
+		);
+		return res.json(result);
+	} catch(e) {
+		next(e);
+	}
+});
+
+app.post('/delete/shapefile', async function(req, res, next){
+	try{
+		const result = await db_user.query(
+			`DELETE FROM user_shapefile
+			WHERE file_name = $1`,
+			[ req.body.file_name ]
+		);
+		return res.json(result);
+	} catch(e) {
+		next(e);
+	}
+});
+
 /** general error handler */
 
 app.use(function(req, res, next) {

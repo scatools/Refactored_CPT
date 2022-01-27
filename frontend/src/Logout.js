@@ -2,8 +2,9 @@ import React from "react";
 import { Container, Jumbotron } from "react-bootstrap";
 import "./App.css";
 
-const Logout = ({ setLoggedIn }) => {
+const Logout = ({ setLoggedIn, setUserLoggedIn }) => {
   setLoggedIn(false);
+  setUserLoggedIn(null);
   return (
     <Container>
       <Jumbotron>

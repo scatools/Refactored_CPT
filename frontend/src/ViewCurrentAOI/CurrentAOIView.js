@@ -27,6 +27,7 @@ const CurrentAOIView = ({
   hexIDDeselected,
   setHexIDDeselected,
   setHexFilterList,
+  userLoggedIn,
   view
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi));
@@ -94,6 +95,7 @@ const CurrentAOIView = ({
           hexIDDeselected={hexIDDeselected}
           setHexIDDeselected={setHexIDDeselected}
           setHexFilterList={setHexFilterList}
+          userLoggedIn={userLoggedIn}
         />
       </ButtonGroup>
       <Container className="add-assess-cont">
