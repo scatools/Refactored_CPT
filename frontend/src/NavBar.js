@@ -83,27 +83,25 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
           </Modal.Header>
           <Modal.Body>
             Using this tool, you can create a custom report on your areas of
-            interest (up to 10), with our catalog of over 20 metrics and address
+            interest (up to 10), with our catalog of 26 metrics and address
             particular conservation and restoration concerns.
             <br /> <br />
             <b>Key Features</b>
             <br />
             <ul>
-              <li>Quickly create custom prioritization maps</li>
-              <li>HTML and CSV outputs</li>
-              <li>Over 20 metrics</li>
+              <li>Create custom prioritization maps</li>
+              <li>Export shapefiles, reports and data tables</li>
+              <li>Evaluate 26 conservation related metrics</li>
             </ul>
             <b>Intended Use</b>
             <br />
             <p>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Gulf Conservation Prioritization
-              Tool (CPT) is <b>not</b> intended to be prescriptive. Instead this
-              tool was designed to provide data to <b>support</b> conservation
-              planning efforts across the Gulf Coast Region. All users
-              acknowledge that the CPT model is intended to <b>explore</b>{" "}
-              ecological and socioeconomic co-benefits of proposed areas of land
-              conservation, and should <b>not</b> be used in a decision making
-              context.
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Conservation Prioritization Tool (CPT)
+              is not intended to be prescriptive. Instead this tool was designed to
+              provide data to support conservation planning efforts across the Gulf
+              Coast Region. All users acknowledge that the CPT model is intended to
+              explore ecological and socioeconomic co-benefits of proposed areas of
+              land conservation, and should not be used in a decision making context.
             </p>
             <p>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The flexibility of this tool enables
@@ -115,9 +113,9 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
             <p>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funding for this project was provided by the 
               <a href="https://www.restorethegulf.gov/" target="_blank"> Gulf Coast Ecosystem Restoration Council </a> 
-              through an agreement with the 
+              through an agreement (NO. F17AC00267) with the 
               <a href="https://www.fws.gov/" target="_blank"> U.S. Fish and Wildlife Service </a>
-              (Grant no. F17AC00267), and was produced with support from the 
+              , and was produced with support from the 
               <a href="https://www.fwrc.msstate.edu/" target="_blank"> Forest and Wildlife Research Center </a>
               at Mississippi State University. The findings and conclusions in this tool are those of the 
               authors and do not necessarily represent the views of the U.S. Fish and Wildlife Service or 
@@ -127,14 +125,11 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
               <a href="https://www.restorethegulf.gov/" target="_blank">
                 <img src="/Logo_RESTORE.png" alt="image" height="100px"/>
               </a>
+              <a href="https://www.fwrc.msstate.edu/" target="_blank">
+                <img src="/Logo_FWRC.png" alt="image" height="100px"/>
+              </a>
               <a href="https://www.fws.gov/" target="_blank">
                 <img src="/Logo_USFWS.png" alt="image" height="100px"/>
-              </a>
-              <a href="https://www.msstate.edu/" target="_blank">
-                <img src="/Logo_MSSTATE.png" alt="image" height="100px"/>
-              </a>
-              <a href="https://www.fwrc.msstate.edu/" target="_blank">
-                <img src="/Logo_CFR.png" alt="image" height="100px"/>
               </a>
             </div>
             <br />
