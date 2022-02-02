@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, Jumbotron } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 import axios from "axios";
+import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
+import { input_aoi, setLoader } from "./action";
 import "./App.css";
 
 const UserData = ({ userLoggedIn }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [ username, setUsername ] = useState(null);
   const [ password, setPassword ] = useState(null);
   const [ firstName, setFirstName ] = useState(null);
@@ -103,6 +110,52 @@ const UserData = ({ userLoggedIn }) => {
       alert("You have deleted the report named " + report);
     };
   };
+  
+  const viewUserFile = async (file) => {
+    dispatch(setLoader(true));
+    // let loadTimer = setTimeout(() => timeoutHandler(), 30000);
+
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/user/shapefile',
+    //   { username: userLoggedIn }
+    // );
+    
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/user/shapefile',
+      { username: userLoggedIn }
+    );
+    const fileList = result.data.rows.filter(row => row.file_name === file);
+    const fileFeature = JSON.parse(JSON.parse(fileList[0].geometry.slice(1, -1)));
+    // console.log(fileFeature);
+    const newList = [fileFeature];
+    const data = fileFeature.geometry;
+
+    // For development on local server
+    // const res = await axios.post('http://localhost:5000/data', { data });
+
+    // For production on Heroku
+    const res = await axios.post(
+      "https://sca-cpt-backend.herokuapp.com/data",
+      { data }
+    );
+    const planArea = calculateArea(newList);
+    dispatch(
+      input_aoi({
+        name: file,
+        geometry: newList,
+        hexagons: res.data.data,
+        rawScore: aggregate(res.data.data, planArea),
+        scaleScore: getStatus(aggregate(res.data.data, planArea)),
+        speciesName: res.data.speciesName,
+        id: uuid(),
+      })
+    );
+    history.push("/map");
+    dispatch(setLoader(false));
+    // clearTimeout(loadTimer);
+  };
 
   useEffect(() => {
     getUserData();
@@ -152,9 +205,14 @@ const UserData = ({ userLoggedIn }) => {
           <br />
           {userFileList.length > 0 ? (
             userFileList.map((file) => (
-              <div class="d-flex">
+              <div className="d-flex" key={uuid()}>
                 <span className="mr-auto">{file}</span>
-                <Button className="btn btn-success ml-1">Add AOI To Map</Button>
+                <Button
+                  className="btn btn-success ml-1"
+                  onClick={() => viewUserFile(file)}
+                >
+                  Add AOI to Map
+                </Button>
                 <Button 
                   className="btn btn-danger ml-1" 
                   onClick={() => {
@@ -175,7 +233,7 @@ const UserData = ({ userLoggedIn }) => {
           <br />
           {userReportList.length > 0 ? (
             userReportList.map((report) => (
-              <div class="d-flex">
+              <div className="d-flex" key={uuid()}>
                 <span className="mr-auto">{report}</span>
                 <Button className="btn btn-success ml-1">View Report</Button>
                 <Button 
