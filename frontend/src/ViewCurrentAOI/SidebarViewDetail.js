@@ -281,7 +281,7 @@ const SidebarViewDetail = ({
                   className="ml-1"
                   onClick={saveFile}
                 >
-                  <MdSave /> &nbsp; Save In Your Account: {userLoggedIn}
+                  <MdSave /> &nbsp; Save to: {userLoggedIn}
                 </Button>
               </Container>
             )}

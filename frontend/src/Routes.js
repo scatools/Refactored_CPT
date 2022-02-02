@@ -49,7 +49,7 @@ const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) =
         <Help />
       </Route>
       <Route exact path="/report">
-        <Report aoiSelected={aoiSelected} />
+        <Report aoiSelected={aoiSelected} userLoggedIn={userLoggedIn}/>
       </Route>
       {aoiAssembled.length > 1 ? (
         <Route exact path="/assessment">
@@ -58,6 +58,7 @@ const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) =
             setAoiSelected={setAoiSelected}
             setReportLink={setReportLink}
             customizedMeasures={customizedMeasures}
+            userLoggedIn={userLoggedIn}
           />
         </Route>
       ) : (
