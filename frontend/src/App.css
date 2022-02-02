@@ -201,13 +201,13 @@ nav a:hover {
   font-size: 20px;
 }
 
-.assessmentDownload {
+.reportDownload {
   position: absolute;
   right: 20px;
   top: 1%;
 }
 
-.reportDownload {
+.assessmentDownload {
   position: absolute;
   right: 20px;
   top: 1%;
@@ -223,6 +223,18 @@ nav a:hover {
   position: absolute;
   right: 20px;
   top: 3%;
+}
+
+.reportSave {
+  position: absolute;
+  right: 20px;
+  top: 3%;
+}
+
+.assessmentSave {
+  position: absolute;
+  right: 20px;
+  top: 4%;
 }
 
 .downloadButton {
@@ -277,8 +289,16 @@ nav a:hover {
   margin-top: 50px;
 }
 
+.report-h1 {
+  text-align: left;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
 .assessment-h1 {
-  text-align: center;
+  text-align: left;
+  margin-left: 0px;
+  padding-left: 0px;
 }
 
 .form-group {

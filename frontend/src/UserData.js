@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Jumbotron } from "react-bootstrap";
+import { Button, Container, Jumbotron } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
-
-let userShapefiles = [];
-let userReports = [];
 
 const UserData = ({ userLoggedIn }) => {
   const [ username, setUsername ] = useState(null);
@@ -13,6 +10,10 @@ const UserData = ({ userLoggedIn }) => {
   const [ lastName, setLastName ] = useState(null);
   const [ email, setEmail ] = useState(null);
   const [ admin, setAdmin ] = useState(false);
+  const [ userFileList, setUserFileList ] = useState([]);
+  const [ userReportList, setUserReportList ] = useState([]);
+  const [ fileDeleted, setFileDeleted ] = useState(null);
+  const [ reportDeleted, setReportDeleted ] = useState(null);
   
   const getUserData = async () => {
     // For development on local server
@@ -35,9 +36,87 @@ const UserData = ({ userLoggedIn }) => {
     setAdmin(result.data.rows[0].is_admin);
   };
 
+  const getUserFile = async () => {
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/user/shapefile',
+    //   { username: userLoggedIn }
+    // );
+    
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/user/shapefile',
+      { username: userLoggedIn }
+    );
+    if (result) {
+      setUserFileList(result.data.rows.map((row) => row.file_name));
+    };
+  };
+
+  const getUserReport = async () => {
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/user/report',
+    //   { username: userLoggedIn }
+    // );
+    
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/user/report',
+      { username: userLoggedIn }
+    );
+    if (result) {
+      setUserReportList(result.data.rows.map((row) => row.report_name));
+    };
+  };
+
+  const deleteUserFile = async (file) => {
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/delete/shapefile',
+    //   { file_name: file }
+    // );
+    
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/delete/shapefile',
+      { file_name: file }
+    );
+    if (result) {
+      alert("You have deleted the AOI named " + file);
+    };
+  };
+
+  const deleteUserReport = async (report) => {
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/delete/report',
+    //   { report_name: report }
+    // );
+    
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/delete/report',
+      { report_name: report }
+    );
+    if (result) {
+      alert("You have deleted the report named " + report);
+    };
+  };
+
   useEffect(() => {
-    getUserData()
+    getUserData();
+    getUserFile();
+    getUserReport();
   }, [userLoggedIn]);
+
+  useEffect(() => {
+    getUserFile();
+  }, [fileDeleted]);
+
+  useEffect(() => {
+    getUserReport();
+  }, [reportDeleted]);
   
   if (userLoggedIn) {
     return (
@@ -71,8 +150,22 @@ const UserData = ({ userLoggedIn }) => {
           <hr className="my-4" />
           <p className="h3">Saved Shapefiles</p>
           <br />
-          {userShapefiles.length > 0 ? (
-            { userShapefiles }
+          {userFileList.length > 0 ? (
+            userFileList.map((file) => (
+              <div class="d-flex">
+                <span className="mr-auto">{file}</span>
+                <Button className="btn btn-success ml-1">Add AOI To Map</Button>
+                <Button 
+                  className="btn btn-danger ml-1" 
+                  onClick={() => {
+                    deleteUserFile(file);
+                    setFileDeleted(file);
+                  }}
+                >
+                  Delete AOI
+                </Button>
+              </div>
+            ))
           ) : (
             <p className="lead">No shapefile saved yet!</p>
           )}
@@ -80,8 +173,22 @@ const UserData = ({ userLoggedIn }) => {
           <hr className="my-4" />
           <p className="h3">Saved Reports</p>
           <br />
-          {userReports.length > 0 ? (
-            { userReports }
+          {userReportList.length > 0 ? (
+            userReportList.map((report) => (
+              <div class="d-flex">
+                <span className="mr-auto">{report}</span>
+                <Button className="btn btn-success ml-1">View Report</Button>
+                <Button 
+                  className="btn btn-danger ml-1" 
+                  onClick={() => {
+                    deleteUserReport(report);
+                    setReportDeleted(report);
+                  }}
+                >
+                  Delete Report
+                </Button>
+              </div>
+            ))
           ) : (
             <p className="lead">No report saved yet!</p>
           )}

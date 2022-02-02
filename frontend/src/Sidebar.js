@@ -44,7 +44,8 @@ const Sidebar = ({
   setHexDeselection,
   hexIDDeselected,
   setHexIDDeselected,
-  setHexFilterList
+  setHexFilterList,
+  userLoggedIn
 }) => {
   const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
@@ -93,6 +94,7 @@ const Sidebar = ({
             hexIDDeselected={hexIDDeselected}
             setHexIDDeselected={setHexIDDeselected}
             setHexFilterList={setHexFilterList}
+            userLoggedIn={userLoggedIn}
             view={view}
           />
         )}

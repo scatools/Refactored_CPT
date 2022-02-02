@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Card, Container, Button, InputGroup, FormControl } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { MdViewList, MdEdit, MdDelete, MdFileDownload } from "react-icons/md";
+import { MdViewList, MdEdit, MdDelete, MdSave } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
+import { FaFileExport } from "react-icons/fa"; 
+import { download } from "shp-write";
 import axios from "axios";
-// import { download } from "shp-write";
 import { delete_aoi, edit_aoi } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 
@@ -22,7 +23,8 @@ const SidebarViewDetail = ({
   setHexDeselection,
   hexIDDeselected,
   setHexIDDeselected,
-  setHexFilterList
+  setHexFilterList,
+  userLoggedIn
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -51,6 +53,7 @@ const SidebarViewDetail = ({
 
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
+
       // For production on Heroku
       const res = await axios.post(
         "https://sca-cpt-backend.herokuapp.com/data",
@@ -108,6 +111,7 @@ const SidebarViewDetail = ({
 
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
+
       // For production on Heroku
       const res = await axios.post(
         "https://sca-cpt-backend.herokuapp.com/data",
@@ -161,6 +165,36 @@ const SidebarViewDetail = ({
     };
   };
 
+  const saveFile = async () => {
+    try {
+      // For development on local server
+      // const res = await axios.post(
+      //   "http://localhost:5000/save/shapefile",
+      //   {
+      //     file_name: aoiList[0].name,
+      //     geometry: aoiList[0].geometry,
+      //     username: userLoggedIn
+      //   }
+      // );
+
+      // For production on Heroku
+      const res = await axios.post(
+        "https://sca-cpt-backend.herokuapp.com/save/shapefile",
+        {
+          file_name: aoiList[0].name,
+          geometry: aoiList[0].geometry,
+          username: userLoggedIn
+        }
+      );
+      if (res) {
+        alert("You have saved "+ aoiList[0].name + " in your account.");
+      };
+    } catch (e) {
+      alert("Failed to save the file in your account!");
+      console.error(e);
+    };
+  }
+
   return (
     <>
       {aoiList && aoiList.length > 0 && (
@@ -179,16 +213,7 @@ const SidebarViewDetail = ({
                 hexagons
               </li>
             </ul>
-            <Container className="detail-buttons">
-              <Button
-                variant="dark"
-                className="ml-1"
-                onClick={() => {
-                  setActiveTable(aoiSelected);
-                }}
-              >
-                <MdViewList /> &nbsp; View
-              </Button>
+            <Container className="detail-buttons mb-2">
               <Button
                 variant="dark"
                 className="ml-1"
@@ -204,11 +229,10 @@ const SidebarViewDetail = ({
                 variant="dark"
                 className="ml-1"
                 onClick={() => {
-                  setActiveTable(false);
-                  dispatch(delete_aoi(aoiList[0].id));
+                  setActiveTable(aoiSelected);
                 }}
               >
-                <MdDelete /> &nbsp; Delete
+                <MdViewList /> &nbsp; Summary
               </Button>
               <Button
                 variant="dark"
@@ -234,12 +258,33 @@ const SidebarViewDetail = ({
                       polygon: aoiList[0].name,
                     },
                   };
-                  //download(aoiGeoJson, options);
+                  download(aoiGeoJson, options);
                 }}
               >
-                <MdFileDownload /> &nbsp; Download
+                <FaFileExport /> &nbsp; Export
+              </Button>
+              <Button
+                variant="dark"
+                className="ml-1"
+                onClick={() => {
+                  setActiveTable(false);
+                  dispatch(delete_aoi(aoiList[0].id));
+                }}
+              >
+                <MdDelete /> &nbsp; Delete
               </Button>
             </Container>
+            {userLoggedIn && (
+              <Container className="detail-buttons">
+                <Button
+                  variant="dark"
+                  className="ml-1"
+                  onClick={saveFile}
+                >
+                  <MdSave /> &nbsp; Save to: {userLoggedIn}
+                </Button>
+              </Container>
+            )}
             {editAOI && (
               <>
                 <hr />

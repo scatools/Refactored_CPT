@@ -4,10 +4,10 @@ import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
-import { MdDownload } from "react-icons/md";
-//import { download } from "shp-write";
+import { MdDownload, MdSave } from "react-icons/md";
+import { download } from "shp-write";
 import bbox from "@turf/bbox";
-// import axios from 'axios';
+import axios from 'axios';
 import ReportTable from "./ReportTable";
 import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
@@ -16,7 +16,7 @@ import Legend from "./Legend";
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
 
-const Report = ({ aoiSelected }) => {
+const Report = ({ aoiSelected, userLoggedIn }) => {
   const aoi = useSelector((state) => state.aoi);
   // Constant aoi contains all the AOIs provided so those not selected need to be filtered out
   const aoiList = Object.values(aoi).filter((aoi) => aoiSelected === aoi.id);
@@ -86,7 +86,42 @@ const Report = ({ aoiSelected }) => {
         polygon: aoiList[0].name,
       },
     };
-    //download(aoiGeoJson, options);
+    download(aoiGeoJson, options);
+  };
+  
+  const saveReport = async () => {
+    try {
+      var today = new Date().toISOString().slice(0, 10);
+      var pageHTMLObject = document.getElementsByClassName("container")[0];
+      var pageHTML = pageHTMLObject.outerHTML;
+      var reportName = "Detailed Report for " + aoiList[0].name + " (" + today + ")";
+      
+      // For development on local server
+      // const res = await axios.post(
+      //   "http://localhost:5000/save/report",
+      //   {
+      //     report_name: reportName,
+      //     script: pageHTML,
+      //     username: userLoggedIn
+      //   }
+      // );
+
+      // For production on Heroku
+      const res = await axios.post(
+        "https://sca-cpt-backend.herokuapp.com/save/report",
+        {
+          report_name: reportName,
+          script: pageHTML,
+          username: userLoggedIn
+        }
+      );
+      if (res) {
+        alert("You have saved "+ reportName + " in your account.");
+      };
+    } catch (e) {
+      alert("Failed to save the report in your account!");
+      console.error(e);
+    };
   };
 
   if (!aoiSelected) {
@@ -123,6 +158,19 @@ const Report = ({ aoiSelected }) => {
         </Button>
       </div>
 
+      {userLoggedIn && (
+        <div className="reportSave">
+          <Button
+            id="reportSaveButton"
+            className="downloadButton"
+            variant="dark"
+            onClick={saveReport}
+          >
+            <MdSave /> Save to: {userLoggedIn}
+          </Button>
+        </div>
+      )}
+
       <div id="reportOverview">
         <div className="reportNav">
           <a href="#map">Spatial Footprint</a>
@@ -131,6 +179,11 @@ const Report = ({ aoiSelected }) => {
           <a href="#appendix">Appendix</a>
         </div>
         <Container style={{ position: "relative", top: "100px" }}>
+          <Row>
+            <h1 className="report-h1">
+              Detailed Report for {aoiList[0].name}
+            </h1>
+          </Row>
           <Row id="mapHeading">
             <h2>Spatial Footprint:</h2>
           </Row>

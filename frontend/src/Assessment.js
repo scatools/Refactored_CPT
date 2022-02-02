@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { Container, Dropdown, Row } from "react-bootstrap";
+import { Button, Container, Dropdown, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
-import { MdDownload } from "react-icons/md";
+import { MdDownload, MdSave } from "react-icons/md";
 import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
 import { download } from "shp-write";
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import bbox from "@turf/bbox";
+import axios from 'axios';
 import AssessmentTable from "./AssessmentTable";
 import AssessmentScoreTable from "./AssessmentScoreTable";
 import UserDefinedResult from "./UserDefinedResult";
@@ -21,7 +22,13 @@ import { setLoader } from "./action";
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
 
-const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink, customizedMeasures }) => {
+const Assessment = ({ 
+  aoiAssembled,
+  setAoiSelected,
+  setReportLink,
+  customizedMeasures,
+  userLoggedIn
+}) => {
   const dispatch = useDispatch();
   dispatch(setLoader(false));
   
@@ -262,6 +269,42 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink, customizedMea
       download(aoiGeoJson, options);
     });
   };
+  
+  const saveAssessment = async () => {
+    try {
+      var today = new Date().toISOString().slice(0, 10);
+      var pageHTMLObject = document.getElementsByClassName("container")[0];
+      var pageHTML = pageHTMLObject.outerHTML;
+      var reportName = "Assessment Report for " + aoiList[0].name + " and " 
+                      + String(aoiList.length-1) + " Other AOIs" + " (" + today + ")";
+      
+      // For development on local server
+      // const res = await axios.post(
+      //   "http://localhost:5000/save/report",
+      //   {
+      //     report_name: reportName,
+      //     script: pageHTML,
+      //     username: userLoggedIn
+      //   }
+      // );
+
+      // For production on Heroku
+      const res = await axios.post(
+        "https://sca-cpt-backend.herokuapp.com/save/report",
+        {
+          report_name: reportName,
+          script: pageHTML,
+          username: userLoggedIn
+        }
+      );
+      if (res) {
+        alert("You have saved "+ reportName + " in your account.");
+      };
+    } catch (e) {
+      alert("Failed to save the report in your account!");
+      console.error(e);
+    };
+  };
 
   if (!assessment.hasOwnProperty("aoi")) {
     return <Redirect to="/" />;
@@ -332,6 +375,19 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink, customizedMea
         </Dropdown>
       </div>
 
+      {userLoggedIn && (
+        <div className="assessmentSave">
+          <Button
+            id="assessmentSaveButton"
+            className="downloadButton"
+            variant="dark"
+            onClick={saveAssessment}
+          >
+            <MdSave /> Save to: {userLoggedIn}
+          </Button>
+        </div>
+      )}
+
       <div className="assessmentNav">
         <a href="#mapHeading">Spatial Footprint</a>
         <a href="#scoreHeading">Overall Scores</a>
@@ -342,7 +398,11 @@ const Assessment = ({ aoiAssembled, setAoiSelected, setReportLink, customizedMea
 
       <div id="assessmentOverview">
         <Container style={{ position: "relative", top: "100px" }}>
-          <h1 className="assessment-h1">Here Is The Report Title</h1>
+          <Row>
+            <h1 className="assessment-h1">
+              Assessment Report for {aoiList[0].name} and {String(aoiList.length-1)} Other AOIs
+            </h1>
+          </Row>
           <Row id="mapHeading">
             <h2>Spatial Footprint:</h2>
           </Row>
