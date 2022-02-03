@@ -25,7 +25,10 @@ const Map = ({
   interactiveLayerIds,
   setInteractiveLayerIds,
   autoDraw,
-  hexGrid
+  hexGrid,
+  hexDeselection,
+  hexIDDeselected,
+  hexFilterList
 }) => {
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null);
   const [hucData, setHucData] = useState(null);
@@ -35,6 +38,7 @@ const Map = ({
   const [clicked, setClicked] = useState(false);
   const [clickedProperty, setClickedProperty] = useState(null);
   const [filter, setFilter] = useState(["in", "HUC12", "default"]);
+  const [hexFilter, setHexFilter] = useState(["in", "objectid", "default"]);
   const editorRef = useRef(null);
 
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
@@ -176,18 +180,18 @@ const Map = ({
             "fill-opacity": 0.2,
           }}
         />
-        {/* {filterList.map((filter) => (
+        {hexFilterList.map((filter) => (
           <Layer
             id={filter[2]}
             type="fill"
             paint={{
-              "fill-outline-color": "#484896",
-              "fill-color": "#00ffff",
+              "fill-outline-color": "red",
+              "fill-color": "red",
               "fill-opacity": 0.2,
             }}
             filter={filter}
           />
-        ))} */}
+        ))}
       </Source>
     )
   };
@@ -211,12 +215,8 @@ const Map = ({
   }, [drawingMode, setFeatureList]);
 
   useEffect(() => {
-    if (
-      editAOI &&
-      aoiSelected &&
-      drawingMode &&
-      editorRef.current.getFeatures().length === 0
-    ) {
+    if (editAOI && aoiSelected && drawingMode &&
+      editorRef.current.getFeatures().length === 0) {
       editorRef.current.addFeatures(aoiList[0].geometry);
     }
   }, [editAOI, aoiList, drawingMode, aoiSelected]);
@@ -224,18 +224,18 @@ const Map = ({
   useEffect(() => {
     if (hucBoundary) {
       setInteractiveLayerIds(["huc"]);
+    } else if (hexGrid && hexDeselection) {
+      setInteractiveLayerIds(["hex"]);
     } else if (!drawingMode) {
       setInteractiveLayerIds([]);
     }
-  }, [drawingMode, hucBoundary]);
+  }, [drawingMode, hucBoundary, hexGrid, hexDeselection]);
 
   useEffect(() => {
     if (clickedProperty) {
-      // Same watershed area won't be counted twice
-      if (
-        clickedProperty.HUC12 &&
-        !hucIDSelected.includes(clickedProperty.HUC12)
-      ) {
+      // For HUC-12 boundary layer, same watershed area won't be counted twice
+      if (clickedProperty.HUC12 &&
+        !hucIDSelected.includes(clickedProperty.HUC12)) {
         // Array hucIDSelected is stored in a format like [{value: 'xx', label: 'xx'}]
         hucIDSelected.push({
           value: clickedProperty.HUC12,
@@ -244,6 +244,15 @@ const Map = ({
         setFilter(["in", "HUC12", clickedProperty.HUC12]);
       }
       // console.log(hucIDSelected);
+
+      // For hex grid layer, same hexagon won't be counted twice
+      if (clickedProperty.objectid &&
+        !hexIDDeselected.includes(clickedProperty.objectid)) {
+        // Array hexIDDeselected is stored in a simple array format
+        hexIDDeselected.push(clickedProperty.objectid);
+        // console.log(hexIDDeselected);
+        setHexFilter(["in", "objectid", clickedProperty.objectid]);
+      }
     }
   }, [clickedProperty]);
 
@@ -251,6 +260,11 @@ const Map = ({
     filterList.push(filter);
     // console.log(filterList);
   }, [filter]);
+
+  useEffect(() => {
+    hexFilterList.push(hexFilter);
+    // console.log(hexFilterList);
+  }, [hexFilter]);
 
   return (
     <MapGL

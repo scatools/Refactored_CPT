@@ -201,13 +201,13 @@ nav a:hover {
   font-size: 20px;
 }
 
-.reportDownload {
+.assessmentDownload {
   position: absolute;
   right: 20px;
   top: 1%;
 }
 
-.assessmentDownload {
+.reportDownload {
   position: absolute;
   right: 20px;
   top: 1%;
@@ -223,18 +223,6 @@ nav a:hover {
   position: absolute;
   right: 20px;
   top: 3%;
-}
-
-.reportSave {
-  position: absolute;
-  right: 20px;
-  top: 3%;
-}
-
-.assessmentSave {
-  position: absolute;
-  right: 20px;
-  top: 4%;
 }
 
 .downloadButton {
@@ -289,16 +277,8 @@ nav a:hover {
   margin-top: 50px;
 }
 
-.report-h1 {
-  text-align: left;
-  margin-left: 0px;
-  padding-left: 0px;
-}
-
 .assessment-h1 {
-  text-align: left;
-  margin-left: 0px;
-  padding-left: 0px;
+  text-align: center;
 }
 
 .form-group {
@@ -326,23 +306,17 @@ button.btn-dark.ml-1.btn {
 }
 
 .btn-success {
-  width: 30%;
+  width: 50%;
   margin: 10px;
 }
 
 .btn-danger {
-  width: 30%;
-  margin: 10px;
-}
-
-.btn-secondary {
-  width: 30%;
   margin: 10px;
 }
 
 .btn-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 #resetButton {

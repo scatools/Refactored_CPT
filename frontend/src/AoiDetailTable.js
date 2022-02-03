@@ -136,6 +136,10 @@ const AoiDetailTable = ({ activeTable, setActiveTable }) => {
 								<td>{aoi[0].scaleScore.cl4}</td>
 							</tr>
 							<tr>
+								<td>Social Vulnerability Index:</td>
+								<td>{aoi[0].scaleScore.cl5}</td>
+							</tr>
+							<tr>
 								<td colSpan="2">
 									<b>Gulf Economy:</b>{' '}
 								</td>

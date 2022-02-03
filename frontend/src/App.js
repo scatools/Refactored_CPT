@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 
 function App(props) {
   const [reportLink, setReportLink] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userLoggedIn, setUserLoggedIn] = useState(null);
   return (
     <LoadingOverlay
       className="myLoading"
@@ -21,9 +23,18 @@ function App(props) {
       text="Loading..."
     >
       <div className="App">
-        <NavBar reportLink={reportLink} />
+        <NavBar
+          reportLink={reportLink}
+          loggedIn={loggedIn}
+          userLoggedIn={userLoggedIn}
+        />
         <div style={{ position: "relative", top: "55px" }}>
-          <Routes setReportLink={setReportLink} />
+          <Routes
+            setReportLink={setReportLink}
+            setLoggedIn={setLoggedIn}
+            userLoggedIn={userLoggedIn}
+            setUserLoggedIn={setUserLoggedIn}
+          />
         </div>
       </div>
     </LoadingOverlay>

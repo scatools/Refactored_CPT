@@ -22,7 +22,13 @@ const CurrentAOIView = ({
   featureList,
   setAlerttext,
   setReportLink,
-  view,
+  setHexGrid,
+  setHexDeselection,
+  hexIDDeselected,
+  setHexIDDeselected,
+  setHexFilterList,
+  userLoggedIn,
+  view
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi));
 
@@ -84,6 +90,12 @@ const CurrentAOIView = ({
           featureList={featureList}
           setAlerttext={setAlerttext}
           setReportLink={setReportLink}
+          setHexGrid={setHexGrid}
+          setHexDeselection={setHexDeselection}
+          hexIDDeselected={hexIDDeselected}
+          setHexIDDeselected={setHexIDDeselected}
+          setHexFilterList={setHexFilterList}
+          userLoggedIn={userLoggedIn}
         />
       </ButtonGroup>
       <Container className="add-assess-cont">
