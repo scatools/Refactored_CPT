@@ -244,11 +244,15 @@ const SelectDataMeasures = ({
                     </span>
                   </ReactTooltip>
                 </span>
-                <div className="utility-btn-cont">
+                <div className="d-flex justify-content-between utility-btn-cont">
                   <div>
                     <div>
                       <p className="smaller-text no-margin no-padding">
-                        Are higher or lower values better?
+                        {measure.label==='Connectivity to Existing Protected Area'? 'Are more or less connected the better?':
+                        (measure.label==='Connectivity of Natural Lands'? 'Are more or less connected the better?':
+                        (measure.label==='Threat of Urbanization'? 'Are higher or lower threat of urbanization the better?':
+                        (measure.label==='Composition of Priority Natural Lands'? 'Are more or less natural lands the better?':
+                        "")))}
                       </p>
                     </div>
                     <ButtonGroup className="utility-inner" toggle>
@@ -269,10 +273,18 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Higher
+                        {measure.label==='Connectivity to Existing Protected Area'? 'More':
+                        (measure.label==='Connectivity of Natural Lands'? 'More':
+                        (measure.label==='Threat of Urbanization'? 'Higher':
+                        (measure.label==='Composition of Priority Natural Lands'? 'More':
+                        "")))}
                       </ToggleButton>
                       <ReactTooltip id="positive-hab" place="top">
-                        More is better
+                        {measure.label==='Connectivity to Existing Protected Area'? 'More connected the better':
+                        (measure.label==='Connectivity of Natural Lands'? 'More connected the better':
+                        (measure.label==='Threat of Urbanization'? 'Higher threat of urbanization the better':
+                        (measure.label==='Composition of Priority Natural Lands'? 'More natural lands the better':
+                        "")))}
                       </ReactTooltip>
                       <ToggleButton
                         type="radio"
@@ -291,10 +303,18 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Lower
+                        {measure.label==='Connectivity to Existing Protected Area'? 'Less':
+                        (measure.label==='Connectivity of Natural Lands'? 'Less':
+                        (measure.label==='Threat of Urbanization'? 'Lower':
+                        (measure.label==='Composition of Priority Natural Lands'? 'Less':
+                        "")))}
                       </ToggleButton>
                       <ReactTooltip id="less" place="top">
-                        Less is better
+                        {measure.label==='Connectivity to Existing Protected Area'? 'Less connected the better':
+                        (measure.label==='Connectivity of Natural Lands'? 'Less connected the better':
+                        (measure.label==='Threat of Urbanization'? 'Lower threat of urbanization the better':
+                        (measure.label==='Composition of Priority Natural Lands'? 'Less natural lands the better':
+                        "")))}
                       </ReactTooltip>
                     </ButtonGroup>
                   </div>
@@ -303,6 +323,7 @@ const SelectDataMeasures = ({
                       <p className="smaller-text no-margin">
                         Select the priority
                       </p>
+                      <br />
                     </div>
                     <ButtonGroup toggle className="ml-2 weight-inner">
                       <ToggleButton
@@ -533,11 +554,17 @@ const SelectDataMeasures = ({
                     </span>
                   </ReactTooltip>
                 </span>
-                <div className="utility-btn-cont">
+                <div className="d-flex justify-content-between utility-btn-cont">
                   <div>
                     <div>
                       <p className="smaller-text no-margin no-padding">
-                        Are higher or lower values better?
+                        {measure.label==='303(d): Impaired Watershed Area'? 'Are more or less impaired area the better?':
+                        (measure.label==='Hydrologic Response to Land-Use Change'? 'Are more or less impact on hydrology the better?':
+                        (measure.label==='Percent Irrigated Agriculture'? 'Are more or less irrigated agriculture the better?':
+                        (measure.label==='Lateral Connectivity of Floodplain'? 'Are more or less connected the better?':
+                        (measure.label==='Composition of Riparizan Zone Lands'? 'Are more or less natural riparian zone the better?':
+                        (measure.label==='Presence of Impoundments'? 'Are more or less impoundment the better?':
+                        "")))))}
                       </p>
                     </div>
                     <ButtonGroup className="utility-inner" toggle>
@@ -558,10 +585,22 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Higher
+                        {measure.label==='303(d): Impaired Watershed Area'? 'More':
+                        (measure.label==='Hydrologic Response to Land-Use Change'? 'More':
+                        (measure.label==='Percent Irrigated Agriculture'? 'More':
+                        (measure.label==='Lateral Connectivity of Floodplain'? 'More':
+                        (measure.label==='Composition of Riparizan Zone Lands'? 'More':
+                        (measure.label==='Presence of Impoundments'? 'More':
+                        "")))))}
                       </ToggleButton>
                       <ReactTooltip id="positive-wq" place="top">
-                        More is better
+                        {measure.label==='303(d): Impaired Watershed Area'? 'More impaired area the better':
+                        (measure.label==='Hydrologic Response to Land-Use Change'? 'More impact on hydrology the better':
+                        (measure.label==='Percent Irrigated Agriculture'? 'More irrigated agriculture the better':
+                        (measure.label==='Lateral Connectivity of Floodplain'? 'More connected the better':
+                        (measure.label==='Composition of Riparizan Zone Lands'? 'More natural riparian zone the better':
+                        (measure.label==='Presence of Impoundments'? 'More impoundment the better':
+                        "")))))}
                       </ReactTooltip>
                       <ToggleButton
                         type="radio"
@@ -580,10 +619,22 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Lower
+                        {measure.label==='303(d): Impaired Watershed Area'? 'Less':
+                        (measure.label==='Hydrologic Response to Land-Use Change'? 'Less':
+                        (measure.label==='Percent Irrigated Agriculture'? 'Less':
+                        (measure.label==='Lateral Connectivity of Floodplain'? 'Less':
+                        (measure.label==='Composition of Riparizan Zone Lands'? 'Less':
+                        (measure.label==='Presence of Impoundments'? 'Less':
+                        "")))))}
                       </ToggleButton>
                       <ReactTooltip id="negative-wq" place="top">
-                        Less is better
+                        {measure.label==='303(d): Impaired Watershed Area'? 'Less impaired area the better':
+                        (measure.label==='Hydrologic Response to Land-Use Change'? 'Less impact on hydrology the better':
+                        (measure.label==='Percent Irrigated Agriculture'? 'Less irrigated agriculture the better':
+                        (measure.label==='Lateral Connectivity of Floodplain'? 'Less connected the better':
+                        (measure.label==='Composition of Riparizan Zone Lands'? 'Less natural riparian zone the better':
+                        (measure.label==='Presence of Impoundments'? 'Less impoundment the better':
+                        "")))))}
                       </ReactTooltip>
                     </ButtonGroup>
                   </div>
@@ -592,6 +643,7 @@ const SelectDataMeasures = ({
                       <p className="smaller-text no-margin">
                         Select the priority
                       </p>
+                      <br />
                     </div>
                     <ButtonGroup toggle className="ml-2 weight-inner">
                       <ToggleButton
@@ -817,11 +869,17 @@ const SelectDataMeasures = ({
                     </span>
                   </ReactTooltip>
                 </span>
-                <div className="utility-btn-cont">
+                <div className="d-flex justify-content-between utility-btn-cont">
                   <div>
                     <div>
                       <p className="smaller-text no-margin no-padding">
-                        Are higher or lower values better?
+                        {measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'Are more or less vulnerable area the better?':
+                        (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'Are more or less critical habitat the better?':
+                        (measure.label==='Threatened and Endangered Species - Number of Species'? 'Are more or less T&E species the better?':
+                        (measure.label==='Light Pollution Index'? 'Are more or less light pollution the better?':
+                        (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Are higher or lower terrestrial vertebrate biodiversity the better?':
+                        (measure.label==='Vulnerability to Invasive Plants'? 'Are higher or lower vulnerability to invasive plants the better?':
+                        "")))))}
                       </p>
                     </div>
                     <ButtonGroup className="utility-inner" toggle>
@@ -842,10 +900,22 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Higher
+                        {measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'More':
+                        (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'More':
+                        (measure.label==='Threatened and Endangered Species - Number of Species'? 'More':
+                        (measure.label==='Light Pollution Index'? 'More':
+                        (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Higher':
+                        (measure.label==='Vulnerability to Invasive Plants'? 'Higher':
+                        "")))))}
                       </ToggleButton>
                       <ReactTooltip id="positive-lcmr" place="top">
-                        More is better
+                        {measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'More vulnerable area the better':
+                        (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'More critical habitat the better':
+                        (measure.label==='Threatened and Endangered Species - Number of Species'? 'More T&E species the better':
+                        (measure.label==='Light Pollution Index'? 'More light pollution the better':
+                        (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Higher terrestrial vertebrate biodiversity the better':
+                        (measure.label==='Vulnerability to Invasive Plants'? 'Higher vulnerability to invasive plants the better':
+                        "")))))}
                       </ReactTooltip>
                       <ToggleButton
                         type="radio"
@@ -864,10 +934,22 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Lower
+                        {measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'Less':
+                        (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'Less':
+                        (measure.label==='Threatened and Endangered Species - Number of Species'? 'Less':
+                        (measure.label==='Light Pollution Index'? 'Less':
+                        (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Lower':
+                        (measure.label==='Vulnerability to Invasive Plants'? 'Lower':
+                        "")))))}
                       </ToggleButton>
                       <ReactTooltip id="negative-lcmr" place="top">
-                        Less is better
+                        {measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'Less vulnerable area the better':
+                        (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'Less critical habitat the better':
+                        (measure.label==='Threatened and Endangered Species - Number of Species'? 'Less T&E species the better':
+                        (measure.label==='Light Pollution Index'? 'Less light pollution the better':
+                        (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Lower terrestrial vertebrate biodiversity the better':
+                        (measure.label==='Vulnerability to Invasive Plants'? 'Lower vulnerability to invasive plants the better':
+                        "")))))}
                       </ReactTooltip>
                     </ButtonGroup>
                   </div>
@@ -876,6 +958,7 @@ const SelectDataMeasures = ({
                       <p className="smaller-text no-margin">
                         Select the priority
                       </p>
+                      <br />
                     </div>
                     <ButtonGroup toggle className="ml-2 weight-inner">
                       <ToggleButton
@@ -1099,11 +1182,16 @@ const SelectDataMeasures = ({
                     </span>
                   </ReactTooltip>
                 </span>
-                <div className="utility-btn-cont">
+                <div className="d-flex justify-content-between utility-btn-cont">
                   <div>
                     <div>
                       <p className="smaller-text no-margin no-padding">
-                        Are higher or lower values better?
+                        {measure.label==='National Register of Historic Places'? 'Are more or less historic places the better?':
+                        (measure.label==='National Heritage Area'? 'Are more or less national heritage areas the better?':
+                        (measure.label==='Proximity to Socially Vulnerability Communities'? 'Are more or less connection to socially vulnerable communities the better?':
+                        (measure.label==='Community Threat Index'? 'Are higher or lower threat to community the better?':
+                        (measure.label=== 'Social Vulnerability Index'? 'Are higher or lower social vulnerability the better?':
+                        ""))))}
                       </p>
                     </div>
                     <ButtonGroup className="utility-inner" toggle>
@@ -1124,10 +1212,20 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Higher
+                        {measure.label==='National Register of Historic Places'? 'More':
+                        (measure.label==='National Heritage Area'? 'More':
+                        (measure.label==='Proximity to Socially Vulnerability Communities'? 'More':
+                        (measure.label==='Community Threat Index'? 'Higher':
+                        (measure.label=== 'Social Vulnerability Index'? 'Higher':
+                        ""))))}
                       </ToggleButton>
                       <ReactTooltip id="positive-cl" place="top">
-                        More score the better
+                        {measure.label==='National Register of Historic Places'? 'More historic places the better':
+                        (measure.label==='National Heritage Area'? 'More national heritage areas the better':
+                        (measure.label==='Proximity to Socially Vulnerability Communities'? 'More connection to socially vulnerable communities the better':
+                        (measure.label==='Community Threat Index'? 'Higher threat to community the better':
+                        (measure.label=== 'Social Vulnerability Index'? 'Higher social vulnerability the better':
+                        ""))))}
                       </ReactTooltip>
                       <ToggleButton
                         type="radio"
@@ -1146,10 +1244,20 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Lower
+                        {measure.label==='National Register of Historic Places'? 'Less':
+                        (measure.label==='National Heritage Area'? 'Less':
+                        (measure.label==='Proximity to Socially Vulnerability Communities'? 'Less':
+                        (measure.label==='Community Threat Index'? 'Lower':
+                        (measure.label=== 'Social Vulnerability Index'? 'Lower':
+                        ""))))}
                       </ToggleButton>
                       <ReactTooltip id="negative-cl" place="top">
-                        Less score the better
+                        {measure.label==='National Register of Historic Places'? 'Less historic places the better':
+                        (measure.label==='National Heritage Area'? 'Less national heritage areas the better':
+                        (measure.label==='Proximity to Socially Vulnerability Communities'? 'Less connection to socially vulnerable communities the better':
+                        (measure.label==='Community Threat Index'? 'Lower threat to community the better':
+                        (measure.label=== 'Social Vulnerability Index'? 'Lower social vulnerability the better':
+                        ""))))}
                       </ReactTooltip>
                     </ButtonGroup>
                   </div>
@@ -1158,6 +1266,7 @@ const SelectDataMeasures = ({
                       <p className="smaller-text no-margin">
                         Select the priority
                       </p>
+                      <br />
                     </div>
                     <ButtonGroup toggle className="ml-2 weight-inner">
                       <ToggleButton
@@ -1379,11 +1488,15 @@ const SelectDataMeasures = ({
                     </span>
                   </ReactTooltip>
                 </span>
-                <div className="utility-btn-cont">
+                <div className="d-flex justify-content-between utility-btn-cont">
                   <div>
                     <div>
                       <p className="smaller-text no-margin no-padding">
-                        Are higher or lower values better?
+                        {measure.label==='High Priority Working Lands'? 'Are more or less priority working lands the better?':
+                        (measure.label==='Commercial Fishing Reliance'? 'Are higher or lower reliance the better?':
+                        (measure.label==='Recreational Fishing Engagement'? 'Are more or less engagement the better?':
+                        (measure.label==='Access & Recreation - Number of Access Points'? 'Are more or less recreational access points the better?':
+                        "")))}
                       </p>
                     </div>
                     <ButtonGroup className="utility-inner" toggle>
@@ -1404,10 +1517,18 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Higher
+                        {measure.label==='High Priority Working Lands'? 'More':
+                        (measure.label==='Commercial Fishing Reliance'? 'Higher':
+                        (measure.label==='Recreational Fishing Engagement'? 'More':
+                        (measure.label==='Access & Recreation - Number of Access Points'? 'More':
+                        "")))}
                       </ToggleButton>
                       <ReactTooltip id="positive-eco" place="top">
-                        More score the better
+                        {measure.label==='High Priority Working Lands'? 'More priority working lands the better':
+                        (measure.label==='Commercial Fishing Reliance'? 'Higher reliance the better':
+                        (measure.label==='Recreational Fishing Engagement'? 'More engagement the better':
+                        (measure.label==='Access & Recreation - Number of Access Points'? 'More recreational access points the better':
+                        "")))}
                       </ReactTooltip>
                       <ToggleButton
                         type="radio"
@@ -1426,10 +1547,18 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        Lower
+                        {measure.label==='High Priority Working Lands'? 'Less':
+                        (measure.label==='Commercial Fishing Reliance'? 'Lower':
+                        (measure.label==='Recreational Fishing Engagement'? 'Less':
+                        (measure.label==='Access & Recreation - Number of Access Points'? 'Less':
+                        "")))}
                       </ToggleButton>
                       <ReactTooltip id="negative-eco" place="top">
-                        Less score the better
+                        {measure.label==='High Priority Working Lands'? 'Less priority working lands the better':
+                        (measure.label==='Commercial Fishing Reliance'? 'Lower reliance the better':
+                        (measure.label==='Recreational Fishing Engagement'? 'Less engagement the better':
+                        (measure.label==='Access & Recreation - Number of Access Points'? 'Less recreational access points the better':
+                        "")))}
                       </ReactTooltip>
                     </ButtonGroup>
                   </div>
@@ -1438,6 +1567,7 @@ const SelectDataMeasures = ({
                       <p className="smaller-text no-margin">
                         Select the priority
                       </p>
+                      <br />
                     </div>
                     <ButtonGroup toggle className="ml-2 weight-inner">
                       <ToggleButton

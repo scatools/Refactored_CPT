@@ -56,7 +56,7 @@ const ReviewAssessSettings = ({
       const goalList = {
         hab: "Habitat",
         wq: "Water Quality & Quantity",
-        lcmr: "Living Costal & Marine Resources",
+        lcmr: "Living Coastal & Marine Resources",
         cl: "Community Resilience",
         eco: "Gulf Economy",
       };
@@ -155,7 +155,21 @@ const ReviewAssessSettings = ({
                     </ReactTooltip>
                   </td>
                   <td>Habitat</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>
+                    {measure.utility === "1" ? (
+                      measure.label==='Connectivity to Existing Protected Area'? 'More':
+                      (measure.label==='Connectivity of Natural Lands'? 'More':
+                      (measure.label==='Threat of Urbanization'? 'Higher':
+                      (measure.label==='Composition of Priority Natural Lands'? 'More':
+                      "")))
+                    ) : (
+                      measure.label==='Connectivity to Existing Protected Area'? 'Less':
+                      (measure.label==='Connectivity of Natural Lands'? 'Less':
+                      (measure.label==='Threat of Urbanization'? 'Lower':
+                      (measure.label==='Composition of Priority Natural Lands'? 'Less':
+                      "")))
+                    )}
+                  </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -164,7 +178,7 @@ const ReviewAssessSettings = ({
                 <tr key={measure.value}>
                   <td>{measure.name}</td>
                   <td>Habitat</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.utility === "1" ? "Higher" : "Lower"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -187,7 +201,25 @@ const ReviewAssessSettings = ({
                     </ReactTooltip>
                   </td>
                   <td>Water</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>
+                    {measure.utility === "1" ? (
+                      measure.label==='303(d): Impaired Watershed Area'? 'More':
+                      (measure.label==='Hydrologic Response to Land-Use Change'? 'More':
+                      (measure.label==='Percent Irrigated Agriculture'? 'More':
+                      (measure.label==='Lateral Connectivity of Floodplain'? 'More':
+                      (measure.label==='Composition of Riparizan Zone Lands'? 'More':
+                      (measure.label==='Presence of Impoundments'? 'More':
+                      "")))))
+                    ) : (
+                      measure.label==='303(d): Impaired Watershed Area'? 'Less':
+                      (measure.label==='Hydrologic Response to Land-Use Change'? 'Less':
+                      (measure.label==='Percent Irrigated Agriculture'? 'Less':
+                      (measure.label==='Lateral Connectivity of Floodplain'? 'Less':
+                      (measure.label==='Composition of Riparizan Zone Lands'? 'Less':
+                      (measure.label==='Presence of Impoundments'? 'Less':
+                      "")))))
+                    )}
+                  </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -196,7 +228,7 @@ const ReviewAssessSettings = ({
                 <tr key={measure.value}>
                   <td>{measure.name}</td>
                   <td>Water</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.utility === "1" ? "Higher" : "Lower"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -219,7 +251,25 @@ const ReviewAssessSettings = ({
                     </ReactTooltip>
                   </td>
                   <td>LCMR</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>
+                    {measure.utility === "1" ? (
+                      measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'More':
+                      (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'More':
+                      (measure.label==='Threatened and Endangered Species - Number of Species'? 'More':
+                      (measure.label==='Light Pollution Index'? 'More':
+                      (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Higher':
+                      (measure.label==='Vulnerability to Invasive Plants'? 'Higher':
+                      "")))))
+                    ) : (
+                      measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'Less':
+                      (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'Less':
+                      (measure.label==='Threatened and Endangered Species - Number of Species'? 'Less':
+                      (measure.label==='Light Pollution Index'? 'Less':
+                      (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Lower':
+                      (measure.label==='Vulnerability to Invasive Plants'? 'Lower':
+                      "")))))
+                    )}
+                  </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -228,7 +278,7 @@ const ReviewAssessSettings = ({
                 <tr key={measure.value}>
                   <td>{measure.name}</td>
                   <td>LCMR</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.utility === "1" ? "Higher" : "Lower"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -249,7 +299,23 @@ const ReviewAssessSettings = ({
                     </ReactTooltip>
                   </td>
                   <td>Resilience</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>
+                    {measure.utility === "1" ? (
+                      measure.label==='National Register of Historic Places'? 'More':
+                      (measure.label==='National Heritage Area'? 'More':
+                      (measure.label==='Proximity to Socially Vulnerability Communities'? 'More':
+                      (measure.label==='Community Threat Index'? 'Higher':
+                      (measure.label=== 'Social Vulnerability Index'? 'Higher':
+                      ""))))
+                    ) : (
+                      measure.label==='National Register of Historic Places'? 'Less':
+                      (measure.label==='National Heritage Area'? 'Less':
+                      (measure.label==='Proximity to Socially Vulnerability Communities'? 'Less':
+                      (measure.label==='Community Threat Index'? 'Lower':
+                      (measure.label=== 'Social Vulnerability Index'? 'Lower':
+                      ""))))
+                    )}
+                  </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -258,7 +324,7 @@ const ReviewAssessSettings = ({
                 <tr key={measure.value}>
                   <td>{measure.name}</td>
                   <td>Resilience</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.utility === "1" ? "Higher" : "Lower"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -279,7 +345,21 @@ const ReviewAssessSettings = ({
                     </ReactTooltip>
                   </td>
                   <td>Economy</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>
+                    {measure.utility === "1" ? (
+                      measure.label==='High Priority Working Lands'? 'More':
+                      (measure.label==='Commercial Fishing Reliance'? 'Higher':
+                      (measure.label==='Recreational Fishing Engagement'? 'More':
+                      (measure.label==='Access & Recreation - Number of Access Points'? 'More':
+                      "")))
+                    ) : (
+                      measure.label==='High Priority Working Lands'? 'Less':
+                      (measure.label==='Commercial Fishing Reliance'? 'Lower':
+                      (measure.label==='Recreational Fishing Engagement'? 'Less':
+                      (measure.label==='Access & Recreation - Number of Access Points'? 'Less':
+                      "")))
+                    )}
+                  </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
@@ -288,7 +368,7 @@ const ReviewAssessSettings = ({
                 <tr key={measure.value}>
                   <td>{measure.name}</td>
                   <td>Economy</td>
-                  <td>{measure.utility === "1" ? "Positive" : "Negative"}</td>
+                  <td>{measure.utility === "1" ? "Higher" : "Lower"}</td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
               ))}
