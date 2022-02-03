@@ -45,9 +45,10 @@ const Sidebar = ({
   hexIDDeselected,
   setHexIDDeselected,
   setHexFilterList,
-  userLoggedIn
+  userLoggedIn,
+  view,
+  setView
 }) => {
-  const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
   const aoi = useSelector((state) => state.aoi);
   const resetButton = () => {
@@ -66,7 +67,6 @@ const Sidebar = ({
             setAoiSelected={setAoiSelected}
             featureList={featureList}
             setAlerttext={setAlerttext}
-            setView={setView}
             hucBoundary={hucBoundary}
             setHucBoundary={setHucBoundary}
             hucIDSelected={hucIDSelected}
@@ -74,6 +74,7 @@ const Sidebar = ({
             setFilterList={setFilterList}
             setReportLink={setReportLink}
             autoDraw={autoDraw}
+            setView={setView}
           />
         )}
         {view === "viewCurrent" && (
@@ -82,7 +83,6 @@ const Sidebar = ({
             setAoiSelected={setAoiSelected}
             setActiveTable={setActiveTable}
             setViewport={setViewport}
-            setView={setView}
             setDrawingMode={setDrawingMode}
             editAOI={editAOI}
             setEditAOI={setEditAOI}
@@ -96,6 +96,7 @@ const Sidebar = ({
             setHexFilterList={setHexFilterList}
             userLoggedIn={userLoggedIn}
             view={view}
+            setView={setView}
           />
         )}
         {view === "createAssess" && (
@@ -103,8 +104,8 @@ const Sidebar = ({
             aoiAssembled={aoiAssembled}
             setAoiAssembled={setAoiAssembled}
             setAlerttext={setAlerttext}
-            setView={setView}
             customizedMeasures={customizedMeasures}
+            setView={setView}
           />
         )}
         {alerttext && (

@@ -12,14 +12,9 @@ import Assessment from "./Assessment";
 const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) => {
   const [aoiSelected, setAoiSelected] = useState(null);
   const [aoiAssembled, setAoiAssembled] = useState([]);
-  const [customizedMeasures, setCustomizedMeasures] = useState({
-    hab: [],
-    wq: [],
-    lcmr: [],
-    cl: [],
-    eco: [],
-  });
-
+  const [customizedMeasures, setCustomizedMeasures] = useState({hab: [], wq: [], lcmr: [], cl: [], eco: []});
+  const [view, setView] = useState("add");
+  
   return (
     <Switch>
       <Route exact path="/">
@@ -31,6 +26,8 @@ const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) =
           setReportLink={setReportLink}
           customizedMeasures={customizedMeasures}
           userLoggedIn={userLoggedIn}
+          view={view}
+          setView={setView}
         />
       </Route>
       <Route exact path="/register">
