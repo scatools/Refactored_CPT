@@ -333,6 +333,11 @@ button.btn-dark.ml-1.btn {
   min-width: 180px;
 }
 
+button.sidebarControlBtn.btn.btn-secondary {
+  min-width: initial;
+  width: initial;
+}
+
 .btn-container {
   display: flex;
   flex-direction: row;
