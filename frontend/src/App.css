@@ -325,19 +325,18 @@ button.btn-dark.ml-1.btn {
   font-size: 14px;
 }
 
-.btn-success {
-  width: 30%;
+.btn-success,
+.btn-secondary,
+.btn-danger,
+.btn-primary {
+  width: 230px;
   margin: 10px;
+  padding: 10px !important;
 }
 
-.btn-danger {
-  width: 30%;
-  margin: 10px;
-}
-
-.btn-secondary {
-  width: 30%;
-  margin: 10px;
+.btn-primary {
+  width: initial;
+  padding: 10px 30px !important;
 }
 
 .btn-container {
@@ -434,4 +433,17 @@ h4 {
   background: rgba(80, 80, 80, 0.2);
   border-radius: 10px;
   padding: 10px;
+}
+
+.modal-footer button.btn.btn-secondary {
+  width: initial;
+}
+
+.modal-footer button.btn.btn-danger {
+  width: initial;
+  font-weight: bold;
+}
+
+.modal-footer {
+  justify-content: space-between !important;
 }

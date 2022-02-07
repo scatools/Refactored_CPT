@@ -1,14 +1,31 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Container, Button, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  Button,
+  InputGroup,
+  FormControl,
+  Modal,
+} from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdSave } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
-import { FaFileExport } from "react-icons/fa"; 
+import { FaFileExport } from "react-icons/fa";
 import { download } from "shp-write";
 import axios from "axios";
 import { delete_aoi, edit_aoi } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+
+const alertIcon = (
+  <FontAwesomeIcon
+    icon={faExclamationCircle}
+    color="red"
+    style={{ margin: "0 5px;" }}
+  />
+);
 
 const SidebarViewDetail = ({
   aoiSelected,
@@ -24,7 +41,7 @@ const SidebarViewDetail = ({
   hexIDDeselected,
   setHexIDDeselected,
   setHexFilterList,
-  userLoggedIn
+  userLoggedIn,
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -36,8 +53,9 @@ const SidebarViewDetail = ({
   const [showButtonState, setShowButtonState] = useState("show");
   const [showButtonLabel, setShowButtonLabel] = useState("Show Hexagon Grid");
   const [deselectButtonState, setDeselectButtonState] = useState("deselect");
-  const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
-  
+  const [deselectButtonLabel, setDeselectButtonLabel] =
+    useState("Deselect Hexagon");
+
   const handleBasicEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
@@ -65,9 +83,15 @@ const SidebarViewDetail = ({
           name: aoiName,
           geometry: newList.length ? newList : aoiList[0].geometry,
           hexagons: newList.length ? res.data.data : aoiList[0].hexagons,
-          rawScore: newList.length ? aggregate(res.data.data, planArea) : aoiList[0].rawScore,
-          scaleScore: newList.length ? getStatus(aggregate(res.data.data, planArea)) : aoiList[0].scaleScore,
-          speciesName: newList.length ? res.data.speciesName : aoiList[0].speciesName,
+          rawScore: newList.length
+            ? aggregate(res.data.data, planArea)
+            : aoiList[0].rawScore,
+          scaleScore: newList.length
+            ? getStatus(aggregate(res.data.data, planArea))
+            : aoiList[0].scaleScore,
+          speciesName: newList.length
+            ? res.data.speciesName
+            : aoiList[0].speciesName,
           id: aoiList[0].id,
         })
       );
@@ -82,28 +106,32 @@ const SidebarViewDetail = ({
       setEditAOI(false);
       setAlerttext(false);
       // Use the unselected hexagons as new geometry to recalculate AOI
-      const newList = aoiList[0].hexagons.filter((hexagon) => !hexIDDeselected.includes(hexagon.objectid));
+      const newList = aoiList[0].hexagons.filter(
+        (hexagon) => !hexIDDeselected.includes(hexagon.objectid)
+      );
       const data = {
         type: "MultiPolygon",
         coordinates: newList.map((feature) => {
-          const geometry =  JSON.parse(feature.geometry);
+          const geometry = JSON.parse(feature.geometry);
           // Database returns all hexagons intersecting with the input shape, including overlapping and touching
           // Shrink the size of input shapes so that the hexagons only sharing mutual sides won't be involved
-          const coordinates = geometry.coordinates[0][0].map((coords, index) => {
-            var longitude = coords[0];
-            var latitude = coords[1];
-            if (index === 0 || index === 6) {
-              longitude = coords[0] - 0.0001;
-            } else if (index === 1 || index === 2) {
-              latitude = coords[1] + 0.0001;
-            } else if (index === 3) {
-              longitude = coords[0] + 0.0001;
-            } else if (index === 4 || index === 5) {
-              latitude = coords[1] - 0.0001;
+          const coordinates = geometry.coordinates[0][0].map(
+            (coords, index) => {
+              var longitude = coords[0];
+              var latitude = coords[1];
+              if (index === 0 || index === 6) {
+                longitude = coords[0] - 0.0001;
+              } else if (index === 1 || index === 2) {
+                latitude = coords[1] + 0.0001;
+              } else if (index === 3) {
+                longitude = coords[0] + 0.0001;
+              } else if (index === 4 || index === 5) {
+                latitude = coords[1] - 0.0001;
+              }
+              return [longitude, latitude];
             }
-            return [longitude, latitude];
-          })
-          
+          );
+
           return [coordinates];
         }),
       };
@@ -123,13 +151,19 @@ const SidebarViewDetail = ({
           name: aoiName,
           geometry: newList.length ? newList : aoiList[0].geometry,
           hexagons: newList.length ? res.data.data : aoiList[0].hexagons,
-          rawScore: newList.length ? aggregate(res.data.data, planArea) : aoiList[0].rawScore,
-          scaleScore: newList.length ? getStatus(aggregate(res.data.data, planArea)) : aoiList[0].scaleScore,
-          speciesName: newList.length ? res.data.speciesName : aoiList[0].speciesName,
+          rawScore: newList.length
+            ? aggregate(res.data.data, planArea)
+            : aoiList[0].rawScore,
+          scaleScore: newList.length
+            ? getStatus(aggregate(res.data.data, planArea))
+            : aoiList[0].scaleScore,
+          speciesName: newList.length
+            ? res.data.speciesName
+            : aoiList[0].speciesName,
           id: aoiList[0].id,
         })
       );
-    };
+    }
   };
 
   const showHexagon = () => {
@@ -144,7 +178,7 @@ const SidebarViewDetail = ({
       setHexGrid(false);
       setShowButtonState("show");
       setShowButtonLabel("Show Hexagon Grid");
-    };
+    }
   };
 
   const deselectHexagon = () => {
@@ -161,8 +195,8 @@ const SidebarViewDetail = ({
       setDeselectButtonLabel("Deselect Hexagon");
       if (hexIDDeselected.length) {
         handleAdvancedEdit();
-      };
-    };
+      }
+    }
   };
 
   const saveFile = async () => {
@@ -183,17 +217,22 @@ const SidebarViewDetail = ({
         {
           file_name: aoiList[0].name,
           geometry: aoiList[0].geometry,
-          username: userLoggedIn
+          username: userLoggedIn,
         }
       );
       if (res) {
-        alert("You have saved "+ aoiList[0].name + " in your account.");
-      };
+        alert("You have saved " + aoiList[0].name + " in your account.");
+      }
     } catch (e) {
       alert("Failed to save the file in your account!");
       console.error(e);
-    };
-  }
+    }
+  };
+
+  const [confirmShow, setConfirmShow] = useState(false);
+
+  const confirmClose = () => setConfirmShow(false);
+  const showConfirm = () => setConfirmShow(true);
 
   return (
     <>
@@ -263,24 +302,13 @@ const SidebarViewDetail = ({
               >
                 <FaFileExport /> &nbsp; Export
               </Button>
-              <Button
-                variant="dark"
-                className="ml-1"
-                onClick={() => {
-                  setActiveTable(false);
-                  dispatch(delete_aoi(aoiList[0].id));
-                }}
-              >
+              <Button variant="dark" className="ml-1" onClick={showConfirm}>
                 <MdDelete /> &nbsp; Delete
               </Button>
             </Container>
             {userLoggedIn && (
               <Container className="detail-buttons">
-                <Button
-                  variant="dark"
-                  className="ml-1"
-                  onClick={saveFile}
-                >
+                <Button variant="dark" className="ml-1" onClick={saveFile}>
                   <MdSave /> &nbsp; Save to: {userLoggedIn}
                 </Button>
               </Container>
@@ -290,7 +318,10 @@ const SidebarViewDetail = ({
                 <hr />
                 <label>Basic Options:</label>
                 <br />
-                <InputGroup className="mb-3" style={{width: "70%", float: "left"}}>
+                <InputGroup
+                  className="mb-3"
+                  style={{ width: "70%", float: "left" }}
+                >
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1">
                       Plan Name:
@@ -305,23 +336,66 @@ const SidebarViewDetail = ({
                     placeholder="Name area of interest here..."
                   />
                 </InputGroup>
-                <Button variant="dark" style={{float:"right"}} onClick={handleBasicEdit}>
+                <Button
+                  variant="dark"
+                  style={{ float: "right" }}
+                  onClick={handleBasicEdit}
+                >
                   Confirm Change
                 </Button>
-                <br /><br />
+                <br />
+                <br />
                 <hr />
                 <label>Advanced Options:</label>
                 <br />
-                <Button variant="dark" style={{float:"left"}} value={showButtonState} onClick={showHexagon}>
+                <Button
+                  variant="dark"
+                  style={{ float: "left" }}
+                  value={showButtonState}
+                  onClick={showHexagon}
+                >
                   {showButtonLabel}
                 </Button>
-                <Button variant="dark" style={{float:"right"}} value={deselectButtonState} onClick={deselectHexagon}>
+                <Button
+                  variant="dark"
+                  style={{ float: "right" }}
+                  value={deselectButtonState}
+                  onClick={deselectHexagon}
+                >
                   {deselectButtonLabel}
                 </Button>
               </>
             )}
           </Card.Body>
         </Card>
+      )}
+      {aoiList && aoiList.length > 0 && (
+        <Modal show={confirmShow} onHide={confirmClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <h1>WAIT{alertIcon}</h1>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>This will delete the {aoiList[0].name} AOI.</p>
+            <p>Are you sure you'd like to continue?</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={confirmClose}>
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                setActiveTable(false);
+                dispatch(delete_aoi(aoiList[0].id));
+                setConfirmShow(false);
+              }}
+            >
+              Yes, remove this AOI
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
     </>
   );

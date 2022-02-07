@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Alert, Container, Button } from "react-bootstrap";
+import { Alert, Container, Button, Modal } from "react-bootstrap";
 import SidebarDismiss from "./SidebarDismiss";
 import AddAOIView from "./ViewAddAOI/AddAOIView";
 import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
 import CreateAssessView from "./ViewCreateAssess/CreateAssessView";
 import SidebarMode from "./SidebarMode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { faRedo, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
 const arrowIcon = (
@@ -16,6 +16,14 @@ const arrowIcon = (
     size="lg"
     flip="horizontal"
     style={{ paddingLeft: "30px;" }}
+  />
+);
+
+const alertIcon = (
+  <FontAwesomeIcon
+    icon={faExclamationCircle}
+    color="red"
+    style={{ margin: "0 5px;" }}
   />
 );
 
@@ -45,7 +53,7 @@ const Sidebar = ({
   hexIDDeselected,
   setHexIDDeselected,
   setHexFilterList,
-  userLoggedIn
+  userLoggedIn,
 }) => {
   const [view, setView] = useState("add");
   const [alerttext, setAlerttext] = useState(false);
@@ -53,6 +61,10 @@ const Sidebar = ({
   const resetButton = () => {
     window.location.reload(true);
   };
+  const [confirmShow, setConfirmShow] = useState(false);
+
+  const confirmClose = () => setConfirmShow(false);
+  const showConfirm = () => setConfirmShow(true);
 
   return (
     <div id="sidebar" className={activeSidebar ? "active" : ""}>
@@ -125,11 +137,31 @@ const Sidebar = ({
           id="resetButton"
           variant="dark"
           style={{ float: "left" }}
-          onClick={resetButton}
+          onClick={showConfirm}
         >
           Start Over {arrowIcon}
         </Button>
       )}
+
+      <Modal show={confirmShow} onHide={confirmClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <h1>WAIT{alertIcon}</h1>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>This will delete everything you've done so far.</p>
+          <p>Are you sure you'd like to continue?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={confirmClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={resetButton}>
+            Yes, start over.
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
