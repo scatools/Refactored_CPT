@@ -128,6 +128,7 @@ export function getStatus(input){
 
 export function getScaledForAssessment(input,id,name){
   // [Reversed Utility Function] hab3, wq1, wq3, wq6
+  // For wq4 and wq5, no-data values assigned as -1 should be considered as 0
   // Need to replace with scaling functions after switching to raw data
   let scaledResult = {
     id,
@@ -137,11 +138,11 @@ export function getScaledForAssessment(input,id,name){
     hab2: input.hab2,
     hab3: 1-input.hab3,
     hab4: input.hab4,
-    wq1: 1-input.wq1,
+    wq1: 1-input.wq1 <= 0 ? 0 : 1-input.wq1,
     wq2: input.wq2,
     wq3: 1-input.wq3,
-    wq4: input.wq4,
-    wq5: input.wq5,
+    wq4: input.wq4 === -1 ? 0 : input.wq4,
+    wq5: input.wq5 === -1 ? 0 : input.wq5,
     wq6: 1-input.wq6,
     lcmr1: input.lcmr1,
     lcmr2: input.lcmr2,
