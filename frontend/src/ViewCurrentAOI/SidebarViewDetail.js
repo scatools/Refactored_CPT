@@ -377,7 +377,7 @@ const SidebarViewDetail = ({
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>This will delete the {aoiList[0].name} AOI.</p>
+            <p>This will permanently delete the {aoiList[0].name} AOI.</p>
             <p>Are you sure you'd like to continue?</p>
           </Modal.Body>
           <Modal.Footer>
