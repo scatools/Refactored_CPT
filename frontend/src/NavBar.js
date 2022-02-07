@@ -39,15 +39,24 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
             <NavLink to="/help" className="ml-3 mt-2">
               Support
             </NavLink>
-            <NavDropdown title="More"  className="ml-3">
-              <NavDropdown.Item href="https://www.quest.fwrc.msstate.edu/sca/about-the-project.php" target="_blank">
+            <NavDropdown title="More" className="ml-3">
+              <NavDropdown.Item
+                href="https://www.quest.fwrc.msstate.edu/sca/about-the-project.php"
+                target="_blank"
+              >
                 Strategic Conservation Assessment (SCA) Project
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="http://sca-cit.herokuapp.com/" target="_blank">
+              <NavDropdown.Item
+                href="http://sca-cit.herokuapp.com/"
+                target="_blank"
+              >
                 Conservation Planning Inventory Tool (CIT)
               </NavDropdown.Item>
-              <NavDropdown.Item href="https://sca-cvt.netlify.app/" target="_blank">
+              <NavDropdown.Item
+                href="https://sca-cvt.netlify.app/"
+                target="_blank"
+              >
                 Conservation Visualization Tool (CVT)
               </NavDropdown.Item>
             </NavDropdown>
@@ -96,12 +105,13 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
             <b>Intended Use</b>
             <br />
             <p>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Conservation Prioritization Tool (CPT)
-              is not intended to be prescriptive. Instead this tool was designed to
-              provide data to support conservation planning efforts across the Gulf
-              Coast Region. All users acknowledge that the CPT model is intended to
-              explore ecological and socioeconomic co-benefits of proposed areas of
-              land conservation, and should not be used in a decision making context.
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Conservation Prioritization Tool
+              (CPT) is not intended to be prescriptive. Instead this tool was
+              designed to provide data to support conservation planning efforts
+              across the Gulf Coast Region. All users acknowledge that the CPT
+              model is intended to explore ecological and socioeconomic
+              co-benefits of proposed areas of land conservation, and should not
+              be used in a decision making context.
             </p>
             <p>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The flexibility of this tool enables
@@ -111,25 +121,44 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
             </p>
             <b>Sponsorship</b>
             <p>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funding for this project was provided by the 
-              <a href="https://www.restorethegulf.gov/" target="_blank"> Gulf Coast Ecosystem Restoration Council </a> 
-              through an agreement (NO. F17AC00267) with the 
-              <a href="https://www.fws.gov/" target="_blank"> U.S. Fish and Wildlife Service </a>
-              , and was produced with support from the 
-              <a href="https://www.fwrc.msstate.edu/" target="_blank"> Forest and Wildlife Research Center </a>
-              at Mississippi State University. The findings and conclusions in this tool are those of the 
-              authors and do not necessarily represent the views of the U.S. Fish and Wildlife Service or 
-              Gulf Coast Ecosystem Restoration Council.
-            </p>
-            <div className="d-flex justify-content-between">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funding for this project was
+              provided by the
               <a href="https://www.restorethegulf.gov/" target="_blank">
-                <img src="/Logo_RESTORE.png" alt="image" height="100px"/>
+                {" "}
+                Gulf Coast Ecosystem Restoration Council{" "}
               </a>
-              <a href="https://www.fwrc.msstate.edu/" target="_blank">
-                <img src="/Logo_FWRC.png" alt="image" height="100px"/>
-              </a>
+              through an agreement (NO. F17AC00267) with the
               <a href="https://www.fws.gov/" target="_blank">
-                <img src="/Logo_USFWS.png" alt="image" height="100px"/>
+                {" "}
+                U.S. Fish and Wildlife Service{" "}
+              </a>
+              , and was produced with support from the
+              <a href="https://www.fwrc.msstate.edu/" target="_blank">
+                {" "}
+                Forest and Wildlife Research Center{" "}
+              </a>
+              at Mississippi State University. The findings and conclusions in
+              this tool are those of the authors and do not necessarily
+              represent the views of the U.S. Fish and Wildlife Service or Gulf
+              Coast Ecosystem Restoration Council.
+            </p>
+            <div className="logo-container">
+              <a
+                className="logo"
+                href="https://www.restorethegulf.gov/"
+                target="_blank"
+              >
+                <img src="/Logo_RESTORE.png" alt="image" />
+              </a>
+              <a
+                className="logo"
+                href="https://www.fwrc.msstate.edu/"
+                target="_blank"
+              >
+                <img src="/Logo_FWRC.png" alt="image" />
+              </a>
+              <a className="logo" href="https://www.fws.gov/" target="_blank">
+                <img src="/Logo_USFWS.png" alt="image" />
               </a>
             </div>
             <br />

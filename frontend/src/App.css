@@ -447,3 +447,14 @@ h4 {
 .modal-footer {
   justify-content: space-between !important;
 }
+
+.logo {
+  margin: 10px;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  width: 100%;
+}
