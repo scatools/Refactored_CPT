@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -39,7 +39,6 @@ const SelectDataMeasures = ({
   const aoiList = Object.values(aoi).filter((aoi) =>
     aoiAssembledList.includes(aoi.id)
   );
-  const [dataStep, setDataStep] = useState("hab");
   const [habitatSelect, setHabitatSelect] = useState(false);
   const [waterSelect, setWaterSelect] = useState(false);
   const [resourceSelect, setResourceSelect] = useState(false);
@@ -53,7 +52,7 @@ const SelectDataMeasures = ({
       icon={faPlusCircle}
       size="lg"
       onClick={() => {
-        customizeMeasure(dataStep);
+        customizeMeasure(dataMeasList[dataI]);
       }}
     />
   );
@@ -179,6 +178,31 @@ const SelectDataMeasures = ({
     // console.log(customizedMeasures);
   };
 
+  let dataMeasList = ["hab", "wq", "lcmr", "cl", "eco"];
+  const [dataI, setDataI] = useState(0);
+
+  for (const elem of dataMeasList) {
+    if (!weights[elem].weight)
+      dataMeasList = dataMeasList.filter((a) => a !== elem);
+  }
+
+  const handleNext = () => {
+    if (dataI === dataMeasList.length - 1) {
+      setAssessStep("reviewAssessSettings");
+    } else {
+      setDataI(dataI + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (dataI === 0) {
+      setAssessStep("selectRestoreWeights");
+    } else {
+      let newI = dataI - 1;
+      setDataI(newI);
+    }
+  };
+
   return (
     <Container>
       <Modal centered show={show} onHide={handleClose} size="xl">
@@ -271,8 +295,7 @@ const SelectDataMeasures = ({
         Select each relevant data measure and set your prioritization level
         (Low, Medium, High)
       </p>
-
-      {dataStep === "hab" && (
+      {dataMeasList[dataI] === "hab" && (
         <div>
           <span>Habitat:</span>
           <Select
@@ -603,20 +626,17 @@ const SelectDataMeasures = ({
 
           <br />
           <Container className="add-assess-cont">
-            <Button
-              variant="secondary"
-              onClick={() => setAssessStep("selectRestoreWeights")}
-            >
-              {arrowIcon} Edit RESTORE Weights
+            <Button variant="secondary" onClick={handleBack}>
+              {arrowIcon} Back
             </Button>
-            <Button variant="primary" onClick={() => setDataStep("wq")}>
+            <Button variant="primary" onClick={handleNext}>
               Next
             </Button>
           </Container>
         </div>
       )}
 
-      {dataStep === "wq" && (
+      {dataMeasList[dataI] === "wq" && (
         <div>
           <span>Water Quality & Quantity:</span>
           <Select
@@ -976,17 +996,17 @@ const SelectDataMeasures = ({
 
           <br />
           <Container className="add-assess-cont">
-            <Button variant="secondary" onClick={() => setDataStep("hab")}>
-              {arrowIcon} Edit Habitat Measures
+            <Button variant="secondary" onClick={handleBack}>
+              {arrowIcon} Back
             </Button>
-            <Button variant="primary" onClick={() => setDataStep("lcmr")}>
+            <Button variant="primary" onClick={handleNext}>
               Next
             </Button>
           </Container>
         </div>
       )}
 
-      {dataStep === "lcmr" && (
+      {dataMeasList[dataI] === "lcmr" && (
         <div>
           <span>Living Coastal & Marine Resources:</span>
           <Select
@@ -1363,17 +1383,17 @@ const SelectDataMeasures = ({
 
           <br />
           <Container className="add-assess-cont">
-            <Button variant="secondary" onClick={() => setDataStep("wq")}>
-              {arrowIcon} Edit Water Measures
+            <Button variant="secondary" onClick={handleBack}>
+              {arrowIcon} Back
             </Button>
-            <Button variant="primary" onClick={() => setDataStep("cl")}>
+            <Button variant="primary" onClick={handleNext}>
               Next
             </Button>
           </Container>
         </div>
       )}
 
-      {dataStep === "cl" && (
+      {dataMeasList[dataI] === "cl" && (
         <div>
           <span>Community Resilience:</span>
           <Select
@@ -1715,17 +1735,17 @@ const SelectDataMeasures = ({
 
           <br />
           <Container className="add-assess-cont">
-            <Button variant="secondary" onClick={() => setDataStep("lcmr")}>
-              {arrowIcon} Edit Resources Measures
+            <Button variant="secondary" onClick={handleBack}>
+              {arrowIcon} Back
             </Button>
-            <Button variant="primary" onClick={() => setDataStep("eco")}>
+            <Button variant="primary" onClick={handleNext}>
               Next
             </Button>
           </Container>
         </div>
       )}
 
-      {dataStep === "eco" && (
+      {dataMeasList[dataI] === "eco" && (
         <div>
           <span>Gulf Economy:</span>
           <Select
@@ -2049,14 +2069,11 @@ const SelectDataMeasures = ({
 
           <br />
           <Container className="add-assess-cont">
-            <Button variant="secondary" onClick={() => setDataStep("cl")}>
-              {arrowIcon} Edit Resilience Measures
+            <Button variant="secondary" onClick={handleBack}>
+              {arrowIcon} Back
             </Button>
-            <Button
-              variant="primary"
-              onClick={() => setAssessStep("reviewAssessSettings")}
-            >
-              {economySelect ? "Next" : "Skip"}
+            <Button variant="primary" onClick={handleNext}>
+              Next
             </Button>
           </Container>
         </div>
