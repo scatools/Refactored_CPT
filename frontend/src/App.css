@@ -325,7 +325,17 @@ button.btn-dark.ml-1.btn {
   font-size: 14px;
 }
 
+.btn-primary {
+  width: 30%;
+  margin: 10px;
+}
+
 .btn-success {
+  width: 30%;
+  margin: 10px;
+}
+
+.btn-warning {
   width: 30%;
   margin: 10px;
 }
