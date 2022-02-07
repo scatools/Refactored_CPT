@@ -90,7 +90,9 @@ const AddAOIView = ({
 
   return (
     <Container>
-      <h3 style={{ marginBottom: "20px" }}>Define Your Area of Interest</h3>
+      <h3 style={{ marginBottom: "20px" }}>
+        Define Your Area of Interest (AOI)
+      </h3>
       <Container className="d-flex">
         <ButtonGroup toggle className="m-auto">
           <ToggleButton

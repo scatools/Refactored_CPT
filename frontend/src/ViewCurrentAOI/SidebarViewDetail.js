@@ -43,6 +43,7 @@ const SidebarViewDetail = ({
   setHexFilterList,
   userLoggedIn,
   editMode,
+  stopDraw,
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -57,8 +58,10 @@ const SidebarViewDetail = ({
   const [deselectButtonLabel, setDeselectButtonLabel] =
     useState("Deselect Hexagon");
 
+  dispatch(setLoader(false));
+
   const handleBasicEdit = async () => {
-    dispatch(setLoader(true));
+    // dispatch(setLoader(true));
     if (!aoiName) {
       setAlerttext("Name is required.");
     } else {
@@ -79,15 +82,18 @@ const SidebarViewDetail = ({
         "https://sca-cpt-backend.herokuapp.com/data",
         { data }
       );
+
       const planArea = calculateArea(newList);
       dispatch(
         edit_aoi(aoiList[0].id, {
           name: aoiName,
-          geometry: newList.length ? newList : aoiList[0].geometry,
-          hexagons: newList.length ? res.data.data : aoiList[0].hexagons,
-          rawScore: newList.length
-            ? aggregate(res.data.data, planArea)
-            : aoiList[0].rawScore,
+          geometry: newList && newList.length ? newList : aoiList[0].geometry,
+          hexagons:
+            newList && newList.length ? res.data.data : aoiList[0].hexagons,
+          rawScore:
+            newList && newList.length
+              ? aggregate(res.data.data, planArea)
+              : aoiList[0].rawScore,
           scaleScore: newList.length
             ? getStatus(aggregate(res.data.data, planArea))
             : aoiList[0].scaleScore,
@@ -98,8 +104,9 @@ const SidebarViewDetail = ({
         })
       );
       setDrawingMode(false);
-      dispatch(setLoader(false));
     }
+
+    dispatch(setLoader(false));
   };
 
   const handleAdvancedEdit = async () => {
@@ -328,7 +335,7 @@ const SidebarViewDetail = ({
                 >
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1">
-                      Plan Name:
+                      AOI Name:
                     </InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
@@ -343,7 +350,11 @@ const SidebarViewDetail = ({
                 <Button
                   variant="dark"
                   style={{ float: "right" }}
-                  onClick={handleBasicEdit}
+                  onClick={() => {
+                    stopDraw();
+                    dispatch(setLoader(true));
+                    handleBasicEdit();
+                  }}
                 >
                   Confirm Change
                 </Button>

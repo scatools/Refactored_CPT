@@ -113,6 +113,7 @@ const Sidebar = ({
             view={view}
             setView={setView}
             editMode={editMode}
+            stopDraw={stopDraw}
           />
         )}
         {view === "createAssess" && (

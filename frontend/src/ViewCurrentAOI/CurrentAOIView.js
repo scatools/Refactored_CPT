@@ -30,6 +30,7 @@ const CurrentAOIView = ({
   userLoggedIn,
   view,
   editMode,
+  stopDraw,
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi));
 
@@ -98,6 +99,7 @@ const CurrentAOIView = ({
           setHexFilterList={setHexFilterList}
           userLoggedIn={userLoggedIn}
           editMode={editMode}
+          stopDraw={stopDraw}
         />
       </ButtonGroup>
       <Container className="add-assess-cont">
