@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import { Button } from "react-bootstrap";
 import Map from "./Map";
 import AoiDetailTable from "./AoiDetailTable";
-import { DrawPolygonMode } from "react-map-gl-draw";
+import { DrawPolygonMode, EditingMode } from "react-map-gl-draw";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -48,6 +48,10 @@ const Main = ({
     setInteractiveLayerIds(["sca-boundry"]);
   };
 
+  const editMode = async () => {
+    setMode(new EditingMode());
+  };
+
   const stopDraw = () => {
     setMode(null);
   };
@@ -88,6 +92,7 @@ const Main = ({
         view={view}
         setView={setView}
         stopDraw={stopDraw}
+        editMode={editMode}
       />
       <div className="content">
         <Button

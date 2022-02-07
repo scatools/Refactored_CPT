@@ -42,6 +42,7 @@ const SidebarViewDetail = ({
   setHexIDDeselected,
   setHexFilterList,
   userLoggedIn,
+  editMode,
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -260,6 +261,7 @@ const SidebarViewDetail = ({
                   setEditAOI(true);
                   setDrawingMode(true);
                   setAoiName(aoiList[0].name);
+                  editMode();
                 }}
               >
                 <MdEdit /> &nbsp; Edit

@@ -57,6 +57,7 @@ const Sidebar = ({
   view,
   setView,
   stopDraw,
+  editMode,
 }) => {
   const [alerttext, setAlerttext] = useState(false);
   const aoi = useSelector((state) => state.aoi);
@@ -111,6 +112,7 @@ const Sidebar = ({
             userLoggedIn={userLoggedIn}
             view={view}
             setView={setView}
+            editMode={editMode}
           />
         )}
         {view === "createAssess" && (
