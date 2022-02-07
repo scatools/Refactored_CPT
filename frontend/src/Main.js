@@ -20,7 +20,7 @@ const Main = ({
   customizedMeasures,
   userLoggedIn,
   view,
-  setView
+  setView,
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
@@ -46,6 +46,10 @@ const Main = ({
     setMode(new DrawPolygonMode());
     // Use crosshair as cursor style when drawing new shapes over SCA boundary
     setInteractiveLayerIds(["sca-boundry"]);
+  };
+
+  const stopDraw = () => {
+    setMode(null);
   };
 
   return (
@@ -83,6 +87,7 @@ const Main = ({
         userLoggedIn={userLoggedIn}
         view={view}
         setView={setView}
+        stopDraw={stopDraw}
       />
       <div className="content">
         <Button

@@ -56,6 +56,7 @@ const Sidebar = ({
   userLoggedIn,
   view,
   setView,
+  stopDraw,
 }) => {
   const [alerttext, setAlerttext] = useState(false);
   const aoi = useSelector((state) => state.aoi);
@@ -87,6 +88,7 @@ const Sidebar = ({
             setReportLink={setReportLink}
             autoDraw={autoDraw}
             setView={setView}
+            stopDraw={stopDraw}
           />
         )}
         {view === "viewCurrent" && (

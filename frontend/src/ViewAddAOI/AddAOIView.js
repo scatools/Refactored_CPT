@@ -18,6 +18,7 @@ const AddAOIView = ({
   setFilterList,
   setReportLink,
   autoDraw,
+  stopDraw,
 }) => {
   const [inputMode, setInputMode] = useState("");
   const [hucList, setHucList] = useState([]);
@@ -114,6 +115,7 @@ const AddAOIView = ({
             onChange={(e) => {
               setDrawingMode(false);
               setInputMode(e.currentTarget.value);
+              stopDraw();
             }}
           >
             by Zipped Shapefile
@@ -128,6 +130,7 @@ const AddAOIView = ({
               setDrawingMode(false);
               setInputMode(e.currentTarget.value);
               onLoad();
+              stopDraw();
             }}
           >
             by Existing Boundary
@@ -158,6 +161,7 @@ const AddAOIView = ({
           countdown={countdown}
           timeoutHandler={timeoutHandler}
           timeoutReload={timeoutReload}
+          setHucBoundary={setHucBoundary}
         />
       )}
 
@@ -170,6 +174,8 @@ const AddAOIView = ({
           countdown={countdown}
           timeoutHandler={timeoutHandler}
           timeoutReload={timeoutReload}
+          setHucBoundary={setHucBoundary}
+          setDrawingMode={setDrawingMode}
         />
       )}
 
