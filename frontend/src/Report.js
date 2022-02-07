@@ -249,12 +249,12 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                   ]}{" "}
               &nbsp;
               {/* Need to double check */}
-              {aoiList[0].scaleScore.hab3 === "Insufficient data"
+              {aoiList[0].scaleScore.hab3 === "Insufficient Data"
                 ? "There is insufficient data to determine the future threat of development for " +
                   aoiList[0].name +
                   "."
                 : aoiList[0].scaleScore.hab3 === "No Threat"
-                ? aoiList[0].name + " is currently urbanized."
+                ? aoiList[0].name + " has no threat of urbanization."
                 : [
                     aoiList[0].name + " is expected to have a ",
                     <b>{aoiList[0].scaleScore.hab3}</b>,
@@ -290,7 +290,7 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                       " are designated as impaired according to the EPA's 303(d) list.",
                   ]}{" "}
               &nbsp;
-              {aoiList[0].scaleScore.wq2 === "Insufficient data"
+              {aoiList[0].scaleScore.wq2 === "Insufficient Data"
                 ? "There is insufficient data to determine the hydrologic response of " +
                   aoiList[0].name +
                   " to land-use change."
@@ -298,7 +298,7 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                     "Land-use change in " +
                       aoiList[0].name +
                       " has resulted in a ",
-                    <b>{aoiList[0].scaleScore.hab4}</b>,
+                    <b>{aoiList[0].scaleScore.wq2}</b>,
                     " hydrologic response to a standard rainfall event for this region.",
                   ]}
               {/* Missing Information*/}
@@ -348,14 +348,12 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
               {/* Missing Information*/}
             </p>
             <p>
-              {aoiList[0].scaleScore.cl1 === 0
+              {aoiList[0].scaleScore.cl1 === "No"
                 ? "No places listed under the National Register of Historic Places are known to exist within or around " +
                   aoiList[0].name +
                   "."
                 : [
-                    "The National Register of Historic Places indicates that there are ",
-                    <b>{aoiList[0].scaleScore.cl1}</b>,
-                    " historic places within or around " +
+                    "The National Register of Historic Places indicates that there are historic places within or around " +
                       aoiList[0].name +
                       ".",
                   ]}{" "}
@@ -371,19 +369,14 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                       " is within a designated National Heritage Area.",
                   ]}{" "}
               &nbsp;
-              {aoiList[0].scaleScore.cl3 === "Insufficient data"
-                ? "There is insufficient data to determine the social vulnerability of communities nearby " +
-                  aoiList[0].name +
-                  "."
-                : [
-                    "According to NOAA's Office for Coastal Management, " +
-                      aoiList[0].name +
-                      " is considered to have a ",
-                    <b>{aoiList[0].scaleScore.cl3}</b>,
-                    " proximity to socially vulnerable communities.",
-                  ]}{" "}
+              {["According to NOAA's Office for Coastal Management, " +
+                    aoiList[0].name +
+                    " is considered to locate ",
+                  <b>{aoiList[0].scaleScore.cl3}</b>,
+                  " from socially vulnerable communities.",
+                ]}{" "}
               &nbsp;
-              {aoiList[0].scaleScore.cl4 === "Insufficient data"
+              {aoiList[0].scaleScore.cl4 === "Insufficient Data"
                 ? "There is insufficient data to determine the community threat level of " +
                   aoiList[0].name +
                   "."
@@ -407,31 +400,25 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                     " of the landscape.",
                   ]}{" "}
               &nbsp;
-              {aoiList[0].scaleScore.eco2 === "Insufficient data"
-                ? "There is insufficient data to determine the commercial fishing reliance of the communities that " +
-                  aoiList[0].name +
-                  " is associated with."
-                : [
-                    "The communities in and around " +
-                      aoiList[0].name +
-                      " has a ",
-                    <b>{aoiList[0].scaleScore.eco2}</b>,
-                    " level of commercial fishing reliance.",
-                  ]}{" "}
+              {aoiList[0].scaleScore.eco2 === "Yes"
+                ? "The communities in and around " +
+                    aoiList[0].name +
+                    " has commercial fishing reliance."
+                : "The communities in and around " +
+                    aoiList[0].name +
+                    " has no commercial fishing reliance."
+                  }{" "}
               &nbsp;
-              {aoiList[0].scaleScore.eco3 === "Insufficient data"
-                ? "There is insufficient data to determine the recreational fishing engagement of the communities that " +
-                  aoiList[0].name +
-                  " is associated with."
-                : [
-                    "The communities in and around " +
-                      aoiList[0].name +
-                      " has a ",
-                    <b>{aoiList[0].scaleScore.eco3}</b>,
-                    " level of recreational fishing engagement.",
-                  ]}{" "}
+              {aoiList[0].scaleScore.eco3 === "Yes"
+                ? "The communities in and around " +
+                    aoiList[0].name +
+                    " has recreational fishing engagement."
+                : "The communities in and around " +
+                    aoiList[0].name +
+                    " has no recreational fishing engagement."
+                  }{" "}
               &nbsp;
-              {aoiList[0].scaleScore.eco4 === 0 || 1
+              {aoiList[0].scaleScore.eco4 === 0 || aoiList[0].scaleScore.eco4 === 1
                 ? [
                     "There is ",
                     <b>{aoiList[0].scaleScore.eco4}</b>,
