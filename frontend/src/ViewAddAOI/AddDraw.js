@@ -18,6 +18,7 @@ const AddDraw = ({
   timeoutError,
   countdown,
   timeoutHandler,
+  setHucBoundary,
 }) => {
   const dispatch = useDispatch();
   const [drawData, setDrawData] = useState("");
@@ -68,7 +69,7 @@ const AddDraw = ({
     dispatch(setLoader(false));
     // clearTimeout(loadTimer);
   };
-
+  setHucBoundary(false);
   return (
     <Container className="mt-3">
       {timeoutError && <TimeoutError countdown={countdown} />}

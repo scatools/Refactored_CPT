@@ -12,9 +12,11 @@ import TimeoutError from "../TimeoutError";
 const AddZip = ({
   setAlerttext,
   setView,
+  setHucBoundary,
   timeoutError,
   countdown,
   timeoutHandler,
+  setDrawingMode,
 }) => {
   const dispatch = useDispatch();
 
@@ -105,7 +107,8 @@ const AddZip = ({
 
     [dispatch]
   );
-
+  setHucBoundary(false);
+  setDrawingMode(false);
   return (
     <div>
       {/* {timeoutError && <TimeoutError countdown={countdown} />} */}

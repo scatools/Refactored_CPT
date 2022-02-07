@@ -9,8 +9,8 @@ const CreateAssessView = ({
   setAlerttext,
   aoiAssembled,
   setAoiAssembled,
-  setView,
   customizedMeasures,
+  setView
 }) => {
   const [assessStep, setAssessStep] = useState("selectAOI");
 

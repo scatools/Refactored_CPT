@@ -18,6 +18,7 @@ const AddAOIView = ({
   setFilterList,
   setReportLink,
   autoDraw,
+  stopDraw,
 }) => {
   const [inputMode, setInputMode] = useState("");
   const [hucList, setHucList] = useState([]);
@@ -89,7 +90,9 @@ const AddAOIView = ({
 
   return (
     <Container>
-      <h3 style={{ marginBottom: "20px" }}>Define Your Area of Interest</h3>
+      <h3 style={{ marginBottom: "20px" }}>
+        Define Your Area of Interest (AOI)
+      </h3>
       <Container className="d-flex">
         <ButtonGroup toggle className="m-auto">
           <ToggleButton
@@ -114,6 +117,7 @@ const AddAOIView = ({
             onChange={(e) => {
               setDrawingMode(false);
               setInputMode(e.currentTarget.value);
+              stopDraw();
             }}
           >
             by Zipped Shapefile
@@ -128,6 +132,7 @@ const AddAOIView = ({
               setDrawingMode(false);
               setInputMode(e.currentTarget.value);
               onLoad();
+              stopDraw();
             }}
           >
             by Existing Boundary
@@ -158,6 +163,7 @@ const AddAOIView = ({
           countdown={countdown}
           timeoutHandler={timeoutHandler}
           timeoutReload={timeoutReload}
+          setHucBoundary={setHucBoundary}
         />
       )}
 
@@ -170,6 +176,8 @@ const AddAOIView = ({
           countdown={countdown}
           timeoutHandler={timeoutHandler}
           timeoutReload={timeoutReload}
+          setHucBoundary={setHucBoundary}
+          setDrawingMode={setDrawingMode}
         />
       )}
 

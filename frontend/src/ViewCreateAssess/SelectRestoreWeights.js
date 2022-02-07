@@ -35,7 +35,7 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
 
   return (
     <Container>
-      <h3>RESTORE Goal Weights:</h3>
+      <h3>RESTORE Council Goal Weights:</h3>
       <p className="smaller-text">
         Below are the 5 RESTORE Council Goals
         <br />
@@ -48,7 +48,7 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
         target="_blank"
         style={{float:"right"}}
       >
-        <em>Learn More about RESTORE Goals</em>
+        <em>Learn More about RESTORE Council Goals</em>
       </a>
       <br /> */}
       <Form>

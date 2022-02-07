@@ -9,12 +9,23 @@ import Register from "./Register";
 import UserData from "./UserData";
 import Assessment from "./Assessment";
 
-const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) => {
+const Routes = ({
+  setReportLink,
+  setLoggedIn,
+  userLoggedIn,
+  setUserLoggedIn,
+}) => {
   const [aoiSelected, setAoiSelected] = useState(null);
   const [aoiAssembled, setAoiAssembled] = useState([]);
-  const [customizedMeasures, setCustomizedMeasures] = useState({hab: [], wq: [], lcmr: [], cl: [], eco: []});
+  const [customizedMeasures, setCustomizedMeasures] = useState({
+    hab: [],
+    wq: [],
+    lcmr: [],
+    cl: [],
+    eco: [],
+  });
   const [view, setView] = useState("add");
-  
+
   return (
     <Switch>
       <Route exact path="/">
@@ -46,9 +57,9 @@ const Routes = ({ setReportLink, setLoggedIn, userLoggedIn, setUserLoggedIn }) =
         <Help />
       </Route>
       <Route exact path="/report">
-        <Report aoiSelected={aoiSelected} userLoggedIn={userLoggedIn}/>
+        <Report aoiSelected={aoiSelected} userLoggedIn={userLoggedIn} />
       </Route>
-      {aoiAssembled.length > 1 ? (
+      {aoiAssembled && aoiAssembled.length ? (
         <Route exact path="/assessment">
           <Assessment
             aoiAssembled={aoiAssembled}
