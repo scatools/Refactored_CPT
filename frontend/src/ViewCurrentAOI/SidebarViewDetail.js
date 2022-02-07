@@ -14,7 +14,7 @@ import { HiDocumentReport } from "react-icons/hi";
 import { FaFileExport } from "react-icons/fa";
 import { download } from "shp-write";
 import axios from "axios";
-import { delete_aoi, edit_aoi } from "../action";
+import { delete_aoi, edit_aoi, setLoader } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
@@ -58,6 +58,7 @@ const SidebarViewDetail = ({
     useState("Deselect Hexagon");
 
   const handleBasicEdit = async () => {
+    dispatch(setLoader(true));
     if (!aoiName) {
       setAlerttext("Name is required.");
     } else {
@@ -97,6 +98,7 @@ const SidebarViewDetail = ({
         })
       );
       setDrawingMode(false);
+      dispatch(setLoader(false));
     }
   };
 
