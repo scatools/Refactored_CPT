@@ -86,6 +86,7 @@
   top: "80px";
   left: "50px";
   z-index: 1;
+  width: initial !important;
 }
 
 nav a {
@@ -329,14 +330,7 @@ button.btn-dark.ml-1.btn {
 .btn-secondary,
 .btn-danger,
 .btn-primary {
-  width: 230px;
-  margin: 10px;
-  padding: 10px !important;
-}
-
-.btn-primary {
-  width: initial;
-  padding: 10px 30px !important;
+  min-width: 180px;
 }
 
 .btn-container {
