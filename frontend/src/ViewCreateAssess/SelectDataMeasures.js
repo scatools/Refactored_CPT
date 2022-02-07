@@ -385,7 +385,7 @@ const SelectDataMeasures = ({
                       <ToggleButton
                         type="radio"
                         data-tip
-                        data-for="positive-hab"
+                        data-for={"positive-" + measure.value}
                         variant="outline-secondary"
                         name="utility"
                         value="1"
@@ -427,7 +427,7 @@ const SelectDataMeasures = ({
                       <ToggleButton
                         type="radio"
                         data-tip
-                        data-for="negative-hab"
+                        data-for={"negative-" + measure.value}
                         variant="outline-secondary"
                         name="utility"
                         value="-1"
@@ -736,7 +736,7 @@ const SelectDataMeasures = ({
                         type="radio"
                         variant="outline-secondary"
                         data-tip
-                        data-for="positive-wq"
+                        data-for={"positive-" + measure.value}
                         name="utility"
                         value="1"
                         checked={measure.utility === "1"}
@@ -788,7 +788,7 @@ const SelectDataMeasures = ({
                         type="radio"
                         variant="outline-secondary"
                         data-tip
-                        data-for="negative-wq"
+                        data-for={"negative-" + measure.value}
                         name="utility"
                         value="-1"
                         checked={measure.utility === "-1"}
@@ -1118,7 +1118,7 @@ const SelectDataMeasures = ({
                         variant="outline-secondary"
                         name="utility"
                         data-tip
-                        data-for="positive-lcmr"
+                        data-for={"positive-" + measure.value}
                         value="1"
                         checked={measure.utility === "1"}
                         onChange={(e) =>
@@ -1172,7 +1172,7 @@ const SelectDataMeasures = ({
                         variant="outline-secondary"
                         name="utility"
                         data-tip
-                        data-for="negative-lcmr"
+                        data-for={"negative-" + measure.value}
                         value="-1"
                         checked={measure.utility === "-1"}
                         onChange={(e) =>
@@ -1404,7 +1404,7 @@ const SelectDataMeasures = ({
               { value: "cl2", label: "National Heritage Area" },
               {
                 value: "cl3",
-                label: "Proximity to Socially Vulnerability Communities",
+                label: "Proximity to Socially Vulnerable Communities",
               },
               { value: "cl4", label: "Community Threat Index" },
               { value: "cl5", label: "Social Vulnerability Index" },
@@ -1453,7 +1453,7 @@ const SelectDataMeasures = ({
                         : measure.label === "National Heritage Area"
                         ? "A percent attribute that stands for the proportion of heritage area within each hexagon."
                         : measure.label ===
-                          "Proximity to Socially Vulnerability Communities"
+                          "Proximity to Socially Vulnerable Communities"
                         ? "This measure indicates the proximity to communities that are socially vulnerable according to the National Oceanic and Atmospheric Administration’s (NOAA) Social Vulnerability Index."
                         : measure.label === "Community Threat Index"
                         ? "The Community Threat Index (CTI) comes from the Coastal Resilience Evaluation and Siting Tool (CREST)."
@@ -1487,7 +1487,7 @@ const SelectDataMeasures = ({
                         type="radio"
                         variant="outline-secondary"
                         data-tip
-                        data-for="positive-cl"
+                        data-for={"positive-" + measure.value}
                         name="utility"
                         value="1"
                         checked={measure.utility === "1"}
@@ -1533,7 +1533,7 @@ const SelectDataMeasures = ({
                         type="radio"
                         variant="outline-secondary"
                         data-tip
-                        data-for="negative-cl"
+                        data-for={"negative-" + measure.value}
                         name="utility"
                         value="-1"
                         checked={measure.utility === "-1"}
@@ -1833,7 +1833,7 @@ const SelectDataMeasures = ({
                         type="radio"
                         variant="outline-secondary"
                         data-tip
-                        data-for="positive-eco"
+                        data-for={"positive-" + measure.value}
                         name="utility"
                         value="1"
                         checked={measure.utility === "1"}
@@ -1873,7 +1873,7 @@ const SelectDataMeasures = ({
                         type="radio"
                         variant="outline-secondary"
                         data-tip
-                        data-for="negative-eco"
+                        data-for={"negative-" + measure.value}
                         name="utility"
                         value="-1"
                         checked={measure.utility === "-1"}

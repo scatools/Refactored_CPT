@@ -1,31 +1,31 @@
 import area from "@turf/area";
 
 /*
-        hab1: Connectivity to Existing Protected Area -Max
-        hab2: Connectivity of Natural Lands -Mean
-        hab3: Threat of Urbanization -Max
-        hab4: Composition of Priority Natural Lands -Mean
-        wq1: 303(d): Impaired Watershed Area -Mean
-        wq2: Hydrologic Response to Land-Use Change -Max
-        wq3: Percent Irrigated Agriculture -Mean
-        wq4: Lateral Connectivity to Floodplain -Mean
-        wq5: Composition of Riparian Zone Lands -Mean
-        wq6: Presence of Impoundments -Max
-        lcmr1: Vulnerable Areas of Terrestrial Endemic Species -Max
-        lcmr2: Threatened and Endangered Species - Critical Habitat Area -Mean
-        lcmr3: Threatened and Endangered Species - Number of Species -Max
-        lcmr4: Light Pollution Index -Max
-        lcmr5: Terrestrial Vertebrate Biodiversity -Max
-        lcmr6: Vulnerability to Invasive Plants -Mean
-        cl1: National Register of Historic Places -Max
-        cl2: National Heritage Area -Mean
-        cl3: Proximity to Socially Vulnerable Communities -Max
-        cl4: Community Threat Index -Max
-        cl5: Social Vulnerability Index -Mean
-        eco1: High Priority Working Lands -Mean
-        eco2: Commercial Fishing Reliance -Max
-        eco3: Recreational Fishing Engagement -Max
-        eco4: Access & Recreation: Number of Access Points -Max
+        hab1: Connectivity to Existing Protected Area [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        hab2: Connectivity of Natural Lands [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        hab3: Threat of Urbanization [Regular Data] -Max [Reversed Utility Function] [Reversed Utility Label]
+        hab4: Composition of Priority Natural Lands [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        wq1: 303(d): Impaired Watershed Area [Regular Data] -Mean [Reversed Utility Function] [Reversed Utility Label]
+        wq2: Hydrologic Response to Land-Use Change [Reversed Data] -Min [Regular Utility Function] [Reversed Utility Label]
+        wq3: Percent Irrigated Agriculture [Regular Data] -Mean [Reversed Utility Function] [Reversed Utility Label]
+        wq4: Lateral Connectivity to Floodplain [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        wq5: Composition of Riparian Zone Lands [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        wq6: Presence of Impoundments [Regular Data] -Max [Reversed Utility Function] [Reversed Utility Label]
+        lcmr1: Vulnerable Areas of Terrestrial Endemic Species [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        lcmr2: Threatened and Endangered Species - Critical Habitat Area [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        lcmr3: Threatened and Endangered Species - Number of Species [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        lcmr4: Light Pollution Index [Reversed Data] -Min [Regular Utility Function] [Reversed Utility Label]
+        lcmr5: Terrestrial Vertebrate Biodiversity [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        lcmr6: Vulnerability to Invasive Plants [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        cl1: National Register of Historic Places [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        cl2: National Heritage Area [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        cl3: Proximity to Socially Vulnerable Communities [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        cl4: Community Threat Index [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        cl5: Social Vulnerability Index [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        eco1: High Priority Working Lands [Regular Data] -Mean [Regular Utility Function] [Regular Utility Label]
+        eco2: Commercial Fishing Reliance [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        eco3: Recreational Fishing Engagement [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
+        eco4: Access & Recreation: Number of Access Points [Regular Data] -Max [Regular Utility Function] [Regular Utility Label]
 */
 
 export function calculateArea(input){
@@ -37,7 +37,8 @@ export function calculateArea(input){
 };
 
 export function aggregate(input,area) {
-    // console.log(input);
+    // [Reversed Data] wq2, lcmr4
+    // For wq4 and wq5, no-data values are assigned as -1
     const hexNumber = input.length===0? 1: input.length;
     let aggregatedResult = input.reduce((a,b)=>{return {
         hab1: parseFloat(a.hab1)>=parseFloat(b.hab1)?parseFloat(a.hab1):parseFloat(b.hab1),
@@ -45,10 +46,10 @@ export function aggregate(input,area) {
         hab3: parseFloat(a.hab3)>=parseFloat(b.hab3)?parseFloat(a.hab3):parseFloat(b.hab3),
         hab4: parseFloat(a.hab4)+parseFloat(b.hab4),
         wq1: parseFloat(a.wq1)+parseFloat(b.wq1),
-        wq2: parseFloat(a.wq2)>=parseFloat(b.wq2)?parseFloat(a.wq2):parseFloat(b.wq2),
+        wq2: parseFloat(a.wq2)>=parseFloat(b.wq2)?parseFloat(b.wq2):parseFloat(a.wq2),
         wq3: parseFloat(a.wq3)+parseFloat(b.wq3),
-        wq4: parseFloat(a.wq4)+parseFloat(b.wq4),
-        wq5: parseFloat(a.wq5)+parseFloat(b.wq5),
+        wq4: (parseFloat(a.wq4)===-1 || parseFloat(b.wq4)===-1)?-1:parseFloat(a.wq4)+parseFloat(b.wq4),
+        wq5: (parseFloat(a.wq5)===-1 || parseFloat(b.wq5)===-1)?-1:parseFloat(a.wq5)+parseFloat(b.wq5),
         wq6: parseFloat(a.wq6)>=parseFloat(b.wq6)?parseFloat(a.wq6):parseFloat(b.wq6),
         lcmr1: parseFloat(a.lcmr1)>=parseFloat(b.lcmr1)?parseFloat(a.lcmr1):parseFloat(b.lcmr1),
         lcmr2: parseFloat(a.lcmr2)+parseFloat(b.lcmr2),
@@ -69,19 +70,20 @@ export function aggregate(input,area) {
       {
         hab1:0,hab2:0,hab3:0,hab4:0,
         wq1:0,wq2:0,wq3:0,wq4:0,wq5:0,wq6:0,
-        lcmr1:0,lcmr2:0,lcmr3:0,lcmr4:1,lcmr5:0,lcmr6:0,
+        lcmr1:0,lcmr2:0,lcmr3:0,lcmr4:0,lcmr5:0,lcmr6:0,
         cl1:0,cl2:0,cl3:0,cl4:0,cl5:0,
         eco1:0,eco2:0,eco3:0,eco4:0
     })
     
     aggregatedResult.hab0 = area;
     aggregatedResult.hab2 = aggregatedResult.hab2/hexNumber;
-    aggregatedResult.hab3 = 1-aggregatedResult.hab3;
+    aggregatedResult.hab3 = aggregatedResult.hab3;
     aggregatedResult.hab4 = aggregatedResult.hab4/hexNumber;
     aggregatedResult.wq1 = aggregatedResult.wq1/hexNumber;
     aggregatedResult.wq3 = aggregatedResult.wq3/hexNumber;
-    aggregatedResult.wq4 = aggregatedResult.wq4/hexNumber;
-    aggregatedResult.wq5 = aggregatedResult.wq5/hexNumber;
+    aggregatedResult.wq4 = aggregatedResult.wq4===-1?-1:aggregatedResult.wq4/hexNumber;
+    aggregatedResult.wq5 = aggregatedResult.wq5===-1?-1:aggregatedResult.wq5/hexNumber;
+    aggregatedResult.wq6 = aggregatedResult.wq6;
     aggregatedResult.lcmr2 = aggregatedResult.lcmr2/hexNumber;
     aggregatedResult.lcmr6 = aggregatedResult.lcmr6/hexNumber;
     aggregatedResult.cl2 = aggregatedResult.cl2/hexNumber;
@@ -93,68 +95,70 @@ export function aggregate(input,area) {
 
 export function getStatus(input){
   // NEED DOUBLE CHECK
-  let scaledResult = {
-    hab0: Math.round((input.hab0*247.105)*100)/100 + " acres",
-    hab1: input.hab1===1? "Yes" : "No",
-    hab2: String((Math.round((input.hab2*10000))/100)) + "%",
-    hab3: input.hab3>0.67? "Low" : input.hab3>0.33 ? "Medium": input.hab3>0 ? "High" : "No Threat",
-    hab4: String(Math.round((input.hab4*10000))/100) + "%",
-    wq1: String(Math.round((input.wq1*10000))/100) + "%",
-    wq2: String(Math.round((input.wq2*10000))/100) + "%",
-    wq3: String(Math.round((input.wq3*10000))/100) + "%",
-    wq4: String(Math.round((input.wq4*10000))/100) + "%",
-    wq5: Math.round((input.wq5*100))/100,
-    wq6: input.wq6===1? "Yes" : "No",
-    lcmr1: input.lcmr1 > 6 ? "High": input.lcmr1 > 3 ? "Medium" : input.lcmr1 > 0 ? "Low" : "NA",
-    lcmr2: String(Math.round((input.lcmr2*10000))/100) + "%",
-    lcmr3: Math.round(input.lcmr3),
-    lcmr4: input.lcmr4 > 0.66 ? "High": input.lcmr4 > 0.33 ? "Medium" : input.lcmr4 > 0 ? "Low" : "No Light Pollution",
-    lcmr5: Math.round((input.lcmr5*100))/100,
-    lcmr6: Math.round((input.lcmr6*100))/100,
-    cl1: Math.round(input.cl1),
-    cl2: String(Math.round((input.cl2*10000))/100) + "%",
-    cl3: input.cl3 >= 1 ? "High": input.cl3 >= 0.75 ? "Medium-High" : input.cl3 >= 0.5 ? "Medium" : input.cl3 >= 0.25 ? "Medium-Low" : input.cl3 > 0 ? "Low" : "No Threat",
-    cl4: input.cl4 >= 1 ? "High": input.cl4 >= 0.75 ? "Medium-High" : input.cl4 >= 0.5 ? "Medium" : input.cl4 >= 0.25 ? "Medium-Low" : input.cl4 > 0 ? "Low" : "Insufficient data",
-    cl5: input.cl5 == 1 ? "High": input.cl5 == 0.75 ? "Medium-High" : input.cl5 == 0.5 ? "Medium" : input.cl5 == 0.25 ? "Low" : "Insufficient data",
-    eco1: String(Math.round((input.eco1*10000))/100) + "%",
-    eco2: input.eco2 > 3 ? "High": input.eco2 > 2 ? "Medium-High" : input.eco2 > 1 ? "Medium" : input.eco2 > 0 ? "Low" : "Insufficient data",
-    eco3: input.eco3 > 3 ? "High": input.eco3 > 2 ? "Medium-High" : input.eco3 > 1 ? "Medium" : input.eco3 > 0 ? "Low" : "Insufficient data",
-    eco4: Math.round(input.eco4)
+  let status = {
+    hab0: String(Math.round((input.hab0*247.105)*100)/100) + " Acres",
+    hab1: input.hab1 === 1 ? "Yes" : "No",
+    hab2: String(Math.round(input.hab2*10000)/100) + "%",
+    hab3: input.hab3 === 0 ? "No Threat" : input.hab3 < 0.33 ? "Low" : input.hab3 < 0.67 ? "Medium": "High",
+    hab4: String(Math.round(input.hab4*10000)/100) + "%",
+    wq1: String(Math.round(input.wq1*10000)/100) + "%",
+    wq2: input.wq2 === 1 ? "No Change or Decrease" : input.wq2 === 0.75 ? "Minimal" : input.wq2 === 0.5 ? "Moderate" : input.wq2 === 0.25 ? "Significant" : "Very Significant",
+    wq3: String(Math.round(input.wq3*10000)/100) + "%",
+    wq4: input.wq4 === -1 ? "Insufficient Data" : String(Math.round(input.wq4*10000)/100) + "%",
+    wq5: input.wq5 === -1 ? "Insufficient Data" : Math.round(input.wq5*100)/100,
+    wq6: input.wq6 === 1 ? "Yes" : "No",
+    lcmr1: input.lcmr1 > 0.67 ? "High" : input.lcmr1 > 0.33 ? "Medium" : input.lcmr1 > 0 ? "Low" : "Insufficient Data",
+    lcmr2: String(Math.round(input.lcmr2*10000)/100) + "%",
+    lcmr3: input.lcmr3 === 0 ? "No" : input.lcmr3 === 0.3 ? "1-5" : input.lcmr3 === 0.6 ? "5-10" : input.lcmr3 === 0.9 ? "10-15" : "More Than 15",
+    lcmr4: input.lcmr4 === 1 ? "No Light Pollution" : input.lcmr4 > 0.66 ? "Low": input.lcmr4 > 0.33 ? "Medium" : "High",
+    lcmr5: Math.round(input.lcmr5*100)/100,
+    lcmr6: Math.round(input.lcmr6*100)/100,
+    cl1: input.cl1 === 1 ? "Yes" : "No",
+    cl2: String(Math.round(input.cl2*10000)/100) + "%",
+    cl3: input.cl3 === 1 ? "Within 1 Square Kilometer" : "Beyond 1 Square Kilometer",
+    cl4: input.cl4 === 1 ? "High": input.cl4 >= 0.75 ? "Medium-High" : input.cl4 >= 0.5 ? "Medium" : input.cl4 >= 0.25 ? "Medium-Low" : input.cl4 > 0 ? "Low" : "Insufficient Data",
+    cl5: input.cl5 === 1 ? "High": input.cl5 >= 0.75 ? "Medium-High" : input.cl5 >= 0.5 ? "Medium" : input.cl5 >= 0.25 ? "Medium-Low" : input.cl5 > 0 ? "Low" : "Insufficient Data",
+    eco1: String(Math.round(input.eco1*10000)/100) + "%",
+    eco2: input.eco2 === 1 ? "Yes" : "No",
+    eco3: input.eco3 === 1 ? "Yes" : "No",
+    eco4: input.eco4 === 1 ? "More Than 15" : input.eco4 === 0.8 ? "11 - 15" : input.eco4 === 0.5 ? "6 - 10" : input.eco4 === 0.25 ? "2 - 5" : input.eco4 === 0.1 ? "1" : "No"
   }
-  return scaledResult;
+  return status;
 };
 
 export function getScaledForAssessment(input,id,name){
-  // NEED DOUBLE CHECK
+  // [Reversed Utility Function] hab3, wq1, wq3, wq6
+  // For wq4 and wq5, no-data values assigned as -1 should be considered as 0
+  // Need to replace with scaling functions after switching to raw data
   let scaledResult = {
     id,
     name,
-    hab0: input.hab0===0? 0: input.hab0<=0.4? 0.3: input.hab0<=0.8? 0.75: input.hab0<=2? 0.9 : 1,
+    hab0: input.hab0 === 0 ? 0: input.hab0 <= 0.4 ? 0.3: input.hab0 <= 0.8 ? 0.75: input.hab0 <=2 ? 0.9 : 1,
     hab1: input.hab1,
-    hab2: Math.round((input.hab2*100))/100,
-    hab3: input.hab3,
-    hab4: Math.round((input.hab4*100))/100,
-    wq1: Math.round((input.wq1*100))/100,
+    hab2: input.hab2,
+    hab3: 1-input.hab3,
+    hab4: input.hab4,
+    wq1: 1-input.wq1 <= 0 ? 0 : 1-input.wq1,
     wq2: input.wq2,
-    wq3: input.wq3,
-    wq4: input.wq4,
-    wq5: input.wq5,
-    wq6: input.wq6,
-    lcmr1: input.lcmr1/10,
-    lcmr2: input.lcmr2<=0.01? 0 : input.lcmr2<=.2 ? 0.75 : input.lcmr2<=.6 ? 0.9 : 1,
-    lcmr3: input.lcmr3===0? 0 : input.lcmr3<=1 ? 0.9 : input.lcmr3<=2 ? 0.95 : 1,
+    wq3: 1-input.wq3,
+    wq4: input.wq4 === -1 ? 0 : input.wq4,
+    wq5: input.wq5 === -1 ? 0 : input.wq5,
+    wq6: 1-input.wq6,
+    lcmr1: input.lcmr1,
+    lcmr2: input.lcmr2,
+    lcmr3: input.lcmr3,
     lcmr4: input.lcmr4,
     lcmr5: input.lcmr5,
     lcmr6: input.lcmr6,
-    cl1: input.cl1 ===0 ? 0: input.cl1 <= 1? 0.75 : input.cl1<= 2 ? 0.9 : 1,
-    cl2: Math.round((input.cl2*100))/100,
+    cl1: input.cl1,
+    cl2: input.cl2,
     cl3: input.cl3,
     cl4: input.cl4,
     cl5: input.cl5,
-    eco1: Math.round((input.eco1*100))/100,
-    eco2: input.eco2/4,
-    eco3: input.eco3/4,
-    eco4: input.eco4===0 ? 0: input.eco4<=5? 0.25 : input.eco4<=10 ? 0.75 : input.eco4<=15 ? 0.9 : 1
+    eco1: input.eco1,
+    eco2: input.eco2,
+    eco3: input.eco3,
+    eco4: input.eco4
   }
   return scaledResult;
 };

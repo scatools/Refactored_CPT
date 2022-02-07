@@ -159,13 +159,13 @@ const ReviewAssessSettings = ({
                     {measure.utility === "1" ? (
                       measure.label==='Connectivity to Existing Protected Area'? 'More':
                       (measure.label==='Connectivity of Natural Lands'? 'More':
-                      (measure.label==='Threat of Urbanization'? 'Higher':
+                      (measure.label==='Threat of Urbanization'? 'Lower':
                       (measure.label==='Composition of Priority Natural Lands'? 'More':
                       "")))
                     ) : (
                       measure.label==='Connectivity to Existing Protected Area'? 'Less':
                       (measure.label==='Connectivity of Natural Lands'? 'Less':
-                      (measure.label==='Threat of Urbanization'? 'Lower':
+                      (measure.label==='Threat of Urbanization'? 'Higher':
                       (measure.label==='Composition of Priority Natural Lands'? 'Less':
                       "")))
                     )}
@@ -203,20 +203,20 @@ const ReviewAssessSettings = ({
                   <td>Water</td>
                   <td>
                     {measure.utility === "1" ? (
-                      measure.label==='303(d): Impaired Watershed Area'? 'More':
-                      (measure.label==='Hydrologic Response to Land-Use Change'? 'More':
-                      (measure.label==='Percent Irrigated Agriculture'? 'More':
-                      (measure.label==='Lateral Connectivity of Floodplain'? 'More':
-                      (measure.label==='Composition of Riparizan Zone Lands'? 'More':
-                      (measure.label==='Presence of Impoundments'? 'More':
-                      "")))))
-                    ) : (
                       measure.label==='303(d): Impaired Watershed Area'? 'Less':
                       (measure.label==='Hydrologic Response to Land-Use Change'? 'Less':
                       (measure.label==='Percent Irrigated Agriculture'? 'Less':
+                      (measure.label==='Lateral Connectivity of Floodplain'? 'More':
+                      (measure.label==='Composition of Riparizan Zone Lands'? 'More':
+                      (measure.label==='Presence of Impoundments'? 'Less':
+                      "")))))
+                    ) : (
+                      measure.label==='303(d): Impaired Watershed Area'? 'More':
+                      (measure.label==='Hydrologic Response to Land-Use Change'? 'More':
+                      (measure.label==='Percent Irrigated Agriculture'? 'More':
                       (measure.label==='Lateral Connectivity of Floodplain'? 'Less':
                       (measure.label==='Composition of Riparizan Zone Lands'? 'Less':
-                      (measure.label==='Presence of Impoundments'? 'Less':
+                      (measure.label==='Presence of Impoundments'? 'More':
                       "")))))
                     )}
                   </td>
@@ -256,7 +256,7 @@ const ReviewAssessSettings = ({
                       measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'More':
                       (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'More':
                       (measure.label==='Threatened and Endangered Species - Number of Species'? 'More':
-                      (measure.label==='Light Pollution Index'? 'More':
+                      (measure.label==='Light Pollution Index'? 'Less':
                       (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Higher':
                       (measure.label==='Vulnerability to Invasive Plants'? 'Higher':
                       "")))))
@@ -264,7 +264,7 @@ const ReviewAssessSettings = ({
                       measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'Less':
                       (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'Less':
                       (measure.label==='Threatened and Endangered Species - Number of Species'? 'Less':
-                      (measure.label==='Light Pollution Index'? 'Less':
+                      (measure.label==='Light Pollution Index'? 'More':
                       (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Lower':
                       (measure.label==='Vulnerability to Invasive Plants'? 'Lower':
                       "")))))
@@ -292,7 +292,7 @@ const ReviewAssessSettings = ({
                       <span>
                         {measure.label==='National Register of Historic Places'? 'A numeric attribute that represents the counts of historic places within each hexagon.':
                         (measure.label==='National Heritage Area'? 'A percent attribute that stands for the proportion of heritage area within each hexagon.':
-                        (measure.label==='Proximity to Socially Vulnerability Communities'? 'This measure indicates the proximity to communities that are socially vulnerable according to the National Oceanic and Atmospheric Administration’s (NOAA) Social Vulnerability Index.':
+                        (measure.label==='Proximity to Socially Vulnerable Communities'? 'This measure indicates the proximity to communities that are socially vulnerable according to the National Oceanic and Atmospheric Administration’s (NOAA) Social Vulnerability Index.':
                         (measure.label==='Community Threat Index'? 'The Community Threat Index (CTI) comes from the Coastal Resilience Evaluation and Siting Tool (CREST).':
                         "")))}
                       </span>
@@ -303,14 +303,14 @@ const ReviewAssessSettings = ({
                     {measure.utility === "1" ? (
                       measure.label==='National Register of Historic Places'? 'More':
                       (measure.label==='National Heritage Area'? 'More':
-                      (measure.label==='Proximity to Socially Vulnerability Communities'? 'More':
+                      (measure.label==='Proximity to Socially Vulnerable Communities'? 'More':
                       (measure.label==='Community Threat Index'? 'Higher':
                       (measure.label=== 'Social Vulnerability Index'? 'Higher':
                       ""))))
                     ) : (
                       measure.label==='National Register of Historic Places'? 'Less':
                       (measure.label==='National Heritage Area'? 'Less':
-                      (measure.label==='Proximity to Socially Vulnerability Communities'? 'Less':
+                      (measure.label==='Proximity to Socially Vulnerable Communities'? 'Less':
                       (measure.label==='Community Threat Index'? 'Lower':
                       (measure.label=== 'Social Vulnerability Index'? 'Lower':
                       ""))))
@@ -402,21 +402,23 @@ const ReviewAssessSettings = ({
             })}
           </tbody>
         </Table>
-        <Button
-          style={{ float: "left" }}
-          variant="secondary"
-          onClick={() => setAssessStep("selectDataMeasures")}
-        >
-          {arrowIcon} Edit Data Measures
-        </Button>
-        <Button
-          className="ml-2"
-          variant="primary"
-          style={{ float: "right" }}
-          onClick={createAssessment}
-        >
-          Generate Evaluation
-        </Button>
+        <div className="d-flex justify-content-between">
+          <Button
+            style={{ float: "left" }}
+            variant="secondary"
+            onClick={() => setAssessStep("selectDataMeasures")}
+          >
+            {arrowIcon} Edit Data Measures
+          </Button>
+          <Button
+            className="ml-2"
+            variant="primary"
+            style={{ float: "right" }}
+            onClick={createAssessment}
+          >
+            Generate Assessment
+          </Button>
+        </div>
       </Container>
     </>
   );

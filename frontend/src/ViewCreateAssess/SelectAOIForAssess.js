@@ -15,6 +15,10 @@ const SelectAOIForAssess = ({
   setView,
 }) => {
   const aoi = useSelector((state) => state.aoi);
+  const aoiList = Object.values(aoi).map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
 
   const handleNext = () => {
     if (aoiAssembled && aoiAssembled.length > 1) {
@@ -25,11 +29,6 @@ const SelectAOIForAssess = ({
     }
   };
 
-  let aoiList =
-    Object.values(aoi).length > 0
-      ? Object.values(aoi).map((item) => ({ label: item.name, value: item.id }))
-      : [];
-
   return (
     <Container>
       <h3>Select two or more areas of interest</h3>
@@ -39,12 +38,16 @@ const SelectAOIForAssess = ({
         menuPortalTarget={document.body}
         options={aoiList}
         isMulti
-        isClearable={false}
+        isClearable={true}
         placeholder="Select areas of interests..."
         name="colors"
         value={aoiAssembled}
         onChange={(selectedOption) => {
-          setAoiAssembled(selectedOption);
+          if (selectedOption) {
+            setAoiAssembled(selectedOption);
+          } else {
+            setAoiAssembled([]);
+          }
         }}
         className="basic-multi-select"
         classNamePrefix="select"
