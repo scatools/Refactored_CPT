@@ -144,31 +144,47 @@ const ReviewAssessSettings = ({
                   <td>
                     {measure.label} &nbsp;
                     <GoInfo data-tip data-for={measure.value} />
-                    <ReactTooltip id={measure.value} type='dark'>
+                    <ReactTooltip id={measure.value} type="dark">
                       <span>
-                        {measure.label==='Connectivity to Existing Protected Area'? 'Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by PAD-US 2.0 data.':
-                        (measure.label==='Connectivity of Natural Lands'? 'A percent attribute that stands for the proportion of area classified as a hub or corridor.':
-                        (measure.label==='Threat of Urbanization'? 'Threat of urbanization (ToU) indicates the likelihood of the given project area or area of interest (AoI) being urbanized by the year 2060.':
-                        (measure.label==='Composition of Priority Natural Lands'? 'This attribute prioritizes rare habitat types and those that have been identified as conservation priorities in state and regional plans.':
-                        "")))}
+                        {measure.label ===
+                        "Connectivity to Existing Protected Area"
+                          ? "Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by PAD-US 2.0 data."
+                          : measure.label === "Connectivity of Natural Lands"
+                          ? "A percent attribute that stands for the proportion of area classified as a hub or corridor."
+                          : measure.label === "Threat of Urbanization"
+                          ? "Threat of urbanization (ToU) indicates the likelihood of the given project area or area of interest (AoI) being urbanized by the year 2060."
+                          : measure.label ===
+                            "Composition of Priority Natural Lands"
+                          ? "This attribute prioritizes rare habitat types and those that have been identified as conservation priorities in state and regional plans."
+                          : ""}
                       </span>
                     </ReactTooltip>
                   </td>
                   <td>Habitat</td>
                   <td>
-                    {measure.utility === "1" ? (
-                      measure.label==='Connectivity to Existing Protected Area'? 'More':
-                      (measure.label==='Connectivity of Natural Lands'? 'More':
-                      (measure.label==='Threat of Urbanization'? 'Lower':
-                      (measure.label==='Composition of Priority Natural Lands'? 'More':
-                      "")))
-                    ) : (
-                      measure.label==='Connectivity to Existing Protected Area'? 'Less':
-                      (measure.label==='Connectivity of Natural Lands'? 'Less':
-                      (measure.label==='Threat of Urbanization'? 'Higher':
-                      (measure.label==='Composition of Priority Natural Lands'? 'Less':
-                      "")))
-                    )}
+                    {measure.utility === "1"
+                      ? measure.label ===
+                        "Connectivity to Existing Protected Area"
+                        ? "More"
+                        : measure.label === "Connectivity of Natural Lands"
+                        ? "More"
+                        : measure.label === "Threat of Urbanization"
+                        ? "Lower"
+                        : measure.label ===
+                          "Composition of Priority Natural Lands"
+                        ? "More"
+                        : ""
+                      : measure.label ===
+                        "Connectivity to Existing Protected Area"
+                      ? "Less"
+                      : measure.label === "Connectivity of Natural Lands"
+                      ? "Less"
+                      : measure.label === "Threat of Urbanization"
+                      ? "Higher"
+                      : measure.label ===
+                        "Composition of Priority Natural Lands"
+                      ? "Less"
+                      : ""}
                   </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
@@ -188,37 +204,59 @@ const ReviewAssessSettings = ({
                   <td>
                     {measure.label} &nbsp;
                     <GoInfo data-tip data-for={measure.value} />
-                    <ReactTooltip id={measure.value} type='dark'>
+                    <ReactTooltip id={measure.value} type="dark">
                       <span>
-                        {measure.label==='303(d): Impaired Watershed Area'? 'A percent attribute that stands for the proportion of impaired watershed within each hexagon.':
-                        (measure.label==='Hydrologic Response to Land-Use Change'? 'The magnitude of change in peak flow due to Land-Use/Land-Cover change from 1996 to 2016.':
-                        (measure.label==='Percent Irrigated Agriculture'? 'The proportion (%) of the area of interest that is covered by irrigated agriculture.':
-                        (measure.label==='Lateral Connectivity of Floodplain'? 'The proportion of floodplain within the area of interest that is connected.':
-                        (measure.label==='Composition of Riparizan Zone Lands'? 'An average index value of the composition of lands within a 100-meter buffer of streams.':
-                        (measure.label==='Presence of Impoundments'? 'This measure describes whether or not an area is impacted by hydromodification.':
-                        "")))))}
+                        {measure.label === "303(d): Impaired Watershed Area"
+                          ? "A percent attribute that stands for the proportion of impaired watershed within each hexagon."
+                          : measure.label ===
+                            "Hydrologic Response to Land-Use Change"
+                          ? "The magnitude of change in peak flow due to Land-Use/Land-Cover change from 1996 to 2016."
+                          : measure.label === "Percent Irrigated Agriculture"
+                          ? "The proportion (%) of the area of interest that is covered by irrigated agriculture."
+                          : measure.label ===
+                            "Lateral Connectivity of Floodplain"
+                          ? "The proportion of floodplain within the area of interest that is connected."
+                          : measure.label ===
+                            "Composition of Riparizan Zone Lands"
+                          ? "An average index value of the composition of lands within a 100-meter buffer of streams."
+                          : measure.label === "Presence of Impoundments"
+                          ? "This measure describes whether or not an area is impacted by hydromodification."
+                          : ""}
                       </span>
                     </ReactTooltip>
                   </td>
                   <td>Water</td>
                   <td>
-                    {measure.utility === "1" ? (
-                      measure.label==='303(d): Impaired Watershed Area'? 'Less':
-                      (measure.label==='Hydrologic Response to Land-Use Change'? 'Less':
-                      (measure.label==='Percent Irrigated Agriculture'? 'Less':
-                      (measure.label==='Lateral Connectivity of Floodplain'? 'More':
-                      (measure.label==='Composition of Riparizan Zone Lands'? 'More':
-                      (measure.label==='Presence of Impoundments'? 'Less':
-                      "")))))
-                    ) : (
-                      measure.label==='303(d): Impaired Watershed Area'? 'More':
-                      (measure.label==='Hydrologic Response to Land-Use Change'? 'More':
-                      (measure.label==='Percent Irrigated Agriculture'? 'More':
-                      (measure.label==='Lateral Connectivity of Floodplain'? 'Less':
-                      (measure.label==='Composition of Riparizan Zone Lands'? 'Less':
-                      (measure.label==='Presence of Impoundments'? 'More':
-                      "")))))
-                    )}
+                    {measure.utility === "1"
+                      ? measure.label === "303(d): Impaired Watershed Area"
+                        ? "Less"
+                        : measure.label ===
+                          "Hydrologic Response to Land-Use Change"
+                        ? "Less"
+                        : measure.label === "Percent Irrigated Agriculture"
+                        ? "Less"
+                        : measure.label === "Lateral Connectivity of Floodplain"
+                        ? "More"
+                        : measure.label ===
+                          "Composition of Riparizan Zone Lands"
+                        ? "More"
+                        : measure.label === "Presence of Impoundments"
+                        ? "Less"
+                        : ""
+                      : measure.label === "303(d): Impaired Watershed Area"
+                      ? "More"
+                      : measure.label ===
+                        "Hydrologic Response to Land-Use Change"
+                      ? "More"
+                      : measure.label === "Percent Irrigated Agriculture"
+                      ? "More"
+                      : measure.label === "Lateral Connectivity of Floodplain"
+                      ? "Less"
+                      : measure.label === "Composition of Riparizan Zone Lands"
+                      ? "Less"
+                      : measure.label === "Presence of Impoundments"
+                      ? "More"
+                      : ""}
                   </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
@@ -238,37 +276,64 @@ const ReviewAssessSettings = ({
                   <td>
                     {measure.label} &nbsp;
                     <GoInfo data-tip data-for={measure.value} />
-                    <ReactTooltip id={measure.value} type='dark'>
+                    <ReactTooltip id={measure.value} type="dark">
                       <span>
-                        {measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'This measure represents the ratio of endemic species to the amount of protected land in the contiguous U.S.':
-                        (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'The measure is based on the U.S. Fish and Wildlife Service designated federally threatened and endangered (T&E) critical habitat.':
-                        (measure.label==='Threatened and Endangered Species - Number of Species'? 'This attribute measures the number of federally threatened and endangered (T&E) species that have habitat ranges identified within each hexagon.':
-                        (measure.label==='Light Pollution Index'? 'An index that measures the intensity of light pollution within each hexagon.':
-                        (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Definition of Terrestrial Vertebrate Biodiversity.':
-                        (measure.label==='Vulnerability to Invasive Plants'? 'Definition of Vulnerability to Invasive Plants.':
-                        "")))))}
+                        {measure.label ===
+                        "Vulnerable Areas of Terrestrial Endemic Species"
+                          ? "This measure represents the ratio of endemic species to the amount of protected land in the contiguous U.S."
+                          : measure.label ===
+                            "Threatened and Endangered Species - Critical Habitat Area"
+                          ? "The measure is based on the U.S. Fish and Wildlife Service designated federally threatened and endangered (T&E) critical habitat."
+                          : measure.label ===
+                            "Threatened and Endangered Species - Number of Species"
+                          ? "This attribute measures the number of federally threatened and endangered (T&E) species that have habitat ranges identified within each hexagon."
+                          : measure.label === "Light Pollution Index"
+                          ? "An index that measures the intensity of light pollution within each hexagon."
+                          : measure.label ===
+                            "Terrestrial Vertebrate Biodiversity"
+                          ? "Definition of Terrestrial Vertebrate Biodiversity."
+                          : measure.label === "Vulnerability to Invasive Plants"
+                          ? "Definition of Vulnerability to Invasive Plants."
+                          : ""}
                       </span>
                     </ReactTooltip>
                   </td>
                   <td>LCMR</td>
                   <td>
-                    {measure.utility === "1" ? (
-                      measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'More':
-                      (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'More':
-                      (measure.label==='Threatened and Endangered Species - Number of Species'? 'More':
-                      (measure.label==='Light Pollution Index'? 'Less':
-                      (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Higher':
-                      (measure.label==='Vulnerability to Invasive Plants'? 'Higher':
-                      "")))))
-                    ) : (
-                      measure.label==='Vulnerable Areas of Terrestrial Endemic Species'? 'Less':
-                      (measure.label==='Threatened and Endangered Species - Critical Habitat Area'? 'Less':
-                      (measure.label==='Threatened and Endangered Species - Number of Species'? 'Less':
-                      (measure.label==='Light Pollution Index'? 'More':
-                      (measure.label==='Terrestrial Vertebrate Biodiversity'? 'Lower':
-                      (measure.label==='Vulnerability to Invasive Plants'? 'Lower':
-                      "")))))
-                    )}
+                    {measure.utility === "1"
+                      ? measure.label ===
+                        "Vulnerable Areas of Terrestrial Endemic Species"
+                        ? "More"
+                        : measure.label ===
+                          "Threatened and Endangered Species - Critical Habitat Area"
+                        ? "More"
+                        : measure.label ===
+                          "Threatened and Endangered Species - Number of Species"
+                        ? "More"
+                        : measure.label === "Light Pollution Index"
+                        ? "Less"
+                        : measure.label ===
+                          "Terrestrial Vertebrate Biodiversity"
+                        ? "Higher"
+                        : measure.label === "Vulnerability to Invasive Plants"
+                        ? "Higher"
+                        : ""
+                      : measure.label ===
+                        "Vulnerable Areas of Terrestrial Endemic Species"
+                      ? "Less"
+                      : measure.label ===
+                        "Threatened and Endangered Species - Critical Habitat Area"
+                      ? "Less"
+                      : measure.label ===
+                        "Threatened and Endangered Species - Number of Species"
+                      ? "Less"
+                      : measure.label === "Light Pollution Index"
+                      ? "More"
+                      : measure.label === "Terrestrial Vertebrate Biodiversity"
+                      ? "Lower"
+                      : measure.label === "Vulnerability to Invasive Plants"
+                      ? "Lower"
+                      : ""}
                   </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
@@ -288,33 +353,49 @@ const ReviewAssessSettings = ({
                   <td>
                     {measure.label} &nbsp;
                     <GoInfo data-tip data-for={measure.value} />
-                    <ReactTooltip id={measure.value} type='dark'>
+                    <ReactTooltip id={measure.value} type="dark">
                       <span>
-                        {measure.label==='National Register of Historic Places'? 'A numeric attribute that represents the counts of historic places within each hexagon.':
-                        (measure.label==='National Heritage Area'? 'A percent attribute that stands for the proportion of heritage area within each hexagon.':
-                        (measure.label==='Proximity to Socially Vulnerable Communities'? 'This measure indicates the proximity to communities that are socially vulnerable according to the National Oceanic and Atmospheric Administration’s (NOAA) Social Vulnerability Index.':
-                        (measure.label==='Community Threat Index'? 'The Community Threat Index (CTI) comes from the Coastal Resilience Evaluation and Siting Tool (CREST).':
-                        "")))}
+                        {measure.label ===
+                        "National Register of Historic Places"
+                          ? "A numeric attribute that represents the counts of historic places within each hexagon."
+                          : measure.label === "National Heritage Area"
+                          ? "A percent attribute that stands for the proportion of heritage area within each hexagon."
+                          : measure.label ===
+                            "Proximity to Socially Vulnerable Communities"
+                          ? "This measure indicates the proximity to communities that are socially vulnerable according to the National Oceanic and Atmospheric Administration’s (NOAA) Social Vulnerability Index."
+                          : measure.label === "Community Threat Index"
+                          ? "The Community Threat Index (CTI) comes from the Coastal Resilience Evaluation and Siting Tool (CREST)."
+                          : ""}
                       </span>
                     </ReactTooltip>
                   </td>
                   <td>Resilience</td>
                   <td>
-                    {measure.utility === "1" ? (
-                      measure.label==='National Register of Historic Places'? 'More':
-                      (measure.label==='National Heritage Area'? 'More':
-                      (measure.label==='Proximity to Socially Vulnerable Communities'? 'More':
-                      (measure.label==='Community Threat Index'? 'Higher':
-                      (measure.label=== 'Social Vulnerability Index'? 'Higher':
-                      ""))))
-                    ) : (
-                      measure.label==='National Register of Historic Places'? 'Less':
-                      (measure.label==='National Heritage Area'? 'Less':
-                      (measure.label==='Proximity to Socially Vulnerable Communities'? 'Less':
-                      (measure.label==='Community Threat Index'? 'Lower':
-                      (measure.label=== 'Social Vulnerability Index'? 'Lower':
-                      ""))))
-                    )}
+                    {measure.utility === "1"
+                      ? measure.label === "National Register of Historic Places"
+                        ? "More"
+                        : measure.label === "National Heritage Area"
+                        ? "More"
+                        : measure.label ===
+                          "Proximity to Socially Vulnerable Communities"
+                        ? "More"
+                        : measure.label === "Community Threat Index"
+                        ? "Higher"
+                        : measure.label === "Social Vulnerability Index"
+                        ? "Higher"
+                        : ""
+                      : measure.label === "National Register of Historic Places"
+                      ? "Less"
+                      : measure.label === "National Heritage Area"
+                      ? "Less"
+                      : measure.label ===
+                        "Proximity to Socially Vulnerable Communities"
+                      ? "Less"
+                      : measure.label === "Community Threat Index"
+                      ? "Lower"
+                      : measure.label === "Social Vulnerability Index"
+                      ? "Lower"
+                      : ""}
                   </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
@@ -334,31 +415,44 @@ const ReviewAssessSettings = ({
                   <td>
                     {measure.label} &nbsp;
                     <GoInfo data-tip data-for={measure.value} />
-                    <ReactTooltip id={measure.value} type='dark'>
+                    <ReactTooltip id={measure.value} type="dark">
                       <span>
-                        {measure.label==='High Priority Working Lands'? 'The percentage area of pine, cropland, and pasture/hay classes from the National Land Cover Database (NLCD) 2016 classification map.':
-                        (measure.label==='Commercial Fishing Reliance'? 'Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. ':
-                        (measure.label==='Recreational Fishing Engagement'? 'Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure.':
-                        (measure.label==='Access & Recreation - Number of Access Points'? 'This measure indicates the number of points within a 25 km buffer radius of a hexagon, where the public can access places to engage in outdoor recreation.':
-                        "")))}
+                        {measure.label === "High Priority Working Lands"
+                          ? "The percentage area of pine, cropland, and pasture/hay classes from the National Land Cover Database (NLCD) 2016 classification map."
+                          : measure.label === "Commercial Fishing Reliance"
+                          ? "Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. "
+                          : measure.label === "Recreational Fishing Engagement"
+                          ? "Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure."
+                          : measure.label ===
+                            "Access & Recreation - Number of Access Points"
+                          ? "This measure indicates the number of points within a 25 km buffer radius of a hexagon, where the public can access places to engage in outdoor recreation."
+                          : ""}
                       </span>
                     </ReactTooltip>
                   </td>
                   <td>Economy</td>
                   <td>
-                    {measure.utility === "1" ? (
-                      measure.label==='High Priority Working Lands'? 'More':
-                      (measure.label==='Commercial Fishing Reliance'? 'Higher':
-                      (measure.label==='Recreational Fishing Engagement'? 'More':
-                      (measure.label==='Access & Recreation - Number of Access Points'? 'More':
-                      "")))
-                    ) : (
-                      measure.label==='High Priority Working Lands'? 'Less':
-                      (measure.label==='Commercial Fishing Reliance'? 'Lower':
-                      (measure.label==='Recreational Fishing Engagement'? 'Less':
-                      (measure.label==='Access & Recreation - Number of Access Points'? 'Less':
-                      "")))
-                    )}
+                    {measure.utility === "1"
+                      ? measure.label === "High Priority Working Lands"
+                        ? "More"
+                        : measure.label === "Commercial Fishing Reliance"
+                        ? "Higher"
+                        : measure.label === "Recreational Fishing Engagement"
+                        ? "More"
+                        : measure.label ===
+                          "Access & Recreation - Number of Access Points"
+                        ? "More"
+                        : ""
+                      : measure.label === "High Priority Working Lands"
+                      ? "Less"
+                      : measure.label === "Commercial Fishing Reliance"
+                      ? "Lower"
+                      : measure.label === "Recreational Fishing Engagement"
+                      ? "Less"
+                      : measure.label ===
+                        "Access & Recreation - Number of Access Points"
+                      ? "Less"
+                      : ""}
                   </td>
                   <td>{measure.weight.toUpperCase()}</td>
                 </tr>
@@ -378,7 +472,7 @@ const ReviewAssessSettings = ({
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>RESTORE Goal</th>
+              <th>RESTORE Council Goal</th>
               <th>
                 Goal Weights &nbsp;
                 <GoInfo data-tip data-for="goalWeights" />

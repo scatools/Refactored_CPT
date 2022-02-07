@@ -86,7 +86,6 @@
   top: "80px";
   left: "50px";
   z-index: 1;
-  width: initial !important;
 }
 
 nav a {
@@ -202,13 +201,13 @@ nav a:hover {
   font-size: 20px;
 }
 
-.reportDownload {
+.assessmentDownload {
   position: absolute;
   right: 20px;
   top: 1%;
 }
 
-.assessmentDownload {
+.reportDownload {
   position: absolute;
   right: 20px;
   top: 1%;
@@ -224,18 +223,6 @@ nav a:hover {
   position: absolute;
   right: 20px;
   top: 3%;
-}
-
-.reportSave {
-  position: absolute;
-  right: 20px;
-  top: 3%;
-}
-
-.assessmentSave {
-  position: absolute;
-  right: 20px;
-  top: 4%;
 }
 
 .downloadButton {
@@ -290,16 +277,8 @@ nav a:hover {
   margin-top: 50px;
 }
 
-.report-h1 {
-  text-align: left;
-  margin-left: 0px;
-  padding-left: 0px;
-}
-
 .assessment-h1 {
-  text-align: left;
-  margin-left: 0px;
-  padding-left: 0px;
+  text-align: center;
 }
 
 .form-group {
@@ -326,21 +305,18 @@ button.btn-dark.ml-1.btn {
   font-size: 14px;
 }
 
-.btn-success,
-.btn-secondary,
-.btn-danger,
-.btn-primary {
-  min-width: 180px;
+.btn-success {
+  width: 50%;
+  margin: 10px;
 }
 
-button.sidebarControlBtn.btn.btn-secondary {
-  min-width: initial;
-  width: initial;
+.btn-danger {
+  margin: 10px;
 }
 
 .btn-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 #resetButton {
@@ -432,30 +408,4 @@ h4 {
   background: rgba(80, 80, 80, 0.2);
   border-radius: 10px;
   padding: 10px;
-}
-
-.modal-footer button.btn.btn-secondary {
-  width: initial;
-}
-
-.modal-footer button.btn.btn-danger {
-  width: initial;
-  font-weight: bold;
-}
-
-.modal-footer {
-  justify-content: space-between !important;
-}
-
-.logo-container {
-  display: flex;
-  justify-content: space-evenly;
-  height: 100px;
-  width: 100%;
-}
-
-.logo {
-  padding: 10px;
-  height: 100%;
-  width: 100%;
 }

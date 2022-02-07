@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import { Button } from "react-bootstrap";
 import Map from "./Map";
 import AoiDetailTable from "./AoiDetailTable";
-import { DrawPolygonMode } from "react-map-gl-draw";
+import { DrawPolygonMode, EditingMode } from "react-map-gl-draw";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,7 +20,7 @@ const Main = ({
   customizedMeasures,
   userLoggedIn,
   view,
-  setView
+  setView,
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
@@ -46,6 +46,14 @@ const Main = ({
     setMode(new DrawPolygonMode());
     // Use crosshair as cursor style when drawing new shapes over SCA boundary
     setInteractiveLayerIds(["sca-boundry"]);
+  };
+
+  const editMode = async () => {
+    setMode(new EditingMode());
+  };
+
+  const stopDraw = () => {
+    setMode(null);
   };
 
   return (
@@ -83,6 +91,8 @@ const Main = ({
         userLoggedIn={userLoggedIn}
         view={view}
         setView={setView}
+        stopDraw={stopDraw}
+        editMode={editMode}
       />
       <div className="content">
         <Button
