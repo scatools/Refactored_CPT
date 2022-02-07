@@ -402,21 +402,23 @@ const ReviewAssessSettings = ({
             })}
           </tbody>
         </Table>
-        <Button
-          style={{ float: "left" }}
-          variant="secondary"
-          onClick={() => setAssessStep("selectDataMeasures")}
-        >
-          {arrowIcon} Edit Data Measures
-        </Button>
-        <Button
-          className="ml-2"
-          variant="primary"
-          style={{ float: "right" }}
-          onClick={createAssessment}
-        >
-          Generate Evaluation
-        </Button>
+        <div className="d-flex justify-content-between">
+          <Button
+            style={{ float: "left" }}
+            variant="secondary"
+            onClick={() => setAssessStep("selectDataMeasures")}
+          >
+            {arrowIcon} Edit Data Measures
+          </Button>
+          <Button
+            className="ml-2"
+            variant="primary"
+            style={{ float: "right" }}
+            onClick={createAssessment}
+          >
+            Generate Assessment
+          </Button>
+        </div>
       </Container>
     </>
   );

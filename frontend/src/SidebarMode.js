@@ -15,7 +15,7 @@ const SidebarMode = ({ view, setView }) => {
         checked={view === "add"}
         onChange={(e) => setView(e.currentTarget.value)}
       >
-        Add New
+        Add New AOIs
       </ToggleButton>
 
       {Object.keys(aoi).length > 0 ? (
