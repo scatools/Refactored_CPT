@@ -78,6 +78,7 @@ const AddBoundary = ({
   const handleSubmitBoundaryAsMultiple = () => {
     if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
       setAlerttext("At least one of the existing boundaries is required.");
+      window.setTimeout(() => setAlerttext(false), 4000);
     } else {
       if (hucBoundary) {
         setHucBoundary(false);
@@ -93,7 +94,7 @@ const AddBoundary = ({
             .includes(feature.properties.HUC12)
       );
       // console.log(newList);
-      
+
       newList.forEach(async (feature) => {
         const data = feature.geometry;
         // For development on local server
@@ -118,23 +119,12 @@ const AddBoundary = ({
           })
         );
         dispatch(setLoader(false));
-      });      
+      });
       setView("viewCurrent");
       setHucNameSelected([]);
       setHucIDSelected([]);
       setFilterList([]);
     }
-  };
-
-  const dropdownStyles = {
-    option: (provided, state) => ({
-      ...provided,
-      color: state.isSelected ? "white" : "black",
-    }),
-    singleValue: (provided, state) => {
-      const opacity = state.isDisabled ? 0.5 : 1;
-      return { ...provided, opacity };
-    },
   };
 
   const dropdownStyles2 = {
@@ -157,32 +147,15 @@ const AddBoundary = ({
   return (
     <Container className="m-auto" style={{ width: "80%" }}>
       <div>
-        <p style={{ fontSize: "110%" }}>Geographic Scale</p>
-        <Select
-          placeholder="Select a scale"
-          options={[{ value: "watershed", label: "Watershed Coastal Zone" }]}
-          theme={(theme) => ({
-            ...theme,
-            colors: {
-              ...theme.colors,
-              primary: "gray",
-              primary25: "lightgray",
-            },
-          })}
-          styles={dropdownStyles}
-        />
-      </div>
-      <br></br>
-      <div>
-        <p style={{ fontSize: "110%" }}>Retrieving Options</p>
+        <p style={{ fontSize: "110%" }}>Select a HUC 12 Watershed by: </p>
         <Select
           placeholder="Select an option"
           options={[
-            { value: "hucName", label: "by HUC 12 Watershed Name" },
-            { value: "hucID", label: "by HUC 12 Watershed ID" },
+            { value: "hucName", label: "Watershed Name" },
+            { value: "hucID", label: "Watershed ID" },
             {
               value: "hucBoundary",
-              label: "by HUC 12 Watershed Boundary",
+              label: "Watershed Boundary",
             },
           ]}
           theme={(theme) => ({
@@ -210,7 +183,15 @@ const AddBoundary = ({
       <br></br>
       {retrievingOptions === "hucName" && (
         <div>
-          <p style={{ fontSize: "110%" }}>Watershed Selection</p>
+          <p
+            style={{ fontSize: "16px", paddingBottom: "0", marginBottom: "0" }}
+          >
+            Below, select one or more HUC 12 Watersheds by Name.
+          </p>
+          <p style={{ fontSize: "16px" }}>
+            Once selected, you can add the watersheds as either a single
+            comibned AOI, or as multiple individual AOIs.
+          </p>
           <Select
             options={hucNameList}
             isMulti
@@ -235,7 +216,15 @@ const AddBoundary = ({
       )}
       {retrievingOptions === "hucID" && (
         <div>
-          <p style={{ fontSize: "110%" }}>Watershed Selection</p>
+          <p
+            style={{ fontSize: "16px", paddingBottom: "0", marginBottom: "0" }}
+          >
+            Below, select one or more HUC 12 Watersheds by ID.
+          </p>
+          <p style={{ fontSize: "16px" }}>
+            Once selected, you can add the watersheds as either a single
+            comibned AOI, or as multiple individual AOIs.
+          </p>
           <Select
             options={hucIDList}
             isMulti
@@ -259,20 +248,60 @@ const AddBoundary = ({
         </div>
       )}
       <br />
-      <Button
-        variant="dark"
-        style={{ float: "left" }}
-        onClick={handleSubmitBoundaryAsSingle}
-      >
-        Add as Single AOI
-      </Button>
-      <Button
-        variant="dark"
-        style={{ float: "right" }}
-        onClick={handleSubmitBoundaryAsMultiple}
-      >
-        Add as Multiple AOIs
-      </Button>
+      {hucNameSelected && hucNameSelected.length ? (
+        <div>
+          <Button
+            variant="primary"
+            style={{ float: "left" }}
+            onClick={handleSubmitBoundaryAsSingle}
+          >
+            Add as Single AOI
+          </Button>
+          <Button
+            variant="primary"
+            style={{ float: "right" }}
+            onClick={handleSubmitBoundaryAsMultiple}
+          >
+            Add as Multiple AOIs
+          </Button>
+        </div>
+      ) : hucIDSelected && hucIDSelected.length ? (
+        <div>
+          <Button
+            variant="primary"
+            style={{ float: "left" }}
+            onClick={handleSubmitBoundaryAsSingle}
+          >
+            Add as Single AOI
+          </Button>
+          <Button
+            variant="primary"
+            style={{ float: "right" }}
+            onClick={handleSubmitBoundaryAsMultiple}
+          >
+            Add as Multiple AOIs
+          </Button>
+        </div>
+      ) : (
+        <div>
+          <Button
+            disabled
+            variant="secondary"
+            style={{ float: "left" }}
+            onClick={handleSubmitBoundaryAsSingle}
+          >
+            Add as Single AOI
+          </Button>
+          <Button
+            disabled
+            variant="secondary"
+            style={{ float: "right" }}
+            onClick={handleSubmitBoundaryAsMultiple}
+          >
+            Add as Multiple AOIs
+          </Button>
+        </div>
+      )}
     </Container>
   );
 };
