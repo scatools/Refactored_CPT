@@ -28,7 +28,7 @@ const Map = ({
   hexGrid,
   hexDeselection,
   hexIDDeselected,
-  hexFilterList
+  hexFilterList,
 }) => {
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null);
   const [hucData, setHucData] = useState(null);
@@ -44,7 +44,7 @@ const Map = ({
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
   );
-  
+
   const onSelect = (options) => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
   };
@@ -159,15 +159,15 @@ const Map = ({
   const renderHexGrid = () => {
     const hexFeatureList = aoiList[0].hexagons.map((hex) => {
       return {
-        type: 'Feature',
-        geometry:JSON.parse(hex.geometry),
-        properties: {gid: hex.gid, objectid: hex.objectid}
-      }
+        type: "Feature",
+        geometry: JSON.parse(hex.geometry),
+        properties: { gid: hex.gid, objectid: hex.objectid },
+      };
     });
     // console.log(hexFeatureList);
     const hexData = {
       type: "FeatureCollection",
-      features: hexFeatureList
+      features: hexFeatureList,
     };
     return (
       <Source type="geojson" data={hexData}>
@@ -193,7 +193,7 @@ const Map = ({
           />
         ))}
       </Source>
-    )
+    );
   };
 
   useEffect(() => {
@@ -215,8 +215,12 @@ const Map = ({
   }, [drawingMode, setFeatureList]);
 
   useEffect(() => {
-    if (editAOI && aoiSelected && drawingMode &&
-      editorRef.current.getFeatures().length === 0) {
+    if (
+      editAOI &&
+      aoiSelected &&
+      drawingMode &&
+      editorRef.current.getFeatures().length === 0
+    ) {
       editorRef.current.addFeatures(aoiList[0].geometry);
     }
   }, [editAOI, aoiList, drawingMode, aoiSelected]);
@@ -234,8 +238,10 @@ const Map = ({
   useEffect(() => {
     if (clickedProperty) {
       // For HUC-12 boundary layer, same watershed area won't be counted twice
-      if (clickedProperty.HUC12 &&
-        !hucIDSelected.includes(clickedProperty.HUC12)) {
+      if (
+        clickedProperty.HUC12 &&
+        !hucIDSelected.includes(clickedProperty.HUC12)
+      ) {
         // Array hucIDSelected is stored in a format like [{value: 'xx', label: 'xx'}]
         hucIDSelected.push({
           value: clickedProperty.HUC12,
@@ -246,8 +252,10 @@ const Map = ({
       // console.log(hucIDSelected);
 
       // For hex grid layer, same hexagon won't be counted twice
-      if (clickedProperty.objectid &&
-        !hexIDDeselected.includes(clickedProperty.objectid)) {
+      if (
+        clickedProperty.objectid &&
+        !hexIDDeselected.includes(clickedProperty.objectid)
+      ) {
         // Array hexIDDeselected is stored in a simple array format
         hexIDDeselected.push(clickedProperty.objectid);
         // console.log(hexIDDeselected);
