@@ -17,10 +17,12 @@ const SelectAOIForAssess = ({
   const aoi = useSelector((state) => state.aoi);
 
   const handleNext = () => {
-    if (aoiAssembled.length < 2) {
+    if (aoiAssembled && aoiAssembled.length > 1) {
+      setAssessStep("selectRestoreWeights");
+    } else {
       setAlerttext("Add at least 2 AOIs for comparison");
       window.setTimeout(() => setAlerttext(false), 4000);
-    } else setAssessStep("selectRestoreWeights");
+    }
   };
 
   let aoiList =
@@ -52,12 +54,12 @@ const SelectAOIForAssess = ({
         <Button variant="secondary" onClick={() => setView("viewCurrent")}>
           {arrowIcon} Review/Edit AOIs
         </Button>
-        {aoiAssembled.length < 2 ? (
-          <Button variant="secondary" disabled onClick={() => handleNext()}>
+        {aoiAssembled && aoiAssembled.length > 1 ? (
+          <Button variant="primary" onClick={() => handleNext()}>
             Next
           </Button>
         ) : (
-          <Button variant="primary" onClick={() => handleNext()}>
+          <Button variant="secondary" disabled onClick={() => handleNext()}>
             Next
           </Button>
         )}
