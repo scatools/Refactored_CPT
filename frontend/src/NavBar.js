@@ -144,21 +144,29 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
             </p>
             <div className="logo-container">
               <a
-                className="logo"
                 href="https://www.restorethegulf.gov/"
+                rel="noreferrer"
                 target="_blank"
               >
-                <img src="/Logo_RESTORE.png" alt="image" />
+                <img
+                  className="logo"
+                  src="/Logo_RESTORE.png"
+                  alt="restore council logo"
+                />
               </a>
               <a
-                className="logo"
                 href="https://www.fwrc.msstate.edu/"
+                rel="noreferrer"
                 target="_blank"
               >
-                <img src="/Logo_FWRC.png" alt="image" />
+                <img
+                  className="logo"
+                  src="/Logo_FWRC.png"
+                  alt="fwrc msu logo"
+                />
               </a>
-              <a className="logo" href="https://www.fws.gov/" target="_blank">
-                <img src="/Logo_USFWS.png" alt="image" />
+              <a href="https://www.fws.gov/" rel="noreferrer" target="_blank">
+                <img className="logo" src="/Logo_USFWS.png" alt="fws logo" />
               </a>
             </div>
             <br />

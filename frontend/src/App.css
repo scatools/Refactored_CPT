@@ -448,13 +448,15 @@ h4 {
   justify-content: space-between !important;
 }
 
-.logo {
-  margin: 10px;
-}
-
 .logo-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   height: 100px;
+  width: 100%;
+}
+
+.logo {
+  padding: 10px;
+  height: 100%;
   width: 100%;
 }
