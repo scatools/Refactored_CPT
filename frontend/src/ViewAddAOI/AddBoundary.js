@@ -22,7 +22,7 @@ const AddBoundary = ({
   setFilterList,
 }) => {
   const dispatch = useDispatch();
-  const [retrievingOptions, setRetrievingOptions] = useState("hucBoundary");
+  const [retrievingOptions, setRetrievingOptions] = useState("");
 
   const handleSubmitBoundaryAsSingle = async () => {
     if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
@@ -266,6 +266,23 @@ const AddBoundary = ({
           </Button>
         </div>
       ) : hucIDSelected && hucIDSelected.length ? (
+        <div>
+          <Button
+            variant="primary"
+            style={{ float: "left" }}
+            onClick={handleSubmitBoundaryAsSingle}
+          >
+            Add as Single AOI
+          </Button>
+          <Button
+            variant="primary"
+            style={{ float: "right" }}
+            onClick={handleSubmitBoundaryAsMultiple}
+          >
+            Add as Multiple AOIs
+          </Button>
+        </div>
+      ) : retrievingOptions === "hucBoundary" ? (
         <div>
           <Button
             variant="primary"
