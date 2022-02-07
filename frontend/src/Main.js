@@ -18,7 +18,9 @@ const Main = ({
   setAoiAssembled,
   setReportLink,
   customizedMeasures,
-  userLoggedIn
+  userLoggedIn,
+  view,
+  setView
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
@@ -79,6 +81,8 @@ const Main = ({
         setHexIDDeselected={setHexIDDeselected}
         setHexFilterList={setHexFilterList}
         userLoggedIn={userLoggedIn}
+        view={view}
+        setView={setView}
       />
       <div className="content">
         <Button

@@ -15,13 +15,13 @@ import area from "@turf/area";
         lcmr2: Threatened and Endangered Species - Critical Habitat Area -Mean
         lcmr3: Threatened and Endangered Species - Number of Species -Max
         lcmr4: Light Pollution Index -Max
-        lcmr5: Terrestrial Vertebrate Biodiversity -Max?
-        lcmr6: Vulnerability to Invasive Plants -Max?
+        lcmr5: Terrestrial Vertebrate Biodiversity -Max
+        lcmr6: Vulnerability to Invasive Plants -Mean
         cl1: National Register of Historic Places -Max
         cl2: National Heritage Area -Mean
         cl3: Proximity to Socially Vulnerable Communities -Max
         cl4: Community Threat Index -Max
-        cl5: Social Vulnerability Index -Max?
+        cl5: Social Vulnerability Index -Mean
         eco1: High Priority Working Lands -Mean
         eco2: Commercial Fishing Reliance -Max
         eco3: Recreational Fishing Engagement -Max
@@ -34,7 +34,7 @@ export function calculateArea(input){
     totalArea= input.reduce((a,b)=>{return a+area(b)},0)/1000000
   }
   return totalArea;
-}
+};
 
 export function aggregate(input,area) {
     // console.log(input);
@@ -55,12 +55,12 @@ export function aggregate(input,area) {
         lcmr3: parseFloat(a.lcmr3)>=parseFloat(b.lcmr3)?parseFloat(a.lcmr3):parseFloat(b.lcmr3),
         lcmr4: parseFloat(a.lcmr4)>=parseFloat(b.lcmr4)?parseFloat(b.lcmr4):parseFloat(a.lcmr4),
         lcmr5: parseFloat(a.lcmr5)>=parseFloat(b.lcmr5)?parseFloat(a.lcmr5):parseFloat(b.lcmr5),
-        lcmr6: parseFloat(a.lcmr6)>=parseFloat(b.lcmr6)?parseFloat(a.lcmr6):parseFloat(b.lcmr6),
+        lcmr6: parseFloat(a.lcmr6)+parseFloat(b.lcmr6),
         cl1: parseFloat(a.cl1)>=parseFloat(b.cl1)?parseFloat(a.cl1):parseFloat(b.cl1),
         cl2: parseFloat(a.cl2)+parseFloat(b.cl2),
         cl3: parseFloat(a.cl3)>=parseFloat(b.cl3)?parseFloat(a.cl3):parseFloat(b.cl3),
         cl4: parseFloat(a.cl4)>=parseFloat(b.cl4)?parseFloat(a.cl4):parseFloat(b.cl4),
-        cl5: parseFloat(a.cl5)>=parseFloat(b.cl5)?parseFloat(a.cl5):parseFloat(b.cl5),
+        cl5: parseFloat(a.cl5)+parseFloat(b.cl5),
         eco1: parseFloat(a.eco1)+parseFloat(b.eco1),
         eco2: parseFloat(a.eco2)>=parseFloat(b.eco2)?parseFloat(a.eco2):parseFloat(b.eco2),
         eco3: parseFloat(a.eco3)>=parseFloat(b.eco3)?parseFloat(a.eco3):parseFloat(b.eco3),
@@ -83,16 +83,17 @@ export function aggregate(input,area) {
     aggregatedResult.wq4 = aggregatedResult.wq4/hexNumber;
     aggregatedResult.wq5 = aggregatedResult.wq5/hexNumber;
     aggregatedResult.lcmr2 = aggregatedResult.lcmr2/hexNumber;
+    aggregatedResult.lcmr6 = aggregatedResult.lcmr6/hexNumber;
     aggregatedResult.cl2 = aggregatedResult.cl2/hexNumber;
+    aggregatedResult.cl5 = aggregatedResult.cl5/hexNumber;
     aggregatedResult.eco1 = aggregatedResult.eco1/hexNumber;
 
     return aggregatedResult;
-}
+};
 
 export function getStatus(input){
-  // console.log(input);
+  // NEED DOUBLE CHECK
   let scaledResult = {
-    // NEED TO DOUBLE CHECK
     hab0: Math.round((input.hab0*247.105)*100)/100 + " acres",
     hab1: input.hab1===1? "Yes" : "No",
     hab2: String((Math.round((input.hab2*10000))/100)) + "%",
@@ -121,9 +122,10 @@ export function getStatus(input){
     eco4: Math.round(input.eco4)
   }
   return scaledResult;
-}
+};
 
 export function getScaledForAssessment(input,id,name){
+  // NEED DOUBLE CHECK
   let scaledResult = {
     id,
     name,
@@ -155,7 +157,7 @@ export function getScaledForAssessment(input,id,name){
     eco4: input.eco4===0 ? 0: input.eco4<=5? 0.25 : input.eco4<=10 ? 0.75 : input.eco4<=15 ? 0.9 : 1
   }
   return scaledResult;
-}
+};
 
 export function mergeIntoArray(input){
   let result = {
@@ -192,7 +194,7 @@ export function mergeIntoArray(input){
     Object.entries(aoi).forEach(measure=>{result[measure[0]].push(measure[1])})
   })
   return result;
-}
+};
 
 export function calculateMeasures(input,weights){
   const weightsList = {
@@ -264,5 +266,4 @@ export function calculateMeasures(input,weights){
     }
     return result;
   })
-}
-      
+};

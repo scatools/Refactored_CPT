@@ -279,10 +279,10 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                   aoiList[0].name +
                   "."
                 : [
-                    aoiList[0].name +
-                      " also buffers water flowing into the" +
-                      ",report_table_1$Impaired_Name," +
-                      ", a waterbody with known impairments, and preservation would allow this landscape to continue to provide such water quality protections. " +
+                    // aoiList[0].name +
+                    //   " also buffers water flowing into the" +
+                    //   ",report_table_1$Impaired_Name," +
+                    //   ", a waterbody with known impairments, and preservation would allow this landscape to continue to provide such water quality protections. " +
                       "Approximately ",
                     <b>{aoiList[0].scaleScore.wq1}</b>,
                     " of the waterways within " +
@@ -400,7 +400,9 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                   aoiList[0].name +
                   "."
                 : [
-                    "Conserving this area of interest would also provide protection to working lands, with [Names of WL], comprising about ",
+                    "Conserving this area of interest would also provide protection to working lands, ",
+                    // "with [Names of WL],",
+                    "comprising about ",
                     <b>{aoiList[0].scaleScore.eco1}</b>,
                     " of the landscape.",
                   ]}{" "}
