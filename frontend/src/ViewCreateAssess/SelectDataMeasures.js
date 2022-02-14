@@ -348,19 +348,40 @@ const SelectDataMeasures = ({
                 <span style={{ display: "block" }} className="my-1">
                   {measure.label} &nbsp;
                   <GoInfo data-tip data-for={measure.value} />
-                  <ReactTooltip id={measure.value} type="dark">
+                  <ReactTooltip
+                    delayHide={500}
+                    delayUpdate={500}
+                    id={measure.value}
+                    clickable="true"
+                    type="dark"
+                  >
                     <span>
                       {measure.label ===
-                      "Connectivity to Existing Protected Area"
-                        ? "Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by PAD-US 2.0 data."
-                        : measure.label === "Connectivity of Natural Lands"
-                        ? "A percent attribute that stands for the proportion of area classified as a hub or corridor."
-                        : measure.label === "Threat of Urbanization"
-                        ? "Threat of urbanization (ToU) indicates the likelihood of the given project area or area of interest (AoI) being urbanized by the year 2060."
-                        : measure.label ===
-                          "Composition of Priority Natural Lands"
-                        ? "This attribute prioritizes rare habitat types and those that have been identified as conservation priorities in state and regional plans."
-                        : ""}
+                      "Connectivity to Existing Protected Area" ? (
+                        <>
+                          Connectivity to existing protected area indicates if
+                          the proposed conservation area is close to an area
+                          classified as protected by PAD-US 2.0 data.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#connectivity-to-existing-protected-area"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Connectivity of Natural Lands" ? (
+                        "A percent attribute that stands for the proportion of area classified as a hub or corridor."
+                      ) : measure.label === "Threat of Urbanization" ? (
+                        "Threat of urbanization (ToU) indicates the likelihood of the given project area or area of interest (AoI) being urbanized by the year 2060."
+                      ) : measure.label ===
+                        "Composition of Priority Natural Lands" ? (
+                        "This attribute prioritizes rare habitat types and those that have been identified as conservation priorities in state and regional plans."
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </ReactTooltip>
                 </span>
@@ -405,7 +426,7 @@ const SelectDataMeasures = ({
                           : measure.label === "Connectivity of Natural Lands"
                           ? "More"
                           : measure.label === "Threat of Urbanization"
-                          ? "Higher"
+                          ? "Lower"
                           : measure.label ===
                             "Composition of Priority Natural Lands"
                           ? "More"
@@ -447,7 +468,7 @@ const SelectDataMeasures = ({
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Less"
                           : measure.label === "Threat of Urbanization"
-                          ? "Lower"
+                          ? "Higher"
                           : measure.label ===
                             "Composition of Priority Natural Lands"
                           ? "Less"

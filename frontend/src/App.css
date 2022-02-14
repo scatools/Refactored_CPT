@@ -459,3 +459,16 @@ h4 {
   height: 100%;
   width: 100%;
 }
+
+.__react_component_tooltip {
+  max-width: 350px;
+}
+
+.tool-link {
+  color: whitesmoke;
+  text-decoration: underline;
+}
+
+.tool-link:hover {
+  color: rgb(0, 86, 179);
+}
