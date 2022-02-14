@@ -439,7 +439,7 @@ const SelectDataMeasures = ({
                           : measure.label === "Connectivity of Natural Lands"
                           ? "More connectivity is better."
                           : measure.label === "Threat of Urbanization"
-                          ? "Higher threat of urbanization is better."
+                          ? "Lower threat of urbanization is better."
                           : measure.label ===
                             "Composition of Priority Natural Lands"
                           ? "More natural lands is better."
@@ -481,7 +481,7 @@ const SelectDataMeasures = ({
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Less connectivity is better."
                           : measure.label === "Threat of Urbanization"
-                          ? "Lower threat of urbanization is better."
+                          ? "Higher threat of urbanization is better."
                           : measure.label ===
                             "Composition of Priority Natural Lands"
                           ? "Less natural lands is better."
@@ -771,12 +771,12 @@ const SelectDataMeasures = ({
                         }
                       >
                         {measure.label === "303(d): Impaired Watershed Area"
-                          ? "More"
+                          ? "Less"
                           : measure.label ===
                             "Hydrologic Response to Land-Use Change"
-                          ? "More"
+                          ? "Less"
                           : measure.label === "Percent Irrigated Agriculture"
-                          ? "More"
+                          ? "Less"
                           : measure.label ===
                             "Lateral Connectivity of Floodplain"
                           ? "More"
@@ -784,17 +784,17 @@ const SelectDataMeasures = ({
                             "Composition of Riparizan Zone Lands"
                           ? "More"
                           : measure.label === "Presence of Impoundments"
-                          ? "More"
+                          ? "Less"
                           : ""}
                       </ToggleButton>
                       <ReactTooltip id="positive-wq" place="top">
                         {measure.label === "303(d): Impaired Watershed Area"
-                          ? "More impaired area is better."
+                          ? "Less impaired area is better."
                           : measure.label ===
                             "Hydrologic Response to Land-Use Change"
-                          ? "More impact on hydrology is better."
+                          ? "Less impact on hydrology is better."
                           : measure.label === "Percent Irrigated Agriculture"
-                          ? "More irrigated agriculture is better."
+                          ? "Less irrigated agriculture is better."
                           : measure.label ===
                             "Lateral Connectivity of Floodplain"
                           ? "More connectivity is better."
@@ -802,7 +802,7 @@ const SelectDataMeasures = ({
                             "Composition of Riparizan Zone Lands"
                           ? "More natural riparian zone is better."
                           : measure.label === "Presence of Impoundments"
-                          ? "More impoundment is better."
+                          ? "Less impoundment is better."
                           : ""}
                       </ReactTooltip>
                       <ToggleButton
@@ -823,12 +823,12 @@ const SelectDataMeasures = ({
                         }
                       >
                         {measure.label === "303(d): Impaired Watershed Area"
-                          ? "Less"
+                          ? "More"
                           : measure.label ===
                             "Hydrologic Response to Land-Use Change"
-                          ? "Less"
+                          ? "More"
                           : measure.label === "Percent Irrigated Agriculture"
-                          ? "Less"
+                          ? "More"
                           : measure.label ===
                             "Lateral Connectivity of Floodplain"
                           ? "Less"
@@ -836,17 +836,17 @@ const SelectDataMeasures = ({
                             "Composition of Riparizan Zone Lands"
                           ? "Less"
                           : measure.label === "Presence of Impoundments"
-                          ? "Less"
+                          ? "More"
                           : ""}
                       </ToggleButton>
                       <ReactTooltip id="negative-wq" place="top">
                         {measure.label === "303(d): Impaired Watershed Area"
-                          ? "Less impaired area is better."
+                          ? "More impaired area is better."
                           : measure.label ===
                             "Hydrologic Response to Land-Use Change"
-                          ? "Less impact on hydrology is better."
+                          ? "More impact on hydrology is better."
                           : measure.label === "Percent Irrigated Agriculture"
-                          ? "Less irrigated agriculture is better."
+                          ? "More irrigated agriculture is better."
                           : measure.label ===
                             "Lateral Connectivity of Floodplain"
                           ? "Less connectivity is better."
@@ -854,7 +854,7 @@ const SelectDataMeasures = ({
                             "Composition of Riparizan Zone Lands"
                           ? "Less natural riparian zone is better."
                           : measure.label === "Presence of Impoundments"
-                          ? "Less impoundment is better."
+                          ? "More impoundment is better."
                           : ""}
                       </ReactTooltip>
                     </ButtonGroup>
@@ -1161,7 +1161,7 @@ const SelectDataMeasures = ({
                             "Threatened and Endangered Species - Number of Species"
                           ? "More"
                           : measure.label === "Light Pollution Index"
-                          ? "More"
+                          ? "Less"
                           : measure.label ===
                             "Terrestrial Vertebrate Biodiversity"
                           ? "Higher"
@@ -1180,7 +1180,7 @@ const SelectDataMeasures = ({
                             "Threatened and Endangered Species - Number of Species"
                           ? "More T&E species is better"
                           : measure.label === "Light Pollution Index"
-                          ? "More light pollution is better"
+                          ? "Less light pollution is better"
                           : measure.label ===
                             "Terrestrial Vertebrate Biodiversity"
                           ? "Higher terrestrial vertebrate biodiversity is better"
@@ -1215,7 +1215,7 @@ const SelectDataMeasures = ({
                             "Threatened and Endangered Species - Number of Species"
                           ? "Less"
                           : measure.label === "Light Pollution Index"
-                          ? "Less"
+                          ? "More"
                           : measure.label ===
                             "Terrestrial Vertebrate Biodiversity"
                           ? "Lower"
@@ -1234,7 +1234,7 @@ const SelectDataMeasures = ({
                             "Threatened and Endangered Species - Number of Species"
                           ? "Less T&E species is better"
                           : measure.label === "Light Pollution Index"
-                          ? "Less light pollution is better"
+                          ? "More light pollution is better"
                           : measure.label ===
                             "Terrestrial Vertebrate Biodiversity"
                           ? "Lower terrestrial vertebrate biodiversity is better"

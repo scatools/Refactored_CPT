@@ -8,7 +8,7 @@ import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
 import { input_aoi, setLoader } from "./action";
 import "./App.css";
 
-const UserData = ({ userLoggedIn }) => {
+const UserData = ({ userLoggedIn, setReportScript }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [ username, setUsername ] = useState(null);
@@ -157,6 +157,29 @@ const UserData = ({ userLoggedIn }) => {
     // clearTimeout(loadTimer);
   };
 
+  const viewUserReport = async (report) => {
+    dispatch(setLoader(true));
+    // let loadTimer = setTimeout(() => timeoutHandler(), 30000);
+
+    // For development on local server
+    // const result = await axios.post(
+    //   'http://localhost:5000/user/report',
+    //   { username: userLoggedIn }
+    // );
+    
+    // For production on Heroku
+    const result = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/user/report',
+      { username: userLoggedIn }
+    );
+    const reportList = result.data.rows.filter(row => row.report_name === report);
+    const reportScript = reportList[0].script;
+    setReportScript(reportScript);
+    history.push("/user/report");
+    dispatch(setLoader(false));
+    // clearTimeout(loadTimer);
+  };
+
   useEffect(() => {
     getUserData();
     getUserFile();
@@ -183,7 +206,7 @@ const UserData = ({ userLoggedIn }) => {
           <p className="h3">User Profile</p>
           <p>Your username: {username}</p>
           <p>Your email: {email}</p>
-          <div className="btn-container">
+          <div className="d-flex justify-content-between btn-container">
             {admin && (
               <a className="btn btn-success" href="/admin">
                 Admin module
@@ -205,16 +228,16 @@ const UserData = ({ userLoggedIn }) => {
           <br />
           {userFileList.length > 0 ? (
             userFileList.map((file) => (
-              <div className="d-flex" key={uuid()}>
+              <div className="d-flex mb-2" key={uuid()}>
                 <span className="mr-auto">{file}</span>
                 <Button
-                  className="btn btn-success ml-1"
+                  className="btn btn-primary ml-2"
                   onClick={() => viewUserFile(file)}
                 >
                   Add AOI to Map
                 </Button>
                 <Button 
-                  className="btn btn-danger ml-1" 
+                  className="btn btn-danger ml-2" 
                   onClick={() => {
                     deleteUserFile(file);
                     setFileDeleted(file);
@@ -233,11 +256,16 @@ const UserData = ({ userLoggedIn }) => {
           <br />
           {userReportList.length > 0 ? (
             userReportList.map((report) => (
-              <div className="d-flex" key={uuid()}>
+              <div className="d-flex mb-2" key={uuid()}>
                 <span className="mr-auto">{report}</span>
-                <Button className="btn btn-success ml-1">View Report</Button>
+                <Button
+                  className="btn btn-primary ml-2"
+                  onClick={() => viewUserReport(report)}
+                >
+                  View Report
+                </Button>
                 <Button 
-                  className="btn btn-danger ml-1" 
+                  className="btn btn-danger ml-2" 
                   onClick={() => {
                     deleteUserReport(report);
                     setReportDeleted(report);
