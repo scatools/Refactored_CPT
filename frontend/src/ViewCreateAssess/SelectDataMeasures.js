@@ -373,12 +373,50 @@ const SelectDataMeasures = ({
                           </a>
                         </>
                       ) : measure.label === "Connectivity of Natural Lands" ? (
-                        "A percent attribute that stands for the proportion of area classified as a hub or corridor."
+                        <>
+                          A percent attribute that stands for the proportion of
+                          area classified as a hub or corridor.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#connectivity-of-natural-lands"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
                       ) : measure.label === "Threat of Urbanization" ? (
-                        "Threat of urbanization (ToU) indicates the likelihood of the given project area or area of interest (AoI) being urbanized by the year 2060."
+                        <>
+                          Threat of urbanization (ToU) indicates the likelihood
+                          of the given project area or area of interest (AoI)
+                          being urbanized by the year 2060.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#threat-of-urbanization"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
                       ) : measure.label ===
                         "Composition of Priority Natural Lands" ? (
-                        "This attribute prioritizes rare habitat types and those that have been identified as conservation priorities in state and regional plans."
+                        <>
+                          This attribute prioritizes rare habitat types and
+                          those that have been identified as conservation
+                          priorities in state and regional plans.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#composition-of-priority-natural-lands"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
                       ) : (
                         ""
                       )}
