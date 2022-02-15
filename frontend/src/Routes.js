@@ -7,6 +7,7 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
 import UserData from "./UserData";
+import UserReport from "./UserReport";
 import Assessment from "./Assessment";
 
 const Routes = ({
@@ -18,13 +19,10 @@ const Routes = ({
   const [aoiSelected, setAoiSelected] = useState(null);
   const [aoiAssembled, setAoiAssembled] = useState([]);
   const [customizedMeasures, setCustomizedMeasures] = useState({
-    hab: [],
-    wq: [],
-    lcmr: [],
-    cl: [],
-    eco: [],
+    hab: [], wq: [], lcmr: [], cl: [], eco: []
   });
   const [view, setView] = useState("add");
+  const [reportScript, setReportScript] = useState("");
 
   return (
     <Switch>
@@ -51,7 +49,10 @@ const Routes = ({
         <Logout setLoggedIn={setLoggedIn} setUserLoggedIn={setUserLoggedIn} />
       </Route>
       <Route exact path="/user">
-        <UserData userLoggedIn={userLoggedIn} />
+        <UserData userLoggedIn={userLoggedIn} setReportScript={setReportScript} />
+      </Route>
+      <Route exact path="/user/report">
+        <UserReport reportScript={reportScript} />
       </Route>
       <Route exact path="/help">
         <Help />

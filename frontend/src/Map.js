@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import MapGL, { Source, Layer, Popup } from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import { Editor, EditingMode } from "react-map-gl-draw";
-import { getFeatureStyle, getEditHandleStyle } from "./drawStyle";
 import { useSelector } from "react-redux";
+import "mapbox-gl/dist/mapbox-gl.css";
 import bbox from "@turf/bbox";
 import shp from "shpjs";
+import { getFeatureStyle, getEditHandleStyle } from "./drawStyle";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
@@ -28,7 +28,7 @@ const Map = ({
   hexGrid,
   hexDeselection,
   hexIDDeselected,
-  hexFilterList,
+  hexFilterList
 }) => {
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null);
   const [hucData, setHucData] = useState(null);
@@ -164,7 +164,6 @@ const Map = ({
         properties: { gid: hex.gid, objectid: hex.objectid },
       };
     });
-    // console.log(hexFeatureList);
     const hexData = {
       type: "FeatureCollection",
       features: hexFeatureList,
@@ -289,6 +288,17 @@ const Map = ({
       getCursor={getCursor}
       interactiveLayerIds={interactiveLayerIds}
     >
+      <Editor
+        ref={editorRef}
+        style={{ width: "100%", height: "100%" }}
+        clickRadius={12}
+        mode={mode}
+        onSelect={onSelect}
+        onUpdate={onUpdate}
+        editHandleShape={"circle"}
+        featureStyle={getFeatureStyle}
+        editHandleStyle={getEditHandleStyle}
+      />
       {!hucBoundary && (
         <Source
           type="vector"
@@ -310,18 +320,7 @@ const Map = ({
           />
         </Source>
       )}
-      <Editor
-        ref={editorRef}
-        style={{ width: "100%", height: "100%" }}
-        clickRadius={12}
-        mode={mode}
-        onSelect={onSelect}
-        onUpdate={onUpdate}
-        editHandleShape={"circle"}
-        featureStyle={getFeatureStyle}
-        editHandleStyle={getEditHandleStyle}
-      />
-      {aoiList.length > 0 && !editAOI && !hucBoundary && (
+      {aoiList.length > 0 && !drawingMode && !hucBoundary && (
         <Source
           type="geojson"
           data={{
