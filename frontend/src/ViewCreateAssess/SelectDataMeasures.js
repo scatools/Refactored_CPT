@@ -61,11 +61,11 @@ const SelectDataMeasures = ({
   const handleChange = (value, name, label, type) => {
     dispatch(changeMeasuresWeight(value, name, label, type));
   };
-
-  const handleWeights = (value, goal) => {
-    const newValue = Number(value) > 100 ? 100 : Number(value);
-    dispatch(changeGoalWeights(newValue, goal));
-  };
+  // *************         Causing bug when removing datameasures to 0            **************//
+  // const handleWeights = (value, goal) => {
+  //   const newValue = Number(value) > 100 ? 100 : Number(value);
+  //   dispatch(changeGoalWeights(newValue, goal));
+  // };
 
   const [options, setOptions] = useState({
     hab: [
@@ -321,16 +321,13 @@ const SelectDataMeasures = ({
               console.log(habitatSelect);
               let state;
               if (selectedOption) {
-                setHabitatSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setHabitatSelect(false);
                 state = null;
-                handleWeights(0, "hab");
               }
               dispatch(changeMeasures("hab", state));
             }}
@@ -348,19 +345,78 @@ const SelectDataMeasures = ({
                 <span style={{ display: "block" }} className="my-1">
                   {measure.label} &nbsp;
                   <GoInfo data-tip data-for={measure.value} />
-                  <ReactTooltip id={measure.value} type="dark">
+                  <ReactTooltip
+                    delayHide={500}
+                    delayUpdate={500}
+                    id={measure.value}
+                    clickable="true"
+                    type="dark"
+                  >
                     <span>
                       {measure.label ===
-                      "Connectivity to Existing Protected Area"
-                        ? "Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by PAD-US 2.0 data."
-                        : measure.label === "Connectivity of Natural Lands"
-                        ? "A percent attribute that stands for the proportion of area classified as a hub or corridor."
-                        : measure.label === "Threat of Urbanization"
-                        ? "Threat of urbanization (ToU) indicates the likelihood of the given project area or area of interest (AoI) being urbanized by the year 2060."
-                        : measure.label ===
-                          "Composition of Priority Natural Lands"
-                        ? "This attribute prioritizes rare habitat types and those that have been identified as conservation priorities in state and regional plans."
-                        : ""}
+                      "Connectivity to Existing Protected Area" ? (
+                        <>
+                          Connectivity to existing protected area indicates if
+                          the proposed conservation area is close to an area
+                          classified as protected by PAD-US 2.0 data.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#connectivity-to-existing-protected-area"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Connectivity of Natural Lands" ? (
+                        <>
+                          A percent attribute that stands for the proportion of
+                          area classified as a hub or corridor.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#connectivity-of-natural-lands"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Threat of Urbanization" ? (
+                        <>
+                          Threat of urbanization (ToU) indicates the likelihood
+                          of the given project area or area of interest (AoI)
+                          being urbanized by the year 2060.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#threat-of-urbanization"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Composition of Priority Natural Lands" ? (
+                        <>
+                          This attribute prioritizes rare habitat types and
+                          those that have been identified as conservation
+                          priorities in state and regional plans.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#composition-of-priority-natural-lands"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </ReactTooltip>
                 </span>
@@ -662,16 +718,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setWaterSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setWaterSelect(false);
                 state = null;
-                handleWeights(0, "wq");
               }
               dispatch(changeMeasures("wq", state));
             }}
@@ -689,23 +742,105 @@ const SelectDataMeasures = ({
                 <span style={{ display: "block" }} className="my-1">
                   {measure.label} &nbsp;
                   <GoInfo data-tip data-for={measure.value} />
-                  <ReactTooltip id={measure.value} type="dark">
+                  <ReactTooltip
+                    place="top"
+                    delayHide={500}
+                    delayUpdate={500}
+                    id={measure.value}
+                    clickable="true"
+                    type="dark"
+                  >
                     <span>
-                      {measure.label === "303(d): Impaired Watershed Area"
-                        ? "A percent attribute that stands for the proportion of impaired watershed within each hexagon."
-                        : measure.label ===
-                          "Hydrologic Response to Land-Use Change"
-                        ? "The magnitude of change in peak flow due to Land-Use/Land-Cover change from 1996 to 2016."
-                        : measure.label === "Percent Irrigated Agriculture"
-                        ? "The proportion (%) of the area of interest that is covered by irrigated agriculture."
-                        : measure.label === "Lateral Connectivity of Floodplain"
-                        ? "The proportion of floodplain within the area of interest that is connected."
-                        : measure.label ===
-                          "Composition of Riparizan Zone Lands"
-                        ? "An average index value of the composition of lands within a 100-meter buffer of streams."
-                        : measure.label === "Presence of Impoundments"
-                        ? "This measure describes whether or not an area is impacted by hydromodification."
-                        : ""}
+                      {measure.label === "303(d): Impaired Watershed Area" ? (
+                        <>
+                          A percent attribute that stands for the proportion of
+                          impaired watershed within each hexagon.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity#303-d-impaired-watershed-area"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Hydrologic Response to Land-Use Change" ? (
+                        <>
+                          The magnitude of change in peak flow due to
+                          Land-Use/Land-Cover change from 1996 to 2016.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity#hydrologic-response-to-land-use-change"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Percent Irrigated Agriculture" ? (
+                        <>
+                          The proportion (%) of the area of interest that is
+                          covered by irrigated agriculture.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity#percent-irrigated-agriculture"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Lateral Connectivity of Floodplain" ? (
+                        <>
+                          The proportion of floodplain within the area of
+                          interest that is connected.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity#lateral-connectivity-of-floodplain"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Composition of Riparizan Zone Lands" ? (
+                        <>
+                          An average index value of the composition of lands
+                          within a 100-meter buffer of streams.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity#composition-of-riparian-zone-lands"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Presence of Impoundments" ? (
+                        <>
+                          This measure describes whether or not an area is
+                          impacted by hydromodification.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/waterquality_quantity#presence-of-impoundments"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </ReactTooltip>
                 </span>
@@ -1040,16 +1175,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setResourceSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setResourceSelect(false);
                 state = null;
-                handleWeights(0, "lcmr");
               }
               dispatch(changeMeasures("lcmr", state));
             }}
@@ -1067,25 +1199,79 @@ const SelectDataMeasures = ({
                 <span style={{ display: "block" }} className="my-1">
                   {measure.label} &nbsp;
                   <GoInfo data-tip data-for={measure.value} />
-                  <ReactTooltip id={measure.value} type="dark">
+                  <ReactTooltip
+                    place="top"
+                    delayHide={500}
+                    delayUpdate={500}
+                    id={measure.value}
+                    clickable="true"
+                    type="dark"
+                  >
                     <span>
                       {measure.label ===
-                      "Vulnerable Areas of Terrestrial Endemic Species"
-                        ? "This measure represents the ratio of endemic species to the amount of protected land in the contiguous U.S."
-                        : measure.label ===
-                          "Threatened and Endangered Species - Critical Habitat Area"
-                        ? "The measure is based on the U.S. Fish and Wildlife Service designated federally threatened and endangered (T&E) critical habitat."
-                        : measure.label ===
-                          "Threatened and Endangered Species - Number of Species"
-                        ? "This attribute measures the number of federally threatened and endangered (T&E) species that have habitat ranges identified within each hexagon."
-                        : measure.label === "Light Pollution Index"
-                        ? "An index that measures the intensity of light pollution within each hexagon."
-                        : measure.label ===
-                          "Terrestrial Vertebrate Biodiversity"
-                        ? "Definition of Terrestrial Vertebrate Biodiversity."
-                        : measure.label === "Vulnerability to Invasive Plants"
-                        ? "Definition of Vulnerability to Invasive Plants."
-                        : ""}
+                      "Vulnerable Areas of Terrestrial Endemic Species" ? (
+                        <>
+                          This measure represents the ratio of endemic species
+                          to the amount of protected land in the contiguous U.S.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/lcmr#vulnerable-areas-of-terrestrial-endemic-species"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Threatened and Endangered Species - Critical Habitat Area" ? (
+                        <>
+                          The measure is based on the U.S. Fish and Wildlife
+                          Service designated federally threatened and endangered
+                          (T&E) critical habitat.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/lcmr#threatened-and-endangered-species-critical-habitat-area"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Threatened and Endangered Species - Number of Species" ? (
+                        <>
+                          This attribute measures the number of federally
+                          threatened and endangered (T&E) species that have
+                          habitat ranges identified within each hexagon.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/lcmr#threatened-and-endangered-species-number-of-species"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Light Pollution Index" ? (
+                        <>
+                          An index that measures the intensity of light
+                          pollution within each hexagon.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/lcmr#light-pollution-index"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </ReactTooltip>
                 </span>
@@ -1419,16 +1605,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setResilienceSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setResilienceSelect(false);
                 state = null;
-                handleWeights(0, "cl");
               }
               dispatch(changeMeasures("cl", state));
             }}
@@ -1446,20 +1629,80 @@ const SelectDataMeasures = ({
                 <span style={{ display: "block" }} className="my-1">
                   {measure.label} &nbsp;
                   <GoInfo data-tip data-for={measure.value} />
-                  <ReactTooltip id={measure.value} type="dark">
+                  <ReactTooltip
+                    place="top"
+                    delayHide={500}
+                    delayUpdate={500}
+                    id={measure.value}
+                    clickable="true"
+                    type="dark"
+                  >
                     <span>
-                      {measure.label === "National Register of Historic Places"
-                        ? "A numeric attribute that represents the counts of historic places within each hexagon."
-                        : measure.label === "National Heritage Area"
-                        ? "A percent attribute that stands for the proportion of heritage area within each hexagon."
-                        : measure.label ===
-                          "Proximity to Socially Vulnerable Communities"
-                        ? "This measure indicates the proximity to communities that are socially vulnerable according to the National Oceanic and Atmospheric Administration’s (NOAA) Social Vulnerability Index."
-                        : measure.label === "Community Threat Index"
-                        ? "The Community Threat Index (CTI) comes from the Coastal Resilience Evaluation and Siting Tool (CREST)."
-                        : measure.label === "Social Vulnerability Index"
-                        ? "Definition of Social Vulnerability Index."
-                        : ""}
+                      {measure.label ===
+                      "National Register of Historic Places" ? (
+                        <>
+                          A numeric attribute that represents the counts of
+                          historic places within each hexagon.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/community_resilience#national-register-of-historic-places"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "National Heritage Area" ? (
+                        <>
+                          A percent attribute that stands for the proportion of
+                          heritage area within each hexagon.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/community_resilience#national-heritage-area"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Proximity to Socially Vulnerable Communities" ? (
+                        <>
+                          This measure indicates the proximity to communities
+                          that are socially vulnerable according to the National
+                          Oceanic and Atmospheric Administration’s (NOAA) Social
+                          Vulnerability Index.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/community_resilience#proximity-to-socially-vulnerable-communities"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Community Threat Index" ? (
+                        <>
+                          The Community Threat Index (CTI) comes from the
+                          Coastal Resilience Evaluation and Siting Tool (CREST).
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/community_resilience#community-threat-index"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Social Vulnerability Index" ? (
+                        "Definition of Social Vulnerability Index Coming Soon"
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </ReactTooltip>
                 </span>
@@ -1769,16 +2012,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setEconomySelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setEconomySelect(false);
                 state = null;
-                handleWeights(0, "eco");
               }
               dispatch(changeMeasures("eco", state));
             }}
@@ -1796,18 +2036,82 @@ const SelectDataMeasures = ({
                 <span style={{ display: "block" }} className="my-1">
                   {measure.label} &nbsp;
                   <GoInfo data-tip data-for={measure.value} />
-                  <ReactTooltip id={measure.value} type="dark">
+                  <ReactTooltip
+                    place="top"
+                    delayHide={500}
+                    delayUpdate={500}
+                    id={measure.value}
+                    clickable="true"
+                    type="dark"
+                  >
                     <span>
-                      {measure.label === "High Priority Working Lands"
-                        ? "The percentage area of pine, cropland, and pasture/hay classes from the National Land Cover Database (NLCD) 2016 classification map."
-                        : measure.label === "Commercial Fishing Reliance"
-                        ? "Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. "
-                        : measure.label === "Recreational Fishing Engagement"
-                        ? "Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure."
-                        : measure.label ===
-                          "Access & Recreation - Number of Access Points"
-                        ? "This measure indicates the number of points within a 25 km buffer radius of a hexagon, where the public can access places to engage in outdoor recreation."
-                        : ""}
+                      {measure.label === "High Priority Working Lands" ? (
+                        <>
+                          The percentage area of pine, cropland, and pasture/hay
+                          classes from the National Land Cover Database (NLCD)
+                          2016 classification map.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/economy#high-priority-working-lands"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label === "Commercial Fishing Reliance" ? (
+                        <>
+                          Commercial fishing reliance measures the presence of
+                          commercial fishing through fishing activity as shown
+                          through permits and vessel landings relative to the
+                          population of a community.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/economy#commercial-fishing-reliance"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Recreational Fishing Engagement" ? (
+                        <>
+                          Recreational fishing engagement measures the presence
+                          of recreational fishing through fishing activity
+                          estimates, including charter fishing pressure, private
+                          fishing pressure, and shore fishing pressure.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/economy#recreational-fishing-engagement"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : measure.label ===
+                        "Access & Recreation - Number of Access Points" ? (
+                        <>
+                          This measure indicates the number of points within a
+                          25 km buffer radius of a hexagon, where the public can
+                          access places to engage in outdoor recreation.
+                          <br />
+                          <a
+                            href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/economy#access-and-recreation-number-of-access-points"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="tool-link"
+                          >
+                            Click for more
+                          </a>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </span>
                   </ReactTooltip>
                 </span>
