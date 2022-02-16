@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  Card,
-  Container,
-  Button,
-  InputGroup,
-  FormControl,
-  Modal,
-} from "react-bootstrap";
+import { Card, Container, Button, InputGroup, FormControl, Modal } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdSave } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
@@ -43,28 +36,69 @@ const SidebarViewDetail = ({
   setHexFilterList,
   userLoggedIn,
   editMode,
-  stopDraw,
+  stopDraw
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
   );
-  console.log(aoiList);
   const dispatch = useDispatch();
   const history = useHistory();
   const [aoiName, setAoiName] = useState("");
+  const [modifyButtonState, setModifyButtonState] = useState("modify");
+  const [modifyButtonLabel, setModifyButtonLabel] = useState("Modify Shape");
+  const [modifyButtonDisabled, setModifyButtonDisabled] = useState(false);
   const [showButtonState, setShowButtonState] = useState("show");
   const [showButtonLabel, setShowButtonLabel] = useState("Show Hexagon Grid");
+  const [showButtonDisabled, setShowButtonDisabled] = useState(false);
   const [deselectButtonState, setDeselectButtonState] = useState("deselect");
-  const [deselectButtonLabel, setDeselectButtonLabel] =
-    useState("Deselect Hexagon");
+  const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
+  const [deselectButtonDisabled, setDeselectButtonDisabled] = useState(true);
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
+  const [confirmShow, setConfirmShow] = useState(false);
 
-  dispatch(setLoader(false));
+  const modifyShape = () => {
+    if (modifyButtonState === "modify") {
+      setModifyButtonState("finalize");
+      setModifyButtonLabel("Finalize Shape");
+      setConfirmButtonDisabled(true);
+      setShowButtonDisabled(true);
+      setDrawingMode(true);
+      editMode();
+    } else {
+      setModifyButtonState("modify");
+      setModifyButtonLabel("Modify Shape");
+      setConfirmButtonDisabled(false);
+      stopDraw();
+    };
+  };
 
-  const handleBasicEdit = async () => {
-    // dispatch(setLoader(true));
+  const handleNameEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
     } else {
+      dispatch(setLoader(true));
+      setEditAOI(false);
+      setAlerttext(false);
+      dispatch(
+        edit_aoi(aoiList[0].id, {
+          name: aoiName,
+          geometry: aoiList[0].geometry,
+          hexagons: aoiList[0].hexagons,
+          rawScore: aoiList[0].rawScore,
+          scaleScore: aoiList[0].scaleScore,
+          speciesName: aoiList[0].speciesName,
+          id: aoiList[0].id,
+        })
+      );
+      dispatch(setLoader(false));
+    };
+  };
+  
+  const handleBasicEdit = async () => {
+    if (!aoiName) {
+      setAlerttext("Name is required.");
+    } else {
+      dispatch(setLoader(true));
       setEditAOI(false);
       setAlerttext(false);
       const newList = featureList;
@@ -82,7 +116,6 @@ const SidebarViewDetail = ({
         "https://sca-cpt-backend.herokuapp.com/data",
         { data }
       );
-
       const planArea = calculateArea(newList);
       dispatch(
         edit_aoi(aoiList[0].id, {
@@ -104,15 +137,15 @@ const SidebarViewDetail = ({
         })
       );
       setDrawingMode(false);
-    }
-
-    dispatch(setLoader(false));
+      dispatch(setLoader(false));
+    };
   };
 
   const handleAdvancedEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
     } else {
+      dispatch(setLoader(true));
       setEditAOI(false);
       setAlerttext(false);
       // Use the unselected hexagons as new geometry to recalculate AOI
@@ -155,11 +188,13 @@ const SidebarViewDetail = ({
         "https://sca-cpt-backend.herokuapp.com/data",
         { data }
       );
+      // Keep the original id, name, geometry (also area)
+      // Replace the scores with the query result
       const planArea = aoiList[0].rawScore.hab0;
       dispatch(
         edit_aoi(aoiList[0].id, {
           name: aoiName,
-          geometry: newList.length ? newList : aoiList[0].geometry,
+          geometry: aoiList[0].geometry,
           hexagons: newList.length ? res.data.data : aoiList[0].hexagons,
           rawScore: newList.length
             ? aggregate(res.data.data, planArea)
@@ -173,7 +208,8 @@ const SidebarViewDetail = ({
           id: aoiList[0].id,
         })
       );
-    }
+      dispatch(setLoader(false));
+    };
   };
 
   const showHexagon = () => {
@@ -182,31 +218,70 @@ const SidebarViewDetail = ({
       setHexGrid(true);
       setShowButtonState("hide");
       setShowButtonLabel("Hide Hexagon Grid");
+      setDeselectButtonDisabled(false);
+      setModifyButtonDisabled(true);
       setHexIDDeselected([]);
       setHexFilterList([]);
     } else {
       setHexGrid(false);
       setShowButtonState("show");
       setShowButtonLabel("Show Hexagon Grid");
-    }
+      setDeselectButtonDisabled(true);
+    };
   };
 
   const deselectHexagon = () => {
     setDrawingMode(false);
     if (deselectButtonState === "deselect") {
       setHexDeselection(true);
-      setDeselectButtonState("confirm");
+      setDeselectButtonState("finalize");
       setDeselectButtonLabel("Finalize Hexagon");
+      setShowButtonDisabled(true);
+      setConfirmButtonDisabled(true);
       setHexIDDeselected([]);
       setHexFilterList([]);
     } else {
       setHexDeselection(false);
       setDeselectButtonState("deselect");
       setDeselectButtonLabel("Deselect Hexagon");
-      if (hexIDDeselected.length) {
-        handleAdvancedEdit();
-      }
-    }
+      setShowButtonDisabled(false);
+      setConfirmButtonDisabled(false);
+    };
+  };
+
+  const exitEdit = () => {
+    setEditAOI(false);
+    setModifyButtonDisabled(false);
+    setShowButtonDisabled(false);
+    setConfirmButtonDisabled(true);
+    // Turn off map editing and reset buttons after cancellation
+    stopDraw();
+    setDrawingMode(false);
+    setModifyButtonState("modify");
+    setModifyButtonLabel("Modify Shape");
+    // Turn off hex grid layer and reset buttons after cancellation
+    setHexGrid(false);
+    setShowButtonState("show");
+    setShowButtonLabel("Show Hexagon Grid");
+    setDeselectButtonDisabled(true);
+  };
+
+  const confirmEdit = () => {
+    if (featureList.length) {
+      handleBasicEdit();
+    } else if (hexIDDeselected.length) {
+      handleAdvancedEdit();
+    } else if (aoiName) {
+      handleNameEdit();
+    };
+    setModifyButtonDisabled(false);
+    setShowButtonDisabled(false);
+    setConfirmButtonDisabled(true);
+    // Turn off hex grid layer and reset buttons after submission
+    setHexGrid(false);
+    setShowButtonState("show");
+    setShowButtonLabel("Show Hexagon Grid");
+    setDeselectButtonDisabled(true);
   };
 
   const saveFile = async () => {
@@ -239,8 +314,6 @@ const SidebarViewDetail = ({
     }
   };
 
-  const [confirmShow, setConfirmShow] = useState(false);
-
   const confirmClose = () => setConfirmShow(false);
   const showConfirm = () => setConfirmShow(true);
 
@@ -268,9 +341,7 @@ const SidebarViewDetail = ({
                 className="ml-1"
                 onClick={() => {
                   setEditAOI(true);
-                  setDrawingMode(true);
                   setAoiName(aoiList[0].name);
-                  editMode();
                 }}
               >
                 <MdEdit /> &nbsp; Edit
@@ -329,56 +400,63 @@ const SidebarViewDetail = ({
                 <hr />
                 <label>Basic Options:</label>
                 <br />
-                <InputGroup
-                  className="mb-3"
-                  style={{ width: "70%", float: "left" }}
-                >
-                  <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon1">
-                      AOI Name:
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    name="planName"
-                    value={aoiName}
-                    onChange={(e) => {
-                      setAoiName(e.target.value);
-                    }}
-                    placeholder="Name area of interest here..."
-                  />
-                </InputGroup>
-                <Button
-                  variant="dark"
-                  style={{ float: "right" }}
-                  onClick={() => {
-                    stopDraw();
-                    dispatch(setLoader(true));
-                    handleBasicEdit();
-                  }}
-                >
-                  Confirm Change
-                </Button>
-                <br />
-                <br />
+                <div className="d-flex justify-content-between">
+                  <InputGroup className="mb-3" style={{width: "70%"}}>
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="basic-addon1">
+                        AOI Name:
+                      </InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      name="planName"
+                      value={aoiName}
+                      onChange={(e) => {
+                        setAoiName(e.target.value);
+                        setConfirmButtonDisabled(false);
+                      }}
+                      placeholder="Name area of interest here..."
+                    />
+                  </InputGroup>
+                  <Button
+                    variant="dark"
+                    style={{height:"40px"}}
+                    value={modifyButtonState}
+                    onClick={modifyShape}
+                    disabled={modifyButtonDisabled}
+                  >
+                    {modifyButtonLabel}
+                  </Button>
+                </div>
                 <hr />
                 <label>Advanced Options:</label>
                 <br />
-                <Button
-                  variant="dark"
-                  style={{ float: "left" }}
-                  value={showButtonState}
-                  onClick={showHexagon}
-                >
-                  {showButtonLabel}
-                </Button>
-                <Button
-                  variant="dark"
-                  style={{ float: "right" }}
-                  value={deselectButtonState}
-                  onClick={deselectHexagon}
-                >
-                  {deselectButtonLabel}
-                </Button>
+                <div className="d-flex justify-content-between">
+                  <Button
+                    variant="dark"
+                    value={showButtonState}
+                    onClick={showHexagon}
+                    disabled={showButtonDisabled}
+                  >
+                    {showButtonLabel}
+                  </Button>
+                  <Button
+                    variant="dark"
+                    value={deselectButtonState}
+                    onClick={deselectHexagon}
+                    disabled={deselectButtonDisabled}
+                  >
+                    {deselectButtonLabel}
+                  </Button>
+                </div>
+                <hr />
+                <div className="d-flex justify-content-between">
+                  <Button variant="warning" onClick={exitEdit}>
+                    Leave Editing
+                  </Button>
+                  <Button variant="success" onClick={confirmEdit} disabled={confirmButtonDisabled}>
+                    Confirm Edits
+                  </Button>
+                </div>
               </>
             )}
           </Card.Body>
