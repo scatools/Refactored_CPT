@@ -61,11 +61,11 @@ const SelectDataMeasures = ({
   const handleChange = (value, name, label, type) => {
     dispatch(changeMeasuresWeight(value, name, label, type));
   };
-
-  const handleWeights = (value, goal) => {
-    const newValue = Number(value) > 100 ? 100 : Number(value);
-    dispatch(changeGoalWeights(newValue, goal));
-  };
+  // *************         Causing bug when removing datameasures to 0            **************//
+  // const handleWeights = (value, goal) => {
+  //   const newValue = Number(value) > 100 ? 100 : Number(value);
+  //   dispatch(changeGoalWeights(newValue, goal));
+  // };
 
   const [options, setOptions] = useState({
     hab: [
@@ -321,16 +321,13 @@ const SelectDataMeasures = ({
               console.log(habitatSelect);
               let state;
               if (selectedOption) {
-                setHabitatSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setHabitatSelect(false);
                 state = null;
-                handleWeights(0, "hab");
               }
               dispatch(changeMeasures("hab", state));
             }}
@@ -721,16 +718,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setWaterSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setWaterSelect(false);
                 state = null;
-                handleWeights(0, "wq");
               }
               dispatch(changeMeasures("wq", state));
             }}
@@ -1099,16 +1093,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setResourceSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setResourceSelect(false);
                 state = null;
-                handleWeights(0, "lcmr");
               }
               dispatch(changeMeasures("lcmr", state));
             }}
@@ -1478,16 +1469,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setResilienceSelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setResilienceSelect(false);
                 state = null;
-                handleWeights(0, "cl");
               }
               dispatch(changeMeasures("cl", state));
             }}
@@ -1828,16 +1816,13 @@ const SelectDataMeasures = ({
             onChange={(selectedOption) => {
               let state;
               if (selectedOption) {
-                setEconomySelect(true);
                 state = selectedOption.map((selected) => ({
                   ...selected,
                   utility: selected["utility"] || "1",
                   weight: selected["weight"] || "medium",
                 }));
               } else {
-                setEconomySelect(false);
                 state = null;
-                handleWeights(0, "eco");
               }
               dispatch(changeMeasures("eco", state));
             }}
