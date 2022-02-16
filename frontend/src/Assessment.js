@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Container, Dropdown, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { FaChrome } from "react-icons/fa";
 import { MdDownload, MdSave } from "react-icons/md";
 import { VscFolder, VscFileSubmodule } from "react-icons/vsc";
@@ -31,6 +31,8 @@ const Assessment = ({
 }) => {
   const dispatch = useDispatch();
   dispatch(setLoader(false));
+
+  const history = useHistory();
 
   const assessment = useSelector((state) => state.assessment);
   const aoi = useSelector((state) => state.aoi);
@@ -441,7 +443,12 @@ const Assessment = ({
       </div>
 
       <div id="assessmentOverview">
-        <Container style={{ position: "relative", top: "100px" }}>
+        <Container>
+          <div className="back-to-map">
+            <Button variant="secondary" onClick={() => history.push("/")}>
+              Back to Map View
+            </Button>
+          </div>
           <h1 className="assessment-h1">
             Assessment Report for:
             <br /> {aoiList[0].name} and {String(aoiList.length - 1)} Other AOIs
