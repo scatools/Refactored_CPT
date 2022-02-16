@@ -394,21 +394,17 @@ const SidebarViewDetail = ({
               >
                 <FaFileExport /> &nbsp; Export Shapefile
               </Button>
+            </Container>
+            <Container className="d-flex justify-content-start detail-buttons">
+              {userLoggedIn && (
+                <Button variant="dark" className="ml-1" onClick={saveFile}>
+                  <MdSave /> &nbsp; Save to: {userLoggedIn}
+                </Button>
+              )}
               <Button variant="danger" className="ml-1" onClick={showConfirm}>
                 <MdDelete /> &nbsp; Delete
               </Button>
             </Container>
-            {userLoggedIn && (
-              <Container className="detail-buttons">
-                <Button
-                  variant="dark"
-                  className="ml-1"
-                  onClick={accordionReset}
-                >
-                  <MdSave /> &nbsp; Save to: {userLoggedIn}
-                </Button>
-              </Container>
-            )}
             {editAOI && (
               <>
                 <Accordion>
