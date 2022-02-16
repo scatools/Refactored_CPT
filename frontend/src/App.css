@@ -9,7 +9,7 @@
 
 #sidebar,
 .AoiTableContainer {
-  width: 600px;
+  width: 550px;
   position: absolute;
   left: -600px;
   min-height: calc(100vh - 55px);
@@ -17,7 +17,7 @@
   background: #292a2b;
   color: #fff;
   transition: all 0.3s;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 3px rgba(102, 67, 67, 0.2);
   height: auto;
   padding: 10px;
 }
@@ -175,7 +175,10 @@ nav a:hover {
 
 .container.detail-buttons {
   margin-left: -25px;
-  width: 145%;
+  width: 130%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .assessmentDownload {
@@ -324,6 +327,7 @@ nav a:hover {
 
 button.btn-dark.ml-1.btn {
   font-size: 14px;
+  margin: 5px;
 }
 
 .btn-success,
@@ -331,6 +335,12 @@ button.btn-dark.ml-1.btn {
 .btn-danger,
 .btn-primary {
   min-width: 180px;
+}
+
+button.ml-1.btn.btn-danger {
+  margin: 5px;
+  font-size: 14px;
+  min-width: initial;
 }
 
 button.sidebarControlBtn.btn.btn-secondary {
@@ -471,4 +481,29 @@ h4 {
 
 .tool-link:hover {
   color: rgb(0, 86, 179);
+}
+
+.accordion-dropdown {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion-dropdown p {
+  margin: 0;
+  padding: 0 !important;
+  font-size: 14px !important;
+}
+
+.accordion .card:first-child {
+  margin-bottom: 0 !important;
+}
+
+.accordion .card:nth-child(2) {
+  margin-top: 0 !important;
+}
+
+.edit-instructions {
+  margin: -10px 0 5px 0 !important;
+  padding: 0 !important;
+  font-size: 16px !important;
 }

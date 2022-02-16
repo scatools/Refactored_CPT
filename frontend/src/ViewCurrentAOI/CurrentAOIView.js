@@ -36,7 +36,28 @@ const CurrentAOIView = ({
 
   useEffect(() => {
     if (view === "viewCurrent" && aoiList.length > 0) {
-      setAoiSelected(aoiList[0].id);
+      let viewThisAoi = aoiList[0].id;
+      setAoiSelected(viewThisAoi);
+      let aoiBbox = bbox({
+        type: "FeatureCollection",
+        features: aoiList[0].geometry,
+      });
+      // Format of the bounding box needs to be an array of two opposite corners ([[lon,lat],[lon,lat]])
+      let viewportBbox = [
+        [aoiBbox[0], aoiBbox[1]],
+        [aoiBbox[2], aoiBbox[3]],
+      ];
+      // Use WebMercatorViewport to get center longitude/latitude and zoom level
+      let newViewport = new WebMercatorViewport({
+        width: 800,
+        height: 600,
+      }).fitBounds(viewportBbox, { padding: 100 });
+      // console.log(newViewport);
+      setViewport({
+        latitude: newViewport.latitude,
+        longitude: newViewport.longitude - 0.5 * (aoiBbox[2] - aoiBbox[0]),
+        zoom: newViewport.zoom,
+      });
     }
   }, [view]);
 

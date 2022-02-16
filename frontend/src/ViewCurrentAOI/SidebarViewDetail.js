@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Container, Button, InputGroup, FormControl, Modal } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  Button,
+  InputGroup,
+  FormControl,
+  Modal,
+  Accordion,
+} from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdSave } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
@@ -10,7 +18,10 @@ import axios from "axios";
 import { delete_aoi, edit_aoi, setLoader } from "../action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamationCircle,
+  faChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 const alertIcon = (
   <FontAwesomeIcon
@@ -19,6 +30,8 @@ const alertIcon = (
     style={{ margin: "0 5px;" }}
   />
 );
+
+const downArrow = <FontAwesomeIcon icon={faChevronDown} color="white" />;
 
 const SidebarViewDetail = ({
   aoiSelected,
@@ -36,7 +49,7 @@ const SidebarViewDetail = ({
   setHexFilterList,
   userLoggedIn,
   editMode,
-  stopDraw
+  stopDraw,
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -51,7 +64,8 @@ const SidebarViewDetail = ({
   const [showButtonLabel, setShowButtonLabel] = useState("Show Hexagon Grid");
   const [showButtonDisabled, setShowButtonDisabled] = useState(false);
   const [deselectButtonState, setDeselectButtonState] = useState("deselect");
-  const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
+  const [deselectButtonLabel, setDeselectButtonLabel] =
+    useState("Deselect Hexagon");
   const [deselectButtonDisabled, setDeselectButtonDisabled] = useState(true);
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [confirmShow, setConfirmShow] = useState(false);
@@ -69,7 +83,7 @@ const SidebarViewDetail = ({
       setModifyButtonLabel("Modify Shape");
       setConfirmButtonDisabled(false);
       stopDraw();
-    };
+    }
   };
 
   const handleNameEdit = async () => {
@@ -91,9 +105,9 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    };
+    }
   };
-  
+
   const handleBasicEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
@@ -138,7 +152,7 @@ const SidebarViewDetail = ({
       );
       setDrawingMode(false);
       dispatch(setLoader(false));
-    };
+    }
   };
 
   const handleAdvancedEdit = async () => {
@@ -209,7 +223,7 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    };
+    }
   };
 
   const showHexagon = () => {
@@ -227,7 +241,7 @@ const SidebarViewDetail = ({
       setShowButtonState("show");
       setShowButtonLabel("Show Hexagon Grid");
       setDeselectButtonDisabled(true);
-    };
+    }
   };
 
   const deselectHexagon = () => {
@@ -246,7 +260,7 @@ const SidebarViewDetail = ({
       setDeselectButtonLabel("Deselect Hexagon");
       setShowButtonDisabled(false);
       setConfirmButtonDisabled(false);
-    };
+    }
   };
 
   const exitEdit = () => {
@@ -273,7 +287,7 @@ const SidebarViewDetail = ({
       handleAdvancedEdit();
     } else if (aoiName) {
       handleNameEdit();
-    };
+    }
     setModifyButtonDisabled(false);
     setShowButtonDisabled(false);
     setConfirmButtonDisabled(true);
@@ -312,6 +326,11 @@ const SidebarViewDetail = ({
       alert("Failed to save the file in your account!");
       console.error(e);
     }
+  };
+
+  const accordionReset = () => {
+    exitEdit();
+    setEditAOI(true);
   };
 
   const confirmClose = () => setConfirmShow(false);
@@ -382,79 +401,144 @@ const SidebarViewDetail = ({
                   download(aoiGeoJson, options);
                 }}
               >
-                <FaFileExport /> &nbsp; Export
+                <FaFileExport /> &nbsp; Export Shapefile
               </Button>
-              <Button variant="dark" className="ml-1" onClick={showConfirm}>
+              <Button variant="danger" className="ml-1" onClick={showConfirm}>
                 <MdDelete /> &nbsp; Delete
               </Button>
             </Container>
             {userLoggedIn && (
               <Container className="detail-buttons">
-                <Button variant="dark" className="ml-1" onClick={saveFile}>
+                <Button
+                  variant="dark"
+                  className="ml-1"
+                  onClick={accordionReset}
+                >
                   <MdSave /> &nbsp; Save to: {userLoggedIn}
                 </Button>
               </Container>
             )}
             {editAOI && (
               <>
-                <hr />
-                <label>Basic Options:</label>
-                <br />
-                <div className="d-flex justify-content-between">
-                  <InputGroup className="mb-3" style={{width: "70%"}}>
-                    <InputGroup.Prepend>
-                      <InputGroup.Text id="basic-addon1">
-                        AOI Name:
-                      </InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl
-                      name="planName"
-                      value={aoiName}
-                      onChange={(e) => {
-                        setAoiName(e.target.value);
-                        setConfirmButtonDisabled(false);
-                      }}
-                      placeholder="Name area of interest here..."
-                    />
-                  </InputGroup>
-                  <Button
-                    variant="dark"
-                    style={{height:"40px"}}
-                    value={modifyButtonState}
-                    onClick={modifyShape}
-                    disabled={modifyButtonDisabled}
-                  >
-                    {modifyButtonLabel}
-                  </Button>
-                </div>
-                <hr />
-                <label>Advanced Options:</label>
-                <br />
-                <div className="d-flex justify-content-between">
-                  <Button
-                    variant="dark"
-                    value={showButtonState}
-                    onClick={showHexagon}
-                    disabled={showButtonDisabled}
-                  >
-                    {showButtonLabel}
-                  </Button>
-                  <Button
-                    variant="dark"
-                    value={deselectButtonState}
-                    onClick={deselectHexagon}
-                    disabled={deselectButtonDisabled}
-                  >
-                    {deselectButtonLabel}
-                  </Button>
-                </div>
-                <hr />
+                <Accordion>
+                  <Card>
+                    <Accordion.Toggle
+                      as={Card.Header}
+                      eventKey="0"
+                      onClick={accordionReset}
+                    >
+                      <div className="accordion-dropdown">
+                        <p>Basic Edit Options</p>
+                        <p>{downArrow}</p>
+                      </div>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                      <Card.Body>
+                        <p className="edit-instructions">
+                          To change name edit below and click save changes.
+                          <br />
+                          To edit the AOI polygon:
+                        </p>
+                        <ul>
+                          <li>Click the modify shape button.</li>
+                          <li>Click inside the polygon to view vertices.</li>
+                          <li>To move entire AOI, click and drag polygon</li>
+                          <li>Click and drag to move individual verticies.</li>
+                          <li>Click the finalize shape button.</li>
+                          <li>Click save changes.</li>
+                        </ul>
+                        <div className="basic-edit-cont">
+                          <InputGroup className="mb-3" style={{ width: "70%" }}>
+                            <InputGroup.Prepend>
+                              <InputGroup.Text id="basic-addon1">
+                                New AOI Name:
+                              </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                              name="planName"
+                              value={aoiName}
+                              onChange={(e) => {
+                                setAoiName(e.target.value);
+                                setConfirmButtonDisabled(false);
+                              }}
+                              placeholder="Re-name area of interest here..."
+                            />
+                          </InputGroup>
+                          <Button
+                            variant="dark"
+                            style={{ height: "40px" }}
+                            value={modifyButtonState}
+                            onClick={modifyShape}
+                            disabled={modifyButtonDisabled}
+                          >
+                            {modifyButtonLabel}
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                  <Card>
+                    <Accordion.Toggle
+                      as={Card.Header}
+                      eventKey="1"
+                      onClick={accordionReset}
+                    >
+                      <div className="accordion-dropdown">
+                        <p>Advanced Edit Options</p>
+                        <p>{downArrow}</p>
+                      </div>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="1">
+                      <Card.Body>
+                        <p className="edit-instructions">
+                          To remove hexagons from your AOI:
+                        </p>
+                        <ul>
+                          <li>Click the show hexagon grid button.</li>
+                          <li>Click deselect hexagon.</li>
+                          <li>
+                            Click the hexagons you'd like to remove from your
+                            AOI.<sup>*</sup>
+                          </li>
+                          <li>Click the finalize hexagon.</li>
+                          <li>Click save changes.</li>
+                        </ul>
+                        <p className="smaller-text">
+                          *After clicking, the hexagons selected for removal
+                          will only highlight once the cursor has been moved.
+                        </p>
+                        <div className="d-flex justify-content-between">
+                          <Button
+                            variant="dark"
+                            value={showButtonState}
+                            onClick={showHexagon}
+                            disabled={showButtonDisabled}
+                          >
+                            {showButtonLabel}
+                          </Button>
+                          <Button
+                            variant="dark"
+                            value={deselectButtonState}
+                            onClick={deselectHexagon}
+                            disabled={deselectButtonDisabled}
+                          >
+                            {deselectButtonLabel}
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                </Accordion>
                 <div className="d-flex justify-content-between">
                   <Button variant="warning" onClick={exitEdit}>
-                    Leave Editing
+                    Cancel
                   </Button>
-                  <Button variant="success" onClick={confirmEdit} disabled={confirmButtonDisabled}>
-                    Confirm Edits
+                  <Button
+                    variant={confirmButtonDisabled ? "secondary" : "success"}
+                    onClick={confirmEdit}
+                    disabled={confirmButtonDisabled}
+                  >
+                    Save Changes
                   </Button>
                 </div>
               </>
