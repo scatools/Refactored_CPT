@@ -442,12 +442,10 @@ const Assessment = ({
 
       <div id="assessmentOverview">
         <Container style={{ position: "relative", top: "100px" }}>
-          <Row>
-            <h1 className="assessment-h1">
-              Assessment Report for {aoiList[0].name} and{" "}
-              {String(aoiList.length - 1)} Other AOIs
-            </h1>
-          </Row>
+          <h1 className="assessment-h1">
+            Assessment Report for:
+            <br /> {aoiList[0].name} and {String(aoiList.length - 1)} Other AOIs
+          </h1>
           <Row id="mapHeading">
             <h2>Spatial Footprint:</h2>
           </Row>
