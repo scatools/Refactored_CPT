@@ -41,7 +41,7 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
         <br />
         Rank them by importance to your organization
         <br />
-        Total must add up to 100
+        <span className="glow">Total must add up to 100</span>
       </p>
       {/* 
       <a href="https://scatoolsuite.gitbook.io/sca-tool-suite/introduction/definitions-acronyms-and-abbreviations"
