@@ -106,7 +106,7 @@ const AddDraw = ({
             setReportLink(false);
           }}
         >
-          Add a New Shape
+          Draw a New Shape
         </Button>
 
         {drawData && featureList.length !== 0 ? (
@@ -115,7 +115,7 @@ const AddDraw = ({
             style={{ float: "right" }}
             onClick={handleSubmit}
           >
-            Add AOI
+            Review AOI
           </Button>
         ) : (
           <Button
@@ -123,7 +123,7 @@ const AddDraw = ({
             style={{ float: "right" }}
             onClick={handleSubmit}
           >
-            Add AOI
+            Review AOI
           </Button>
         )}
       </Container>
