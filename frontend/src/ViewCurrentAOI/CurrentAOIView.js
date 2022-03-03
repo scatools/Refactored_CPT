@@ -34,6 +34,8 @@ const CurrentAOIView = ({
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi));
 
+  let dismissButton = document.querySelector("#dismiss-detail");
+
   useEffect(() => {
     if (view === "viewCurrent" && aoiList.length > 0) {
       let viewThisAoi = aoiList[0].id;
@@ -75,6 +77,8 @@ const CurrentAOIView = ({
               value={aoi.id}
               checked={aoiSelected === aoi.id}
               onChange={(e) => {
+                setActiveTable(false);
+                dismissButton.classList.remove("active");
                 setAoiSelected(e.currentTarget.value);
                 // Use Turf to get the bounding box of the collections of features
                 var aoiBbox = bbox({
