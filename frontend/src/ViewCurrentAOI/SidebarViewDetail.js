@@ -89,6 +89,7 @@ const SidebarViewDetail = ({
   const handleNameEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
+      window.setTimeout(() => setAlerttext(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
@@ -111,45 +112,54 @@ const SidebarViewDetail = ({
   const handleBasicEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
+      window.setTimeout(() => setAlerttext(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
       setAlerttext(false);
       const newList = featureList;
-      const data = {
-        type: "MultiPolygon",
-        coordinates: newList.map((feature) => feature.geometry.coordinates),
-      };
-      // console.log(data);
 
-      // For development on local server
-      // const res = await axios.post('http://localhost:5000/data', { data });
-
-      // For production on Heroku
-      const res = await axios.post(
-        "https://sca-cpt-backend.herokuapp.com/data",
-        { data }
-      );
       const planArea = calculateArea(newList);
-      dispatch(
-        edit_aoi(aoiList[0].id, {
-          name: aoiName,
-          geometry: newList && newList.length ? newList : aoiList[0].geometry,
-          hexagons:
-            newList && newList.length ? res.data.data : aoiList[0].hexagons,
-          rawScore:
-            newList && newList.length
-              ? aggregate(res.data.data, planArea)
-              : aoiList[0].rawScore,
-          scaleScore: newList.length
-            ? getStatus(aggregate(res.data.data, planArea))
-            : aoiList[0].scaleScore,
-          speciesName: newList.length
-            ? res.data.speciesName
-            : aoiList[0].speciesName,
-          id: aoiList[0].id,
-        })
-      );
+      console.log(planArea);
+      if (planArea < 5500) {
+        const data = {
+          type: "MultiPolygon",
+          coordinates: newList.map((feature) => feature.geometry.coordinates),
+        };
+        // console.log(data);
+
+        // For development on local server
+        // const res = await axios.post('http://localhost:5000/data', { data });
+
+        // For production on Heroku
+        const res = await axios.post(
+          "https://sca-cpt-backend.herokuapp.com/data",
+          { data }
+        );
+        const planArea = calculateArea(newList);
+        dispatch(
+          edit_aoi(aoiList[0].id, {
+            name: aoiName,
+            geometry: newList && newList.length ? newList : aoiList[0].geometry,
+            hexagons:
+              newList && newList.length ? res.data.data : aoiList[0].hexagons,
+            rawScore:
+              newList && newList.length
+                ? aggregate(res.data.data, planArea)
+                : aoiList[0].rawScore,
+            scaleScore: newList.length
+              ? getStatus(aggregate(res.data.data, planArea))
+              : aoiList[0].scaleScore,
+            speciesName: newList.length
+              ? res.data.speciesName
+              : aoiList[0].speciesName,
+            id: aoiList[0].id,
+          })
+        );
+      } else {
+        setAlerttext("Your AOI is too large. Reduce the size and try again.");
+        window.setTimeout(() => setAlerttext(false), 4000);
+      }
       setDrawingMode(false);
       dispatch(setLoader(false));
     }
@@ -158,10 +168,12 @@ const SidebarViewDetail = ({
   const handleAdvancedEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
+      window.setTimeout(() => setAlerttext(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
       setAlerttext(false);
+      window.setTimeout(() => setAlerttext(false), 4000);
       // Use the unselected hexagons as new geometry to recalculate AOI
       const newList = aoiList[0].hexagons.filter(
         (hexagon) => !hexIDDeselected.includes(hexagon.objectid)

@@ -27,7 +27,7 @@ const AddDraw = ({
   };
   const handleSubmit = async () => {
     dispatch(setLoader(true));
-    const myTimeoutError = setTimeout(() => timeoutHandler(), 20000);
+    const myTimeoutError = setTimeout(() => timeoutHandler(), 28000);
     if (!drawData) {
       setAlerttext("A name for this area of interest is required.");
       window.setTimeout(() => setAlerttext(false), 4000);
@@ -47,7 +47,7 @@ const AddDraw = ({
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
       // For production on Heroku
-      if (planArea < 5800) {
+      if (planArea < 5500) {
         const res = await axios.post(
           "https://sca-cpt-backend.herokuapp.com/data",
           { data }
