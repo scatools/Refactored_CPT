@@ -16,7 +16,6 @@ const AddDraw = ({
   setReportLink,
   autoDraw,
   timeoutError,
-  countdown,
   timeoutHandler,
   setHucBoundary,
 }) => {
@@ -28,7 +27,7 @@ const AddDraw = ({
   };
   const handleSubmit = async () => {
     dispatch(setLoader(true));
-    // let loadTimer = setTimeout(() => timeoutHandler(), 30000);
+    const myTimeoutError = setTimeout(() => timeoutHandler(), 20000);
     if (!drawData) {
       setAlerttext("A name for this area of interest is required.");
       window.setTimeout(() => setAlerttext(false), 4000);
@@ -38,6 +37,8 @@ const AddDraw = ({
     } else {
       setAlerttext(false);
       const newList = featureList;
+      const planArea = calculateArea(newList);
+      console.log(planArea);
       const data = {
         type: "MultiPolygon",
         coordinates: newList.map((feature) => feature.geometry.coordinates),
@@ -46,33 +47,38 @@ const AddDraw = ({
       // For development on local server
       // const res = await axios.post('http://localhost:5000/data', { data });
       // For production on Heroku
-      const res = await axios.post(
-        "https://sca-cpt-backend.herokuapp.com/data",
-        { data }
-      );
-      const planArea = calculateArea(newList);
-      dispatch(
-        input_aoi({
-          name: drawData,
-          geometry: newList,
-          hexagons: res.data.data,
-          rawScore: aggregate(res.data.data, planArea),
-          scaleScore: getStatus(aggregate(res.data.data, planArea)),
-          speciesName: res.data.speciesName,
-          id: uuid(),
-        })
-      );
-      setDrawingMode(false);
-      setView("viewCurrent");
+      if (planArea < 5800) {
+        const res = await axios.post(
+          "https://sca-cpt-backend.herokuapp.com/data",
+          { data }
+        );
+        // const planArea = calculateArea(newList);
+        dispatch(
+          input_aoi({
+            name: drawData,
+            geometry: newList,
+            hexagons: res.data.data,
+            rawScore: aggregate(res.data.data, planArea),
+            scaleScore: getStatus(aggregate(res.data.data, planArea)),
+            speciesName: res.data.speciesName,
+            id: uuid(),
+          })
+        );
+        setDrawingMode(false);
+        setView("viewCurrent");
+      } else {
+        clearTimeout(myTimeoutError);
+        setAlerttext("Your AOI is too large. Reduce the size and try again.");
+        window.setTimeout(() => setAlerttext(false), 4000);
+      }
     }
 
     dispatch(setLoader(false));
-    // clearTimeout(loadTimer);
   };
   setHucBoundary(false);
   return (
     <Container className="mt-3">
-      {timeoutError && <TimeoutError countdown={countdown} />}
+      {timeoutError && <TimeoutError />}
       <Container className="instruction">
         <p>Give your AOI a unique name.</p>
         <p>Click on the map to start drawing. </p>
