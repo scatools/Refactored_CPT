@@ -26,26 +26,9 @@ const AddAOIView = ({
   const [hucIDList, setHucIDList] = useState([]);
   const [hucNameSelected, setHucNameSelected] = useState([]);
   const [timeoutError, setTimeoutError] = useState(false);
-  const [countdown, setCountdown] = useState(5);
-  const ref = useRef(countdown);
-
-  function updateState(newState) {
-    ref.current = newState;
-    setCountdown(newState);
-  }
 
   const timeoutHandler = () => {
     setTimeoutError(true);
-    setInterval(() => {
-      updateState(ref.current - 1);
-    }, 1000);
-    window.setTimeout(timeoutReload, 5000);
-  };
-
-  const timeoutReload = () => {
-    setCountdown(5);
-    console.log(countdown);
-    window.location.reload(true);
   };
 
   const onLoad = () => {
@@ -160,9 +143,7 @@ const AddAOIView = ({
           autoDraw={autoDraw}
           timeoutError={timeoutError}
           setTimeoutError={setTimeoutError}
-          countdown={countdown}
           timeoutHandler={timeoutHandler}
-          timeoutReload={timeoutReload}
           setHucBoundary={setHucBoundary}
         />
       )}
@@ -173,9 +154,7 @@ const AddAOIView = ({
           setView={setView}
           timeoutError={timeoutError}
           setTimeoutError={setTimeoutError}
-          countdown={countdown}
           timeoutHandler={timeoutHandler}
-          timeoutReload={timeoutReload}
           setHucBoundary={setHucBoundary}
           setDrawingMode={setDrawingMode}
         />

@@ -1269,6 +1269,12 @@ const SelectDataMeasures = ({
                             Click for more
                           </a>
                         </>
+                      ) : measure.label ===
+                        "Terrestrial Vertebrate Biodiversity" ? (
+                        "Definition of Terrestrial Vertebrate Biodiversity coming soon."
+                      ) : measure.label ===
+                        "Vulnerability to Invasive Plants" ? (
+                        "Definition of Vulnerability to Invasive Plants coming soon."
                       ) : (
                         ""
                       )}

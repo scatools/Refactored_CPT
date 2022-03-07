@@ -1,0 +1,1840 @@
+<html lang="en">
+  <head>
+    <script
+      src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+      data-auto-a11y="true"
+    ></script>
+
+    <link
+      rel="icon"
+      href="https://sca-cpt-frontend.herokuapp.com/favicon.ico"
+    />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Assessment For Multiple AOIs" />
+    <link
+      rel="apple-touch-icon"
+      href="https://sca-cpt-frontend.herokuapp.com/logo192.png"
+    />
+    <link
+      rel="manifest"
+      href="https://sca-cpt-frontend.herokuapp.com/manifest.json"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://sca-cpt-frontend.herokuapp.com/App.css"
+    />
+    <title>CPT Tool</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div data-testid="wrapper">
+        <div class="App">
+          <div></div>
+          <div style="position: relative; top: 55px">
+            <div class="assessmentNav">
+              <a href="#mapHeading">Spatial Footprint</a
+              ><a href="#scoreHeading">Overall Scores</a
+              ><a href="#dataHeading">Data Summary</a
+              ><a href="#mcdaHeading">MCDA Results</a
+              ><a href="#appendix">Appendix</a>
+            </div>
+            <div id="assessmentOverview">
+              <div style="max-width: 1000px" class="container">
+                <h1 class="assessment-h1">Here Is The Report Title</h1>
+                <div id="mapHeading" class="row">
+                  <h2>Spatial Footprint:</h2>
+                </div>
+                <br />
+                <div id="map" class="row">
+                  <div
+                    tabindex="0"
+                    style="
+                      position: relative;
+                      width: 100vw;
+                      height: 50vh;
+                      cursor: grab;
+                      touch-action: none;
+                      user-select: none;
+                      -webkit-user-drag: none;
+                      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                      outline: none;
+                    "
+                  >
+                    <div style="position: relative; width: 100%; height: 100%">
+                      <div
+                        class="mapboxgl-map"
+                        style="
+                          position: absolute;
+                          width: 100%;
+                          height: 100%;
+                          overflow: hidden;
+                          visibility: inherit;
+                        "
+                      >
+                        <div
+                          class="mapboxgl-canary"
+                          style="visibility: hidden"
+                        ></div>
+                        <div class="mapboxgl-canvas-container">
+                          <canvas
+                            class="mapboxgl-canvas"
+                            tabindex="0"
+                            aria-label="Map"
+                            role="region"
+                            width="2280"
+                            height="817"
+                            style="
+                              width: 1140px;
+                              height: 408.5px;
+                              outline: none;
+                            "
+                          ></canvas>
+                        </div>
+                        <div class="mapboxgl-control-container">
+                          <div class="mapboxgl-ctrl-top-left"></div>
+                          <div class="mapboxgl-ctrl-top-right"></div>
+                          <div class="mapboxgl-ctrl-bottom-left">
+                            <div class="mapboxgl-ctrl" style="display: block">
+                              <a
+                                class="mapboxgl-ctrl-logo"
+                                target="_blank"
+                                rel="noopener nofollow"
+                                href="https://www.mapbox.com/"
+                                aria-label="Mapbox logo"
+                              ></a>
+                            </div>
+                          </div>
+                          <div class="mapboxgl-ctrl-bottom-right">
+                            <div class="mapboxgl-ctrl mapboxgl-ctrl-attrib">
+                              <button
+                                class="mapboxgl-ctrl-attrib-button"
+                                title="Toggle attribution"
+                                aria-label="Toggle attribution"
+                              ></button>
+                              <div
+                                class="mapboxgl-ctrl-attrib-inner"
+                                role="list"
+                              >
+                                <a
+                                  href="https://www.mapbox.com/about/maps/"
+                                  target="_blank"
+                                  title="Mapbox"
+                                  aria-label="Mapbox"
+                                  role="listitem"
+                                  >© Mapbox</a
+                                >
+                                <a
+                                  href="https://www.openstreetmap.org/about/"
+                                  target="_blank"
+                                  title="OpenStreetMap"
+                                  aria-label="OpenStreetMap"
+                                  role="listitem"
+                                  >© OpenStreetMap</a
+                                >
+                                <a
+                                  class="mapbox-improve-map"
+                                  href="https://apps.mapbox.com/feedback/?owner=mapbox&amp;id=light-v9&amp;access_token=pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA"
+                                  target="_blank"
+                                  title="Map feedback"
+                                  aria-label="Map feedback"
+                                  role="listitem"
+                                  rel="noopener nofollow"
+                                  >Improve this map</a
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="overlays"
+                        style="
+                          position: absolute;
+                          width: 100%;
+                          height: 100%;
+                          overflow: hidden;
+                        "
+                      >
+                        <div class="legend">
+                          <div class="legend-title">Areas of Interest</div>
+                          <div class="legend-scale">
+                            <ul class="legend-labels">
+                              <li>
+                                <span
+                                  style="
+                                    background: rgb(0, 24, 143);
+                                    opacity: 0.5;
+                                  "
+                                ></span
+                                >Tiger Creek
+                              </li>
+                              <li>
+                                <span
+                                  style="
+                                    background: rgb(0, 188, 242);
+                                    opacity: 0.5;
+                                  "
+                                ></span
+                                >Indian Bayou Canal
+                              </li>
+                              <li>
+                                <span
+                                  style="
+                                    background: rgb(0, 178, 148);
+                                    opacity: 0.5;
+                                  "
+                                ></span
+                                >Wekiva River-Wacasassa River
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <div id="scoreHeading" class="row">
+                  <h2>Overall Scores with User-Provided Weights:</h2>
+                </div>
+                <br />
+                <div id="score" class="row">
+                  <p>
+                    The following chart indicates the overall weighted scores
+                    for each area of interest (AOI).
+                  </p>
+                  <div>
+                    <div
+                      class="recharts-wrapper"
+                      style="
+                        position: relative;
+                        cursor: default;
+                        width: 1000px;
+                        height: 500px;
+                      "
+                    >
+                      <svg
+                        class="recharts-surface"
+                        width="1000"
+                        height="500"
+                        viewBox="0 0 1000 500"
+                        version="1.1"
+                      >
+                        <defs>
+                          <clipPath id="recharts2-clip">
+                            <rect x="80" y="5" height="436" width="890"></rect>
+                          </clipPath>
+                        </defs>
+                        <g class="recharts-cartesian-grid">
+                          <g class="recharts-cartesian-grid-horizontal">
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="80"
+                              y1="441"
+                              x2="970"
+                              y2="441"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="80"
+                              y1="332"
+                              x2="970"
+                              y2="332"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="80"
+                              y1="223"
+                              x2="970"
+                              y2="223"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="80"
+                              y1="114.00000000000004"
+                              x2="970"
+                              y2="114.00000000000004"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="80"
+                              y1="5"
+                              x2="970"
+                              y2="5"
+                            ></line>
+                          </g>
+                          <g class="recharts-cartesian-grid-vertical">
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="228.33333333333334"
+                              y1="5"
+                              x2="228.33333333333334"
+                              y2="441"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="525"
+                              y1="5"
+                              x2="525"
+                              y2="441"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="821.6666666666667"
+                              y1="5"
+                              x2="821.6666666666667"
+                              y2="441"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="80"
+                              y1="5"
+                              x2="80"
+                              y2="441"
+                            ></line>
+                            <line
+                              stroke-dasharray="3 3"
+                              stroke="#ccc"
+                              fill="none"
+                              x="80"
+                              y="5"
+                              width="890"
+                              height="436"
+                              x1="970"
+                              y1="5"
+                              x2="970"
+                              y2="441"
+                            ></line>
+                          </g>
+                        </g>
+                        <g
+                          class="recharts-layer recharts-cartesian-axis recharts-xAxis xAxis"
+                        >
+                          <line
+                            class="recharts-cartesian-axis-line"
+                            width="890"
+                            height="30"
+                            x="80"
+                            y="441"
+                            stroke="#666"
+                            fill="none"
+                            x1="80"
+                            y1="441"
+                            x2="970"
+                            y2="441"
+                          ></line>
+                          <g class="recharts-cartesian-axis-ticks">
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="890"
+                                height="30"
+                                x="80"
+                                y="441"
+                                stroke="#666"
+                                fill="none"
+                                x1="228.33333333333334"
+                                y1="447"
+                                x2="228.33333333333334"
+                                y2="441"
+                              ></line>
+                              <text
+                                width="890"
+                                height="30"
+                                x="228.33333333333334"
+                                y="449"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="middle"
+                              >
+                                <tspan x="228.33333333333334" dy="0.71em">
+                                  Tiger Creek
+                                </tspan>
+                              </text>
+                            </g>
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="890"
+                                height="30"
+                                x="80"
+                                y="441"
+                                stroke="#666"
+                                fill="none"
+                                x1="525"
+                                y1="447"
+                                x2="525"
+                                y2="441"
+                              ></line>
+                              <text
+                                width="890"
+                                height="30"
+                                x="525"
+                                y="449"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="middle"
+                              >
+                                <tspan x="525" dy="0.71em">
+                                  Indian Bayou Canal
+                                </tspan>
+                              </text>
+                            </g>
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="890"
+                                height="30"
+                                x="80"
+                                y="441"
+                                stroke="#666"
+                                fill="none"
+                                x1="821.6666666666667"
+                                y1="447"
+                                x2="821.6666666666667"
+                                y2="441"
+                              ></line>
+                              <text
+                                width="890"
+                                height="30"
+                                x="821.6666666666667"
+                                y="449"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="middle"
+                              >
+                                <tspan x="821.6666666666667" dy="0.71em">
+                                  Wekiva River-Wacasassa River
+                                </tspan>
+                              </text>
+                            </g>
+                          </g>
+                        </g>
+                        <g
+                          class="recharts-layer recharts-cartesian-axis recharts-yAxis yAxis"
+                        >
+                          <line
+                            class="recharts-cartesian-axis-line"
+                            width="60"
+                            height="436"
+                            x="20"
+                            y="5"
+                            stroke="#666"
+                            fill="none"
+                            x1="80"
+                            y1="5"
+                            x2="80"
+                            y2="441"
+                          ></line>
+                          <g class="recharts-cartesian-axis-ticks">
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="60"
+                                height="436"
+                                x="20"
+                                y="5"
+                                stroke="#666"
+                                fill="none"
+                                x1="74"
+                                y1="441"
+                                x2="80"
+                                y2="441"
+                              ></line>
+                              <text
+                                width="60"
+                                height="436"
+                                x="72"
+                                y="441"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="end"
+                              >
+                                <tspan x="72" dy="0.355em">0</tspan>
+                              </text>
+                            </g>
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="60"
+                                height="436"
+                                x="20"
+                                y="5"
+                                stroke="#666"
+                                fill="none"
+                                x1="74"
+                                y1="332"
+                                x2="80"
+                                y2="332"
+                              ></line>
+                              <text
+                                width="60"
+                                height="436"
+                                x="72"
+                                y="332"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="end"
+                              >
+                                <tspan x="72" dy="0.355em">0.2</tspan>
+                              </text>
+                            </g>
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="60"
+                                height="436"
+                                x="20"
+                                y="5"
+                                stroke="#666"
+                                fill="none"
+                                x1="74"
+                                y1="223"
+                                x2="80"
+                                y2="223"
+                              ></line>
+                              <text
+                                width="60"
+                                height="436"
+                                x="72"
+                                y="223"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="end"
+                              >
+                                <tspan x="72" dy="0.355em">0.4</tspan>
+                              </text>
+                            </g>
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="60"
+                                height="436"
+                                x="20"
+                                y="5"
+                                stroke="#666"
+                                fill="none"
+                                x1="74"
+                                y1="114.00000000000004"
+                                x2="80"
+                                y2="114.00000000000004"
+                              ></line>
+                              <text
+                                width="60"
+                                height="436"
+                                x="72"
+                                y="114.00000000000004"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="end"
+                              >
+                                <tspan x="72" dy="0.355em">0.6</tspan>
+                              </text>
+                            </g>
+                            <g
+                              class="recharts-layer recharts-cartesian-axis-tick"
+                            >
+                              <line
+                                class="recharts-cartesian-axis-tick-line"
+                                width="60"
+                                height="436"
+                                x="20"
+                                y="5"
+                                stroke="#666"
+                                fill="none"
+                                x1="74"
+                                y1="5"
+                                x2="80"
+                                y2="5"
+                              ></line>
+                              <text
+                                width="60"
+                                height="436"
+                                x="72"
+                                y="12"
+                                stroke="none"
+                                fill="#666"
+                                class="recharts-text recharts-cartesian-axis-tick-value"
+                                text-anchor="end"
+                              >
+                                <tspan x="72" dy="0.355em">0.8</tspan>
+                              </text>
+                            </g>
+                          </g>
+                        </g>
+                        <g class="recharts-layer recharts-bar">
+                          <g class="recharts-layer recharts-bar-rectangles">
+                            <g class="recharts-layer recharts-bar-rectangle">
+                              <path
+                                fill="#00188f"
+                                width="237"
+                                height="386.95"
+                                x="109.66666666666667"
+                                y="54.05000000000002"
+                                fill-opacity="0.5"
+                                radius="0"
+                                class="recharts-rectangle"
+                                d="M 109.66666666666667,54.05000000000002 h 237 v 386.95 h -237 Z"
+                              ></path>
+                            </g>
+                            <g class="recharts-layer recharts-bar-rectangle">
+                              <path
+                                fill="#00bcf2"
+                                width="237"
+                                height="272.5"
+                                x="406.33333333333337"
+                                y="168.5"
+                                fill-opacity="0.5"
+                                radius="0"
+                                class="recharts-rectangle"
+                                d="M 406.33333333333337,168.5 h 237 v 272.5 h -237 Z"
+                              ></path>
+                            </g>
+                            <g class="recharts-layer recharts-bar-rectangle">
+                              <path
+                                fill="#00b294"
+                                width="237"
+                                height="403.29999999999995"
+                                x="703"
+                                y="37.70000000000003"
+                                fill-opacity="0.5"
+                                radius="0"
+                                class="recharts-rectangle"
+                                d="M 703,37.70000000000003 h 237 v 403.29999999999995 h -237 Z"
+                              ></path>
+                            </g>
+                          </g>
+                        </g>
+                      </svg>
+                      <div
+                        class="recharts-legend-wrapper"
+                        style="
+                          position: absolute;
+                          width: 950px;
+                          height: auto;
+                          left: 20px;
+                          bottom: 5px;
+                        "
+                      >
+                        <ul
+                          class="recharts-default-legend"
+                          style="padding: 0px; margin: 0px; text-align: center"
+                        >
+                          <li
+                            class="recharts-legend-item legend-item-0"
+                            style="display: inline-block; margin-right: 10px"
+                          >
+                            <svg
+                              class="recharts-surface"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 32 32"
+                              version="1.1"
+                              style="
+                                display: inline-block;
+                                vertical-align: middle;
+                                margin-right: 4px;
+                              "
+                            >
+                              <path
+                                stroke="none"
+                                fill="#8884d8"
+                                d="M0,4h32v24h-32z"
+                                class="recharts-legend-icon"
+                              ></path></svg
+                            ><span class="recharts-legend-item-text"
+                              >score</span
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                      <div
+                        class="recharts-tooltip-wrapper recharts-tooltip-wrapper-right recharts-tooltip-wrapper-bottom"
+                        style="
+                          pointer-events: none;
+                          visibility: hidden;
+                          position: absolute;
+                          top: 0px;
+                          transform: translate(80px, 10px);
+                        "
+                      >
+                        <div
+                          class="recharts-default-tooltip"
+                          style="
+                            margin: 0px;
+                            padding: 10px;
+                            background-color: rgb(255, 255, 255);
+                            border: 1px solid rgb(204, 204, 204);
+                            white-space: nowrap;
+                          "
+                        >
+                          <p
+                            class="recharts-tooltip-label"
+                            style="margin: 0px"
+                          ></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <div id="dataHeading" class="row"><h2>Data Summary:</h2></div>
+                <br />
+                <div id="data" class="row">
+                  <h4>Values &amp; Weights by RESTORE Goal:</h4>
+                  <p>
+                    The following table indicates the weighted scores of all
+                    RESTORE goals for each each area of interest (AOI) achieved,
+                    along with user-provided weights for different goals
+                    displayed in the rightmost column.
+                  </p>
+                  <table
+                    class="table table-light table-sm table-striped table-bordered"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Goals</th>
+                        <th>Tiger Creek</th>
+                        <th>Indian Bayou Canal</th>
+                        <th>Wekiva River-Wacasassa River</th>
+                        <th>Weights</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Habitat</td>
+                        <td>0.71</td>
+                        <td>0.5</td>
+                        <td>0.74</td>
+                        <td>100%</td>
+                      </tr>
+                      <tr>
+                        <td>Water Quality &amp; Quantity</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0%</td>
+                      </tr>
+                      <tr>
+                        <td>Living Costal &amp; Marine Resources</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0%</td>
+                      </tr>
+                      <tr>
+                        <td>Community Resilience</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0%</td>
+                      </tr>
+                      <tr>
+                        <td>Gulf Economy</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <h4>Values &amp; Weights by Data Measure:</h4>
+                  <p>
+                    The following table indicates the weighted scores of all
+                    data measures for each area of interest (AOI) achieved,
+                    along with user-provided weights for different priority
+                    attributes displayed in the rightmost column.
+                  </p>
+                  <table
+                    id="assessmentTable"
+                    class="table table-light table-sm table-striped table-bordered"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Measures</th>
+                        <th><a href="/report">Tiger Creek</a></th>
+                        <th><a href="/report">Indian Bayou Canal</a></th>
+                        <th>
+                          <a href="/report">Wekiva River-Wacasassa River</a>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colspan="4"><b>Habitat:</b></td>
+                      </tr>
+                      <tr>
+                        <td>Project Area:</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td>Connectivity to Existing Protected Area:</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td>Connectivity of Natural Lands:</td>
+                        <td>0.64</td>
+                        <td>0.02</td>
+                        <td>0.73</td>
+                      </tr>
+                      <tr>
+                        <td>Threat of Urbanization:</td>
+                        <td>0</td>
+                        <td>0.19</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>Composition of Priority Natural Lands:</td>
+                        <td>0.68</td>
+                        <td>0.52</td>
+                        <td>0.78</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          <b>Water Quality &amp; Quantity:</b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>303(d): Impaired Watershed Area:</td>
+                        <td>0</td>
+                        <td>0.04</td>
+                        <td>0.81</td>
+                      </tr>
+                      <tr>
+                        <td>Hydrologic Response to Land-Use Change:</td>
+                        <td>0.5</td>
+                        <td>0.75</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td>Percent Irrigated Agriculture:</td>
+                        <td>0</td>
+                        <td>0.05</td>
+                        <td>0.01</td>
+                      </tr>
+                      <tr>
+                        <td>Lateral Connectivity to Floodplain:</td>
+                        <td>0.06</td>
+                        <td>0.37</td>
+                        <td>0.06</td>
+                      </tr>
+                      <tr>
+                        <td>Composition of Riparian Zone Lands:</td>
+                        <td>0.88</td>
+                        <td>-0.18</td>
+                        <td>0.65</td>
+                      </tr>
+                      <tr>
+                        <td>Presence of Impoundments:</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          <b>Living Coastal &amp; Marine Resources:</b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Vulnerable Areas of Terrestrial Endemic Species:
+                        </td>
+                        <td>0.02</td>
+                        <td>0.02</td>
+                        <td>0.04</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Threatened and Endangered Species - Critical Habitat
+                          Area:
+                        </td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Threatened and Endangered Species - Number of Species:
+                        </td>
+                        <td>0.9</td>
+                        <td>0.9</td>
+                        <td>0.9</td>
+                      </tr>
+                      <tr>
+                        <td>Light Pollution Index:</td>
+                        <td>0.66</td>
+                        <td>1</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td>Terrestrial Vertebrate Biodiversity:</td>
+                        <td>0.8</td>
+                        <td>0.8</td>
+                        <td>0.9</td>
+                      </tr>
+                      <tr>
+                        <td>Vulnerability to Invasive Plants:</td>
+                        <td>0.5</td>
+                        <td>0.27</td>
+                        <td>0.41</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4"><b>Community Resilience:</b></td>
+                      </tr>
+                      <tr>
+                        <td>National Register of Historic Places:</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>National Heritage Area:</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>Proximity to Socially Vulnerable Communities:</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td>Community Threat Index:</td>
+                        <td>0.8</td>
+                        <td>0.99</td>
+                        <td>0.98</td>
+                      </tr>
+                      <tr>
+                        <td>Social Vulnerability Index:</td>
+                        <td>0.75</td>
+                        <td>0.5</td>
+                        <td>0.75</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4"><b>Gulf Economy:</b></td>
+                      </tr>
+                      <tr>
+                        <td>High Priority Working Lands:</td>
+                        <td>0.57</td>
+                        <td>0.94</td>
+                        <td>0.28</td>
+                      </tr>
+                      <tr>
+                        <td>Commercial Fishing Reliance:</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>Recreational Fishing Engagement:</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Access &amp; Recreation: Number of Access Points:
+                        </td>
+                        <td>0.25</td>
+                        <td>0.25</td>
+                        <td>0.25</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <hr />
+                <div id="mcdaHeading" class="row">
+                  <h2>SMAA MCDA Results:</h2>
+                </div>
+                <br />
+                <div id="mcda" class="row">
+                  <p>
+                    <b
+                      >Stochastic Multicriteria Acceptability Analysis (SMAA) </b
+                    >is a collection of<b>
+                      Multi-Criteria Decision Analysis (MCDA) </b
+                    >methods that considers user preference as a weight space to
+                    rank the proposed projects from most preferred to least
+                    preferred. The SMAA algorithms produce an index called<b>
+                      Rank Acceptability (RA) </b
+                    >, which helps the user to understand the problem in
+                    conjunction with the preference. This RA index describes the
+                    combination of user preferences resulting in a certain rank
+                    for a project. The following charts indicate the RA results
+                    for each area of interest (AOI).
+                  </p>
+                  <div>
+                    <div class="row">
+                      <div role="group" class="ml-4 btn-group btn-group-toggle">
+                        <label class="btn active btn-outline-secondary"
+                          ><input
+                            name="0"
+                            type="radio"
+                            autocomplete="off"
+                            value="0"
+                            checked=""
+                          />Tiger Creek</label
+                        ><label class="btn btn-outline-secondary"
+                          ><input
+                            name="1"
+                            type="radio"
+                            autocomplete="off"
+                            value="1"
+                          />Indian Bayou Canal</label
+                        ><label class="btn btn-outline-secondary"
+                          ><input
+                            name="2"
+                            type="radio"
+                            autocomplete="off"
+                            value="2"
+                          />Wekiva River-Wacasassa River</label
+                        >
+                      </div>
+                      <hr />
+                      <p>Currently Viewing: Tiger Creek</p>
+                    </div>
+                    <div style="width: 110%" class="row">
+                      <div class="col" style="padding: 10px">
+                        <div
+                          class="recharts-wrapper"
+                          style="
+                            position: relative;
+                            cursor: default;
+                            width: 550px;
+                            height: 400px;
+                          "
+                        >
+                          <svg
+                            class="recharts-surface"
+                            width="550"
+                            height="400"
+                            viewBox="0 0 550 400"
+                            version="1.1"
+                          >
+                            <defs>
+                              <clipPath id="recharts4-clip">
+                                <rect
+                                  x="5"
+                                  y="5"
+                                  height="390"
+                                  width="540"
+                                ></rect>
+                              </clipPath>
+                            </defs>
+                            <g class="recharts-layer recharts-pie">
+                              <g class="recharts-layer recharts-pie-sector">
+                                <g>
+                                  <path
+                                    fill="#00188f"
+                                    class="recharts-sector"
+                                    d="M 385,205
+    A 80,80,0,
+    0,0,
+    265.44629289631655,135.46220988299945
+  L 275.3347196722374,152.84665741224958
+            A 60,60,0,
+            0,1,
+            365,205 Z"
+                                  ></path>
+                                  <path
+                                    fill="#00188f"
+                                    class="recharts-sector"
+                                    d="M 395,205
+    A 90,90,0,
+    0,0,
+    260.5020795083561,126.76998611837438
+  L 262.47976486354025,130.2468756242244
+            A 86,86,0,
+            0,1,
+            391,205 Z"
+                                  ></path>
+                                  <path
+                                    d="M350.250343400642,127.20278654010816L360.30597526745134,109.91451688235442L382.30597526745134,109.91451688235442"
+                                    stroke="#00188f"
+                                    fill="none"
+                                  ></path>
+                                  <circle
+                                    cx="382.30597526745134"
+                                    cy="109.91451688235442"
+                                    r="2"
+                                    fill="#00188f"
+                                    stroke="none"
+                                  ></circle>
+                                  <text
+                                    x="394.30597526745134"
+                                    y="109.91451688235442"
+                                    text-anchor="start"
+                                    fill="#333"
+                                  >
+                                    Rank 1
+                                  </text>
+                                  <text
+                                    x="394.30597526745134"
+                                    y="109.91451688235442"
+                                    dy="18"
+                                    text-anchor="start"
+                                    fill="#999"
+                                  >
+                                    (Rate 33.23%)
+                                  </text>
+                                </g>
+                              </g>
+                              <g class="recharts-layer recharts-pie-sector">
+                                <path
+                                  fill="#00bcf2"
+                                  stroke="#fff"
+                                  opacity="0.5"
+                                  class="recharts-sector"
+                                  d="M 265.44629289631655,135.46220988299945
+    A 80,80,0,
+    1,0,
+    373.1744176635232,246.85987071455781
+  L 356.1308132476424,236.39490303591836
+            A 60,60,0,
+            1,1,
+            275.3347196722374,152.84665741224958 Z"
+                                ></path>
+                              </g>
+                              <g class="recharts-layer recharts-pie-sector">
+                                <path
+                                  fill="#00b294"
+                                  stroke="#fff"
+                                  opacity="0.5"
+                                  class="recharts-sector"
+                                  d="M 373.1744176635232,246.85987071455781
+    A 80,80,0,
+    0,0,
+    385,205.00000000000003
+  L 365,205.00000000000003
+            A 60,60,0,
+            0,1,
+            356.1308132476424,236.39490303591836 Z"
+                                ></path>
+                              </g>
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div
+                          class="recharts-wrapper"
+                          style="
+                            position: relative;
+                            cursor: default;
+                            width: 500px;
+                            height: 500px;
+                          "
+                        >
+                          <svg
+                            class="recharts-surface"
+                            width="500"
+                            height="500"
+                            viewBox="0 0 500 500"
+                            version="1.1"
+                          >
+                            <defs>
+                              <clipPath id="recharts7-clip">
+                                <rect
+                                  x="5"
+                                  y="5"
+                                  height="490"
+                                  width="490"
+                                ></rect>
+                              </clipPath>
+                            </defs>
+                            <g class="recharts-polar-grid">
+                              <g class="recharts-polar-grid-angle">
+                                <line
+                                  stroke="#ccc"
+                                  x1="300"
+                                  y1="250"
+                                  x2="300"
+                                  y2="100"
+                                ></line>
+                                <line
+                                  stroke="#ccc"
+                                  x1="300"
+                                  y1="250"
+                                  x2="442.658477444273"
+                                  y2="203.6474508437579"
+                                ></line>
+                                <line
+                                  stroke="#ccc"
+                                  x1="300"
+                                  y1="250"
+                                  x2="388.167787843871"
+                                  y2="371.3525491562421"
+                                ></line>
+                                <line
+                                  stroke="#ccc"
+                                  x1="300"
+                                  y1="250"
+                                  x2="211.83221215612906"
+                                  y2="371.3525491562421"
+                                ></line>
+                                <line
+                                  stroke="#ccc"
+                                  x1="300"
+                                  y1="250"
+                                  x2="157.34152255572695"
+                                  y2="203.6474508437579"
+                                ></line>
+                              </g>
+                              <g class="recharts-polar-grid-concentric">
+                                <path
+                                  stroke="#ccc"
+                                  fill="none"
+                                  class="recharts-polar-grid-concentric-polygon"
+                                  d="M 300,250L 300,250L 300,250L 300,250L 300,250Z"
+                                ></path>
+                                <path
+                                  stroke="#ccc"
+                                  fill="none"
+                                  class="recharts-polar-grid-concentric-polygon"
+                                  d="M 300,212.5L 335.6646193610683,238.41186271093946L 322.0419469609677,280.3381372890605L 277.9580530390323,280.3381372890605L 264.3353806389317,238.4118627109395Z"
+                                ></path>
+                                <path
+                                  stroke="#ccc"
+                                  fill="none"
+                                  class="recharts-polar-grid-concentric-polygon"
+                                  d="M 300,175L 371.3292387221365,226.82372542187895L 344.0838939219355,310.6762745781211L 255.91610607806453,310.6762745781211L 228.67076127786348,226.82372542187895Z"
+                                ></path>
+                                <path
+                                  stroke="#ccc"
+                                  fill="none"
+                                  class="recharts-polar-grid-concentric-polygon"
+                                  d="M 300,137.5L 406.99385808320477,215.2355881328184L 366.1258408829032,341.0144118671816L 233.87415911709678,341.0144118671816L 193.00614191679523,215.23558813281844Z"
+                                ></path>
+                                <path
+                                  stroke="#ccc"
+                                  fill="none"
+                                  class="recharts-polar-grid-concentric-polygon"
+                                  d="M 300,100L 442.658477444273,203.6474508437579L 388.167787843871,371.3525491562421L 211.83221215612906,371.3525491562421L 157.34152255572695,203.6474508437579Z"
+                                ></path>
+                              </g>
+                            </g>
+                            <g class="recharts-layer recharts-polar-angle-axis">
+                              <polygon
+                                radius="150"
+                                fill="none"
+                                class="recharts-polygon recharts-polar-angle-axis-line"
+                                points="300,100 442.658477444273,203.6474508437579 388.167787843871,371.3525491562421 211.83221215612906,371.3525491562421 157.34152255572695,203.6474508437579"
+                              ></polygon>
+                              <g
+                                class="recharts-layer recharts-polar-angle-axis-ticks"
+                              >
+                                <g
+                                  class="recharts-layer recharts-polar-angle-axis-tick"
+                                >
+                                  <line
+                                    class="recharts-polar-angle-axis-tick-line"
+                                    radius="150"
+                                    fill="none"
+                                    x1="300"
+                                    y1="100"
+                                    x2="300"
+                                    y2="92"
+                                  ></line>
+                                  <text
+                                    radius="150"
+                                    stroke="none"
+                                    x="300"
+                                    y="92"
+                                    class="recharts-text recharts-polar-angle-axis-tick-value"
+                                    text-anchor="middle"
+                                  >
+                                    <tspan x="300" dy="0em">Habitat</tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-angle-axis-tick"
+                                >
+                                  <line
+                                    class="recharts-polar-angle-axis-tick-line"
+                                    radius="150"
+                                    fill="none"
+                                    x1="442.658477444273"
+                                    y1="203.6474508437579"
+                                    x2="450.2669295746342"
+                                    y2="201.1753148887583"
+                                  ></line>
+                                  <text
+                                    radius="150"
+                                    stroke="none"
+                                    x="450.2669295746342"
+                                    y="201.1753148887583"
+                                    class="recharts-text recharts-polar-angle-axis-tick-value"
+                                    text-anchor="start"
+                                  >
+                                    <tspan x="450.2669295746342" dy="0em">
+                                      WQ
+                                    </tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-angle-axis-tick"
+                                >
+                                  <line
+                                    class="recharts-polar-angle-axis-tick-line"
+                                    radius="150"
+                                    fill="none"
+                                    x1="388.167787843871"
+                                    y1="371.3525491562421"
+                                    x2="392.87006986221076"
+                                    y2="377.8246851112417"
+                                  ></line>
+                                  <text
+                                    radius="150"
+                                    stroke="none"
+                                    x="392.87006986221076"
+                                    y="377.8246851112417"
+                                    class="recharts-text recharts-polar-angle-axis-tick-value"
+                                    text-anchor="start"
+                                  >
+                                    <tspan x="392.87006986221076" dy="0em">
+                                      LCMR
+                                    </tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-angle-axis-tick"
+                                >
+                                  <line
+                                    class="recharts-polar-angle-axis-tick-line"
+                                    radius="150"
+                                    fill="none"
+                                    x1="211.83221215612906"
+                                    y1="371.3525491562421"
+                                    x2="207.12993013778924"
+                                    y2="377.8246851112417"
+                                  ></line>
+                                  <text
+                                    radius="150"
+                                    stroke="none"
+                                    x="207.12993013778924"
+                                    y="377.8246851112417"
+                                    class="recharts-text recharts-polar-angle-axis-tick-value"
+                                    text-anchor="end"
+                                  >
+                                    <tspan x="207.12993013778924" dy="0em">
+                                      Community Resilience
+                                    </tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-angle-axis-tick"
+                                >
+                                  <line
+                                    class="recharts-polar-angle-axis-tick-line"
+                                    radius="150"
+                                    fill="none"
+                                    x1="157.34152255572695"
+                                    y1="203.6474508437579"
+                                    x2="149.73307042536572"
+                                    y2="201.17531488875832"
+                                  ></line>
+                                  <text
+                                    radius="150"
+                                    stroke="none"
+                                    x="149.73307042536572"
+                                    y="201.17531488875832"
+                                    class="recharts-text recharts-polar-angle-axis-tick-value"
+                                    text-anchor="end"
+                                  >
+                                    <tspan x="149.73307042536572" dy="0em">
+                                      Gulf Economy
+                                    </tspan>
+                                  </text>
+                                </g>
+                              </g>
+                            </g>
+                            <g
+                              class="recharts-layer recharts-polar-radius-axis"
+                            >
+                              <line
+                                class="recharts-polar-radius-axis-line"
+                                stroke="#ccc"
+                                radius="150"
+                                fill="none"
+                                x1="300"
+                                y1="250"
+                                x2="450"
+                                y2="250"
+                              ></line>
+                              <g
+                                class="recharts-layer recharts-polar-radius-axis-ticks"
+                              >
+                                <g
+                                  class="recharts-layer recharts-polar-radius-axis-tick"
+                                >
+                                  <text
+                                    transform="rotate(90, 300, 250)"
+                                    radius="150"
+                                    stroke="none"
+                                    fill="#ccc"
+                                    x="300"
+                                    y="250"
+                                    class="recharts-text recharts-polar-radius-axis-tick-value"
+                                    text-anchor="start"
+                                  >
+                                    <tspan x="300" dy="0em">0</tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-radius-axis-tick"
+                                >
+                                  <text
+                                    transform="rotate(90, 337.5, 250)"
+                                    radius="150"
+                                    stroke="none"
+                                    fill="#ccc"
+                                    x="337.5"
+                                    y="250"
+                                    class="recharts-text recharts-polar-radius-axis-tick-value"
+                                    text-anchor="start"
+                                  >
+                                    <tspan x="337.5" dy="0em">0.055</tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-radius-axis-tick"
+                                >
+                                  <text
+                                    transform="rotate(90, 375, 250)"
+                                    radius="150"
+                                    stroke="none"
+                                    fill="#ccc"
+                                    x="375"
+                                    y="250"
+                                    class="recharts-text recharts-polar-radius-axis-tick-value"
+                                    text-anchor="start"
+                                  >
+                                    <tspan x="375" dy="0em">0.11</tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-radius-axis-tick"
+                                >
+                                  <text
+                                    transform="rotate(90, 412.5, 250)"
+                                    radius="150"
+                                    stroke="none"
+                                    fill="#ccc"
+                                    x="412.5"
+                                    y="250"
+                                    class="recharts-text recharts-polar-radius-axis-tick-value"
+                                    text-anchor="start"
+                                  >
+                                    <tspan x="412.5" dy="0em">0.165</tspan>
+                                  </text>
+                                </g>
+                                <g
+                                  class="recharts-layer recharts-polar-radius-axis-tick"
+                                >
+                                  <text
+                                    transform="rotate(90, 450, 250)"
+                                    radius="150"
+                                    stroke="none"
+                                    fill="#ccc"
+                                    x="450"
+                                    y="250"
+                                    class="recharts-text recharts-polar-radius-axis-tick-value"
+                                    text-anchor="start"
+                                  >
+                                    <tspan x="450" dy="0em">0.22</tspan>
+                                  </text>
+                                </g>
+                              </g>
+                            </g>
+                            <g class="recharts-layer recharts-radar">
+                              <g class="recharts-layer recharts-radar-polygon">
+                                <polygon
+                                  stroke="#00188f"
+                                  fill="#00188f"
+                                  fill-opacity="0.5"
+                                  class="recharts-polygon"
+                                  points="300,134.09090909090907 436.17400119680605,205.75438489631435 384.160161123695,365.83652419459474 215.839838876305,365.83652419459474 163.82599880319393,205.75438489631438"
+                                ></polygon>
+                              </g>
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <div id="appendix" class="row">
+                  <div>
+                    <h2>Appendix:</h2>
+                    <br />
+                    <div>
+                      <h4>Definitions of Raw Data Measures:</h4>
+                      <div>
+                        <p>
+                          <b>1. Project Area- </b>The project area proposed for
+                          conservation is the area of interest defined or
+                          selected by the user. Multiple areas of interest may
+                          be aggregated into one project.
+                        </p>
+                        <p>
+                          <b>2. Composition of Priority Natural Lands- </b>This
+                          attribute prioritizes rare habitat types and those
+                          that have been identified as conservation priorities
+                          in state and regional plans. Scores reflect the
+                          proportion (%) of each area of interest that is
+                          covered by a priority land cover.
+                        </p>
+                        <p>
+                          <b>3. Connectivity to Existing Protected Area- </b
+                          >Connectivity to existing protected area indicates if
+                          the proposed conservation area is close to an area
+                          classified as protected by Protected Areas Database of
+                          the United States (PAD-US) 2.0 data (Gergeley 2016).
+                          Protected areas included International Union for
+                          Conservation of Nature (IUCN) Categories Ia-VI and
+                          U.S. Geological Survey Gap Analysis Program (GAP)
+                          Status 1–4 areas. A binary attribute represents the
+                          spatial relationship between a hexagon and a protected
+                          area within PAD-US 2.0. Any hexagon that directly
+                          intersects or is within a 1 km2 distance of a
+                          protected area would count as one, otherwise, zero.
+                        </p>
+                        <p>
+                          <b>4. Threat of Urbanization- </b>Threat of
+                          urbanization (ToU) indicates the likelihood of the
+                          given project area or area of interest (AoI) being
+                          urbanized by the year 2060. A ToU score of zero
+                          indicates the AoI is already urbanized. A ToU score of
+                          one indicates that there is absolutely no threat of
+                          urbanization. A ToU score between zero and one
+                          indicates the predicted likelihood of threat in
+                          decreasing order.
+                        </p>
+                        <p>
+                          <b>5. Connectivity of Natural Lands- </b>A percent
+                          attribute that stands for the proportion of area
+                          classified as a hub or corridor, according to the
+                          Intact Habitat Cores layer from Esri’s Green
+                          Infrastructure Initiative (Perkl 2019). This attribute
+                          prioritizes large protected areas and critical
+                          corridor connections.
+                        </p>
+                        <p>
+                          <b>6. 303D: Impaired Watershed Area- </b>A percent
+                          attribute that stands for the proportion of impaired
+                          watershed within each hexagon. The watershed data are
+                          analyzed based on the 12-digit hydrologic unit code
+                          (HUC-12) level. Any HUC-12 watershed that contains an
+                          Environmental Protection Agency (EPA) 303(d) listed
+                          impaired waterbody would be considered impaired (EPA
+                          1972).
+                        </p>
+                        <p>
+                          <b>7. Hydrologic Response to Land-Use Change- </b>The
+                          magnitude of change in peak flow due to
+                          Land-Use/Land-Cover change from 1996 to 2016, analyzed
+                          at the HUC-12 watershed scale (Shamaskin,
+                          dissertation, in press). The magnitude of peak flow
+                          change is categorized in the following way under the
+                          default value system: 0, Very Significant (10-50%
+                          increase); 0.25, Significant (5-10% increase); 0.5,
+                          Moderate (1-5% increase); 0.75, Minimal (0-1%
+                          increase); 1, No Change or Decrease (0% or lower).
+                          Watersheds comprised of 90% or more of open water were
+                          excluded from analysis.
+                        </p>
+                        <p>
+                          <b>8. Lateral Connectivity of Floodplain- </b>The
+                          proportion of floodplain within the area of interest
+                          that is connected (or disconnected if using negative
+                          utility function), using the Environmental Protection
+                          Agency’s (EPA) 100-year floodplain and a measure of
+                          relative floodplain inundation frequency derived from
+                          Landsat imagery (Allen 2016).
+                        </p>
+                        <p>
+                          <b>9. Percent Irrigated Agriculture- </b>The
+                          proportion (%) of the area of interest that is covered
+                          by irrigated agriculture, according to the 2017
+                          version of the Moderate Resolution Imaging
+                          Spectroradiometer (MODIS) Irrigated Agriculture
+                          Dataset for the United States (Pervez and Brown 2010).
+                        </p>
+                        <p>
+                          <b>10. Composition of Riparian Zone Lands- </b>An
+                          average index value of the composition of lands within
+                          a 100-meter buffer of streams. The index score was
+                          calculated by first organizing the Land-Use/Land-Cover
+                          (LULC) classes from NLCD 2016 into three tiers: 1)
+                          Developed, 2) Agricultural, and 3) Natural (Table 9).
+                          Then, after aggregating the combined area of the LULC
+                          classes within each tier, the index score in each
+                          hexagon was calculated using Equation 8 below.
+                          Conversely, if the desired utility is to value more
+                          disturbed riparian area, then the index score is
+                          calculated using Equation 9 below.
+                        </p>
+                        <p>
+                          <b
+                            >11. Vulnerable Areas of Terrestrial Endemic
+                            Species- </b
+                          >This measure represents the ratio of endemic species
+                          to the amount of protected land in the contiguous U.S.
+                          The endemic taxa considered are mammals, birds,
+                          amphibians, reptiles, freshwater fish, and trees. A
+                          score of 0 represents the least vulnerable areas (low
+                          priority for conservation). A score of 10 represents
+                          the most vulnerable areas (high priority for
+                          conservation).
+                        </p>
+                        <p>
+                          <b>12. T&amp;E Species – Critical Habitat Area- </b
+                          >The measure is based on the U.S. Fish and Wildlife
+                          Service designated federally threatened and endangered
+                          (T&amp;E) critical habitat (USFWS 2018b). The value in
+                          each hexagon is the cumulative percent (%) area of
+                          critical habitats for all T&amp;E species.
+                        </p>
+                        <p>
+                          <b>13. T&amp;E – Number of Species- </b>This attribute
+                          measures the number of federally threatened and
+                          endangered (T&amp;E) species that have habitat ranges
+                          identified within each hexagon.
+                        </p>
+                        <p>
+                          <b>14. Light Pollution Index- </b>An index that
+                          measures the intensity of light pollution within each
+                          hexagon. A score of zero indicates that the sky above
+                          the hexagon is already polluted/bright, and a score of
+                          above 0 to 1 indicates light pollution (LP) in
+                          decreasing order.
+                        </p>
+                        <p>
+                          <b>15. National Register of Historic Places- </b>A
+                          numeric attribute that represents the counts of
+                          historic places within each hexagon. The data is based
+                          on U.S. NPS National Register of Historic Places.
+                        </p>
+                        <p>
+                          <b>16. National Heritage Area- </b>A percent attribute
+                          that stands for the proportion of heritage area within
+                          each hexagon. The Heritage data is based on the NPS
+                          National Heritage Area layer.
+                        </p>
+                        <p>
+                          <b
+                            >17. Proximity to Socially Vulnerable Communities- </b
+                          >This measure indicates the proximity to communities
+                          that are socially vulnerable according to the National
+                          Oceanic and Atmospheric Administration’s (NOAA) Social
+                          Vulnerability Index. This is a binary attribute that
+                          represents the spatial relationship between a hexagon
+                          and areas that have been identified by NOAA as having
+                          medium or higher social vulnerability. Any area of
+                          interest that directly intersects or is within a 1 hex
+                          (1 km2) distance of a socially vulnerable community
+                          would score a 1, and areas of interest not within a 1
+                          km2 distance of a socially vulnerable community would
+                          score a 0.
+                        </p>
+                        <p>
+                          <b>18. Community Threat Index- </b>The Community
+                          Threat Index (CTI) comes from the Coastal Resilience
+                          Evaluation and Siting Tool (CREST), by the National
+                          Fish and Wildlife Foundation (NFWF) in collaboration
+                          with National Oceanic and Atmospheric Administration
+                          (NOAA), U.S. Army Corps of Engineers (USACE), and
+                          NatureServe (NFWF et al. 2019) and includes datasets
+                          that show coastal flood and severe storm hazards on
+                          the landscape. The CTI is a raster based model (30 ×
+                          30 meters) with a cumulative scoring of inputs, which
+                          include: storm surge scenarios, sea level rise
+                          scenarios, flood prone areas, soil erodibility,
+                          impermeable soils, areas of low slope, and geologic
+                          stressors (i.e., landslide susceptibility and land
+                          subsidence).
+                        </p>
+                        <p>
+                          <b>19. High Priority Working Lands- </b>The percentage
+                          area of pine, cropland, and pasture/hay classes from
+                          the National Land Cover Database (NLCD) 2016
+                          classification map (Yang et al. 2018) excluding the
+                          areas that are already protected according to the
+                          Protected Areas Database of the United States (PAD-US)
+                          2.0 (Gergeley 2016).
+                        </p>
+                        <p>
+                          <b>20. Commercial Fishing Reliance- </b>Commercial
+                          fishing reliance measures the presence of commercial
+                          fishing through fishing activity as shown through
+                          permits and vessel landings relative to the population
+                          of a community. A high rank indicates more reliance.
+                        </p>
+                        <p>
+                          <b>21. Recreational Fishing Engagement- </b
+                          >Recreational fishing engagement measures the presence
+                          of recreational fishing through fishing activity
+                          estimates, including charter fishing pressure, private
+                          fishing pressure, and shore fishing pressure. A high
+                          rank indicates more engagement.
+                        </p>
+                        <p>
+                          <b
+                            >22. Access &amp; Recreation - Number of Access
+                            Points- </b
+                          >This measure indicates the number of points within a
+                          25 km buffer radius of a hexagon, where the public can
+                          access places to engage in outdoor recreation,
+                          including boat ramps and access points to parks,
+                          wildlife management areas, wildlife refuges, and
+                          National Estuarine Research Reserves.
+                        </p>
+                      </div>
+                      <br />
+                      <h4>References Cited:</h4>
+                      <div>
+                        <p>
+                          1. U.S. Geological Survey (USGS) Gap Analysis Project
+                          (GAP), 2018, Protected Areas Database of the United
+                          State (PAD-US): U.S. Geological Survey data release,
+                          https://doi.org/10.5066/P955KPLE.↩︎
+                        </p>
+                        <p>
+                          2.
+                          https://sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.↩︎
+                        </p>
+                        <p>
+                          3.
+                          https://databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.↩︎
+                        </p>
+                        <p>
+                          4. Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton
+                          (2015) US protected lands mismatch biodiversity
+                          priorities. PNAS 112(16), pp.5081-5086.↩︎
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
