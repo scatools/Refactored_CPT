@@ -233,39 +233,36 @@ const Assessment = ({
 
   // Download from frontend
   const downloadHTML = () => {
-    let headNodes = [...document.head.childNodes];
-    let links = headNodes.filter(({ nodeName }) => nodeName === "LINK");
-    console.log(links);
-    fetch(links[0].href)
-      .then((response) => response.text())
-      .then((text) => {
-        let newElement = document.createElement("style");
-        newElement.textContent = text;
-        document.head.appendChild(newElement);
-      });
-    // let bodyScripts = [...document.body.childNodes];
-    // let scriptLinks = bodyScripts.filter(
-    //   ({ nodeName }) => nodeName === "SCRIPT"
-    // );
-    // let baseURI = scriptLinks[0].baseURI;
-    // let scriptSrc = scriptLinks[0].attributes.src.nodeValue;
-    // fetch(`${baseURI}${scriptSrc}`)
-    //   .then((response) => response.text())
-    //   .then((text) => {
-    //     let newElement = document.createElement("script");
-    //     newElement.textContent = text;
-    //     document.body.appendChild(newElement);
-    //   });
-
-    let pageHTML = document.documentElement.outerHTML;
-    let tempElement = document.createElement("a");
-    let removeTopSpace = '<div class="content"></div>';
-    let removeDownloadButtons = `<div class="assessmentDownload"><div class="show dropdown"><button aria-haspopup="true" aria-expanded="true" id="assessmentDownloadButton" type="button" class="dropdown-toggle btn btn-dark"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16 fa-lg " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" color="white"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"></path></svg> Assessment</button><div x-placement="bottom-end" aria-labelledby="assessmentDownloadButton" class="dropdown-menu show" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 40px, 0px);" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-end"><a variant="dark" href="#" class="dropdown-item" role="button"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M131.5 217.5L55.1 100.1c47.6-59.2 119-91.8 192-92.1 42.3-.3 85.5 10.5 124.8 33.2 43.4 25.2 76.4 61.4 97.4 103L264 133.4c-58.1-3.4-113.4 29.3-132.5 84.1zm32.9 38.5c0 46.2 37.4 83.6 83.6 83.6s83.6-37.4 83.6-83.6-37.4-83.6-83.6-83.6-83.6 37.3-83.6 83.6zm314.9-89.2L339.6 174c37.9 44.3 38.5 108.2 6.6 157.2L234.1 503.6c46.5 2.5 94.4-7.7 137.8-32.9 107.4-62 150.9-192 107.4-303.9zM133.7 303.6L40.4 120.1C14.9 159.1 0 205.9 0 256c0 124 90.8 226.7 209.5 244.9l63.7-124.8c-57.6 10.8-113.2-20.8-139.5-72.5z"></path></svg> &nbsp; Download as HTML</a><a variant="dark" href="#" class="dropdown-item" role="button"> <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"></path></svg> &nbsp; Download as PDF</a></div></div></div><div class="footprintDownload"><div class="dropdown"><button aria-haspopup="true" aria-expanded="false" id="footprintDownloadButton" type="button" class="dropdown-toggle btn btn-dark"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16 fa-lg " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" color="white"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"></path></svg> Spatial Footprint</button></div></div>`;
-
-    pageHTML = pageHTML
-      .replace(removeTopSpace, "")
-      .replace(removeDownloadButtons, "");
-    // console.log(pageHTML);
+    var pageHTMLObject = document.getElementsByClassName("container")[0];
+    var pageHTML = 
+      '<html><head>' +
+      '<meta charset="utf-8">' +
+      '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
+      '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
+      '<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>' +
+      '<link rel="stylesheet" href="https://sca-cpt-frontend.herokuapp.com/App.css"/>' +
+      '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
+      'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
+      'crossorigin="anonymous"/>' +
+      '</head><body>' +
+      pageHTMLObject.outerHTML +
+      '</body><script>' +
+      'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
+      'const map = new mapboxgl.Map({container: "map",' +
+      'style: "mapbox://styles/mapbox/light-v9",' +
+      'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
+      'zoom: ' + newViewport.zoom + '});' +
+      aoiList.map((aoi, index) => {return 'map.on("load", () => {' +
+        'map.addSource("aoi' + index + '", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
+          aoi.geometry.map((feature) => {return JSON.stringify(feature)})
+          + ']}});' +
+        'map.addLayer({"id": "aoi' + index + '", "type": "fill", "source": "aoi' + index + '", "layout": {},' +
+          '"paint": {"fill-color":"' + aoiColors[index] + '", "fill-opacity": 0.5}});' +
+      '});'
+      }).join("") +
+      '</script></html>';
+    
+    var tempElement = document.createElement("a");
     tempElement.href =
       "data:text/html;charset=UTF-8," + encodeURIComponent(pageHTML);
     tempElement.target = "_blank";
@@ -300,17 +297,36 @@ const Assessment = ({
   const saveAssessment = async () => {
     try {
       var today = new Date().toISOString().slice(0, 10);
+      var reportName = "Assessment Report for " + aoiList[0].name + " and " +
+        String(aoiList.length - 1) + " Other AOIs" + " (" + today + ")";
       var pageHTMLObject = document.getElementsByClassName("container")[0];
-      var pageHTML = pageHTMLObject.outerHTML;
-      var reportName =
-        "Assessment Report for " +
-        aoiList[0].name +
-        " and " +
-        String(aoiList.length - 1) +
-        " Other AOIs" +
-        " (" +
-        today +
-        ")";
+      var pageHTML = 
+      '<html><head>' +
+      '<meta charset="utf-8">' +
+      '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
+      '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
+      '<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>' +
+      '<link rel="stylesheet" href="https://sca-cpt-frontend.herokuapp.com/App.css"/>' +
+      '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
+      'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
+      'crossorigin="anonymous"/>' +
+      '</head><body>' +
+      pageHTMLObject.outerHTML +
+      '</body><script>' +
+      'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
+      'const map = new mapboxgl.Map({container: "map",' +
+      'style: "mapbox://styles/mapbox/light-v9",' +
+      'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
+      'zoom: ' + newViewport.zoom + '});' +
+      aoiList.map((aoi, index) => {return 'map.on("load", () => {' +
+        'map.addSource("aoi' + index + '", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
+          aoi.geometry.map((feature) => {return JSON.stringify(feature)})
+          + ']}});' +
+        'map.addLayer({"id": "aoi' + index + '", "type": "fill", "source": "aoi' + index + '", "layout": {},' +
+          '"paint": {"fill-color":"' + aoiColors[index] + '", "fill-opacity": 0.5}});' +
+      '});'
+      }).join("") +
+      '</script></html>';
 
       // For development on local server
       // const res = await axios.post(
@@ -442,13 +458,14 @@ const Assessment = ({
         <a href="#appendix">Appendix</a>
       </div>
 
+      <div className="back-to-map">
+        <Button variant="secondary" onClick={() => history.push("/")}>
+          Back to Map View
+        </Button>
+      </div>
+
       <div id="assessmentOverview">
-        <Container>
-          <div className="back-to-map">
-            <Button variant="secondary" onClick={() => history.push("/")}>
-              Back to Map View
-            </Button>
-          </div>
+        <Container>          
           <h1 className="assessment-h1">
             Assessment Report for:
             <br /> {aoiList[0].name} and {String(aoiList.length - 1)} Other AOIs
@@ -468,7 +485,7 @@ const Assessment = ({
               mapboxApiAccessToken={MAPBOX_TOKEN}
             >
               {aoiList.length > 0 &&
-                aoiList.map((aoi) => (
+                aoiList.map((aoi, index) => (
                   <Source
                     type="geojson"
                     data={{
@@ -480,7 +497,7 @@ const Assessment = ({
                       id={aoi.name}
                       type="fill"
                       paint={{
-                        "fill-color": aoiColors[aoiList.indexOf(aoi)],
+                        "fill-color": aoiColors[index],
                         "fill-opacity": 0.5,
                       }}
                     />
