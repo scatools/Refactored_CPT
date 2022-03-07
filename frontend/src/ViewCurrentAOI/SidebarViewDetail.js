@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  Card,
-  Container,
-  Button,
-  InputGroup,
-  FormControl,
-  Modal,
-  Accordion,
-} from "react-bootstrap";
+import { Card, Container, Button, InputGroup, FormControl, Modal, Accordion } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdSave } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
@@ -49,7 +41,7 @@ const SidebarViewDetail = ({
   setHexFilterList,
   userLoggedIn,
   editMode,
-  stopDraw,
+  stopDraw
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -64,8 +56,7 @@ const SidebarViewDetail = ({
   const [showButtonLabel, setShowButtonLabel] = useState("Show Hexagon Grid");
   const [showButtonDisabled, setShowButtonDisabled] = useState(false);
   const [deselectButtonState, setDeselectButtonState] = useState("deselect");
-  const [deselectButtonLabel, setDeselectButtonLabel] =
-    useState("Deselect Hexagon");
+  const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
   const [deselectButtonDisabled, setDeselectButtonDisabled] = useState(true);
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [confirmShow, setConfirmShow] = useState(false);
@@ -83,7 +74,7 @@ const SidebarViewDetail = ({
       setModifyButtonLabel("Modify Shape");
       setConfirmButtonDisabled(false);
       stopDraw();
-    }
+    };
   };
 
   const handleNameEdit = async () => {
@@ -106,9 +97,9 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    }
+    };
   };
-
+  
   const handleBasicEdit = async () => {
     if (!aoiName) {
       setAlerttext("Name is required.");
@@ -162,7 +153,7 @@ const SidebarViewDetail = ({
       }
       setDrawingMode(false);
       dispatch(setLoader(false));
-    }
+    };
   };
 
   const handleAdvancedEdit = async () => {
@@ -235,7 +226,7 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    }
+    };
   };
 
   const showHexagon = () => {
@@ -253,7 +244,7 @@ const SidebarViewDetail = ({
       setShowButtonState("show");
       setShowButtonLabel("Show Hexagon Grid");
       setDeselectButtonDisabled(true);
-    }
+    };
   };
 
   const deselectHexagon = () => {
@@ -272,7 +263,7 @@ const SidebarViewDetail = ({
       setDeselectButtonLabel("Deselect Hexagon");
       setShowButtonDisabled(false);
       setConfirmButtonDisabled(false);
-    }
+    };
   };
 
   const exitEdit = () => {
@@ -415,21 +406,17 @@ const SidebarViewDetail = ({
               >
                 <FaFileExport /> &nbsp; Export Shapefile
               </Button>
+            </Container>
+            <Container className="d-flex justify-content-start detail-buttons">
+              {userLoggedIn && (
+                <Button variant="dark" className="ml-1" onClick={saveFile}>
+                  <MdSave /> &nbsp; Save to: {userLoggedIn}
+                </Button>
+              )}
               <Button variant="danger" className="ml-1" onClick={showConfirm}>
                 <MdDelete /> &nbsp; Delete
               </Button>
             </Container>
-            {userLoggedIn && (
-              <Container className="detail-buttons">
-                <Button
-                  variant="dark"
-                  className="ml-1"
-                  onClick={accordionReset}
-                >
-                  <MdSave /> &nbsp; Save to: {userLoggedIn}
-                </Button>
-              </Container>
-            )}
             {editAOI && (
               <>
                 <Accordion>
