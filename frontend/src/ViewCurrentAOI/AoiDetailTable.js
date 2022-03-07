@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 const AoiDetailTable = ({ activeTable, setActiveTable }) => {
   let aoi;
   let aoiList = useSelector((state) => state.aoi);
+  let dismissButton = document.querySelector("#dismiss-detail");
 
   if (activeTable) {
     aoi = Object.values(aoiList).filter((aoi) => aoi.id === activeTable);
+    dismissButton.classList.add("active");
   }
 
   return (
@@ -15,14 +17,16 @@ const AoiDetailTable = ({ activeTable, setActiveTable }) => {
       className={activeTable ? "AoiTableContainer active" : "AoiTableContainer"}
     >
       <div
-        id="dismiss"
+        id="dismiss-detail"
         onClick={() => {
           setActiveTable(false);
+          dismissButton.classList.remove("active");
         }}
       >
         X
       </div>
-      <div className="AoiTable" style={{ padding: "20px", marginTop: "50px" }}>
+      <div className="AoiTable">
+        {activeTable && <h2 className="detail-title">{aoi[0].name}</h2>}
         {aoi && (
           <Table striped bordered size="sm" variant="dark">
             <thead>

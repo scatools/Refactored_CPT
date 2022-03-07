@@ -14,7 +14,6 @@ const AddZip = ({
   setView,
   setHucBoundary,
   timeoutError,
-  countdown,
   timeoutHandler,
   setDrawingMode,
 }) => {
@@ -70,6 +69,7 @@ const AddZip = ({
       for (let file of acceptedFiles) {
         const reader = new FileReader();
         reader.onload = async () => {
+          setTimeout(() => timeoutHandler(), 20000);
           const result = await shp(reader.result);
           if (result) {
             // console.log(result.features);
@@ -111,7 +111,7 @@ const AddZip = ({
   setDrawingMode(false);
   return (
     <div>
-      {/* {timeoutError && <TimeoutError countdown={countdown} />} */}
+      {timeoutError && <TimeoutError />}
 
       <Container className="instruction">
         <p>

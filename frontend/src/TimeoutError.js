@@ -1,19 +1,33 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
+import { Modal, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { setLoader } from "./action";
 
-const TimeoutError = ({ countdown }) => {
+const TimeoutError = () => {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
+
+  dispatch(setLoader(false));
 
   return (
     <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>TIMEOUT ERROR</Modal.Title>
+        <Modal.Title>
+          <h1>TIMEOUT ERROR</h1>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Your Areas of Interest have taken too long to load. <br />
-        The page will refresh in {countdown} seconds.
+        Your Areas of Interest is too large, or you have overlapping polygons.{" "}
+        <br />
+        Please make your AOI smaller, or ensure that you do not have overlapping
+        polygons.
       </Modal.Body>
+      <Modal.Footer className="timeout">
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };
