@@ -11,8 +11,9 @@ const SelectAOIForAssess = ({
   setAssessStep,
   aoiAssembled,
   setAoiAssembled,
-  setAlerttext,
   setView,
+  setAlertText,
+  setAlertType
 }) => {
   const aoi = useSelector((state) => state.aoi);
   const aoiList = Object.values(aoi).map((item) => ({
@@ -24,8 +25,9 @@ const SelectAOIForAssess = ({
     if (aoiAssembled && aoiAssembled.length > 1) {
       setAssessStep("selectRestoreWeights");
     } else {
-      setAlerttext("Add at least 2 AOIs for comparison");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Add at least 2 AOIs for comparison");
+      window.setTimeout(() => setAlertText(false), 4000);
     }
   };
 

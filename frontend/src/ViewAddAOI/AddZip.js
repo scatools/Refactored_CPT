@@ -10,12 +10,13 @@ import { v4 as uuid } from "uuid";
 import TimeoutError from "../TimeoutError";
 
 const AddZip = ({
-  setAlerttext,
-  setView,
-  setHucBoundary,
   timeoutError,
   timeoutHandler,
+  setHucBoundary,
   setDrawingMode,
+  setView,
+  setAlertText,
+  setAlertType
 }) => {
   const dispatch = useDispatch();
 
@@ -27,7 +28,7 @@ const AddZip = ({
         aoiNumber,
         aoiName
       ) => {
-        setAlerttext(false);
+        setAlertText(false);
         // Coordinates must be a single array for the area to be correctly calculated
         const newList = geometry.coordinates.map((coordinates) => ({
           type: "Feature",

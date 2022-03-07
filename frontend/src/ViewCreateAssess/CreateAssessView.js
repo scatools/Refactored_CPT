@@ -6,11 +6,12 @@ import ReviewAssessSettings from "./ReviewAssessSettings";
 import { Container } from "react-bootstrap";
 
 const CreateAssessView = ({
-  setAlerttext,
   aoiAssembled,
   setAoiAssembled,
   customizedMeasures,
-  setView
+  setView,
+  setAlertText,
+  setAlertType
 }) => {
   const [assessStep, setAssessStep] = useState("selectAOI");
 
@@ -22,15 +23,17 @@ const CreateAssessView = ({
           setAssessStep={setAssessStep}
           aoiAssembled={aoiAssembled}
           setAoiAssembled={setAoiAssembled}
-          setAlerttext={setAlerttext}
           setView={setView}
+          setAlertText={setAlertText}
+          setAlertType={setAlertType}
         />
       )}
 
       {assessStep === "selectRestoreWeights" && (
         <SelectRestoreWeights
           setAssessStep={setAssessStep}
-          setAlerttext={setAlerttext}
+          setAlertText={setAlertText}
+          setAlertType={setAlertType}
         />
       )}
 

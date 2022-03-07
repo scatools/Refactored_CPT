@@ -16,7 +16,7 @@ import Legend from "./Legend";
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
 
-const Report = ({ aoiSelected, userLoggedIn }) => {
+const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
   const aoi = useSelector((state) => state.aoi);
   // Constant aoi contains all the AOIs provided so those not selected need to be filtered out
   const aoiList = Object.values(aoi).filter((aoi) => aoiSelected === aoi.id);
@@ -166,10 +166,12 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
         }
       );
       if (res) {
-        alert("You have saved "+ reportName + " in your account.");
+        setAlertType("success");
+        setAlertText("You have saved "+ reportName + " in your account.");
       };
     } catch (e) {
-      alert("Failed to save the report in your account!");
+      setAlertType("danger");
+      setAlertText("Failed to save the report in your account!");
       console.error(e);
     };
   };

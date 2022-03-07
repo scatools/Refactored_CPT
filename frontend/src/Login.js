@@ -4,7 +4,7 @@ import { Container, Jumbotron } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
 
-const Login = ({ setLoggedIn, setUserLoggedIn }) => {
+const Login = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) => {
   const history = useHistory();
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
@@ -23,13 +23,17 @@ const Login = ({ setLoggedIn, setUserLoggedIn }) => {
     );
 
     if (result.data.credentials.length === 0) {
-			alert("Username doesn't exist! Please register.");
+      setAlertType("danger");
+			setAlertText("Username doesn't exist! Please register.");
 		} else if (!result.data.validLogin) {
-			alert("Incorrect password! Please enter again.");
+      setAlertType("danger");
+			setAlertText("Incorrect password! Please enter again.");
 		} else {
       setLoggedIn(true);
       setUserLoggedIn(username);
       history.push("/user");
+      setAlertType("success");
+      setAlertText("You have successfully logged in.");
 		}
   };
 

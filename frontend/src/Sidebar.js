@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Container, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import SidebarDismiss from "./SidebarDismiss";
 import AddAOIView from "./ViewAddAOI/AddAOIView";
 import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
@@ -46,7 +46,6 @@ const Sidebar = ({
   setHucIDSelected,
   setFilterList,
   setReportLink,
-  autoDraw,
   customizedMeasures,
   setHexGrid,
   setHexDeselection,
@@ -54,12 +53,14 @@ const Sidebar = ({
   setHexIDDeselected,
   setHexFilterList,
   userLoggedIn,
-  view,
-  setView,
+  autoDraw,
   stopDraw,
   editMode,
+  view,
+  setView,
+  setAlertText,
+  setAlertType
 }) => {
-  const [alerttext, setAlerttext] = useState(false);
   const aoi = useSelector((state) => state.aoi);
   const resetButton = () => {
     window.location.reload(true);
@@ -80,7 +81,6 @@ const Sidebar = ({
             setDrawingMode={setDrawingMode}
             setAoiSelected={setAoiSelected}
             featureList={featureList}
-            setAlerttext={setAlerttext}
             hucBoundary={hucBoundary}
             setHucBoundary={setHucBoundary}
             hucIDSelected={hucIDSelected}
@@ -88,8 +88,10 @@ const Sidebar = ({
             setFilterList={setFilterList}
             setReportLink={setReportLink}
             autoDraw={autoDraw}
-            setView={setView}
             stopDraw={stopDraw}
+            setView={setView}
+            setAlertText={setAlertText}
+            setAlertType={setAlertType}
           />
         )}
         {view === "viewCurrent" && (
@@ -102,7 +104,6 @@ const Sidebar = ({
             editAOI={editAOI}
             setEditAOI={setEditAOI}
             featureList={featureList}
-            setAlerttext={setAlerttext}
             setReportLink={setReportLink}
             setHexGrid={setHexGrid}
             setHexDeselection={setHexDeselection}
@@ -110,31 +111,23 @@ const Sidebar = ({
             setHexIDDeselected={setHexIDDeselected}
             setHexFilterList={setHexFilterList}
             userLoggedIn={userLoggedIn}
-            view={view}
-            setView={setView}
             editMode={editMode}
             stopDraw={stopDraw}
+            view={view}
+            setView={setView}
+            setAlertText={setAlertText}
+            setAlertType={setAlertType}
           />
         )}
         {view === "createAssess" && (
           <CreateAssessView
             aoiAssembled={aoiAssembled}
             setAoiAssembled={setAoiAssembled}
-            setAlerttext={setAlerttext}
             customizedMeasures={customizedMeasures}
             setView={setView}
+            setAlertText={setAlertText}
+            setAlertType={setAlertType}
           />
-        )}
-        {alerttext && (
-          <Alert
-            className="mt-4"
-            variant="danger"
-            onClose={() => setAlerttext(false)}
-            dismissible
-          >
-            <Alert.Heading>You've got an error!</Alert.Heading>
-            <p style={{ color: "#842029" }}>{alerttext}</p>
-          </Alert>
         )}
       </div>
 
