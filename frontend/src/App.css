@@ -7,25 +7,6 @@
   height: 100vh;
 }
 
-.basemapButton {
-  position: fixed;
-  top: 80px;
-  right: 50px;
-  z-index: 1;
-  min-width: 30px;
-  min-height: 30px;
-}
-
-.basemapSwitch {
-  position: fixed;
-  top: 80px;
-  right: 100px;
-  z-index: 1;
-  padding: 0px;
-  margin: 0px;
-  text-align: end;
-}
-
 .AoiTable {
   padding-right: 50px;
   margin-top: 20px;
@@ -211,12 +192,6 @@ nav a:hover {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-}
-
-.assessmentDownload {
-  position: absolute;
-  right: 20px;
-  top: 1%;
 }
 
 .mt-4 {
@@ -554,6 +529,25 @@ a img.logo {
   justify-content: center;
   margin-bottom: 80px;
   margin-top: 20px;
+}
+
+.basemapButton {
+  position: fixed;
+  top: 80px;
+  right: 50px;
+  z-index: 1;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.basemapSwitch {
+  position: fixed;
+  top: 80px;
+  right: 100px;
+  z-index: 1;
+  padding: 0px;
+  margin: 0px;
+  text-align: end;
 }
 
 .glow {
