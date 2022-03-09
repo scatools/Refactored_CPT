@@ -66,9 +66,9 @@ const Help = () => {
           </p>
           <div className="d-flex">
             <div style={{width:"50%"}}>
-              <b>Dr. Amanda Sesser</b>
+              <b>Ione Anderson</b>
               <p className="text-muted my-1">Project Coordinator</p>
-              <p className="text-muted my-1">Director, 21sustainability LLC.</p>
+              <p className="text-muted my-1">Chief Operations Officer, Grape ESG</p>
               <br/><br/>
               <Button className="mx-0 mt-2.5" variant="success" href="mailto:scaprojectgulf@gmail.com">
                 Send Email
