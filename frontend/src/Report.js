@@ -385,8 +385,8 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
                       " support habitat ranges for ",
                     <b>{aoiList[0].speciesName.length}</b>,
                     " federally listed species, including the ",
-                    <em style={{color:"DodgerBlue"}}>{aoiList[0].speciesName.join(", ")}</em>,
-                    ".",
+                    <em>{aoiList[0].speciesName.join(", ")}</em>,
+                    "*.",
                   ]}{" "}
               &nbsp;
               {aoiList[0].scaleScore.lcmr4 === "No"
@@ -490,6 +490,18 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
           <hr />
           <Row id="appendix">
             <Appendix />
+          </Row>
+          <Row>
+            <h4>Disclaimer:</h4>
+            <p>
+              * Data for federally listed species are provided by USFWS.
+              It may contain species found in state-level investigations. 
+              For the most accurate result, please refer to the
+              <a href="https://ipac.ecosphere.fws.gov/" target="_blank">
+                {" "}
+                Information for Planning and Consultation (IPaC) Tool
+              </a>.
+            </p>
           </Row>
         </Container>
       </div>
