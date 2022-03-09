@@ -16,7 +16,7 @@ import Legend from "./Legend";
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
 
-const Report = ({ aoiSelected, userLoggedIn }) => {
+const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
   const aoi = useSelector((state) => state.aoi);
   // Constant aoi contains all the AOIs provided so those not selected need to be filtered out
   const aoiList = Object.values(aoi).filter((aoi) => aoiSelected === aoi.id);
@@ -166,10 +166,12 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
         }
       );
       if (res) {
-        alert("You have saved "+ reportName + " in your account.");
+        setAlertType("success");
+        setAlertText("You have saved "+ reportName + " in your account.");
       };
     } catch (e) {
-      alert("Failed to save the report in your account!");
+      setAlertType("danger");
+      setAlertText("Failed to save the report in your account!");
       console.error(e);
     };
   };
@@ -383,8 +385,8 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                       " support habitat ranges for ",
                     <b>{aoiList[0].speciesName.length}</b>,
                     " federally listed species, including the ",
-                    <em style={{color:"DodgerBlue"}}>{aoiList[0].speciesName.join(", ")}</em>,
-                    ".",
+                    <em>{aoiList[0].speciesName.join(", ")}</em>,
+                    "*.",
                   ]}{" "}
               &nbsp;
               {aoiList[0].scaleScore.lcmr4 === "No"
@@ -488,6 +490,18 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
           <hr />
           <Row id="appendix">
             <Appendix />
+          </Row>
+          <Row>
+            <h4>Disclaimer:</h4>
+            <p>
+              * Data for federally listed species are provided by USFWS.
+              It may contain species found in state-level investigations. 
+              For the most accurate result, please refer to the
+              <a href="https://ipac.ecosphere.fws.gov/" target="_blank">
+                {" "}
+                Information for Planning and Consultation (IPaC) Tool
+              </a>.
+            </p>
           </Row>
         </Container>
       </div>

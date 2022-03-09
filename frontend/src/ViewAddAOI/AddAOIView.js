@@ -9,8 +9,6 @@ const AddAOIView = ({
   setDrawingMode,
   setAoiSelected,
   featureList,
-  setAlerttext,
-  setView,
   hucBoundary,
   setHucBoundary,
   hucIDSelected,
@@ -19,6 +17,9 @@ const AddAOIView = ({
   setReportLink,
   autoDraw,
   stopDraw,
+  setView,
+  setAlertText,
+  setAlertType
 }) => {
   const [inputMode, setInputMode] = useState("");
   const [hucList, setHucList] = useState([]);
@@ -137,33 +138,33 @@ const AddAOIView = ({
           setDrawingMode={setDrawingMode}
           setAoiSelected={setAoiSelected}
           featureList={featureList}
-          setAlerttext={setAlerttext}
-          setView={setView}
           setReportLink={setReportLink}
           autoDraw={autoDraw}
           timeoutError={timeoutError}
           setTimeoutError={setTimeoutError}
           timeoutHandler={timeoutHandler}
           setHucBoundary={setHucBoundary}
+          setView={setView}
+          setAlertText={setAlertText}
+          setAlertType={setAlertType}
         />
       )}
 
       {inputMode === "shapefile" && (
         <AddZip
-          setAlerttext={setAlerttext}
-          setView={setView}
           timeoutError={timeoutError}
           setTimeoutError={setTimeoutError}
           timeoutHandler={timeoutHandler}
           setHucBoundary={setHucBoundary}
           setDrawingMode={setDrawingMode}
+          setView={setView}
+          setAlertText={setAlertText}
+          setAlertType={setAlertType}
         />
       )}
 
       {inputMode === "boundary" && (
         <AddBoundary
-          setAlerttext={setAlerttext}
-          setView={setView}
           hucList={hucList}
           hucNameList={hucNameList}
           hucIDList={hucIDList}
@@ -174,6 +175,9 @@ const AddAOIView = ({
           hucBoundary={hucBoundary}
           setHucBoundary={setHucBoundary}
           setFilterList={setFilterList}
+          setView={setView}
+          setAlertText={setAlertText}
+          setAlertType={setAlertType}
         />
       )}
     </Container>

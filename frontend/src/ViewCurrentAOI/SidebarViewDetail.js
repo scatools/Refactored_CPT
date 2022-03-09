@@ -32,7 +32,6 @@ const SidebarViewDetail = ({
   editAOI,
   setEditAOI,
   featureList,
-  setAlerttext,
   setReportLink,
   setHexGrid,
   setHexDeselection,
@@ -41,7 +40,9 @@ const SidebarViewDetail = ({
   setHexFilterList,
   userLoggedIn,
   editMode,
-  stopDraw
+  stopDraw,
+  setAlertText,
+  setAlertType
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -79,12 +80,13 @@ const SidebarViewDetail = ({
 
   const handleNameEdit = async () => {
     if (!aoiName) {
-      setAlerttext("Name is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Name is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
-      setAlerttext(false);
+      setAlertText(false);
       dispatch(
         edit_aoi(aoiList[0].id, {
           name: aoiName,
@@ -102,12 +104,13 @@ const SidebarViewDetail = ({
   
   const handleBasicEdit = async () => {
     if (!aoiName) {
-      setAlerttext("Name is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Name is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
-      setAlerttext(false);
+      setAlertText(false);
       const newList = featureList;
 
       const planArea = calculateArea(newList);
@@ -148,8 +151,9 @@ const SidebarViewDetail = ({
           })
         );
       } else {
-        setAlerttext("Your AOI is too large. Reduce the size and try again.");
-        window.setTimeout(() => setAlerttext(false), 4000);
+        setAlertType("danger");
+        setAlertText("Your AOI is too large. Reduce the size and try again.");
+        window.setTimeout(() => setAlertText(false), 4000);
       }
       setDrawingMode(false);
       dispatch(setLoader(false));
@@ -158,13 +162,14 @@ const SidebarViewDetail = ({
 
   const handleAdvancedEdit = async () => {
     if (!aoiName) {
-      setAlerttext("Name is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Name is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
-      setAlerttext(false);
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertText(false);
+      window.setTimeout(() => setAlertText(false), 4000);
       // Use the unselected hexagons as new geometry to recalculate AOI
       const newList = aoiList[0].hexagons.filter(
         (hexagon) => !hexIDDeselected.includes(hexagon.objectid)
@@ -323,10 +328,12 @@ const SidebarViewDetail = ({
         }
       );
       if (res) {
-        alert("You have saved " + aoiList[0].name + " in your account.");
+        setAlertType("success");
+        setAlertText("You have saved " + aoiList[0].name + " in your account.");
       }
     } catch (e) {
-      alert("Failed to save the file in your account!");
+      setAlertType("danger");
+      setAlertText("Failed to save the file in your account!");
       console.error(e);
     }
   };

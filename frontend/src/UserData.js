@@ -8,7 +8,7 @@ import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
 import { input_aoi, setLoader } from "./action";
 import "./App.css";
 
-const UserData = ({ userLoggedIn, setReportScript }) => {
+const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [ username, setUsername ] = useState(null);
@@ -90,7 +90,8 @@ const UserData = ({ userLoggedIn, setReportScript }) => {
       { file_name: file }
     );
     if (result) {
-      alert("You have deleted the AOI named " + file);
+      setAlertType("warning");
+      setAlertText("You have deleted the AOI named " + file);
     };
   };
 
@@ -107,7 +108,8 @@ const UserData = ({ userLoggedIn, setReportScript }) => {
       { report_name: report }
     );
     if (result) {
-      alert("You have deleted the report named " + report);
+      setAlertType("warning");
+      setAlertText("You have deleted the report named " + report);
     };
   };
   

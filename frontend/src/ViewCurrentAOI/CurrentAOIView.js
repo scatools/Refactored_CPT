@@ -15,12 +15,10 @@ const CurrentAOIView = ({
   setAoiSelected,
   setActiveTable,
   setViewport,
-  setView,
   setDrawingMode,
   editAOI,
   setEditAOI,
   featureList,
-  setAlerttext,
   setReportLink,
   setHexGrid,
   setHexDeselection,
@@ -28,9 +26,12 @@ const CurrentAOIView = ({
   setHexIDDeselected,
   setHexFilterList,
   userLoggedIn,
-  view,
   editMode,
   stopDraw,
+  view,
+  setView,
+  setAlertText,
+  setAlertType
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi));
 
@@ -115,7 +116,6 @@ const CurrentAOIView = ({
           editAOI={editAOI}
           setEditAOI={setEditAOI}
           featureList={featureList}
-          setAlerttext={setAlerttext}
           setReportLink={setReportLink}
           setHexGrid={setHexGrid}
           setHexDeselection={setHexDeselection}
@@ -125,6 +125,8 @@ const CurrentAOIView = ({
           userLoggedIn={userLoggedIn}
           editMode={editMode}
           stopDraw={stopDraw}
+          setAlertText={setAlertText}
+          setAlertType={setAlertType}
         />
       </ButtonGroup>
       <Container className="add-assess-cont">

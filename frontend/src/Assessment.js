@@ -28,6 +28,8 @@ const Assessment = ({
   setReportLink,
   customizedMeasures,
   userLoggedIn,
+  setAlertText,
+  setAlertType
 }) => {
   const dispatch = useDispatch();
   dispatch(setLoader(false));
@@ -348,10 +350,12 @@ const Assessment = ({
         }
       );
       if (res) {
-        alert("You have saved " + reportName + " in your account.");
+        setAlertType("success");
+        setAlertText("You have saved " + reportName + " in your account.");
       }
     } catch (e) {
-      alert("Failed to save the report in your account!");
+      setAlertType("danger");
+      setAlertText("Failed to save the report in your account!");
       console.error(e);
     }
   };

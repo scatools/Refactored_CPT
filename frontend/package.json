@@ -33,6 +33,7 @@
     "react-loading-overlay": "^1.0.1",
     "react-map-gl": "^5.2.8",
     "react-map-gl-draw": "^0.20.0",
+    "react-multi-switch-toggle": "^1.0.12",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
