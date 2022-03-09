@@ -7,6 +7,25 @@
   height: 100vh;
 }
 
+.basemapButton {
+  position: fixed;
+  top: 80px;
+  right: 50px;
+  z-index: 1;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.basemapSwitch {
+  position: fixed;
+  top: 80px;
+  right: 100px;
+  z-index: 1;
+  padding: 0px;
+  margin: 0px;
+  text-align: end;
+}
+
 .AoiTable {
   padding-right: 50px;
   margin-top: 20px;
