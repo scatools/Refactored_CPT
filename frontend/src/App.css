@@ -609,3 +609,13 @@ a img.logo {
     background-position: 0 0;
   }
 }
+
+.bug-icon-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9;
+  background: none !important;
+  min-width: initial !important;
+  border: none !important;
+}
