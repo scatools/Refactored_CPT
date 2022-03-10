@@ -8,6 +8,7 @@ import { FiMap } from "react-icons/fi";
 import "mapbox-gl/dist/mapbox-gl.css";
 import bbox from "@turf/bbox";
 import shp from "shpjs";
+import Legend from "./Legend";
 import { getFeatureStyle, getEditHandleStyle } from "./drawStyle";
 
 const MAPBOX_TOKEN =
@@ -45,6 +46,22 @@ const Map = ({
   const [filter, setFilter] = useState(["in", "HUC12", "default"]);
   const [hexFilter, setHexFilter] = useState(["in", "objectid", "default"]);
   const editorRef = useRef(null);
+
+  // Up to 10 colors for 10 different AOIs
+  const aoiColors = [
+    "#00188f",
+    "#00bcf2",
+    "#00b294",
+    "#009e49",
+    "#bad80a",
+    "#fff100",
+    "#ff8c00",
+    "#e81123",
+    "#ec008c",
+    "#68217a",
+  ];
+
+  const aoiFullList = Object.values(useSelector((state) => state.aoi));
 
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -362,6 +379,29 @@ const Map = ({
           />
         </Source>
       )}
+      {aoiFullList.length > 0 && !hucBoundary && aoiFullList.map((aoi, index) => (
+        <Source
+          type="geojson"
+          data={{
+            type: "FeatureCollection",
+            features: aoi.geometry,
+          }}
+        >
+          {aoi.name && (
+            <Layer
+              id={aoi.name}
+              type="fill"
+              paint={{
+                "fill-color": aoiColors[index],
+                "fill-opacity": 0.5,
+              }}
+            />
+          )}
+        </Source>
+      ))}
+      {aoiFullList.length > 0 && (
+        <Legend aoiList={aoiFullList} aoiColors={aoiColors}></Legend>
+      )}
       {aoiList.length > 0 && !drawingMode && !hucBoundary && (
         <Source
           type="geojson"
@@ -373,7 +413,7 @@ const Map = ({
           <Layer
             id="data"
             type="fill"
-            paint={{ "fill-color": "#fee08b", "fill-opacity": 0.8 }}
+            paint={{ "fill-color": "transparent", "fill-outline-color": "white" }}
           />
         </Source>
       )}
