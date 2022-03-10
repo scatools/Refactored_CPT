@@ -8,8 +8,6 @@ import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { v4 as uuid } from "uuid";
 
 const AddBoundary = ({
-  setAlerttext,
-  setView,
   hucList,
   hucNameList,
   hucIDList,
@@ -20,18 +18,22 @@ const AddBoundary = ({
   hucBoundary,
   setHucBoundary,
   setFilterList,
+  setView,
+  setAlertText,
+  setAlertType
 }) => {
   const dispatch = useDispatch();
   const [retrievingOptions, setRetrievingOptions] = useState("");
 
   const handleSubmitBoundaryAsSingle = async () => {
     if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
-      setAlerttext("At least one of the existing boundaries is required.");
+      setAlertType("danger");
+      setAlertText("At least one of the existing boundaries is required.");
     } else {
       if (hucBoundary) {
         setHucBoundary(false);
       }
-      setAlerttext(false);
+      setAlertText(false);
       const newList = hucList.filter(
         (feature) =>
           hucNameSelected
@@ -77,13 +79,14 @@ const AddBoundary = ({
 
   const handleSubmitBoundaryAsMultiple = () => {
     if (hucNameSelected.length === 0 && hucIDSelected.length === 0) {
-      setAlerttext("At least one of the existing boundaries is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("At least one of the existing boundaries is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
       if (hucBoundary) {
         setHucBoundary(false);
       }
-      setAlerttext(false);
+      setAlertText(false);
       const newList = hucList.filter(
         (feature) =>
           hucNameSelected

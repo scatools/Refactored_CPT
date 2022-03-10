@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Jumbotron, Button } from "react-bootstrap";
+import emailjs from '@emailjs/browser';
 import * as Survey from "survey-react";
 import "survey-react/modern.css";
 import { SiGitbook, SiGithub } from "react-icons/si"
@@ -39,6 +40,12 @@ const Help = () => {
 
   const onComplete = (survey, options) => {
     console.log("Survey results: " + JSON.stringify(survey.data));
+    emailjs.send('service_scagulf', 'template_scagulf', survey.data, process.env.EMAILJS_USERID)
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
   };
 
   const model = new Survey.Model(json);
@@ -59,9 +66,9 @@ const Help = () => {
           </p>
           <div className="d-flex">
             <div style={{width:"50%"}}>
-              <b>Dr. Amanda Sesser</b>
+              <b>Ione Anderson</b>
               <p className="text-muted my-1">Project Coordinator</p>
-              <p className="text-muted my-1">Director, 21sustainability LLC.</p>
+              <p className="text-muted my-1">Chief Operations Officer, Grape ESG</p>
               <br/><br/>
               <Button className="mx-0 mt-2.5" variant="success" href="mailto:scaprojectgulf@gmail.com">
                 Send Email

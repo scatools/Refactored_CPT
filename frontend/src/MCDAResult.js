@@ -6,6 +6,7 @@ import { Cell, PieChart, Pie, Sector, Radar, RadarChart, PolarGrid, PolarAngleAx
 
 const MCDAResult = () => {
     const aoiColors = ["#00188f", "#00bcf2", "#00b294", "#009e49", "#bad80a", "#fff100", "#ff8c00", "#e81123", "#ec008c", "#68217a"];
+    const colorOpacity = ["FF", "E6", "CC", "B3", "99", "80", "66", "4D", "33", "1A"];
     const assessment = useSelector((state) => state.assessment);
     const [ aoi, setAoi ] = useState(0);
     const [ fillColor, setFillColor ] = useState("#8884d8");
@@ -32,7 +33,7 @@ const MCDAResult = () => {
         setPieData(assessment.rankAccept.map((item,index)=>{return {name:`Rank ${index+1}`, value: item[aoi]}}));
         // Use the same AOI-based color scheme for pie chart and radar chart
         setFillColor(aoiColors[aoi]);
-        setPieColors(aoiColors.slice(aoi,assessment.aoi.id.length).concat(aoiColors.slice(0,aoi)));
+        setPieColors(assessment.aoi.id.map((id,index)=>{return aoiColors[aoi]+colorOpacity[index]}));
     },[aoi,assessment]);
     
     function onPieEnter(data, index) {

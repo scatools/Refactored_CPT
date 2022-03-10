@@ -24,6 +24,8 @@ const Main = ({
   userLoggedIn,
   view,
   setView,
+  setAlertText,
+  setAlertType
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
@@ -89,7 +91,6 @@ const Main = ({
         setHucIDSelected={setHucIDSelected}
         setFilterList={setFilterList}
         setReportLink={setReportLink}
-        autoDraw={autoDraw}
         customizedMeasures={customizedMeasures}
         setHexGrid={setHexGrid}
         setHexDeselection={setHexDeselection}
@@ -97,10 +98,13 @@ const Main = ({
         setHexIDDeselected={setHexIDDeselected}
         setHexFilterList={setHexFilterList}
         userLoggedIn={userLoggedIn}
-        view={view}
-        setView={setView}
+        autoDraw={autoDraw}
         stopDraw={stopDraw}
         editMode={editMode}
+        view={view}
+        setView={setView}
+        setAlertText={setAlertText}
+        setAlertType={setAlertType}
       />
       <div className="content">
         <Button

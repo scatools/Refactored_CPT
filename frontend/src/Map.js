@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import MapGL, { Source, Layer, Popup } from "react-map-gl";
 import { Editor, EditingMode } from "react-map-gl-draw";
+import MultiSwitch from "react-multi-switch-toggle";
+import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { FiMap } from "react-icons/fi";
 import "mapbox-gl/dist/mapbox-gl.css";
 import bbox from "@turf/bbox";
 import shp from "shpjs";
+import Legend from "./Legend";
 import { getFeatureStyle, getEditHandleStyle } from "./drawStyle";
 
 const MAPBOX_TOKEN =
@@ -30,6 +34,8 @@ const Map = ({
   hexIDDeselected,
   hexFilterList
 }) => {
+  const [selectBasemap, setSelectBasemap] = useState(false);
+  const [basemapStyle, setBasemapStyle] = useState("light-v10");
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(null);
   const [hucData, setHucData] = useState(null);
   const [hovered, setHovered] = useState(false);
@@ -41,9 +47,37 @@ const Map = ({
   const [hexFilter, setHexFilter] = useState(["in", "objectid", "default"]);
   const editorRef = useRef(null);
 
+  // Up to 10 colors for 10 different AOIs
+  const aoiColors = [
+    "#00188f",
+    "#00bcf2",
+    "#00b294",
+    "#009e49",
+    "#bad80a",
+    "#fff100",
+    "#ff8c00",
+    "#e81123",
+    "#ec008c",
+    "#68217a",
+  ];
+
+  const aoiFullList = Object.values(useSelector((state) => state.aoi));
+
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
   );
+  
+  const onToggle = (value) => {
+    if (value === 0) {
+      setBasemapStyle("light-v10");
+    } else if (value === 1) {
+      setBasemapStyle("dark-v10");
+    } else if (value === 2) {
+      setBasemapStyle("satellite-v9");
+    } else if (value === 3) {
+      setBasemapStyle("outdoors-v11");
+    }
+  };
 
   const onSelect = (options) => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
@@ -274,12 +308,37 @@ const Map = ({
   }, [hexFilter]);
 
   return (
+    <>
+    <Button
+      className="basemapButton"
+      variant="secondary"
+      onClick={() => setSelectBasemap(!selectBasemap)}
+    >
+      <FiMap />
+    </Button>
+    {selectBasemap && (
+      <div className="basemapSwitch">
+        <MultiSwitch
+          texts={['Light','Dark','Satellite','Terrain','']}
+          selectedSwitch={0}
+          bgColor={'gray'}
+          onToggleCallback={onToggle}
+          height={'35px'}
+          fontSize={'15px'}
+          fontColor={'white'}
+          selectedFontColor={'#6e599f'}
+          selectedSwitchColor={'white'}
+          borderWidth={0}
+          eachSwitchWidth={80}
+        />
+      </div>
+    )}
     <MapGL
       {...viewport}
       style={{ position: "fixed" }}
       width="100vw"
       height="94.3vh"
-      mapStyle="mapbox://styles/mapbox/light-v9"
+      mapStyle={"mapbox://styles/mapbox/" + basemapStyle}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       mapboxApiAccessToken={MAPBOX_TOKEN}
       onHover={onHover}
@@ -320,6 +379,29 @@ const Map = ({
           />
         </Source>
       )}
+      {aoiFullList.length > 0 && !hucBoundary && aoiFullList.map((aoi, index) => (
+        <Source
+          type="geojson"
+          data={{
+            type: "FeatureCollection",
+            features: aoi.geometry,
+          }}
+        >
+          {aoi.name && (
+            <Layer
+              id={aoi.name}
+              type="fill"
+              paint={{
+                "fill-color": aoiColors[index],
+                "fill-opacity": 0.5,
+              }}
+            />
+          )}
+        </Source>
+      ))}
+      {aoiFullList.length > 0 && (
+        <Legend aoiList={aoiFullList} aoiColors={aoiColors}></Legend>
+      )}
       {aoiList.length > 0 && !drawingMode && !hucBoundary && (
         <Source
           type="geojson"
@@ -331,7 +413,7 @@ const Map = ({
           <Layer
             id="data"
             type="fill"
-            paint={{ "fill-color": "#fee08b", "fill-opacity": 0.8 }}
+            paint={{ "fill-color": "transparent", "fill-outline-color": "white" }}
           />
         </Source>
       )}
@@ -364,6 +446,7 @@ const Map = ({
       {drawingMode && renderDrawTools()}
       {hucBoundary && hovered && renderPopup()}
     </MapGL>
+    </>
   );
 };
 

@@ -10,7 +10,7 @@ import { HiExternalLink } from "react-icons/hi";
 
 const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
-const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
+const SelectRestoreWeights = ({ setAssessStep, setAlertText, setAlertType }) => {
   const weights = useSelector((state) => state.weights);
   const dispatch = useDispatch();
 
@@ -23,8 +23,9 @@ const SelectRestoreWeights = ({ setAssessStep, setAlerttext }) => {
 
   const handleNext = () => {
     if (sumWeights !== 100) {
-      setAlerttext("Make sure all weights add to exactly 100");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Make sure all weights add to exactly 100");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else setAssessStep("selectDataMeasures");
   };
 

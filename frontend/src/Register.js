@@ -4,7 +4,7 @@ import { Container, Jumbotron } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
 
-const Register = ({ setLoggedIn, setUserLoggedIn }) => {
+const Register = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) => {
   const history = useHistory();
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
@@ -45,10 +45,13 @@ const Register = ({ setLoggedIn, setUserLoggedIn }) => {
         setLoggedIn(true);
         setUserLoggedIn(username);
         history.push("/user");
+        setAlertType("success");
+        setAlertText("You have successfully registered and logged in.");
       }
     }
     catch (e) {
-      alert("Username already exists! Please log in or create a new account.");
+      setAlertType("danger");
+      setAlertText("Username already exists! Please log in or create a new account.");
       console.error(e);
     };
   };

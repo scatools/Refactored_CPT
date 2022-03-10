@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  Card,
-  Container,
-  Button,
-  InputGroup,
-  FormControl,
-  Modal,
-  Accordion,
-} from "react-bootstrap";
+import { Card, Container, Button, InputGroup, FormControl, Modal, Accordion } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdSave } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
@@ -40,7 +32,6 @@ const SidebarViewDetail = ({
   editAOI,
   setEditAOI,
   featureList,
-  setAlerttext,
   setReportLink,
   setHexGrid,
   setHexDeselection,
@@ -50,6 +41,8 @@ const SidebarViewDetail = ({
   userLoggedIn,
   editMode,
   stopDraw,
+  setAlertText,
+  setAlertType
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -64,8 +57,7 @@ const SidebarViewDetail = ({
   const [showButtonLabel, setShowButtonLabel] = useState("Show Hexagon Grid");
   const [showButtonDisabled, setShowButtonDisabled] = useState(false);
   const [deselectButtonState, setDeselectButtonState] = useState("deselect");
-  const [deselectButtonLabel, setDeselectButtonLabel] =
-    useState("Deselect Hexagon");
+  const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
   const [deselectButtonDisabled, setDeselectButtonDisabled] = useState(true);
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [confirmShow, setConfirmShow] = useState(false);
@@ -83,17 +75,18 @@ const SidebarViewDetail = ({
       setModifyButtonLabel("Modify Shape");
       setConfirmButtonDisabled(false);
       stopDraw();
-    }
+    };
   };
 
   const handleNameEdit = async () => {
     if (!aoiName) {
-      setAlerttext("Name is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Name is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
-      setAlerttext(false);
+      setAlertText(false);
       dispatch(
         edit_aoi(aoiList[0].id, {
           name: aoiName,
@@ -106,17 +99,18 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    }
+    };
   };
-
+  
   const handleBasicEdit = async () => {
     if (!aoiName) {
-      setAlerttext("Name is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Name is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
-      setAlerttext(false);
+      setAlertText(false);
       const newList = featureList;
 
       const planArea = calculateArea(newList);
@@ -157,23 +151,25 @@ const SidebarViewDetail = ({
           })
         );
       } else {
-        setAlerttext("Your AOI is too large. Reduce the size and try again.");
-        window.setTimeout(() => setAlerttext(false), 4000);
+        setAlertType("danger");
+        setAlertText("Your AOI is too large. Reduce the size and try again.");
+        window.setTimeout(() => setAlertText(false), 4000);
       }
       setDrawingMode(false);
       dispatch(setLoader(false));
-    }
+    };
   };
 
   const handleAdvancedEdit = async () => {
     if (!aoiName) {
-      setAlerttext("Name is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("Name is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
       dispatch(setLoader(true));
       setEditAOI(false);
-      setAlerttext(false);
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertText(false);
+      window.setTimeout(() => setAlertText(false), 4000);
       // Use the unselected hexagons as new geometry to recalculate AOI
       const newList = aoiList[0].hexagons.filter(
         (hexagon) => !hexIDDeselected.includes(hexagon.objectid)
@@ -235,7 +231,7 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    }
+    };
   };
 
   const showHexagon = () => {
@@ -253,7 +249,7 @@ const SidebarViewDetail = ({
       setShowButtonState("show");
       setShowButtonLabel("Show Hexagon Grid");
       setDeselectButtonDisabled(true);
-    }
+    };
   };
 
   const deselectHexagon = () => {
@@ -272,7 +268,7 @@ const SidebarViewDetail = ({
       setDeselectButtonLabel("Deselect Hexagon");
       setShowButtonDisabled(false);
       setConfirmButtonDisabled(false);
-    }
+    };
   };
 
   const exitEdit = () => {
@@ -332,10 +328,12 @@ const SidebarViewDetail = ({
         }
       );
       if (res) {
-        alert("You have saved " + aoiList[0].name + " in your account.");
+        setAlertType("success");
+        setAlertText("You have saved " + aoiList[0].name + " in your account.");
       }
     } catch (e) {
-      alert("Failed to save the file in your account!");
+      setAlertType("danger");
+      setAlertText("Failed to save the file in your account!");
       console.error(e);
     }
   };
@@ -415,21 +413,17 @@ const SidebarViewDetail = ({
               >
                 <FaFileExport /> &nbsp; Export Shapefile
               </Button>
+            </Container>
+            <Container className="d-flex justify-content-start detail-buttons">
+              {userLoggedIn && (
+                <Button variant="dark" className="ml-1" onClick={saveFile}>
+                  <MdSave /> &nbsp; Save to: {userLoggedIn}
+                </Button>
+              )}
               <Button variant="danger" className="ml-1" onClick={showConfirm}>
                 <MdDelete /> &nbsp; Delete
               </Button>
             </Container>
-            {userLoggedIn && (
-              <Container className="detail-buttons">
-                <Button
-                  variant="dark"
-                  className="ml-1"
-                  onClick={accordionReset}
-                >
-                  <MdSave /> &nbsp; Save to: {userLoggedIn}
-                </Button>
-              </Container>
-            )}
             {editAOI && (
               <>
                 <Accordion>

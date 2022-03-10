@@ -11,13 +11,14 @@ const AddDraw = ({
   setDrawingMode,
   setAoiSelected,
   featureList,
-  setAlerttext,
-  setView,
   setReportLink,
   autoDraw,
   timeoutError,
   timeoutHandler,
   setHucBoundary,
+  setView,
+  setAlertText,
+  setAlertType
 }) => {
   const dispatch = useDispatch();
   const [drawData, setDrawData] = useState("");
@@ -29,13 +30,15 @@ const AddDraw = ({
     dispatch(setLoader(true));
     const myTimeoutError = setTimeout(() => timeoutHandler(), 28000);
     if (!drawData) {
-      setAlerttext("A name for this area of interest is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("A name for this area of interest is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else if (featureList.length === 0) {
-      setAlerttext("At least one polygon is required.");
-      window.setTimeout(() => setAlerttext(false), 4000);
+      setAlertType("danger");
+      setAlertText("At least one polygon is required.");
+      window.setTimeout(() => setAlertText(false), 4000);
     } else {
-      setAlerttext(false);
+      setAlertText(false);
       const newList = featureList;
       const planArea = calculateArea(newList);
       console.log(planArea);
@@ -68,8 +71,9 @@ const AddDraw = ({
         setView("viewCurrent");
       } else {
         clearTimeout(myTimeoutError);
-        setAlerttext("Your AOI is too large. Reduce the size and try again.");
-        window.setTimeout(() => setAlerttext(false), 4000);
+        setAlertType("danger");
+        setAlertText("Your AOI is too large. Reduce the size and try again.");
+        window.setTimeout(() => setAlertText(false), 4000);
       }
     }
 

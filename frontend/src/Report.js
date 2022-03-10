@@ -16,7 +16,7 @@ import Legend from "./Legend";
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";
 
-const Report = ({ aoiSelected, userLoggedIn }) => {
+const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
   const aoi = useSelector((state) => state.aoi);
   // Constant aoi contains all the AOIs provided so those not selected need to be filtered out
   const aoiList = Object.values(aoi).filter((aoi) => aoiSelected === aoi.id);
@@ -65,7 +65,32 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
   // Download from frontend
   const downloadHTML = () => {
     var pageHTMLObject = document.getElementsByClassName("container")[0];
-    var pageHTML = pageHTMLObject.outerHTML;
+    var pageHTML = 
+      '<html><head>' +
+      '<meta charset="utf-8">' +
+      '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
+      '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
+      '<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>' +
+      '<link rel="stylesheet" href="https://sca-cpt-frontend.herokuapp.com/App.css"/>' +
+      '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
+      'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
+      'crossorigin="anonymous"/>' +
+      '</head><body>' +
+      pageHTMLObject.outerHTML +
+      '</body><script>' +
+      'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
+      'const map = new mapboxgl.Map({container: "map",' +
+      'style: "mapbox://styles/mapbox/light-v9",' +
+      'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
+      'zoom: ' + newViewport.zoom + '});' +
+      'map.on("load", () => {' +
+        'map.addSource("aoi", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
+          aoiList[0].geometry.map((feature) => {return JSON.stringify(feature)})
+          + ']}});' +
+        'map.addLayer({"id": "aoi", "type": "fill", "source": "aoi", "layout": {},' +
+          '"paint": {"fill-color":"' + aoiColors[0] + '", "fill-opacity": 0.5}});' +
+      '});' +
+      '</script></html>';
     var tempElement = document.createElement("a");
 
     tempElement.href =
@@ -92,9 +117,34 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
   const saveReport = async () => {
     try {
       var today = new Date().toISOString().slice(0, 10);
-      var pageHTMLObject = document.getElementsByClassName("container")[0];
-      var pageHTML = pageHTMLObject.outerHTML;
       var reportName = "Detailed Report for " + aoiList[0].name + " (" + today + ")";
+      var pageHTMLObject = document.getElementsByClassName("container")[0];
+      var pageHTML = 
+        '<html><head>' +
+        '<meta charset="utf-8">' +
+        '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
+        '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
+        '<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>' +
+        '<link rel="stylesheet" href="https://sca-cpt-frontend.herokuapp.com/App.css"/>' +
+        '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
+        'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
+        'crossorigin="anonymous"/>' +
+        '</head><body>' +
+        pageHTMLObject.outerHTML +
+        '</body><script>' +
+        'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
+        'const map = new mapboxgl.Map({container: "map",' +
+        'style: "mapbox://styles/mapbox/light-v9",' +
+        'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
+        'zoom: ' + newViewport.zoom + '});' +
+        'map.on("load", () => {' +
+          'map.addSource("aoi", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
+            aoiList[0].geometry.map((feature) => {return JSON.stringify(feature)})
+            + ']}});' +
+          'map.addLayer({"id": "aoi", "type": "fill", "source": "aoi", "layout": {},' +
+            '"paint": {"fill-color":"' + aoiColors[0] + '", "fill-opacity": 0.5}});' +
+        '});' +
+        '</script></html>';
       
       // For development on local server
       // const res = await axios.post(
@@ -116,10 +166,12 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
         }
       );
       if (res) {
-        alert("You have saved "+ reportName + " in your account.");
+        setAlertType("success");
+        setAlertText("You have saved "+ reportName + " in your account.");
       };
     } catch (e) {
-      alert("Failed to save the report in your account!");
+      setAlertType("danger");
+      setAlertText("Failed to save the report in your account!");
       console.error(e);
     };
   };
@@ -333,8 +385,8 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
                       " support habitat ranges for ",
                     <b>{aoiList[0].speciesName.length}</b>,
                     " federally listed species, including the ",
-                    <em style={{color:"DodgerBlue"}}>{aoiList[0].speciesName.join(", ")}</em>,
-                    ".",
+                    <em>{aoiList[0].speciesName.join(", ")}</em>,
+                    "*.",
                   ]}{" "}
               &nbsp;
               {aoiList[0].scaleScore.lcmr4 === "No"
@@ -438,6 +490,18 @@ const Report = ({ aoiSelected, userLoggedIn }) => {
           <hr />
           <Row id="appendix">
             <Appendix />
+          </Row>
+          <Row>
+            <h4>Disclaimer:</h4>
+            <p>
+              * Data for federally listed species are provided by USFWS.
+              It may contain species found in state-level investigations. 
+              For the most accurate result, please refer to the
+              <a href="https://ipac.ecosphere.fws.gov/" target="_blank">
+                {" "}
+                Information for Planning and Consultation (IPaC) Tool
+              </a>.
+            </p>
           </Row>
         </Container>
       </div>
