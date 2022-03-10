@@ -32,7 +32,7 @@ const Map = ({
   hexGrid,
   hexDeselection,
   hexIDDeselected,
-  hexFilterList
+  hexFilterList,
 }) => {
   const [selectBasemap, setSelectBasemap] = useState(false);
   const [basemapStyle, setBasemapStyle] = useState("light-v10");
@@ -66,7 +66,7 @@ const Map = ({
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
   );
-  
+
   const onToggle = (value) => {
     if (value === 0) {
       setBasemapStyle("light-v10");
@@ -309,143 +309,148 @@ const Map = ({
 
   return (
     <>
-    <Button
-      className="basemapButton"
-      variant="secondary"
-      onClick={() => setSelectBasemap(!selectBasemap)}
-    >
-      <FiMap />
-    </Button>
-    {selectBasemap && (
-      <div className="basemapSwitch">
-        <MultiSwitch
-          texts={['Light','Dark','Satellite','Terrain','']}
-          selectedSwitch={0}
-          bgColor={'gray'}
-          onToggleCallback={onToggle}
-          height={'35px'}
-          fontSize={'15px'}
-          fontColor={'white'}
-          selectedFontColor={'#6e599f'}
-          selectedSwitchColor={'white'}
-          borderWidth={0}
-          eachSwitchWidth={80}
+      <Button
+        className="basemapButton"
+        variant="secondary"
+        onClick={() => setSelectBasemap(!selectBasemap)}
+      >
+        <FiMap />
+      </Button>
+      {selectBasemap && (
+        <div className="basemapSwitch">
+          <MultiSwitch
+            texts={["Light", "Dark", "Satellite", "Terrain", ""]}
+            selectedSwitch={0}
+            bgColor={"gray"}
+            onToggleCallback={onToggle}
+            height={"38px"}
+            fontSize={"15px"}
+            fontColor={"white"}
+            selectedFontColor={"#6e599f"}
+            selectedSwitchColor={"white"}
+            borderWidth={0}
+            eachSwitchWidth={80}
+          />
+        </div>
+      )}
+      <MapGL
+        {...viewport}
+        style={{ position: "fixed" }}
+        width="100vw"
+        height="94.3vh"
+        mapStyle={"mapbox://styles/mapbox/" + basemapStyle}
+        onViewportChange={(nextViewport) => setViewport(nextViewport)}
+        mapboxApiAccessToken={MAPBOX_TOKEN}
+        onHover={onHover}
+        onClick={onClick}
+        onLoad={loadHucBoundary}
+        getCursor={getCursor}
+        interactiveLayerIds={interactiveLayerIds}
+      >
+        <Editor
+          ref={editorRef}
+          style={{ width: "100%", height: "100%" }}
+          clickRadius={12}
+          mode={mode}
+          onSelect={onSelect}
+          onUpdate={onUpdate}
+          editHandleShape={"circle"}
+          featureStyle={getFeatureStyle}
+          editHandleStyle={getEditHandleStyle}
         />
-      </div>
-    )}
-    <MapGL
-      {...viewport}
-      style={{ position: "fixed" }}
-      width="100vw"
-      height="94.3vh"
-      mapStyle={"mapbox://styles/mapbox/" + basemapStyle}
-      onViewportChange={(nextViewport) => setViewport(nextViewport)}
-      mapboxApiAccessToken={MAPBOX_TOKEN}
-      onHover={onHover}
-      onClick={onClick}
-      onLoad={loadHucBoundary}
-      getCursor={getCursor}
-      interactiveLayerIds={interactiveLayerIds}
-    >
-      <Editor
-        ref={editorRef}
-        style={{ width: "100%", height: "100%" }}
-        clickRadius={12}
-        mode={mode}
-        onSelect={onSelect}
-        onUpdate={onUpdate}
-        editHandleShape={"circle"}
-        featureStyle={getFeatureStyle}
-        editHandleStyle={getEditHandleStyle}
-      />
-      {!hucBoundary && (
-        <Source
-          type="vector"
-          url="mapbox://chuck0520.bardd4y7"
-          maxzoom={22}
-          minzoom={0}
-        >
-          <Layer
-            id="sca-boundry"
-            source-layer="SCA_Boundry-13ifc0"
-            type="fill"
-            paint={{
-              "fill-outline-color": "#484896",
-              "fill-color": "#6e599f",
-              "fill-opacity": 0.2,
-            }}
-            minzoom={0}
+        {!hucBoundary && (
+          <Source
+            type="vector"
+            url="mapbox://chuck0520.bardd4y7"
             maxzoom={22}
-          />
-        </Source>
-      )}
-      {aoiFullList.length > 0 && !hucBoundary && aoiFullList.map((aoi, index) => (
-        <Source
-          type="geojson"
-          data={{
-            type: "FeatureCollection",
-            features: aoi.geometry,
-          }}
-        >
-          {aoi.name && (
+            minzoom={0}
+          >
             <Layer
-              id={aoi.name}
-              type="fill"
-              paint={{
-                "fill-color": aoiColors[index],
-                "fill-opacity": 0.5,
-              }}
-            />
-          )}
-        </Source>
-      ))}
-      {aoiFullList.length > 0 && (
-        <Legend aoiList={aoiFullList} aoiColors={aoiColors}></Legend>
-      )}
-      {aoiList.length > 0 && !drawingMode && !hucBoundary && (
-        <Source
-          type="geojson"
-          data={{
-            type: "FeatureCollection",
-            features: aoiList[0].geometry,
-          }}
-        >
-          <Layer
-            id="data"
-            type="fill"
-            paint={{ "fill-color": "transparent", "fill-outline-color": "white" }}
-          />
-        </Source>
-      )}
-      {hucBoundary && hucData && (
-        <Source type="geojson" data={hucData}>
-          <Layer
-            id="huc"
-            type="fill"
-            paint={{
-              "fill-outline-color": "#484896",
-              "fill-color": "#6e599f",
-              "fill-opacity": 0.2,
-            }}
-          />
-          {filterList.map((filter) => (
-            <Layer
-              id={filter[2]}
+              id="sca-boundry"
+              source-layer="SCA_Boundry-13ifc0"
               type="fill"
               paint={{
                 "fill-outline-color": "#484896",
-                "fill-color": "#00ffff",
+                "fill-color": "#6e599f",
                 "fill-opacity": 0.2,
               }}
-              filter={filter}
+              minzoom={0}
+              maxzoom={22}
             />
+          </Source>
+        )}
+        {aoiFullList.length > 0 &&
+          !hucBoundary &&
+          aoiFullList.map((aoi, index) => (
+            <Source
+              type="geojson"
+              data={{
+                type: "FeatureCollection",
+                features: aoi.geometry,
+              }}
+            >
+              {aoi.name && (
+                <Layer
+                  id={aoi.name}
+                  type="fill"
+                  paint={{
+                    "fill-color": aoiColors[index],
+                    "fill-opacity": 0.5,
+                  }}
+                />
+              )}
+            </Source>
           ))}
-        </Source>
-      )}
-      {aoiList.length > 0 && hexGrid && renderHexGrid()}
-      {drawingMode && renderDrawTools()}
-      {hucBoundary && hovered && renderPopup()}
-    </MapGL>
+        {aoiFullList.length > 0 && (
+          <Legend aoiList={aoiFullList} aoiColors={aoiColors}></Legend>
+        )}
+        {aoiList.length > 0 && !drawingMode && !hucBoundary && (
+          <Source
+            type="geojson"
+            data={{
+              type: "FeatureCollection",
+              features: aoiList[0].geometry,
+            }}
+          >
+            <Layer
+              id="data"
+              type="fill"
+              paint={{
+                "fill-color": "transparent",
+                "fill-outline-color": "white",
+              }}
+            />
+          </Source>
+        )}
+        {hucBoundary && hucData && (
+          <Source type="geojson" data={hucData}>
+            <Layer
+              id="huc"
+              type="fill"
+              paint={{
+                "fill-outline-color": "#484896",
+                "fill-color": "#6e599f",
+                "fill-opacity": 0.2,
+              }}
+            />
+            {filterList.map((filter) => (
+              <Layer
+                id={filter[2]}
+                type="fill"
+                paint={{
+                  "fill-outline-color": "#484896",
+                  "fill-color": "#00ffff",
+                  "fill-opacity": 0.2,
+                }}
+                filter={filter}
+              />
+            ))}
+          </Source>
+        )}
+        {aoiList.length > 0 && hexGrid && renderHexGrid()}
+        {drawingMode && renderDrawTools()}
+        {hucBoundary && hovered && renderPopup()}
+      </MapGL>
     </>
   );
 };

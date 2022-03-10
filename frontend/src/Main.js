@@ -6,13 +6,10 @@ import AoiDetailTable from "./ViewCurrentAOI/AoiDetailTable";
 import { DrawPolygonMode, EditingMode } from "react-map-gl-draw";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faBug } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
 
 const arrowIcon = (
   <FontAwesomeIcon icon={faArrowRight} color="white" size="lg" />
 );
-
-const bugIcon = <FontAwesomeIcon icon={faBug} color="red" size="2x" />;
 
 const Main = ({
   aoiSelected,
@@ -25,7 +22,7 @@ const Main = ({
   view,
   setView,
   setAlertText,
-  setAlertType
+  setAlertType,
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);
@@ -47,8 +44,6 @@ const Main = ({
   const [hexIDDeselected, setHexIDDeselected] = useState([]);
   const [hexFilterList, setHexFilterList] = useState([]);
 
-  const history = useHistory();
-
   const autoDraw = async () => {
     setMode(new DrawPolygonMode());
     // Use crosshair as cursor style when drawing new shapes over SCA boundary
@@ -65,9 +60,6 @@ const Main = ({
 
   return (
     <div>
-      <Button onClick={() => history.push("/help")} className="bug-icon-btn">
-        {bugIcon}
-      </Button>
       <AoiDetailTable
         activeTable={activeTable}
         setActiveTable={setActiveTable}

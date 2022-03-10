@@ -534,20 +534,35 @@ a img.logo {
 .basemapButton {
   position: fixed;
   top: 80px;
-  right: 50px;
-  z-index: 1;
+  right: 10px;
+  z-index: 2;
   min-width: 30px;
-  min-height: 30px;
+  min-height: 42px;
 }
 
 .basemapSwitch {
   position: fixed;
-  top: 80px;
-  right: 100px;
+  top: 77px;
+  right: 30px;
   z-index: 1;
   padding: 0px;
   margin: 0px;
   text-align: end;
+  transition: all ease 0.3s;
+}
+
+.multi-switch-container {
+  height: 42px !important;
+}
+
+/* span.multi-switch-handle.multi-switch-handle-move {
+  top: 0;
+} */
+
+.multi-switch-content:hover {
+  background: lightsteelblue;
+  border-radius: 30px;
+  top: 0;
 }
 
 .glow {
@@ -624,11 +639,20 @@ a img.logo {
 }
 
 .bug-icon-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   z-index: 9;
   background: none !important;
   min-width: initial !important;
   border: none !important;
+}
+
+.mapboxgl-ctrl-top-right {
+  top: 65px !important;
+}
+
+.mapboxgl-ctrl-attrib-inner {
+  display: none;
+}
+
+.mapboxgl-ctrl-group button {
+  width: 42px !important;
 }
