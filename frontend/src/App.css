@@ -657,8 +657,10 @@ a img.logo {
   width: 42px !important;
 }
 
-#reportSaveButton {
+#reportSaveButton,
+#assessmentSaveButton {
   width: auto;
+  min-width: 200px;
 }
 
 #reportOverview .container {
