@@ -13,6 +13,7 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
   const dispatch = useDispatch();
   const [ username, setUsername ] = useState(null);
   const [ password, setPassword ] = useState(null);
+  const [ newPassword, setNewPassword ] = useState(null);
   const [ firstName, setFirstName ] = useState(null);
   const [ newFirstName, setNewFirstName ] = useState(null);
   const [ lastName, setLastName ] = useState(null);
@@ -25,12 +26,21 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
   const [ fileDeleted, setFileDeleted ] = useState(null);
   const [ reportDeleted, setReportDeleted ] = useState(null);
   const [ updateInfo, setUpdateInfo ] = useState(false);
+  const [ updatePassword, setUpdatePassword ] = useState(false);
 
   const showUpdateInfo = () => setUpdateInfo(true);
 
   const closeUpdateInfo = () => {
     setUpdateInfo(false);
     getUserData();
+  };
+
+  const showUpdatePassword = () => setUpdatePassword(true);
+  
+  const closeUpdatePassword = () => {
+    setUpdatePassword(false);
+    setPassword(null);
+    setNewPassword(null);
   };
 
   const getUserData = async () => {
@@ -47,7 +57,6 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     );
     
     setUsername(result.data.rows[0].username);
-    setPassword(result.data.rows[0].password);
     setFirstName(result.data.rows[0].first_name);
     setNewFirstName(result.data.rows[0].first_name);
     setLastName(result.data.rows[0].last_name);
@@ -84,6 +93,48 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
       setAlertText("You have updated your profile!");
       closeUpdateInfo();
     };
+  };
+
+  const updateUserPassword = async () => {
+    // For development on local server
+    // const verification = await axios.post(
+    //   'http://localhost:5000/login',
+    //   { username: userLoggedIn, password: password }
+    // );
+
+    // For production on Heroku
+    const verification = await axios.post(
+      'https://sca-cpt-backend.herokuapp.com/login',
+      { username: userLoggedIn, password: password }
+    );
+
+    if (!verification.data.validLogin) {
+      setAlertType("danger");
+			setAlertText("Incorrect password! Please enter again.");
+		} else {
+      // For development on local server
+      // const result = await axios.post(
+      //   'http://localhost:5000/update/password',
+      //   {
+      //     username: userLoggedIn,
+      //     password: newPassword
+      //   }
+      // );
+      
+      // For production on Heroku
+      const result = await axios.post(
+        'https://sca-cpt-backend.herokuapp.com/update/password',
+        {
+          username: userLoggedIn,
+          password: newPassword
+        }
+      );
+      if (result) {
+        setAlertType("success");
+        setAlertText("You have updated your password!");
+        closeUpdatePassword();
+      };
+		}
   };
 
   const getUserFile = async () => {
@@ -260,7 +311,7 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
             <Button className="btn btn-success" onClick={showUpdateInfo}>
               Update Information
             </Button>
-            <Button className="btn btn-success">
+            <Button className="btn btn-success" onClick={showUpdatePassword}>
               Change Password
             </Button>
             <Button className="btn btn-danger">
@@ -362,6 +413,51 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
                     Cancel
                   </Button>
                   <Button className="btn btn-primary" onClick={updateUserInfo}>
+                    Confirm
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </Modal.Body>
+        </Modal>
+        <Modal centered show={updatePassword} onHide={closeUpdatePassword} size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>
+              Please enter your current and new passwords here
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              <div className="form-group">
+                Your Username: 
+                <input type="text" value={username} disabled></input>
+                Your Current Password: 
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e)=>setPassword(e.target.value)}
+                  required>
+                </input>
+                Your New Password: 
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e)=>setNewPassword(e.target.value)}
+                  required>
+                </input>
+                {/* Confirm Your New Password: 
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e)=>setNewPassword(e.target.value)}
+                  required>
+                </input> */}
+                <br/>
+                <div className="d-flex justify-content-between">
+                  <Button className="btn btn-warning" onClick={closeUpdatePassword}>
+                    Cancel
+                  </Button>
+                  <Button className="btn btn-primary" onClick={updateUserPassword}>
                     Confirm
                   </Button>
                 </div>
