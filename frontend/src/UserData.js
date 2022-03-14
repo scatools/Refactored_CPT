@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, Jumbotron } from "react-bootstrap";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
@@ -8,20 +8,25 @@ import { calculateArea, aggregate, getStatus } from "./helper/aggregateHex";
 import { input_aoi, setLoader } from "./action";
 import "./App.css";
 
-const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType }) => {
+const UserData = ({
+  userLoggedIn,
+  setReportScript,
+  setAlertText,
+  setAlertType,
+}) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [ username, setUsername ] = useState(null);
-  const [ password, setPassword ] = useState(null);
-  const [ firstName, setFirstName ] = useState(null);
-  const [ lastName, setLastName ] = useState(null);
-  const [ email, setEmail ] = useState(null);
-  const [ admin, setAdmin ] = useState(false);
-  const [ userFileList, setUserFileList ] = useState([]);
-  const [ userReportList, setUserReportList ] = useState([]);
-  const [ fileDeleted, setFileDeleted ] = useState(null);
-  const [ reportDeleted, setReportDeleted ] = useState(null);
-  
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [admin, setAdmin] = useState(false);
+  const [userFileList, setUserFileList] = useState([]);
+  const [userReportList, setUserReportList] = useState([]);
+  const [fileDeleted, setFileDeleted] = useState(null);
+  const [reportDeleted, setReportDeleted] = useState(null);
+
   const getUserData = async () => {
     // For development on local server
     // const result = await axios.post(
@@ -31,10 +36,10 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
 
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/user',
+      "https://sca-cpt-backend.herokuapp.com/user",
       { username: userLoggedIn }
     );
-    
+
     setUsername(result.data.rows[0].username);
     setPassword(result.data.rows[0].password);
     setFirstName(result.data.rows[0].first_name);
@@ -49,15 +54,15 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     //   'http://localhost:5000/user/shapefile',
     //   { username: userLoggedIn }
     // );
-    
+
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/user/shapefile',
+      "https://sca-cpt-backend.herokuapp.com/user/shapefile",
       { username: userLoggedIn }
     );
     if (result) {
       setUserFileList(result.data.rows.map((row) => row.file_name));
-    };
+    }
   };
 
   const getUserReport = async () => {
@@ -66,15 +71,15 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     //   'http://localhost:5000/user/report',
     //   { username: userLoggedIn }
     // );
-    
+
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/user/report',
+      "https://sca-cpt-backend.herokuapp.com/user/report",
       { username: userLoggedIn }
     );
     if (result) {
       setUserReportList(result.data.rows.map((row) => row.report_name));
-    };
+    }
   };
 
   const deleteUserFile = async (file) => {
@@ -83,16 +88,16 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     //   'http://localhost:5000/delete/shapefile',
     //   { file_name: file }
     // );
-    
+
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/delete/shapefile',
+      "https://sca-cpt-backend.herokuapp.com/delete/shapefile",
       { file_name: file }
     );
     if (result) {
       setAlertType("warning");
       setAlertText("You have deleted the AOI named " + file);
-    };
+    }
   };
 
   const deleteUserReport = async (report) => {
@@ -101,18 +106,18 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     //   'http://localhost:5000/delete/report',
     //   { report_name: report }
     // );
-    
+
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/delete/report',
+      "https://sca-cpt-backend.herokuapp.com/delete/report",
       { report_name: report }
     );
     if (result) {
       setAlertType("warning");
       setAlertText("You have deleted the report named " + report);
-    };
+    }
   };
-  
+
   const viewUserFile = async (file) => {
     dispatch(setLoader(true));
     // let loadTimer = setTimeout(() => timeoutHandler(), 30000);
@@ -122,14 +127,16 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     //   'http://localhost:5000/user/shapefile',
     //   { username: userLoggedIn }
     // );
-    
+
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/user/shapefile',
+      "https://sca-cpt-backend.herokuapp.com/user/shapefile",
       { username: userLoggedIn }
     );
-    const fileList = result.data.rows.filter(row => row.file_name === file);
-    const fileFeature = JSON.parse(JSON.parse(fileList[0].geometry.slice(1, -1)));
+    const fileList = result.data.rows.filter((row) => row.file_name === file);
+    const fileFeature = JSON.parse(
+      JSON.parse(fileList[0].geometry.slice(1, -1))
+    );
     // console.log(fileFeature);
     const newList = [fileFeature];
     const data = fileFeature.geometry;
@@ -138,10 +145,9 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     // const res = await axios.post('http://localhost:5000/data', { data });
 
     // For production on Heroku
-    const res = await axios.post(
-      "https://sca-cpt-backend.herokuapp.com/data",
-      { data }
-    );
+    const res = await axios.post("https://sca-cpt-backend.herokuapp.com/data", {
+      data,
+    });
     const planArea = calculateArea(newList);
     dispatch(
       input_aoi({
@@ -168,13 +174,15 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
     //   'http://localhost:5000/user/report',
     //   { username: userLoggedIn }
     // );
-    
+
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/user/report',
+      "https://sca-cpt-backend.herokuapp.com/user/report",
       { username: userLoggedIn }
     );
-    const reportList = result.data.rows.filter(row => row.report_name === report);
+    const reportList = result.data.rows.filter(
+      (row) => row.report_name === report
+    );
     const reportScript = reportList[0].script;
     setReportScript(reportScript);
     history.push("/user/report");
@@ -195,7 +203,7 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
   useEffect(() => {
     getUserReport();
   }, [reportDeleted]);
-  
+
   if (userLoggedIn) {
     return (
       <Container>
@@ -203,12 +211,14 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
           <h1 className="display-4">
             Welcome back, {firstName} {lastName}
           </h1>
-          <p className="lead">Please review or modify your personal information here</p>
+          <p className="lead">
+            Please review or modify your personal information here
+          </p>
           <hr className="my-4" />
           <p className="h3">User Profile</p>
           <p>Your username: {username}</p>
           <p>Your email: {email}</p>
-          <div className="d-flex justify-content-between btn-container">
+          {/* <div className="d-flex justify-content-between btn-container">
             {admin && (
               <a className="btn btn-success" href="/admin">
                 Admin module
@@ -223,8 +233,8 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
             <a className="btn btn-danger" href="/">
               Delete user
             </a>
-          </div>
-  
+          </div> */}
+
           <hr className="my-4" />
           <p className="h3">Saved Shapefiles</p>
           <br />
@@ -238,8 +248,8 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
                 >
                   Add AOI to Map
                 </Button>
-                <Button 
-                  className="btn btn-danger ml-2" 
+                <Button
+                  className="btn btn-danger ml-2"
                   onClick={() => {
                     deleteUserFile(file);
                     setFileDeleted(file);
@@ -266,8 +276,8 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
                 >
                   View Report
                 </Button>
-                <Button 
-                  className="btn btn-danger ml-2" 
+                <Button
+                  className="btn btn-danger ml-2"
                   onClick={() => {
                     deleteUserReport(report);
                     setReportDeleted(report);

@@ -7,7 +7,7 @@ import { FaChrome } from "react-icons/fa";
 import { MdDownload, MdSave } from "react-icons/md";
 import { download } from "shp-write";
 import bbox from "@turf/bbox";
-import axios from 'axios';
+import axios from "axios";
 import ReportTable from "./ReportTable";
 import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
@@ -43,7 +43,7 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
     latitude: newViewport.latitude,
     longitude: newViewport.longitude,
     zoom: newViewport.zoom,
-  });  
+  });
 
   // Download HTML report
 
@@ -65,8 +65,8 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
   // Download from frontend
   const downloadHTML = () => {
     var pageHTMLObject = document.getElementsByClassName("container")[0];
-    var pageHTML = 
-      '<html><head>' +
+    var pageHTML =
+      "<html><head>" +
       '<meta charset="utf-8">' +
       '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
       '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
@@ -75,22 +75,32 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
       '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
       'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
       'crossorigin="anonymous"/>' +
-      '</head><body>' +
+      "</head><body>" +
       pageHTMLObject.outerHTML +
-      '</body><script>' +
+      "</body><script>" +
       'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
       'const map = new mapboxgl.Map({container: "map",' +
       'style: "mapbox://styles/mapbox/light-v9",' +
-      'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
-      'zoom: ' + newViewport.zoom + '});' +
+      "center: [" +
+      newViewport.longitude +
+      "," +
+      newViewport.latitude +
+      "]," +
+      "zoom: " +
+      newViewport.zoom +
+      "});" +
       'map.on("load", () => {' +
-        'map.addSource("aoi", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
-          aoiList[0].geometry.map((feature) => {return JSON.stringify(feature)})
-          + ']}});' +
-        'map.addLayer({"id": "aoi", "type": "fill", "source": "aoi", "layout": {},' +
-          '"paint": {"fill-color":"' + aoiColors[0] + '", "fill-opacity": 0.5}});' +
-      '});' +
-      '</script></html>';
+      'map.addSource("aoi", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' +
+      aoiList[0].geometry.map((feature) => {
+        return JSON.stringify(feature);
+      }) +
+      "]}});" +
+      'map.addLayer({"id": "aoi", "type": "fill", "source": "aoi", "layout": {},' +
+      '"paint": {"fill-color":"' +
+      aoiColors[0] +
+      '", "fill-opacity": 0.5}});' +
+      "});" +
+      "</script></html>";
     var tempElement = document.createElement("a");
 
     tempElement.href =
@@ -113,14 +123,15 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
     };
     download(aoiGeoJson, options);
   };
-  
+
   const saveReport = async () => {
     try {
       var today = new Date().toISOString().slice(0, 10);
-      var reportName = "Detailed Report for " + aoiList[0].name + " (" + today + ")";
+      var reportName =
+        "Detailed Report for " + aoiList[0].name + " (" + today + ")";
       var pageHTMLObject = document.getElementsByClassName("container")[0];
-      var pageHTML = 
-        '<html><head>' +
+      var pageHTML =
+        "<html><head>" +
         '<meta charset="utf-8">' +
         '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
         '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
@@ -129,23 +140,33 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
         '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
         'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
         'crossorigin="anonymous"/>' +
-        '</head><body>' +
+        "</head><body>" +
         pageHTMLObject.outerHTML +
-        '</body><script>' +
+        "</body><script>" +
         'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
         'const map = new mapboxgl.Map({container: "map",' +
         'style: "mapbox://styles/mapbox/light-v9",' +
-        'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
-        'zoom: ' + newViewport.zoom + '});' +
+        "center: [" +
+        newViewport.longitude +
+        "," +
+        newViewport.latitude +
+        "]," +
+        "zoom: " +
+        newViewport.zoom +
+        "});" +
         'map.on("load", () => {' +
-          'map.addSource("aoi", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
-            aoiList[0].geometry.map((feature) => {return JSON.stringify(feature)})
-            + ']}});' +
-          'map.addLayer({"id": "aoi", "type": "fill", "source": "aoi", "layout": {},' +
-            '"paint": {"fill-color":"' + aoiColors[0] + '", "fill-opacity": 0.5}});' +
-        '});' +
-        '</script></html>';
-      
+        'map.addSource("aoi", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' +
+        aoiList[0].geometry.map((feature) => {
+          return JSON.stringify(feature);
+        }) +
+        "]}});" +
+        'map.addLayer({"id": "aoi", "type": "fill", "source": "aoi", "layout": {},' +
+        '"paint": {"fill-color":"' +
+        aoiColors[0] +
+        '", "fill-opacity": 0.5}});' +
+        "});" +
+        "</script></html>";
+
       // For development on local server
       // const res = await axios.post(
       //   "http://localhost:5000/save/report",
@@ -162,18 +183,18 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
         {
           report_name: reportName,
           script: pageHTML,
-          username: userLoggedIn
+          username: userLoggedIn,
         }
       );
       if (res) {
         setAlertType("success");
-        setAlertText("You have saved "+ reportName + " in your account.");
-      };
+        setAlertText("You have saved " + reportName + " in your account.");
+      }
     } catch (e) {
       setAlertType("danger");
       setAlertText("Failed to save the report in your account!");
       console.error(e);
-    };
+    }
   };
 
   if (!aoiSelected) {
@@ -184,7 +205,11 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
     <>
       <div className="reportDownload">
         <Dropdown>
-          <Dropdown.Toggle id="assessmentDownloadButton" className="downloadButton" variant="dark">
+          <Dropdown.Toggle
+            id="assessmentDownloadButton"
+            className="downloadButton"
+            variant="dark"
+          >
             <MdDownload /> Detailed Report
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -209,7 +234,7 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
           <MdDownload /> Spatial Footprint
         </Button>
       </div>
-
+      {console.log(userLoggedIn)}
       {userLoggedIn && (
         <div className="reportSave">
           <Button
@@ -218,7 +243,12 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
             variant="dark"
             onClick={saveReport}
           >
-            <MdSave /> Save to: {userLoggedIn}
+            <MdSave /> Save to:
+            {userLoggedIn.length > 9 ? (
+              <span style={{ fontSize: "10px" }}>{userLoggedIn}</span>
+            ) : (
+              userLoggedIn
+            )}
           </Button>
         </div>
       )}
@@ -232,9 +262,7 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
         </div>
         <Container style={{ position: "relative", top: "100px" }}>
           <Row>
-            <h1 className="report-h1">
-              Detailed Report for {aoiList[0].name}
-            </h1>
+            <h1 className="report-h1">Detailed Report for {aoiList[0].name}</h1>
           </Row>
           <Row id="mapHeading">
             <h2>Spatial Footprint:</h2>
@@ -335,7 +363,7 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
                     //   " also buffers water flowing into the" +
                     //   ",report_table_1$Impaired_Name," +
                     //   ", a waterbody with known impairments, and preservation would allow this landscape to continue to provide such water quality protections. " +
-                      "Approximately ",
+                    "Approximately ",
                     <b>{aoiList[0].scaleScore.wq1}</b>,
                     " of the waterways within " +
                       aoiList[0].name +
@@ -421,12 +449,13 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
                       " is within a designated National Heritage Area.",
                   ]}{" "}
               &nbsp;
-              {["According to NOAA's Office for Coastal Management, " +
-                    aoiList[0].name +
-                    " is considered to locate ",
-                  <b>{aoiList[0].scaleScore.cl3}</b>,
-                  " from socially vulnerable communities.",
-                ]}{" "}
+              {[
+                "According to NOAA's Office for Coastal Management, " +
+                  aoiList[0].name +
+                  " is considered to locate ",
+                <b>{aoiList[0].scaleScore.cl3}</b>,
+                " from socially vulnerable communities.",
+              ]}{" "}
               &nbsp;
               {aoiList[0].scaleScore.cl4 === "Insufficient Data"
                 ? "There is insufficient data to determine the community threat level of " +
@@ -454,23 +483,22 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
               &nbsp;
               {aoiList[0].scaleScore.eco2 === "Yes"
                 ? "The communities in and around " +
-                    aoiList[0].name +
-                    " has commercial fishing reliance."
+                  aoiList[0].name +
+                  " has commercial fishing reliance."
                 : "The communities in and around " +
-                    aoiList[0].name +
-                    " has no commercial fishing reliance."
-                  }{" "}
+                  aoiList[0].name +
+                  " has no commercial fishing reliance."}{" "}
               &nbsp;
               {aoiList[0].scaleScore.eco3 === "Yes"
                 ? "The communities in and around " +
-                    aoiList[0].name +
-                    " has recreational fishing engagement."
+                  aoiList[0].name +
+                  " has recreational fishing engagement."
                 : "The communities in and around " +
-                    aoiList[0].name +
-                    " has no recreational fishing engagement."
-                  }{" "}
+                  aoiList[0].name +
+                  " has no recreational fishing engagement."}{" "}
               &nbsp;
-              {aoiList[0].scaleScore.eco4 === 0 || aoiList[0].scaleScore.eco4 === 1
+              {aoiList[0].scaleScore.eco4 === 0 ||
+              aoiList[0].scaleScore.eco4 === 1
                 ? [
                     "There is ",
                     <b>{aoiList[0].scaleScore.eco4}</b>,
@@ -494,13 +522,14 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
           <Row>
             <h4>Disclaimer:</h4>
             <p>
-              * Data for federally listed species are provided by USFWS.
-              It may contain species found in state-level investigations. 
-              For the most accurate result, please refer to the
+              * Data for federally listed species are provided by USFWS. It may
+              contain species found in state-level investigations. For the most
+              accurate result, please refer to the
               <a href="https://ipac.ecosphere.fws.gov/" target="_blank">
                 {" "}
                 Information for Planning and Consultation (IPaC) Tool
-              </a>.
+              </a>
+              .
             </p>
           </Row>
         </Container>

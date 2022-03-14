@@ -656,3 +656,11 @@ a img.logo {
 .mapboxgl-ctrl-group button {
   width: 42px !important;
 }
+
+#reportSaveButton {
+  width: auto;
+}
+
+#reportOverview .container {
+  width: 65%;
+}
