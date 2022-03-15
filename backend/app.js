@@ -171,6 +171,44 @@ app.post('/user/report', async function(req, res, next){
 	}
 });
 
+app.post('/update/information', async function(req, res, next){
+	try{
+		const result = await db_user.query(
+			`UPDATE users
+			SET email = $2, first_name = $3, last_name = $4
+			WHERE username = $1`,
+			[
+				req.body.username,
+				req.body.email,
+				req.body.first_name,
+				req.body.last_name
+			]
+		);
+		return res.json(result);
+	} catch(e) {
+		next(e);
+	}
+});
+
+app.post('/update/password', async function(req, res, next){
+	try{
+		var salt = bcrypt.genSaltSync(12);
+		var hashed_password = bcrypt.hashSync(req.body.password, salt);
+		const result = await db_user.query(
+			`UPDATE users
+			SET password = $2
+			WHERE username = $1`,
+			[
+				req.body.username,
+				hashed_password
+			]
+		);
+		return res.json(result);
+	} catch(e) {
+		next(e);
+	}
+});
+
 app.post('/save/shapefile', async function(req, res, next){
 	try{
 		const maxID = await db_user.query(
