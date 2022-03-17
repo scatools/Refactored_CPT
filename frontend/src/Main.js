@@ -5,7 +5,7 @@ import Map from "./Map";
 import AoiDetailTable from "./ViewCurrentAOI/AoiDetailTable";
 import { DrawPolygonMode, EditingMode } from "react-map-gl-draw";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faBug } from "@fortawesome/free-solid-svg-icons";
 
 const arrowIcon = (
   <FontAwesomeIcon icon={faArrowRight} color="white" size="lg" />
@@ -22,7 +22,7 @@ const Main = ({
   view,
   setView,
   setAlertText,
-  setAlertType
+  setAlertType,
 }) => {
   const [mode, setMode] = useState(null);
   const [interactiveLayerIds, setInteractiveLayerIds] = useState([]);

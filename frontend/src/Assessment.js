@@ -29,7 +29,7 @@ const Assessment = ({
   customizedMeasures,
   userLoggedIn,
   setAlertText,
-  setAlertType
+  setAlertType,
 }) => {
   const dispatch = useDispatch();
   dispatch(setLoader(false));
@@ -236,8 +236,8 @@ const Assessment = ({
   // Download from frontend
   const downloadHTML = () => {
     var pageHTMLObject = document.getElementsByClassName("container")[0];
-    var pageHTML = 
-      '<html><head>' +
+    var pageHTML =
+      "<html><head>" +
       '<meta charset="utf-8">' +
       '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
       '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
@@ -246,24 +246,45 @@ const Assessment = ({
       '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
       'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
       'crossorigin="anonymous"/>' +
-      '</head><body>' +
+      "</head><body>" +
       pageHTMLObject.outerHTML +
-      '</body><script>' +
+      "</body><script>" +
       'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
       'const map = new mapboxgl.Map({container: "map",' +
       'style: "mapbox://styles/mapbox/light-v9",' +
-      'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
-      'zoom: ' + newViewport.zoom + '});' +
-      aoiList.map((aoi, index) => {return 'map.on("load", () => {' +
-        'map.addSource("aoi' + index + '", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
-          aoi.geometry.map((feature) => {return JSON.stringify(feature)})
-          + ']}});' +
-        'map.addLayer({"id": "aoi' + index + '", "type": "fill", "source": "aoi' + index + '", "layout": {},' +
-          '"paint": {"fill-color":"' + aoiColors[index] + '", "fill-opacity": 0.5}});' +
-      '});'
-      }).join("") +
-      '</script></html>';
-    
+      "center: [" +
+      newViewport.longitude +
+      "," +
+      newViewport.latitude +
+      "]," +
+      "zoom: " +
+      newViewport.zoom +
+      "});" +
+      aoiList
+        .map((aoi, index) => {
+          return (
+            'map.on("load", () => {' +
+            'map.addSource("aoi' +
+            index +
+            '", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' +
+            aoi.geometry.map((feature) => {
+              return JSON.stringify(feature);
+            }) +
+            "]}});" +
+            'map.addLayer({"id": "aoi' +
+            index +
+            '", "type": "fill", "source": "aoi' +
+            index +
+            '", "layout": {},' +
+            '"paint": {"fill-color":"' +
+            aoiColors[index] +
+            '", "fill-opacity": 0.5}});' +
+            "});"
+          );
+        })
+        .join("") +
+      "</script></html>";
+
     var tempElement = document.createElement("a");
     tempElement.href =
       "data:text/html;charset=UTF-8," + encodeURIComponent(pageHTML);
@@ -299,36 +320,64 @@ const Assessment = ({
   const saveAssessment = async () => {
     try {
       var today = new Date().toISOString().slice(0, 10);
-      var reportName = "Assessment Report for " + aoiList[0].name + " and " +
-        String(aoiList.length - 1) + " Other AOIs" + " (" + today + ")";
+      var reportName =
+        "Assessment Report for " +
+        aoiList[0].name +
+        " and " +
+        String(aoiList.length - 1) +
+        " Other AOIs" +
+        " (" +
+        today +
+        ")";
       var pageHTMLObject = document.getElementsByClassName("container")[0];
-      var pageHTML = 
-      '<html><head>' +
-      '<meta charset="utf-8">' +
-      '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
-      '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
-      '<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>' +
-      '<link rel="stylesheet" href="https://sca-cpt-frontend.herokuapp.com/App.css"/>' +
-      '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
-      'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
-      'crossorigin="anonymous"/>' +
-      '</head><body>' +
-      pageHTMLObject.outerHTML +
-      '</body><script>' +
-      'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
-      'const map = new mapboxgl.Map({container: "map",' +
-      'style: "mapbox://styles/mapbox/light-v9",' +
-      'center: [' + newViewport.longitude + ',' + newViewport.latitude + '],' +
-      'zoom: ' + newViewport.zoom + '});' +
-      aoiList.map((aoi, index) => {return 'map.on("load", () => {' +
-        'map.addSource("aoi' + index + '", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' + 
-          aoi.geometry.map((feature) => {return JSON.stringify(feature)})
-          + ']}});' +
-        'map.addLayer({"id": "aoi' + index + '", "type": "fill", "source": "aoi' + index + '", "layout": {},' +
-          '"paint": {"fill-color":"' + aoiColors[index] + '", "fill-opacity": 0.5}});' +
-      '});'
-      }).join("") +
-      '</script></html>';
+      var pageHTML =
+        "<html><head>" +
+        '<meta charset="utf-8">' +
+        '<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">' +
+        '<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">' +
+        '<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>' +
+        '<link rel="stylesheet" href="https://sca-cpt-frontend.herokuapp.com/App.css"/>' +
+        '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" ' +
+        'integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" ' +
+        'crossorigin="anonymous"/>' +
+        "</head><body>" +
+        pageHTMLObject.outerHTML +
+        "</body><script>" +
+        'mapboxgl.accessToken = "pk.eyJ1IjoiY2h1Y2swNTIwIiwiYSI6ImNrMDk2NDFhNTA0bW0zbHVuZTk3dHQ1cGUifQ.dkjP73KdE6JMTiLcUoHvUA";' +
+        'const map = new mapboxgl.Map({container: "map",' +
+        'style: "mapbox://styles/mapbox/light-v9",' +
+        "center: [" +
+        newViewport.longitude +
+        "," +
+        newViewport.latitude +
+        "]," +
+        "zoom: " +
+        newViewport.zoom +
+        "});" +
+        aoiList
+          .map((aoi, index) => {
+            return (
+              'map.on("load", () => {' +
+              'map.addSource("aoi' +
+              index +
+              '", {"type": "geojson", "data": {"type": "FeatureCollection", "features": [' +
+              aoi.geometry.map((feature) => {
+                return JSON.stringify(feature);
+              }) +
+              "]}});" +
+              'map.addLayer({"id": "aoi' +
+              index +
+              '", "type": "fill", "source": "aoi' +
+              index +
+              '", "layout": {},' +
+              '"paint": {"fill-color":"' +
+              aoiColors[index] +
+              '", "fill-opacity": 0.5}});' +
+              "});"
+            );
+          })
+          .join("") +
+        "</script></html>";
 
       // For development on local server
       // const res = await axios.post(
@@ -449,7 +498,12 @@ const Assessment = ({
             variant="dark"
             onClick={saveAssessment}
           >
-            <MdSave /> Save to: {userLoggedIn}
+            <MdSave /> Save to:{" "}
+            {userLoggedIn.length > 9 ? (
+              <span style={{ fontSize: "10px" }}>{userLoggedIn}</span>
+            ) : (
+              userLoggedIn
+            )}
           </Button>
         </div>
       )}
@@ -469,7 +523,7 @@ const Assessment = ({
       </div>
 
       <div id="assessmentOverview">
-        <Container>          
+        <Container>
           <h1 className="assessment-h1">
             Assessment Report for:
             <br /> {aoiList[0].name} and {String(aoiList.length - 1)} Other AOIs

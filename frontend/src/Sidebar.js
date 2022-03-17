@@ -6,8 +6,13 @@ import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
 import CreateAssessView from "./ViewCreateAssess/CreateAssessView";
 import SidebarMode from "./SidebarMode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRedo, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRedo,
+  faExclamationCircle,
+  faBug,
+} from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const arrowIcon = (
   <FontAwesomeIcon
@@ -26,6 +31,8 @@ const alertIcon = (
     style={{ margin: "0 5px;" }}
   />
 );
+
+const bugIcon = <FontAwesomeIcon icon={faBug} color="red" size="lg" />;
 
 const Sidebar = ({
   aoiAssembled,
@@ -59,13 +66,15 @@ const Sidebar = ({
   view,
   setView,
   setAlertText,
-  setAlertType
+  setAlertType,
 }) => {
   const aoi = useSelector((state) => state.aoi);
   const resetButton = () => {
     window.location.reload(true);
   };
   const [confirmShow, setConfirmShow] = useState(false);
+
+  const history = useHistory();
 
   const confirmClose = () => setConfirmShow(false);
   const showConfirm = () => setConfirmShow(true);
@@ -161,6 +170,14 @@ const Sidebar = ({
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Button
+        title="Report A Bug"
+        onClick={() => history.push("/help")}
+        className="bug-icon-btn"
+      >
+        {bugIcon}
+      </Button>
     </div>
   );
 };
