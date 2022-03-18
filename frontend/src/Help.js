@@ -65,16 +65,15 @@ const Help = () => {
             Please contact our project managers for more information about SCA Project
           </p>
           <div className="d-flex">
-            <div style={{width:"50%"}}>
+            <div className="d-flex flex-column justify-content-between" style={{width:"50%"}}>
               <b>Ione Anderson</b>
               <p className="text-muted my-1">Project Coordinator</p>
-              <p className="text-muted my-1">Chief Operations Officer, Grape ESG</p>
-              <br/><br/>
-              <Button className="mx-0 mt-2.5" variant="success" href="mailto:scaprojectgulf@gmail.com">
+              <br/><br/><br/>
+              <Button className="btn-primary" style={{width:"30%"}} href="mailto:ioneanderson@icloud.com">
                 Send Email
               </Button>
             </div>
-            <div style={{width:"50%"}}>
+            <div className="d-flex flex-column justify-content-between" style={{width:"50%"}}>
               <b>Dr. Kristine Evans</b>
               <p className="text-muted my-1">Principal Investigator</p>
               <p className="text-muted my-1">
@@ -83,7 +82,7 @@ const Help = () => {
               <p className="text-muted my-1">
                 Co-Director of the Quantitative Ecology and Spatial Technologies Lab (QuEST) Lab
               </p>
-              <Button className="mx-0 mt-2" variant="success" href="mailto:scaprojectgulf@gmail.com">
+              <Button className="btn-primary" style={{width:"30%"}} href="mailto:kristine.evans@msstate.edu">
                 Send Email
               </Button>
             </div>
