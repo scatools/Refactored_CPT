@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { Container, Jumbotron } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
 
-const Register = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) => {
+const Register = ({
+  setLoggedIn,
+  setUserLoggedIn,
+  setAlertText,
+  setAlertType,
+}) => {
   const history = useHistory();
-  const [ username, setUsername ] = useState("");
-  const [ password, setPassword ] = useState("");
-  const [ firstName, setFirstName ] = useState("");
-  const [ lastName, setLastName ] = useState("");
-  const [ email, setEmail ] = useState("");
-  const [ admin, setAdmin ] = useState(false);
-  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [admin, setAdmin] = useState(false);
+
   const onSubmit = async () => {
     try {
       // For development on local server
@@ -30,14 +35,14 @@ const Register = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) 
 
       // For production on Heroku
       const result = await axios.post(
-        'https://sca-cpt-backend.herokuapp.com/register',
+        "https://sca-cpt-backend.herokuapp.com/register",
         {
           username: username,
           password: password,
           email: email,
           first_name: firstName,
           last_name: lastName,
-          is_admin: false
+          is_admin: false,
         }
       );
 
@@ -47,13 +52,16 @@ const Register = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) 
         history.push("/user");
         setAlertType("success");
         setAlertText("You have successfully registered and logged in.");
+        window.setTimeout(() => setAlertText(false), 4000);
       }
-    }
-    catch (e) {
+    } catch (e) {
       setAlertType("danger");
-      setAlertText("Username already exists! Please log in or create a new account.");
+      setAlertText(
+        "There was an error! Please try again, or contact us for more help."
+      );
+      window.setTimeout(() => setAlertText(false), 4000);
       console.error(e);
-    };
+    }
   };
 
   return (

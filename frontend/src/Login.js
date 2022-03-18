@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { Container, Jumbotron } from "react-bootstrap";
 import axios from "axios";
 import "./App.css";
 
-const Login = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) => {
+const Login = ({
+  setLoggedIn,
+  setUserLoggedIn,
+  setAlertText,
+  setAlertType,
+}) => {
   const history = useHistory();
-  const [ username, setUsername ] = useState("");
-  const [ password, setPassword ] = useState("");
-  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   const onSubmit = async () => {
     // For development on local server
     // const result = await axios.post(
@@ -18,23 +23,26 @@ const Login = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) => 
 
     // For production on Heroku
     const result = await axios.post(
-      'https://sca-cpt-backend.herokuapp.com/login',
+      "https://sca-cpt-backend.herokuapp.com/login",
       { username: username, password: password }
     );
 
     if (result.data.credentials.length === 0) {
       setAlertType("danger");
-			setAlertText("Username doesn't exist! Please register.");
-		} else if (!result.data.validLogin) {
+      setAlertText("Username doesn't exist! Please register.");
+      window.setTimeout(() => setAlertText(false), 4000);
+    } else if (!result.data.validLogin) {
       setAlertType("danger");
-			setAlertText("Incorrect password! Please enter again.");
-		} else {
+      setAlertText("Incorrect password! Please enter again.");
+      window.setTimeout(() => setAlertText(false), 4000);
+    } else {
       setLoggedIn(true);
       setUserLoggedIn(username);
       history.push("/user");
       setAlertType("success");
       setAlertText("You have successfully logged in.");
-		}
+      window.setTimeout(() => setAlertText(false), 4000);
+    }
   };
 
   return (
