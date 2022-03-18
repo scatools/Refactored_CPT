@@ -382,42 +382,40 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form>
-              <div className="form-group">
-                Your Username: 
-                <input type="text" value={username} disabled></input>
-                Your Email: 
-                <input
-                  type="text"
-                  value={newEmail}
-                  onChange={(e)=>setNewEmail(e.target.value)}
-                  required>
-                </input>
-                Your First Name: 
-                <input
-                  type="text"
-                  value={newFirstName}
-                  onChange={(e)=>setNewFirstName(e.target.value)}
-                  required>
-                </input>
-                Your Last Name: 
-                <input
-                  type="text"
-                  value={newLastName}
-                  onChange={(e)=>setNewLastName(e.target.value)}
-                  required>
-                </input>
-                <br/>
-                <div className="d-flex justify-content-between">
-                  <Button className="btn btn-warning" onClick={closeUpdateInfo}>
-                    Cancel
-                  </Button>
-                  <Button className="btn btn-primary" onClick={updateUserInfo}>
-                    Confirm
-                  </Button>
-                </div>
+            <div className="form-group">
+              Your Username: 
+              <input type="text" value={username} disabled></input>
+              Your Email: 
+              <input
+                type="text"
+                value={newEmail}
+                onChange={(e)=>setNewEmail(e.target.value)}
+                required>
+              </input>
+              Your First Name: 
+              <input
+                type="text"
+                value={newFirstName}
+                onChange={(e)=>setNewFirstName(e.target.value)}
+                required>
+              </input>
+              Your Last Name: 
+              <input
+                type="text"
+                value={newLastName}
+                onChange={(e)=>setNewLastName(e.target.value)}
+                required>
+              </input>
+              <br/>
+              <div className="d-flex justify-content-between">
+                <Button className="btn btn-warning" onClick={closeUpdateInfo}>
+                  Cancel
+                </Button>
+                <Button className="btn btn-primary" onClick={updateUserInfo}>
+                  Confirm
+                </Button>
               </div>
-            </form>
+            </div>
           </Modal.Body>
         </Modal>
         <Modal centered show={updatePassword} onHide={closeUpdatePassword} size="lg">
@@ -427,42 +425,40 @@ const UserData = ({ userLoggedIn, setReportScript, setAlertText, setAlertType })
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form>
-              <div className="form-group">
-                Your Username: 
-                <input type="text" value={username} disabled></input>
-                Your Current Password: 
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e)=>setPassword(e.target.value)}
-                  required>
-                </input>
-                Your New Password: 
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e)=>setNewPassword(e.target.value)}
-                  required>
-                </input>
-                {/* Confirm Your New Password: 
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e)=>setNewPassword(e.target.value)}
-                  required>
-                </input> */}
-                <br/>
-                <div className="d-flex justify-content-between">
-                  <Button className="btn btn-warning" onClick={closeUpdatePassword}>
-                    Cancel
-                  </Button>
-                  <Button className="btn btn-primary" onClick={updateUserPassword}>
-                    Confirm
-                  </Button>
-                </div>
+            <div className="form-group">
+              Your Username: 
+              <input type="text" value={username} disabled></input>
+              Your Current Password: 
+              <input
+                type="password"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
+                required>
+              </input>
+              Your New Password: 
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e)=>setNewPassword(e.target.value)}
+                required>
+              </input>
+              {/* Confirm Your New Password: 
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e)=>setNewPassword(e.target.value)}
+                required>
+              </input> */}
+              <br/>
+              <div className="d-flex justify-content-between">
+                <Button className="btn btn-warning" onClick={closeUpdatePassword}>
+                  Cancel
+                </Button>
+                <Button className="btn btn-primary" onClick={updateUserPassword}>
+                  Confirm
+                </Button>
               </div>
-            </form>
+            </div>
           </Modal.Body>
         </Modal>
       </Container>

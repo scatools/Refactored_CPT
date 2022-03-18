@@ -62,76 +62,74 @@ const Register = ({ setLoggedIn, setUserLoggedIn, setAlertText, setAlertType }) 
         <div className="form-container">
           <h2>Welcome! Enter your information to register</h2>
           <hr />
-          <form id="register-form">
-            <div className="form-group">
-              <label for="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder="Enter Username"
-                value={username}
-                required
-                onChange={(e) => setUsername(e.target.value)}
-              ></input>
-              <label for="email">Email</label>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                placeholder="Enter Email"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              ></input>
-              <label for="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter Password"
-                value={password}
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              ></input>
-              <label for="confirm-pass">Confirm Password</label>
-              <input
-                type="password"
-                id="confirm-pass"
-                name="confirm-pass"
-                placeholder="Reenter Password"
-                required
-              ></input>
-              <label for="f-name">First Name</label>
-              <input
-                type="text"
-                id="f-name"
-                name="f-name"
-                placeholder="Enter Your First Name"
-                value={firstName}
-                required
-                onChange={(e) => setFirstName(e.target.value)}
-              ></input>
-              <label for="l-name">Last Name</label>
-              <input
-                type="text"
-                id="l-name"
-                name="l-name"
-                placeholder="Enter Your Last Name"
-                value={lastName}
-                required
-                onChange={(e) => setLastName(e.target.value)}
-              ></input>
-            </div>
-            <div className="form-btn-container">
-              <button className="btn btn-success" type="button" onClick={onSubmit}>
-                Register
-              </button>
-              <a href="/" className="btn btn-secondary">
-                Back to home
-              </a>
-            </div>
-          </form>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter Username"
+              value={username}
+              required
+              onChange={(e) => setUsername(e.target.value)}
+            ></input>
+            <label htmlFor="email">Email</label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Enter Email"
+              value={email}
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            ></input>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter Password"
+              value={password}
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+            <label htmlFor="confirm-pass">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm-pass"
+              name="confirm-pass"
+              placeholder="Reenter Password"
+              required
+            ></input>
+            <label htmlFor="f-name">First Name</label>
+            <input
+              type="text"
+              id="f-name"
+              name="f-name"
+              placeholder="Enter Your First Name"
+              value={firstName}
+              required
+              onChange={(e) => setFirstName(e.target.value)}
+            ></input>
+            <label htmlFor="l-name">Last Name</label>
+            <input
+              type="text"
+              id="l-name"
+              name="l-name"
+              placeholder="Enter Your Last Name"
+              value={lastName}
+              required
+              onChange={(e) => setLastName(e.target.value)}
+            ></input>
+          </div>
+          <div className="form-btn-container">
+            <button className="btn btn-success" type="button" onClick={onSubmit}>
+              Register
+            </button>
+            <a href="/" className="btn btn-secondary">
+              Back to home
+            </a>
+          </div>
         </div>
       </Jumbotron>
     </Container>
