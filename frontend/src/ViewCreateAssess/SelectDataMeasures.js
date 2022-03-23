@@ -1,11 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  Table,
-  ToggleButton,
-} from "react-bootstrap";
+import { Button, ButtonGroup, Container, Table, ToggleButton } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,11 +11,7 @@ import { Label } from "recharts";
 import { GoInfo, GoQuestion } from "react-icons/go";
 import { FiPlusCircle } from "react-icons/fi";
 import { HiExternalLink } from "react-icons/hi";
-import {
-  changeMeasures,
-  changeMeasuresWeight,
-  changeGoalWeights,
-} from "../action";
+import { changeMeasures, changeMeasuresWeight, changeGoalWeights } from "../action";
 
 const SelectDataMeasures = ({
   setAssessStep,
@@ -302,10 +292,8 @@ const SelectDataMeasures = ({
             styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
             menuPortalTarget={document.body}
             options={[
-              {
-                value: "hab1",
-                label: "Connectivity to Existing Protected Area",
-              },
+              { value: "hab0", label: "Project Area" },
+              { value: "hab1", label: "Connectivity to Existing Protected Area" },
               { value: "hab2", label: "Connectivity of Natural Lands" },
               { value: "hab3", label: "Threat of Urbanization" },
               { value: "hab4", label: "Composition of Priority Natural Lands" },
@@ -425,14 +413,15 @@ const SelectDataMeasures = ({
                     <div>
                       <p className="smaller-text no-margin no-padding">
                         {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        "Project Area"?
+                          "Is more or less project area for your project?"
+                          : measure.label === "Connectivity to Existing Protected Area"
                           ? "Is more or less connected better for your project?"
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Is more or less connectivity better for your project?"
                           : measure.label === "Threat of Urbanization"
                           ? "Is higher or lower threat of urbanization better for your project?"
-                          : measure.label ===
-                            "Composition of Priority Natural Lands"
+                          : measure.label === "Composition of Priority Natural Lands"
                           ? "Are more or less natural lands better for your project?"
                           : ""}
                       </p>
@@ -456,27 +445,29 @@ const SelectDataMeasures = ({
                         }
                       >
                         {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        "Project Area"
+                          ? "More"
+                          : measure.label === "Connectivity to Existing Protected Area"
                           ? "More"
                           : measure.label === "Connectivity of Natural Lands"
                           ? "More"
                           : measure.label === "Threat of Urbanization"
                           ? "Lower"
-                          : measure.label ===
-                            "Composition of Priority Natural Lands"
+                          : measure.label === "Composition of Priority Natural Lands"
                           ? "More"
                           : ""}
                       </ToggleButton>
                       <ReactTooltip id="positive-hab" place="top">
                         {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        "Project Area"
+                          ? "More project area is better."
+                          : measure.label === "Connectivity to Existing Protected Area"
                           ? "More connectivity is better."
                           : measure.label === "Connectivity of Natural Lands"
                           ? "More connectivity is better."
                           : measure.label === "Threat of Urbanization"
                           ? "Lower threat of urbanization is better."
-                          : measure.label ===
-                            "Composition of Priority Natural Lands"
+                          : measure.label === "Composition of Priority Natural Lands"
                           ? "More natural lands is better."
                           : ""}
                       </ReactTooltip>
@@ -498,27 +489,29 @@ const SelectDataMeasures = ({
                         }
                       >
                         {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        "Project Area"
+                          ? "Less"
+                          : measure.label === "Connectivity to Existing Protected Area"
                           ? "Less"
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Less"
                           : measure.label === "Threat of Urbanization"
                           ? "Higher"
-                          : measure.label ===
-                            "Composition of Priority Natural Lands"
+                          : measure.label === "Composition of Priority Natural Lands"
                           ? "Less"
                           : ""}
                       </ToggleButton>
-                      <ReactTooltip id="less" place="top">
+                      <ReactTooltip id="negative-hab" place="top">
                         {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        "Project Area"
+                          ? "Less project area is better."
+                          : measure.label === "Connectivity to Existing Protected Area"
                           ? "Less connectivity is better."
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Less connectivity is better."
                           : measure.label === "Threat of Urbanization"
                           ? "Higher threat of urbanization is better."
-                          : measure.label ===
-                            "Composition of Priority Natural Lands"
+                          : measure.label === "Composition of Priority Natural Lands"
                           ? "Less natural lands is better."
                           : ""}
                       </ReactTooltip>
@@ -850,16 +843,13 @@ const SelectDataMeasures = ({
                       <p className="smaller-text no-margin no-padding">
                         {measure.label === "303(d): Impaired Watershed Area"
                           ? "Is more or less impaired area better for your project?"
-                          : measure.label ===
-                            "Hydrologic Response to Land-Use Change"
+                          : measure.label === "Hydrologic Response to Land-Use Change"
                           ? "Is more or less impact on hydrology better for your project?"
                           : measure.label === "Percent Irrigated Agriculture"
                           ? "Is more or less irrigated agriculture better for your project?"
-                          : measure.label ===
-                            "Lateral Connectivity of Floodplain"
+                          : measure.label === "Lateral Connectivity of Floodplain"
                           ? "Is more or less connectivity better for your project?"
-                          : measure.label ===
-                            "Composition of Riparizan Zone Lands"
+                          : measure.label === "Composition of Riparizan Zone Lands"
                           ? "Is more or less natural riparian zone better for your project?"
                           : measure.label === "Presence of Impoundments"
                           ? "Is more or less impoundment better for your project?"
@@ -886,16 +876,13 @@ const SelectDataMeasures = ({
                       >
                         {measure.label === "303(d): Impaired Watershed Area"
                           ? "Less"
-                          : measure.label ===
-                            "Hydrologic Response to Land-Use Change"
+                          : measure.label === "Hydrologic Response to Land-Use Change"
                           ? "Less"
                           : measure.label === "Percent Irrigated Agriculture"
                           ? "Less"
-                          : measure.label ===
-                            "Lateral Connectivity of Floodplain"
+                          : measure.label === "Lateral Connectivity of Floodplain"
                           ? "More"
-                          : measure.label ===
-                            "Composition of Riparizan Zone Lands"
+                          : measure.label === "Composition of Riparizan Zone Lands"
                           ? "More"
                           : measure.label === "Presence of Impoundments"
                           ? "Less"
@@ -904,16 +891,13 @@ const SelectDataMeasures = ({
                       <ReactTooltip id="positive-wq" place="top">
                         {measure.label === "303(d): Impaired Watershed Area"
                           ? "Less impaired area is better."
-                          : measure.label ===
-                            "Hydrologic Response to Land-Use Change"
+                          : measure.label === "Hydrologic Response to Land-Use Change"
                           ? "Less impact on hydrology is better."
                           : measure.label === "Percent Irrigated Agriculture"
                           ? "Less irrigated agriculture is better."
-                          : measure.label ===
-                            "Lateral Connectivity of Floodplain"
+                          : measure.label === "Lateral Connectivity of Floodplain"
                           ? "More connectivity is better."
-                          : measure.label ===
-                            "Composition of Riparizan Zone Lands"
+                          : measure.label === "Composition of Riparizan Zone Lands"
                           ? "More natural riparian zone is better."
                           : measure.label === "Presence of Impoundments"
                           ? "Less impoundment is better."
@@ -938,16 +922,13 @@ const SelectDataMeasures = ({
                       >
                         {measure.label === "303(d): Impaired Watershed Area"
                           ? "More"
-                          : measure.label ===
-                            "Hydrologic Response to Land-Use Change"
+                          : measure.label === "Hydrologic Response to Land-Use Change"
                           ? "More"
                           : measure.label === "Percent Irrigated Agriculture"
                           ? "More"
-                          : measure.label ===
-                            "Lateral Connectivity of Floodplain"
+                          : measure.label === "Lateral Connectivity of Floodplain"
                           ? "Less"
-                          : measure.label ===
-                            "Composition of Riparizan Zone Lands"
+                          : measure.label === "Composition of Riparizan Zone Lands"
                           ? "Less"
                           : measure.label === "Presence of Impoundments"
                           ? "More"
@@ -956,16 +937,13 @@ const SelectDataMeasures = ({
                       <ReactTooltip id="negative-wq" place="top">
                         {measure.label === "303(d): Impaired Watershed Area"
                           ? "More impaired area is better."
-                          : measure.label ===
-                            "Hydrologic Response to Land-Use Change"
+                          : measure.label === "Hydrologic Response to Land-Use Change"
                           ? "More impact on hydrology is better."
                           : measure.label === "Percent Irrigated Agriculture"
                           ? "More irrigated agriculture is better."
-                          : measure.label ===
-                            "Lateral Connectivity of Floodplain"
+                          : measure.label === "Lateral Connectivity of Floodplain"
                           ? "Less connectivity is better."
-                          : measure.label ===
-                            "Composition of Riparizan Zone Lands"
+                          : measure.label === "Composition of Riparizan Zone Lands"
                           ? "Less natural riparian zone is better."
                           : measure.label === "Presence of Impoundments"
                           ? "More impoundment is better."
@@ -1148,19 +1126,9 @@ const SelectDataMeasures = ({
             styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
             menuPortalTarget={document.body}
             options={[
-              {
-                value: "lcmr1",
-                label: "Vulnerable Areas of Terrestrial Endemic Species",
-              },
-              {
-                value: "lcmr2",
-                label:
-                  "Threatened and Endangered Species - Critical Habitat Area",
-              },
-              {
-                value: "lcmr3",
-                label: "Threatened and Endangered Species - Number of Species",
-              },
+              { value: "lcmr1", label: "Vulnerable Areas of Terrestrial Endemic Species" },
+              { value: "lcmr2", label: "Threatened and Endangered Species - Critical Habitat Area" },
+              { value: "lcmr3", label: "Threatened and Endangered Species - Number of Species" },
               { value: "lcmr4", label: "Light Pollution Index" },
               { value: "lcmr5", label: "Terrestrial Vertebrate Biodiversity" },
               { value: "lcmr6", label: "Vulnerability to Invasive Plants" },
@@ -1288,16 +1256,13 @@ const SelectDataMeasures = ({
                         {measure.label ===
                         "Vulnerable Areas of Terrestrial Endemic Species"
                           ? "Is more or less vulnerable area better for your project?"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Critical Habitat Area"
+                          : measure.label === "Threatened and Endangered Species - Critical Habitat Area"
                           ? "Is more or less critical habitat better for your project?"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Number of Species"
+                          : measure.label === "Threatened and Endangered Species - Number of Species"
                           ? "Are more or less T&E species better for your project?"
                           : measure.label === "Light Pollution Index"
                           ? "Is more or less light pollution better for your project?"
-                          : measure.label ===
-                            "Terrestrial Vertebrate Biodiversity"
+                          : measure.label === "Terrestrial Vertebrate Biodiversity"
                           ? "Is higher or lower terrestrial vertebrate biodiversity better for your project?"
                           : measure.label === "Vulnerability to Invasive Plants"
                           ? "Is higher or lower vulnerability to invasive plants better for your project?"
@@ -1325,16 +1290,13 @@ const SelectDataMeasures = ({
                         {measure.label ===
                         "Vulnerable Areas of Terrestrial Endemic Species"
                           ? "More"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Critical Habitat Area"
+                          : measure.label === "Threatened and Endangered Species - Critical Habitat Area"
                           ? "More"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Number of Species"
+                          : measure.label === "Threatened and Endangered Species - Number of Species"
                           ? "More"
                           : measure.label === "Light Pollution Index"
                           ? "Less"
-                          : measure.label ===
-                            "Terrestrial Vertebrate Biodiversity"
+                          : measure.label === "Terrestrial Vertebrate Biodiversity"
                           ? "Higher"
                           : measure.label === "Vulnerability to Invasive Plants"
                           ? "Higher"
@@ -1344,16 +1306,13 @@ const SelectDataMeasures = ({
                         {measure.label ===
                         "Vulnerable Areas of Terrestrial Endemic Species"
                           ? "More vulnerable area is better"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Critical Habitat Area"
+                          : measure.label === "Threatened and Endangered Species - Critical Habitat Area"
                           ? "More critical habitat is better"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Number of Species"
+                          : measure.label === "Threatened and Endangered Species - Number of Species"
                           ? "More T&E species is better"
                           : measure.label === "Light Pollution Index"
                           ? "Less light pollution is better"
-                          : measure.label ===
-                            "Terrestrial Vertebrate Biodiversity"
+                          : measure.label === "Terrestrial Vertebrate Biodiversity"
                           ? "Higher terrestrial vertebrate biodiversity is better"
                           : measure.label === "Vulnerability to Invasive Plants"
                           ? "Higher vulnerability to invasive plants is better"
@@ -1379,16 +1338,13 @@ const SelectDataMeasures = ({
                         {measure.label ===
                         "Vulnerable Areas of Terrestrial Endemic Species"
                           ? "Less"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Critical Habitat Area"
+                          : measure.label === "Threatened and Endangered Species - Critical Habitat Area"
                           ? "Less"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Number of Species"
+                          : measure.label === "Threatened and Endangered Species - Number of Species"
                           ? "Less"
                           : measure.label === "Light Pollution Index"
                           ? "More"
-                          : measure.label ===
-                            "Terrestrial Vertebrate Biodiversity"
+                          : measure.label === "Terrestrial Vertebrate Biodiversity"
                           ? "Lower"
                           : measure.label === "Vulnerability to Invasive Plants"
                           ? "Lower"
@@ -1398,16 +1354,13 @@ const SelectDataMeasures = ({
                         {measure.label ===
                         "Vulnerable Areas of Terrestrial Endemic Species"
                           ? "Less vulnerable area is better"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Critical Habitat Area"
+                          : measure.label === "Threatened and Endangered Species - Critical Habitat Area"
                           ? "Less critical habitat is better"
-                          : measure.label ===
-                            "Threatened and Endangered Species - Number of Species"
+                          : measure.label === "Threatened and Endangered Species - Number of Species"
                           ? "Less T&E species is better"
                           : measure.label === "Light Pollution Index"
                           ? "More light pollution is better"
-                          : measure.label ===
-                            "Terrestrial Vertebrate Biodiversity"
+                          : measure.label === "Terrestrial Vertebrate Biodiversity"
                           ? "Lower terrestrial vertebrate biodiversity is better"
                           : measure.label === "Vulnerability to Invasive Plants"
                           ? "Lower vulnerability to invasive plants is better"
@@ -1594,10 +1547,7 @@ const SelectDataMeasures = ({
             options={[
               { value: "cl1", label: "National Register of Historic Places" },
               { value: "cl2", label: "National Heritage Area" },
-              {
-                value: "cl3",
-                label: "Proximity to Socially Vulnerable Communities",
-              },
+              { value: "cl3", label: "Proximity to Socially Vulnerable Communities" },
               { value: "cl4", label: "Community Threat Index" },
               { value: "cl5", label: "Social Vulnerability Index" },
             ]}
@@ -1752,8 +1702,7 @@ const SelectDataMeasures = ({
                               ? "More"
                               : measure.label === "National Heritage Area"
                               ? "More"
-                              : measure.label ===
-                                "Proximity to Socially Vulnerable Communities"
+                              : measure.label === "Proximity to Socially Vulnerable Communities"
                               ? "More"
                               : measure.label === "Community Threat Index"
                               ? "Higher"
@@ -1767,8 +1716,7 @@ const SelectDataMeasures = ({
                               ? "More historic places is better"
                               : measure.label === "National Heritage Area"
                               ? "More national heritage areas is better"
-                              : measure.label ===
-                                "Proximity to Socially Vulnerable Communities"
+                              : measure.label === "Proximity to Socially Vulnerable Communities"
                               ? "More connection to socially vulnerable communities is better"
                               : measure.label === "Community Threat Index"
                               ? "Higher threat to community is better"
@@ -1798,8 +1746,7 @@ const SelectDataMeasures = ({
                               ? "Less"
                               : measure.label === "National Heritage Area"
                               ? "Less"
-                              : measure.label ===
-                                "Proximity to Socially Vulnerable Communities"
+                              : measure.label === "Proximity to Socially Vulnerable Communities"
                               ? "Less"
                               : measure.label === "Community Threat Index"
                               ? "Lower"
@@ -1813,8 +1760,7 @@ const SelectDataMeasures = ({
                               ? "Fewer historic places is better"
                               : measure.label === "National Heritage Area"
                               ? "Less national heritage areas is better"
-                              : measure.label ===
-                                "Proximity to Socially Vulnerable Communities"
+                              : measure.label === "Proximity to Socially Vulnerable Communities"
                               ? "Less connection to socially vulnerable communities is better"
                               : measure.label === "Community Threat Index"
                               ? "Lower threat to community is better"
@@ -2003,10 +1949,7 @@ const SelectDataMeasures = ({
               { value: "eco1", label: "High Priority Working Lands" },
               { value: "eco2", label: "Commercial Fishing Reliance" },
               { value: "eco3", label: "Recreational Fishing Engagement" },
-              {
-                value: "eco4",
-                label: "Access & Recreation - Number of Access Points",
-              },
+              { value: "eco4", label: "Access & Recreation - Number of Access Points" },
             ]}
             isMulti
             placeholder="Select Gulf Economy..."
@@ -2131,8 +2074,7 @@ const SelectDataMeasures = ({
                           ? "Is higher or lower reliance better for your project?"
                           : measure.label === "Recreational Fishing Engagement"
                           ? "Is more or less engagement better for your project?"
-                          : measure.label ===
-                            "Access & Recreation - Number of Access Points"
+                          : measure.label === "Access & Recreation - Number of Access Points"
                           ? "Are more or less recreational access points better for your project?"
                           : ""}
                       </p>
@@ -2161,8 +2103,7 @@ const SelectDataMeasures = ({
                           ? "Higher"
                           : measure.label === "Recreational Fishing Engagement"
                           ? "More"
-                          : measure.label ===
-                            "Access & Recreation - Number of Access Points"
+                          : measure.label === "Access & Recreation - Number of Access Points"
                           ? "More"
                           : ""}
                       </ToggleButton>
@@ -2173,8 +2114,7 @@ const SelectDataMeasures = ({
                           ? "Higher reliance is better"
                           : measure.label === "Recreational Fishing Engagement"
                           ? "More engagement is better"
-                          : measure.label ===
-                            "Access & Recreation - Number of Access Points"
+                          : measure.label === "Access & Recreation - Number of Access Points"
                           ? "More recreational access points is better"
                           : ""}
                       </ReactTooltip>
@@ -2201,8 +2141,7 @@ const SelectDataMeasures = ({
                           ? "Lower"
                           : measure.label === "Recreational Fishing Engagement"
                           ? "Less"
-                          : measure.label ===
-                            "Access & Recreation - Number of Access Points"
+                          : measure.label === "Access & Recreation - Number of Access Points"
                           ? "Less"
                           : ""}
                       </ToggleButton>
@@ -2213,8 +2152,7 @@ const SelectDataMeasures = ({
                           ? "Lower reliance is better"
                           : measure.label === "Recreational Fishing Engagement"
                           ? "Less engagement is better"
-                          : measure.label ===
-                            "Access & Recreation - Number of Access Points"
+                          : measure.label === "Access & Recreation - Number of Access Points"
                           ? "Less recreational access points is better"
                           : ""}
                       </ReactTooltip>
