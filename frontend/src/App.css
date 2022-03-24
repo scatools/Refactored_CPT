@@ -640,6 +640,8 @@ a img.logo {
 }
 
 .bug-icon-btn {
+  position: absolute;
+  bottom: 20px;
   z-index: 9;
   background: none !important;
   min-width: initial !important;
