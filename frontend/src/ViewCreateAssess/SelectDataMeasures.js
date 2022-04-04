@@ -345,8 +345,8 @@ const SelectDataMeasures = ({
                       "Connectivity to Existing Protected Area" ? (
                         <>
                           Connectivity to existing protected area indicates if
-                          the proposed conservation area is close to an area
-                          classified as protected by PAD-US 2.0 data.
+                          the proposed conservation area is within 1 km of an 
+                          area classified as protected by PAD-US 2.0 data.
                           <br />
                           <a
                             href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#connectivity-to-existing-protected-area"

@@ -341,7 +341,7 @@ const ReviewAssessSettings = ({
                       <span>
                         {measure.label ===
                         "Connectivity to Existing Protected Area"
-                          ? "Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by PAD-US 2.0 data."
+                          ? "Connectivity to existing protected area indicates if the proposed conservation area is within 1 km of an area classified as protected by PAD-US 2.0 data."
                           : measure.label === "Connectivity of Natural Lands"
                           ? "A percent attribute that stands for the proportion of area classified as a hub or corridor."
                           : measure.label === "Threat of Urbanization"
