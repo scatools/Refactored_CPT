@@ -7,6 +7,18 @@ import { Cell, PieChart, Pie, Sector, Radar, RadarChart, PolarGrid, PolarAngleAx
 const MCDAResult = () => {
     const aoiColors = ["#00188f", "#00bcf2", "#00b294", "#009e49", "#bad80a", "#fff100", "#ff8c00", "#e81123", "#ec008c", "#68217a"];
     const colorOpacity = ["FF", "E6", "CC", "B3", "99", "80", "66", "4D", "33", "1A"];
+    const opacitySettings = [
+      [0],
+      [0, 5],
+      [0, 4, 8],
+      [0, 3, 6, 9],
+      [0, 2, 4, 6, 8],
+      [0, 1, 2, 3, 4, 5],
+      [0, 1, 2, 3, 4, 5, 6],
+      [0, 1, 2, 3, 4, 5, 6, 7],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    ];
     const assessment = useSelector((state) => state.assessment);
     const [ aoi, setAoi ] = useState(0);
     const [ fillColor, setFillColor ] = useState("#8884d8");
@@ -33,7 +45,8 @@ const MCDAResult = () => {
         setPieData(assessment.rankAccept.map((item,index)=>{return {name:`Rank ${index+1}`, value: item[aoi]}}));
         // Use the same AOI-based color scheme for pie chart and radar chart
         setFillColor(aoiColors[aoi]);
-        setPieColors(assessment.aoi.id.map((id,index)=>{return aoiColors[aoi]+colorOpacity[index]}));
+        let aoiLength = assessment.aoi.id.length;
+        setPieColors(assessment.aoi.id.map((id,index)=>{return aoiColors[aoi]+colorOpacity[opacitySettings[aoiLength-1][index]]}));
     },[aoi,assessment]);
     
     function onPieEnter(data, index) {
