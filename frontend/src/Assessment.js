@@ -33,6 +33,7 @@ const Assessment = ({
   setAlertType,
 }) => {
   const [downloading, setDownloading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const history = useHistory();
   const assessment = useSelector((state) => state.assessment);
   const aoi = useSelector((state) => state.aoi);
@@ -324,6 +325,8 @@ const Assessment = ({
 
   const saveAssessment = async () => {
     try {
+      // Delay 2 seconds for the charts to render before saving
+      await delay(2000);
       var today = new Date().toISOString().slice(0, 10);
       var reportName =
         "Assessment Report for " +
@@ -424,6 +427,16 @@ const Assessment = ({
     };
   }, [downloading]);
 
+  useEffect(() => {
+    if (!assessment.hasOwnProperty("aoi")) {
+      return <Redirect to="/" />;
+    } else if (saving) {
+      saveAssessment().then(() => {
+        setSaving(false);
+      });
+    };
+  }, [saving]);
+
   // if (!assessment.hasOwnProperty("aoi")) {
   //   return <Redirect to="/" />;
   // };
@@ -516,7 +529,9 @@ const Assessment = ({
             id="assessmentSaveButton"
             className="downloadButton"
             variant="dark"
-            onClick={saveAssessment}
+            onClick={() => {
+              setSaving(true);
+            }}
           >
             <MdSave /> Save to:{" "}
             {userLoggedIn.length > 9 ? (
@@ -647,7 +662,7 @@ const Assessment = ({
               results for each area of interest (AOI).
             </p>
             <div>
-              {downloading? <MCDAReport /> : <MCDAResult />}
+              {downloading || saving ? <MCDAReport /> : <MCDAResult />}
             </div>
           </Row>
           <hr />
