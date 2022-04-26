@@ -48,7 +48,7 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
-                href="http://sca-cit.herokuapp.com/"
+                href="https://sca-cit.herokuapp.com/"
                 target="_blank"
               >
                 Conservation Planning Inventory Tool (CIT)
