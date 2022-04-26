@@ -54,7 +54,7 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
                 Conservation Planning Inventory Tool (CIT)
               </NavDropdown.Item>
               <NavDropdown.Item
-                href="https://sca-cvt.netlify.app/"
+                href="https://sca-cvt.herokuapp.com/"
                 target="_blank"
               >
                 Conservation Visualization Tool (CVT)
