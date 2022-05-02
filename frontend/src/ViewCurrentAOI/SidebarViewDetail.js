@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Card, Container, Button, InputGroup, FormControl, Modal, Accordion } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  Button,
+  InputGroup,
+  FormControl,
+  Modal,
+  Accordion,
+} from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { MdViewList, MdEdit, MdDelete, MdSave } from "react-icons/md";
 import { HiDocumentReport } from "react-icons/hi";
@@ -42,7 +50,7 @@ const SidebarViewDetail = ({
   editMode,
   stopDraw,
   setAlertText,
-  setAlertType
+  setAlertType,
 }) => {
   const aoiList = Object.values(useSelector((state) => state.aoi)).filter(
     (aoi) => aoi.id === aoiSelected
@@ -57,12 +65,14 @@ const SidebarViewDetail = ({
   const [showButtonLabel, setShowButtonLabel] = useState("Show Hexagon Grid");
   const [showButtonDisabled, setShowButtonDisabled] = useState(false);
   const [deselectButtonState, setDeselectButtonState] = useState("deselect");
-  const [deselectButtonLabel, setDeselectButtonLabel] = useState("Deselect Hexagon");
+  const [deselectButtonLabel, setDeselectButtonLabel] =
+    useState("Deselect Hexagon");
   const [deselectButtonDisabled, setDeselectButtonDisabled] = useState(true);
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [confirmShow, setConfirmShow] = useState(false);
 
   const modifyShape = () => {
+    console.log(aoiList[0]);
     if (modifyButtonState === "modify") {
       setModifyButtonState("finalize");
       setModifyButtonLabel("Finalize Shape");
@@ -75,7 +85,7 @@ const SidebarViewDetail = ({
       setModifyButtonLabel("Modify Shape");
       setConfirmButtonDisabled(false);
       stopDraw();
-    };
+    }
   };
 
   const handleNameEdit = async () => {
@@ -99,9 +109,9 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    };
+    }
   };
-  
+
   const handleBasicEdit = async () => {
     if (!aoiName) {
       setAlertType("danger");
@@ -157,7 +167,7 @@ const SidebarViewDetail = ({
       }
       setDrawingMode(false);
       dispatch(setLoader(false));
-    };
+    }
   };
 
   const handleAdvancedEdit = async () => {
@@ -231,7 +241,7 @@ const SidebarViewDetail = ({
         })
       );
       dispatch(setLoader(false));
-    };
+    }
   };
 
   const showHexagon = () => {
@@ -249,7 +259,7 @@ const SidebarViewDetail = ({
       setShowButtonState("show");
       setShowButtonLabel("Show Hexagon Grid");
       setDeselectButtonDisabled(true);
-    };
+    }
   };
 
   const deselectHexagon = () => {
@@ -268,7 +278,7 @@ const SidebarViewDetail = ({
       setDeselectButtonLabel("Deselect Hexagon");
       setShowButtonDisabled(false);
       setConfirmButtonDisabled(false);
-    };
+    }
   };
 
   const exitEdit = () => {
