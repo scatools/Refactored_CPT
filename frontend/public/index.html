@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142234615-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-142234615-1');
+    </script>
     <link href="/fa-css/fontawesome.css" rel="stylesheet" />
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -17,12 +25,10 @@
       src="https://unpkg.com/react/umd/react.production.min.js"
       crossorigin
     ></script>
-
     <script
       src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
       crossorigin
     ></script>
-
     <script
       src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
       crossorigin
@@ -32,7 +38,6 @@
       href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css"
       type="text/css"
     />
-
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.

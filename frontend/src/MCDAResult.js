@@ -39,6 +39,18 @@ const MCDAResult = () => {
     "33",
     "1A",
   ];
+  const opacitySettings = [
+    [0],
+    [0, 5],
+    [0, 4, 8],
+    [0, 3, 6, 9],
+    [0, 2, 4, 6, 8],
+    [0, 1, 2, 3, 4, 5],
+    [0, 1, 2, 3, 4, 5, 6],
+    [0, 1, 2, 3, 4, 5, 6, 7],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  ];
   const assessment = useSelector((state) => state.assessment);
   const [aoi, setAoi] = useState(0);
   const [fillColor, setFillColor] = useState("#8884d8");
@@ -69,9 +81,12 @@ const MCDAResult = () => {
     );
     // Use the same AOI-based color scheme for pie chart and radar chart
     setFillColor(aoiColors[aoi]);
+    let aoiLength = assessment.aoi.id.length;
     setPieColors(
       assessment.aoi.id.map((id, index) => {
-        return aoiColors[aoi] + colorOpacity[index];
+        return (
+          aoiColors[aoi] + colorOpacity[opacitySettings[aoiLength - 1][index]]
+        );
       })
     );
   }, [aoi, assessment]);

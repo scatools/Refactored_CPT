@@ -48,13 +48,13 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
-                href="http://sca-cit.herokuapp.com/"
+                href="https://sca-cit.herokuapp.com/"
                 target="_blank"
               >
                 Conservation Planning Inventory Tool (CIT)
               </NavDropdown.Item>
               <NavDropdown.Item
-                href="https://sca-cvt.netlify.app/"
+                href="https://sca-cvt.herokuapp.com/"
                 target="_blank"
               >
                 Conservation Visualization Tool (CVT)

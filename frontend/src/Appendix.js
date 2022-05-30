@@ -18,7 +18,7 @@ const Appendix = () => {
                     </p>
                     <p>
                         <b>3. Connectivity to Existing Protected Area- </b>
-                        Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by Protected Areas Database of the United States (PAD-US) 2.0 data (Gergeley 2016). Protected areas included International Union for Conservation of Nature (IUCN) Categories Ia-VI and U.S. Geological Survey Gap Analysis Program (GAP) Status 1–4 areas. A binary attribute represents the spatial relationship between a hexagon and a protected area within PAD-US 2.0. Any hexagon that directly intersects or is within a 1 km2 distance of a protected area would count as one, otherwise, zero.
+                        Connectivity to existing protected area indicates if the proposed conservation area is within 1 km of an area classified as protected by Protected Areas Database of the United States (PAD-US) 2.0 data (Gergeley 2016). Protected areas included International Union for Conservation of Nature (IUCN) Categories Ia-VI and U.S. Geological Survey Gap Analysis Program (GAP) Status 1–4 areas. A binary attribute represents the spatial relationship between a hexagon and a protected area within PAD-US 2.0. Any hexagon that directly intersects or is within a 1 km2 distance of a protected area would count as one, otherwise, zero.
                     </p>
                     <p>
                         <b>4. Threat of Urbanization- </b>

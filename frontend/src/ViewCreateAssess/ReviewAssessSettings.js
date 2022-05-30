@@ -53,6 +53,11 @@ const ReviewAssessSettings = ({
           aoi[item.value].name
         )
       );
+      
+      const newAoi = mergeIntoArray(newAoiData);
+      
+      const scoreByGoal = calculateMeasures(newAoiData, weights);
+      
       const goalList = {
         hab: "Habitat",
         wq: "Water Quality & Quantity",
@@ -60,37 +65,225 @@ const ReviewAssessSettings = ({
         cl: "Community Resilience",
         eco: "Gulf Economy",
       };
-      const newWeights = Object.entries(weights).map((goal) => {
+      
+      const goalWeights = Object.entries(weights).map((goal) => {
         return {
           goal: goalList[goal[0]],
           weights: goal[1].weight / 100,
         };
       });
-      const newAoi = mergeIntoArray(newAoiData);
-      const scoreByGoal = calculateMeasures(newAoiData, weights);
+      
+      const defaultWeights = {
+        "hab": {
+            "selected": [
+                {
+                    "value": "hab0",
+                    "label": "Project Area",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "hab1",
+                    "label": "Connectivity to Existing Protected Area",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "hab2",
+                    "label": "Connectivity of Natural Lands",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "hab3",
+                    "label": "Threat of Urbanization",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "hab4",
+                    "label": "Composition of Priority Natural Lands",
+                    "utility": "1",
+                    "weight": "medium"
+                }
+            ],
+            "weight": 20
+        },
+        "wq": {
+            "selected": [
+                {
+                    "value": "wq1",
+                    "label": "303(d): Impaired Watershed Area",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "wq2",
+                    "label": "Hydrologic Response to Land-Use Change",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "wq3",
+                    "label": "Percent Irrigated Agriculture",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "wq4",
+                    "label": "Lateral Connectivity of Floodplain",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "wq5",
+                    "label": "Composition of Riparizan Zone Lands",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "wq6",
+                    "label": "Presence of Impoundments",
+                    "utility": "1",
+                    "weight": "medium"
+                }
+            ],
+            "weight": 20
+        },
+        "lcmr": {
+            "selected": [
+                {
+                    "value": "lcmr1",
+                    "label": "Vulnerable Areas of Terrestrial Endemic Species",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "lcmr2",
+                    "label": "Threatened and Endangered Species - Critical Habitat Area",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "lcmr3",
+                    "label": "Threatened and Endangered Species - Number of Species",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "lcmr4",
+                    "label": "Light Pollution Index",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "lcmr5",
+                    "label": "Terrestrial Vertebrate Biodiversity",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "lcmr6",
+                    "label": "Vulnerability to Invasive Plants",
+                    "utility": "1",
+                    "weight": "medium"
+                }
+            ],
+            "weight": 20
+        },
+        "cl": {
+            "selected": [
+                {
+                    "value": "cl1",
+                    "label": "National Register of Historic Places",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "cl2",
+                    "label": "National Heritage Area",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "cl3",
+                    "label": "Proximity to Socially Vulnerable Communities",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "cl4",
+                    "label": "Community Threat Index",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "cl5",
+                    "label": "Social Vulnerability Index",
+                    "utility": "1",
+                    "weight": "medium"
+                }
+            ],
+            "weight": 20
+        },
+        "eco": {
+            "selected": [
+                {
+                    "value": "eco1",
+                    "label": "High Priority Working Lands",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "eco2",
+                    "label": "Commercial Fishing Reliance",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "eco3",
+                    "label": "Recreational Fishing Engagement",
+                    "utility": "1",
+                    "weight": "medium"
+                },
+                {
+                    "value": "eco4",
+                    "label": "Access & Recreation - Number of Access Points",
+                    "utility": "1",
+                    "weight": "medium"
+                }
+            ],
+            "weight": 20
+        }
+      };
+
+      const defaultScoreByGoal = calculateMeasures(newAoiData, defaultWeights);
 
       // For development on local server
       // const result = await axios.post('http://localhost:5000/mcda',{
-      // 	mean: scoreByGoal,
+      // 	mean: defaultScoreByGoal,
       // 	std: 0.1
       // });
+
       // For production on Heroku
       const result = await axios.post(
         "https://sca-cpt-backend.herokuapp.com/mcda",
         {
-          mean: scoreByGoal,
+          mean: defaultScoreByGoal,
           std: 0.1,
         }
       );
+
       const returnData = {
         aoi: newAoi,
         aoiScore: scoreByGoal,
-        weights: newWeights,
+        weights: goalWeights,
         rankAccept: result.data.rankAccept,
         centralWeight: result.data.centralWeight,
       };
+      
       dispatch(generate_assessment(returnData));
-    }
+    };
 
     if (
       Object.values(weights).reduce((a, b) => {
@@ -148,7 +341,7 @@ const ReviewAssessSettings = ({
                       <span>
                         {measure.label ===
                         "Connectivity to Existing Protected Area"
-                          ? "Connectivity to existing protected area indicates if the proposed conservation area is close to an area classified as protected by PAD-US 2.0 data."
+                          ? "Connectivity to existing protected area indicates if the proposed conservation area is within 1 km of an area classified as protected by PAD-US 2.0 data."
                           : measure.label === "Connectivity of Natural Lands"
                           ? "A percent attribute that stands for the proportion of area classified as a hub or corridor."
                           : measure.label === "Threat of Urbanization"

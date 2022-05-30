@@ -298,6 +298,7 @@ const SelectDataMeasures = ({
             styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
             menuPortalTarget={document.body}
             options={[
+              { value: "hab0", label: "Project Area" },
               {
                 value: "hab1",
                 label: "Connectivity to Existing Protected Area",
@@ -353,8 +354,8 @@ const SelectDataMeasures = ({
                       "Connectivity to Existing Protected Area" ? (
                         <>
                           Connectivity to existing protected area indicates if
-                          the proposed conservation area is close to an area
-                          classified as protected by PAD-US 2.0 data.
+                          the proposed conservation area is within 1 km of an
+                          area classified as protected by PAD-US 2.0 data.
                           <br />
                           <a
                             href="https://scatoolsuite.gitbook.io/sca-tool-suite/support/habitat#connectivity-to-existing-protected-area"
@@ -420,8 +421,10 @@ const SelectDataMeasures = ({
                   <div>
                     <div>
                       <p className="smaller-text no-margin no-padding">
-                        {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        {measure.label === "Project Area"
+                          ? "Is more or less project area for your project?"
+                          : measure.label ===
+                            "Connectivity to Existing Protected Area"
                           ? "Is more or less connected better for your project?"
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Is more or less connectivity better for your project?"
@@ -451,8 +454,10 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        {measure.label === "Project Area"
+                          ? "More"
+                          : measure.label ===
+                            "Connectivity to Existing Protected Area"
                           ? "More"
                           : measure.label === "Connectivity of Natural Lands"
                           ? "More"
@@ -464,8 +469,10 @@ const SelectDataMeasures = ({
                           : ""}
                       </ToggleButton>
                       <ReactTooltip id="positive-hab" place="top">
-                        {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        {measure.label === "Project Area"
+                          ? "More project area is better."
+                          : measure.label ===
+                            "Connectivity to Existing Protected Area"
                           ? "More connectivity is better."
                           : measure.label === "Connectivity of Natural Lands"
                           ? "More connectivity is better."
@@ -493,8 +500,10 @@ const SelectDataMeasures = ({
                           )
                         }
                       >
-                        {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                        {measure.label === "Project Area"
+                          ? "Less"
+                          : measure.label ===
+                            "Connectivity to Existing Protected Area"
                           ? "Less"
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Less"
@@ -505,9 +514,11 @@ const SelectDataMeasures = ({
                           ? "Less"
                           : ""}
                       </ToggleButton>
-                      <ReactTooltip id="less" place="top">
-                        {measure.label ===
-                        "Connectivity to Existing Protected Area"
+                      <ReactTooltip id="negative-hab" place="top">
+                        {measure.label === "Project Area"
+                          ? "Less project area is better."
+                          : measure.label ===
+                            "Connectivity to Existing Protected Area"
                           ? "Less connectivity is better."
                           : measure.label === "Connectivity of Natural Lands"
                           ? "Less connectivity is better."

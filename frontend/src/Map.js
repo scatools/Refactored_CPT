@@ -389,9 +389,9 @@ const Map = ({
                 features: aoi.geometry,
               }}
             >
-              {aoi.name && (
+              {aoi.id && (
                 <Layer
-                  id={aoi.name}
+                  id={aoi.id}
                   type="fill"
                   paint={{
                     "fill-color": aoiColors[index],

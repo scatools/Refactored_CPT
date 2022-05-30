@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Dropdown, Row } from "react-bootstrap";
 import MapGL, { Source, Layer, WebMercatorViewport } from "react-map-gl";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ import AssessmentTable from "./AssessmentTable";
 import AssessmentScoreTable from "./AssessmentScoreTable";
 import UserDefinedResult from "./UserDefinedResult";
 import MCDAResult from "./MCDAResult";
+import MCDAReport from "./MCDAReport";
 import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
 import Legend from "./Legend";
@@ -31,14 +32,15 @@ const Assessment = ({
   setAlertText,
   setAlertType,
 }) => {
-  const dispatch = useDispatch();
-  dispatch(setLoader(false));
-
+  const [downloading, setDownloading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const history = useHistory();
-
   const assessment = useSelector((state) => state.assessment);
   const aoi = useSelector((state) => state.aoi);
   var aoiAssembly = [];
+
+  const dispatch = useDispatch();
+  dispatch(setLoader(false));
 
   // Up to 10 colors for 10 different AOIs
   const aoiColors = [
@@ -234,7 +236,11 @@ const Assessment = ({
   // }
 
   // Download from frontend
-  const downloadHTML = () => {
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+
+  const downloadHTML = async () => {
+    // Delay 2 seconds for the charts to render before downloading
+    await delay(2000);
     var pageHTMLObject = document.getElementsByClassName("container")[0];
     var pageHTML =
       "<html><head>" +
@@ -319,6 +325,8 @@ const Assessment = ({
 
   const saveAssessment = async () => {
     try {
+      // Delay 2 seconds for the charts to render before saving
+      await delay(2000);
       var today = new Date().toISOString().slice(0, 10);
       var reportName =
         "Assessment Report for " +
@@ -409,9 +417,29 @@ const Assessment = ({
     }
   };
 
-  if (!assessment.hasOwnProperty("aoi")) {
-    return <Redirect to="/" />;
-  }
+  useEffect(() => {
+    if (!assessment.hasOwnProperty("aoi")) {
+      return <Redirect to="/" />;
+    } else if (downloading) {
+      downloadHTML().then(() => {
+        setDownloading(false);
+      });
+    };
+  }, [downloading]);
+
+  useEffect(() => {
+    if (!assessment.hasOwnProperty("aoi")) {
+      return <Redirect to="/" />;
+    } else if (saving) {
+      saveAssessment().then(() => {
+        setSaving(false);
+      });
+    };
+  }, [saving]);
+
+  // if (!assessment.hasOwnProperty("aoi")) {
+  //   return <Redirect to="/" />;
+  // };
 
   return (
     <>
@@ -425,7 +453,12 @@ const Assessment = ({
             <MdDownload /> Assessment Report
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item variant="dark" onClick={downloadHTML}>
+            <Dropdown.Item
+              variant="dark"
+              onClick={() => {
+                setDownloading(true);
+              }}
+            >
               <FaChrome /> &nbsp; Download as HTML
             </Dropdown.Item>
             <PDFDownloader
@@ -496,7 +529,9 @@ const Assessment = ({
             id="assessmentSaveButton"
             className="downloadButton"
             variant="dark"
-            onClick={saveAssessment}
+            onClick={() => {
+              setSaving(true);
+            }}
           >
             <MdSave /> Save to:{" "}
             {userLoggedIn.length > 9 ? (
@@ -627,7 +662,7 @@ const Assessment = ({
               results for each area of interest (AOI).
             </p>
             <div>
-              <MCDAResult />
+              {downloading || saving ? <MCDAReport /> : <MCDAResult />}
             </div>
           </Row>
           <hr />

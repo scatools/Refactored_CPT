@@ -1,18 +1,15 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
+import { GoReport } from "react-icons/go";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import SidebarDismiss from "./SidebarDismiss";
 import AddAOIView from "./ViewAddAOI/AddAOIView";
 import CurrentAOIView from "./ViewCurrentAOI/CurrentAOIView";
 import CreateAssessView from "./ViewCreateAssess/CreateAssessView";
 import SidebarMode from "./SidebarMode";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faRedo,
-  faExclamationCircle,
-  faBug,
-} from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 const arrowIcon = (
   <FontAwesomeIcon
@@ -31,8 +28,6 @@ const alertIcon = (
     style={{ margin: "0 5px;" }}
   />
 );
-
-const bugIcon = <FontAwesomeIcon icon={faBug} color="red" size="lg" />;
 
 const Sidebar = ({
   aoiAssembled,
@@ -176,7 +171,7 @@ const Sidebar = ({
         onClick={() => history.push("/help")}
         className="bug-icon-btn"
       >
-        {bugIcon}
+        <GoReport />
       </Button>
     </div>
   );
