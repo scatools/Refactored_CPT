@@ -5,17 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeMeasures, changeMeasuresWeight } from "../action";
 import ReactTooltip from "react-tooltip";
 import parse from "html-react-parser";
-import { GoInfo, GoQuestion } from "react-icons/go";
+import { GoInfo } from "react-icons/go";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
-const SingleMeasure = ({ customizedMeasures, setAssessStep }) => {
+const SingleMeasure = ({
+  customizedMeasures,
+  customizeMeasure,
+  setAssessStep,
+}) => {
   const weights = useSelector((state) => state.weights);
   const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
-  const [restoreGoal, setRestoreGoal] = useState("");
-  const [inputMeasureName, setInputMeasureName] = useState("");
-  const [inputMeasureValueList, setInputMeasureValueList] = useState([]);
 
   const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
   const plusCircle = (
@@ -36,14 +36,6 @@ const SingleMeasure = ({ customizedMeasures, setAssessStep }) => {
   };
 
   // For customized data measures
-  const handleShow = () => setShow(true);
-
-  const customizeMeasure = (goal) => {
-    setInputMeasureName("");
-    setInputMeasureValueList([]);
-    setRestoreGoal(goal);
-    handleShow();
-  };
 
   const setMeasureUtility = (goal, index, newUtility) => {
     customizedMeasures[goal][index].utility = newUtility;

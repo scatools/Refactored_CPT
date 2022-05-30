@@ -1,28 +1,9 @@
-import React, { useCallback, useState } from "react";
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  Table,
-  ToggleButton,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Container, Table } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Select from "react-select";
-import { useDispatch, useSelector } from "react-redux";
-import ReactTooltip from "react-tooltip";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import parse from "html-react-parser";
-import { faArrowLeft, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import DataMeasure from "./DataMeasure";
-import { Label } from "recharts";
-import { GoInfo, GoQuestion } from "react-icons/go";
-import { FiPlusCircle } from "react-icons/fi";
-import { HiExternalLink } from "react-icons/hi";
-import {
-  changeMeasures,
-  changeMeasuresWeight,
-  changeGoalWeights,
-} from "../action";
+
+import { useSelector } from "react-redux";
+
 import SingleMeasure from "./SingleMeasure";
 
 const SelectDataMeasures = ({
@@ -32,37 +13,13 @@ const SelectDataMeasures = ({
 }) => {
   const [show, setShow] = useState(false);
   const [restoreGoal, setRestoreGoal] = useState("");
-  const [inputType, setInputType] = useState("scaled");
   const [inputMeasureName, setInputMeasureName] = useState("");
   const [inputMeasureValueList, setInputMeasureValueList] = useState([]);
-  const weights = useSelector((state) => state.weights);
   const aoi = useSelector((state) => state.aoi);
   const aoiAssembledList = aoiAssembled.map((aoi) => aoi.value);
   const aoiList = Object.values(aoi).filter((aoi) =>
     aoiAssembledList.includes(aoi.id)
   );
-  const [habitatSelect, setHabitatSelect] = useState(false);
-  const [waterSelect, setWaterSelect] = useState(false);
-  const [resourceSelect, setResourceSelect] = useState(false);
-  const [resilienceSelect, setResilienceSelect] = useState(false);
-  const [economySelect, setEconomySelect] = useState(false);
-  const dispatch = useDispatch();
-  const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
-  const plusCircle = (
-    <FontAwesomeIcon
-      className="hover-icon"
-      icon={faPlusCircle}
-      size="lg"
-      onClick={() => {
-        customizeMeasure(dataMeasList[dataI]);
-      }}
-    />
-  );
-  // For predefined data measures
-
-  const handleChange = (value, name, label, type) => {
-    dispatch(changeMeasuresWeight(value, name, label, type));
-  };
 
   // For customized data measures
 
@@ -89,38 +46,27 @@ const SelectDataMeasures = ({
     handleClose();
   };
 
-  const setMeasureUtility = (goal, index, newUtility) => {
-    customizedMeasures[goal][index].utility = newUtility;
-  };
+  let goalName = "";
 
-  const setMeasureWeight = (goal, index, newWeight) => {
-    customizedMeasures[goal][index].weight = newWeight;
-  };
-
-  let dataMeasList = ["hab", "wq", "lcmr", "cl", "eco"];
-  const [dataI, setDataI] = useState(0);
-
-  for (const elem of dataMeasList) {
-    if (!weights[elem].weight)
-      dataMeasList = dataMeasList.filter((a) => a !== elem);
+  switch (restoreGoal) {
+    case "hab":
+      goalName = "Habitat";
+      break;
+    case "wq":
+      goalName = "Water Quality & Quantity";
+      break;
+    case "lcmr":
+      goalName = "Living Coastal & Marine Resources";
+      break;
+    case "cl":
+      goalName = "Community Resilience";
+      break;
+    case "eco":
+      goalName = "Gulf Economy";
+      break;
+    default:
+      goalName = "";
   }
-
-  const handleNext = () => {
-    if (dataI === dataMeasList.length - 1) {
-      setAssessStep("reviewAssessSettings");
-    } else {
-      setDataI(dataI + 1);
-    }
-  };
-
-  const handleBack = () => {
-    if (dataI === 0) {
-      setAssessStep("selectRestoreWeights");
-    } else {
-      let newI = dataI - 1;
-      setDataI(newI);
-    }
-  };
 
   return (
     <Container>
@@ -130,21 +76,7 @@ const SelectDataMeasures = ({
         </Modal.Header>
         <Modal.Body>
           <div style={{ float: "left" }}>
-            <b>Goal:</b> {restoreGoal}
-          </div>
-          <div className="form-group form-inline" style={{ float: "right" }}>
-            <b style={{ marginRight: "10px" }}>Input Type:</b>
-            <select
-              name="inputType"
-              className="form-control"
-              style={{ width: "150px", height: "30px", fontSize: "12px" }}
-              onChange={(e) => {
-                setInputType(e.target.value);
-              }}
-            >
-              <option value="scaled">Scaled Values</option>
-              <option value="unscaled">Unscaled Values</option>
-            </select>
+            <b>Goal:</b> {goalName}
           </div>
           <br />
           <br />
@@ -217,6 +149,7 @@ const SelectDataMeasures = ({
 
       <SingleMeasure
         customizedMeasures={customizedMeasures}
+        customizeMeasure={customizeMeasure}
         setAssessStep={setAssessStep}
       />
     </Container>
