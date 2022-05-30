@@ -22,6 +22,7 @@ import {
   changeMeasuresWeight,
   changeGoalWeights,
 } from "../action";
+import SingleMeasure from "./SingleMeasure";
 
 const SelectDataMeasures = ({
   setAssessStep,
@@ -61,11 +62,6 @@ const SelectDataMeasures = ({
   const handleChange = (value, name, label, type) => {
     dispatch(changeMeasuresWeight(value, name, label, type));
   };
-  // *************         Causing bug when removing datameasures to 0            **************//
-  // const handleWeights = (value, goal) => {
-  //   const newValue = Number(value) > 100 ? 100 : Number(value);
-  //   dispatch(changeGoalWeights(newValue, goal));
-  // };
 
   const [options, setOptions] = useState({
     hab: [
@@ -164,18 +160,15 @@ const SelectDataMeasures = ({
       utility: "1",
       weight: "medium",
     });
-    // console.log(customizedMeasures);
     handleClose();
   };
 
   const setMeasureUtility = (goal, index, newUtility) => {
     customizedMeasures[goal][index].utility = newUtility;
-    // console.log(customizedMeasures);
   };
 
   const setMeasureWeight = (goal, index, newWeight) => {
     customizedMeasures[goal][index].weight = newWeight;
-    // console.log(customizedMeasures);
   };
 
   let dataMeasList = ["hab", "wq", "lcmr", "cl", "eco"];
@@ -295,6 +288,9 @@ const SelectDataMeasures = ({
         Select each relevant data measure and set your prioritization level
         (Low, Medium, High)
       </p>
+
+      {/* <SingleMeasure dataMeasList = {dataMeasList} options = {options} /> */}
+
       {dataMeasList[dataI] === "hab" && (
         <div>
           <span>Habitat:</span>
