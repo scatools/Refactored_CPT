@@ -669,3 +669,7 @@ a img.logo {
 #reportOverview .container {
   width: 65%;
 }
+
+.modal-dialog.modal-xl.modal-dialog-centered {
+  min-width: 800px;
+}
