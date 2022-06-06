@@ -9,7 +9,11 @@ import {
   loadUserShapeList,
   loadUserReportList,
 } from "../Redux/action";
-import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
+import {
+  calculateArea,
+  aggregate,
+  getStatus,
+} from "../Helper Functions/aggregateHex";
 import { input_aoi, setLoader } from "../Redux/action";
 import "../App.css";
 
