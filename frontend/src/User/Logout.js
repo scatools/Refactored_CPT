@@ -1,10 +1,16 @@
 import React from "react";
 import { Container, Jumbotron } from "react-bootstrap";
 import "../App.css";
+import { useDispatch } from "react-redux";
+import { logInUser } from "../Redux/action";
 
 const Logout = ({ setLoggedIn, setUserLoggedIn }) => {
+  const dispatch = useDispatch();
+
   setLoggedIn(false);
   setUserLoggedIn(null);
+  dispatch(logInUser(false, ""));
+
   return (
     <Container>
       <Jumbotron>

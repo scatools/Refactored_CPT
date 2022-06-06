@@ -9,6 +9,7 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const user = useSelector((state) => state.user);
 
   return (
     <div>
@@ -60,10 +61,10 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
                 Conservation Visualization Tool (CVT)
               </NavDropdown.Item>
             </NavDropdown>
-            {loggedIn ? (
+            {user.loggedIn ? (
               <div className="nav-right">
                 <NavLink to="/user" className="ml-3 mt-2 login">
-                  {userLoggedIn}
+                  {user.username}
                 </NavLink>
                 <NavLink to="/logout" className="ml-3 mt-2 login">
                   Log Out

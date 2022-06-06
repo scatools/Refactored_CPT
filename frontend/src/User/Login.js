@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Jumbotron } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import "../App.css";
+import { logInUser } from "../Redux/action";
 
 const Login = ({
   setLoggedIn,
@@ -13,6 +15,11 @@ const Login = ({
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  console.log("this is before dispatch");
+  console.log(user);
 
   const onSubmit = async () => {
     // For development on local server
@@ -27,6 +34,7 @@ const Login = ({
       { username: username, password: password }
     );
 
+    dispatch(logInUser(true, username));
     if (result.data.credentials.length === 0) {
       setAlertType("danger");
       setAlertText("Username doesn't exist! Please register.");
@@ -36,7 +44,6 @@ const Login = ({
       setAlertText("Incorrect password! Please enter again.");
       window.setTimeout(() => setAlertText(false), 4000);
     } else {
-      setLoggedIn(true);
       setUserLoggedIn(username);
       history.push("/user");
       setAlertType("success");

@@ -18,7 +18,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loggedIn: action.loggedIn,
-        loggedInUser: action.username,
+        username: action.username,
       };
 
     case LOAD_USER:

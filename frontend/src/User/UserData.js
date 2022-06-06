@@ -29,7 +29,6 @@ const UserData = ({
   const [updateInfo, setUpdateInfo] = useState(false);
   const [updatePassword, setUpdatePassword] = useState(false);
   const user = useSelector((state) => state.user);
-
   const showUpdateInfo = () => setUpdateInfo(true);
 
   const closeUpdateInfo = () => {
@@ -45,6 +44,8 @@ const UserData = ({
     setNewPassword(null);
   };
 
+  console.log(user);
+
   const getUserData = async () => {
     // For development on local server
     // const result = await axios.post(
@@ -55,7 +56,7 @@ const UserData = ({
     // For production on Heroku
     const result = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/user",
-      { username: userLoggedIn }
+      { username: user.username }
     );
 
     setNewFirstName(result.data.rows[0].first_name);
@@ -81,7 +82,7 @@ const UserData = ({
     const result = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/update/information",
       {
-        username: userLoggedIn,
+        username: user.username,
         email: newEmail,
         first_name: newFirstName,
         last_name: newLastName,
@@ -104,7 +105,7 @@ const UserData = ({
     // For production on Heroku
     const verification = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/login",
-      { username: userLoggedIn, password: password }
+      { username: user.username, password: password }
     );
 
     if (!verification.data.validLogin) {
@@ -124,7 +125,7 @@ const UserData = ({
       const result = await axios.post(
         "https://sca-cpt-backend.herokuapp.com/update/password",
         {
-          username: userLoggedIn,
+          username: user.username,
           password: newPassword,
         }
       );
@@ -146,7 +147,7 @@ const UserData = ({
     // For production on Heroku
     const result = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/user/shapefile",
-      { username: userLoggedIn }
+      { username: user.username }
     );
     if (result) {
       setUserFileList(result.data.rows.map((row) => row.file_name));
@@ -166,7 +167,7 @@ const UserData = ({
     // For production on Heroku
     const result = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/user/report",
-      { username: userLoggedIn }
+      { username: user.username }
     );
     if (result) {
       setUserReportList(result.data.rows.map((row) => row.report_name));
@@ -222,7 +223,7 @@ const UserData = ({
     // For production on Heroku
     const result = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/user/shapefile",
-      { username: userLoggedIn }
+      { username: user.username }
     );
     const fileList = result.data.rows.filter((row) => row.file_name === file);
     const fileFeature = JSON.parse(
@@ -269,7 +270,7 @@ const UserData = ({
     // For production on Heroku
     const result = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/user/report",
-      { username: userLoggedIn }
+      { username: user.username }
     );
     const reportList = result.data.rows.filter(
       (row) => row.report_name === report
