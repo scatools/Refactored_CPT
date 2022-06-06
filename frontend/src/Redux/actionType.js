@@ -9,4 +9,5 @@ export const GENERATE_ASSESSMENT = "GENERATE_ASSESSMENT";
 export const LOADER = "LOADER";
 export const LOAD_USER = "LOAD_USER";
 export const LOAD_USER_SHAPE_LIST = "LOAD_USER_SHAPE_LIST";
+export const LOAD_USER_REPORT_LIST = "LOAD_USER_REPORT_LIST";
 export const LOG_IN_USER = "LOG_IN_USER";

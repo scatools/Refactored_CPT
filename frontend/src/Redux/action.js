@@ -9,6 +9,7 @@ import {
   LOADER,
   LOAD_USER,
   LOAD_USER_SHAPE_LIST,
+  LOAD_USER_REPORT_LIST,
   LOG_IN_USER,
 } from "./actionType";
 
@@ -22,6 +23,13 @@ export function loadUser(data) {
 export function loadUserShapeList(data) {
   return {
     type: LOAD_USER_SHAPE_LIST,
+    data,
+  };
+}
+
+export function loadUserReportList(data) {
+  return {
+    type: LOAD_USER_REPORT_LIST,
     data,
   };
 }

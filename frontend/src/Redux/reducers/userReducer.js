@@ -1,4 +1,9 @@
-import { LOAD_USER, LOAD_USER_SHAPE_LIST, LOG_IN_USER } from "../actionType";
+import {
+  LOAD_USER,
+  LOAD_USER_SHAPE_LIST,
+  LOAD_USER_REPORT_LIST,
+  LOG_IN_USER,
+} from "../actionType";
 
 const initialState = {
   loggedIn: false,
@@ -35,6 +40,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         shapefileList: action.data,
+      };
+
+    case LOAD_USER_REPORT_LIST:
+      return {
+        ...state,
+        reportList: action.data,
       };
 
     default:

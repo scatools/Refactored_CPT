@@ -4,7 +4,11 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
-import { loadUser, loadUserShapeList } from "../Redux/action";
+import {
+  loadUser,
+  loadUserShapeList,
+  loadUserReportList,
+} from "../Redux/action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { input_aoi, setLoader } from "../Redux/action";
 import "../App.css";
@@ -22,7 +26,6 @@ const UserData = ({
   const [newFirstName, setNewFirstName] = useState(null);
   const [newLastName, setNewLastName] = useState(null);
   const [newEmail, setNewEmail] = useState(null);
-  const [userFileList, setUserFileList] = useState([]);
   const [userReportList, setUserReportList] = useState([]);
   const [fileDeleted, setFileDeleted] = useState(null);
   const [reportDeleted, setReportDeleted] = useState(null);
@@ -145,15 +148,19 @@ const UserData = ({
     // );
 
     // For production on Heroku
-    const result = await axios.post(
+    const response = await axios.post(
       "https://sca-cpt-backend.herokuapp.com/user/shapefile",
       { username: user.username }
     );
-    if (result) {
-      setUserFileList(result.data.rows.map((row) => row.file_name));
-      let shapeListArr = [];
-      result.data.rows.map((row) => shapeListArr.push(row.file_name));
-      result.data.rows.map((row) => dispatch(loadUserShapeList(shapeListArr)));
+
+    const shapeListArr = [];
+    console.log(response.data.rows);
+    dispatch(loadUserShapeList(shapeListArr));
+    if (response) {
+      response.data.rows.map((row) => shapeListArr.push(row.file_name));
+      response.data.rows.map((row) =>
+        dispatch(loadUserShapeList(shapeListArr))
+      );
     }
   };
 
@@ -170,7 +177,9 @@ const UserData = ({
       { username: user.username }
     );
     if (result) {
-      setUserReportList(result.data.rows.map((row) => row.report_name));
+      const reportListArr = [];
+      result.data.rows.map((row) => reportListArr.push(row.report_name));
+      dispatch(loadUserReportList(reportListArr));
     }
   };
 
@@ -190,6 +199,7 @@ const UserData = ({
       setAlertType("warning");
       setAlertText("You have deleted the AOI named " + file);
     }
+    getUserFile();
   };
 
   const deleteUserReport = async (report) => {
@@ -208,6 +218,7 @@ const UserData = ({
       setAlertType("warning");
       setAlertText("You have deleted the report named " + report);
     }
+    getUserReport();
   };
 
   const viewUserFile = async (file) => {
@@ -286,7 +297,7 @@ const UserData = ({
     getUserData();
     getUserFile();
     getUserReport();
-  }, [userLoggedIn]);
+  }, [user.loggedIn]);
 
   useEffect(() => {
     getUserFile();
@@ -296,7 +307,7 @@ const UserData = ({
     getUserReport();
   }, [reportDeleted]);
 
-  if (userLoggedIn) {
+  if (user.loggedIn) {
     return (
       <Container>
         <Jumbotron>
@@ -326,7 +337,7 @@ const UserData = ({
           <hr className="my-4" />
           <p className="h3">Saved Shapefiles</p>
           <br />
-          {userFileList.length > 0 ? (
+          {user.shapefileList.length > 0 ? (
             user.shapefileList.map((file) => (
               <div className="d-flex mb-2" key={uuid()}>
                 <span className="mr-auto">{file}</span>
@@ -354,8 +365,8 @@ const UserData = ({
           <hr className="my-4" />
           <p className="h3">Saved Reports</p>
           <br />
-          {userReportList.length > 0 ? (
-            userReportList.map((report) => (
+          {user.reportList.length > 0 ? (
+            user.reportList.map((report) => (
               <div className="d-flex mb-2" key={uuid()}>
                 <span className="mr-auto">{report}</span>
                 <Button
