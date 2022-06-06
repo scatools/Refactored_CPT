@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, Jumbotron, Modal } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
+import { loadUser, loadUserShapeList } from "../Redux/action";
 import { calculateArea, aggregate, getStatus } from "../helper/aggregateHex";
 import { input_aoi, setLoader } from "../Redux/action";
 import "../App.css";
@@ -16,22 +17,18 @@ const UserData = ({
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [newPassword, setNewPassword] = useState(null);
-  const [firstName, setFirstName] = useState(null);
   const [newFirstName, setNewFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
   const [newLastName, setNewLastName] = useState(null);
-  const [email, setEmail] = useState(null);
   const [newEmail, setNewEmail] = useState(null);
-  const [admin, setAdmin] = useState(false);
   const [userFileList, setUserFileList] = useState([]);
   const [userReportList, setUserReportList] = useState([]);
   const [fileDeleted, setFileDeleted] = useState(null);
   const [reportDeleted, setReportDeleted] = useState(null);
   const [updateInfo, setUpdateInfo] = useState(false);
   const [updatePassword, setUpdatePassword] = useState(false);
+  const user = useSelector((state) => state.user);
 
   const showUpdateInfo = () => setUpdateInfo(true);
 
@@ -61,14 +58,11 @@ const UserData = ({
       { username: userLoggedIn }
     );
 
-    setUsername(result.data.rows[0].username);
-    setFirstName(result.data.rows[0].first_name);
     setNewFirstName(result.data.rows[0].first_name);
-    setLastName(result.data.rows[0].last_name);
     setNewLastName(result.data.rows[0].last_name);
-    setEmail(result.data.rows[0].email);
     setNewEmail(result.data.rows[0].email);
-    setAdmin(result.data.rows[0].is_admin);
+
+    dispatch(loadUser(result.data.rows[0]));
   };
 
   const updateUserInfo = async () => {
@@ -156,6 +150,9 @@ const UserData = ({
     );
     if (result) {
       setUserFileList(result.data.rows.map((row) => row.file_name));
+      let shapeListArr = [];
+      result.data.rows.map((row) => shapeListArr.push(row.file_name));
+      result.data.rows.map((row) => dispatch(loadUserShapeList(shapeListArr)));
     }
   };
 
@@ -303,17 +300,19 @@ const UserData = ({
       <Container>
         <Jumbotron>
           <h1 className="display-4">
-            Welcome back, {firstName} {lastName}
+            Welcome back, {user.firstName} {user.lastName}
           </h1>
           <p className="lead">
             Please review or modify your personal information here
           </p>
           <hr className="my-4" />
           <p className="h3">User Profile</p>
-          <p>Your username: {username}</p>
-          <p>Your email: {email}</p>
+          <p>Your username: {user.username}</p>
+          <p>Your email: {user.email}</p>
           <div className="d-flex justify-content-between btn-container">
-            {admin && <Button className="btn btn-success">Admin Module</Button>}
+            {user.admin && (
+              <Button className="btn btn-success">Admin Module</Button>
+            )}
             <Button className="btn btn-success" onClick={showUpdateInfo}>
               Update Information
             </Button>
@@ -327,7 +326,7 @@ const UserData = ({
           <p className="h3">Saved Shapefiles</p>
           <br />
           {userFileList.length > 0 ? (
-            userFileList.map((file) => (
+            user.shapefileList.map((file) => (
               <div className="d-flex mb-2" key={uuid()}>
                 <span className="mr-auto">{file}</span>
                 <Button
@@ -388,7 +387,7 @@ const UserData = ({
           <Modal.Body>
             <div className="form-group">
               Your Username:
-              <input type="text" value={username} disabled></input>
+              <input type="text" value={user.username} disabled></input>
               Your Email:
               <input
                 type="text"
@@ -436,7 +435,7 @@ const UserData = ({
           <Modal.Body>
             <div className="form-group">
               Your Username:
-              <input type="text" value={username} disabled></input>
+              <input type="text" value={user.username} disabled></input>
               Your Current Password:
               <input
                 type="password"

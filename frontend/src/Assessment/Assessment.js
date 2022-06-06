@@ -37,6 +37,7 @@ const Assessment = ({
   const history = useHistory();
   const assessment = useSelector((state) => state.assessment);
   const aoi = useSelector((state) => state.aoi);
+  const user = useSelector((state) => state.user);
   var aoiAssembly = [];
 
   const dispatch = useDispatch();
@@ -403,7 +404,7 @@ const Assessment = ({
         {
           report_name: reportName,
           script: pageHTML,
-          username: userLoggedIn,
+          username: user.username,
         }
       );
       if (res) {
@@ -523,7 +524,7 @@ const Assessment = ({
         </Dropdown>
       </div>
 
-      {userLoggedIn && (
+      {user.loggedIn && (
         <div className="assessmentSave">
           <Button
             id="assessmentSaveButton"
@@ -534,10 +535,10 @@ const Assessment = ({
             }}
           >
             <MdSave /> Save to:{" "}
-            {userLoggedIn.length > 9 ? (
-              <span style={{ fontSize: "10px" }}>{userLoggedIn}</span>
+            {user.username.length > 9 ? (
+              <span style={{ fontSize: "10px" }}>{user.username}</span>
             ) : (
-              userLoggedIn
+              user.username
             )}
           </Button>
         </div>

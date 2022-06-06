@@ -7,7 +7,32 @@ import {
   EDIT_AOI,
   GENERATE_ASSESSMENT,
   LOADER,
+  LOAD_USER,
+  LOAD_USER_SHAPE_LIST,
+  LOG_IN_USER,
 } from "./actionType";
+
+export function loadUser(data) {
+  return {
+    type: LOAD_USER,
+    data,
+  };
+}
+
+export function loadUserShapeList(data) {
+  return {
+    type: LOAD_USER_SHAPE_LIST,
+    data,
+  };
+}
+
+export function logInUser(loggedIn, username) {
+  return {
+    type: LOG_IN_USER,
+    loggedIn,
+    username,
+  };
+}
 
 export function changeMeasures(goal, data) {
   return { type: CHANGE_MEASURES, goal, data };
