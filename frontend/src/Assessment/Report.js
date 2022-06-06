@@ -525,7 +525,11 @@ const Report = ({ aoiSelected, userLoggedIn, setAlertText, setAlertType }) => {
               * Data for federally listed species are provided by USFWS. It may
               contain species found in state-level investigations. For the most
               accurate result, please refer to the
-              <a href="https://ipac.ecosphere.fws.gov/" target="_blank">
+              <a
+                href="https://ipac.ecosphere.fws.gov/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {" "}
                 Information for Planning and Consultation (IPaC) Tool
               </a>

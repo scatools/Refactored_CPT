@@ -41,7 +41,6 @@ const Map = ({
   const [hovered, setHovered] = useState(false);
   const [hoveredProperty, setHoveredProperty] = useState(null);
   const [hoveredGeometry, setHoveredGeometry] = useState(null);
-  const [clicked, setClicked] = useState(false);
   const [clickedProperty, setClickedProperty] = useState(null);
   const [filter, setFilter] = useState(["in", "HUC12", "default"]);
   const [hexFilter, setHexFilter] = useState(["in", "objectid", "default"]);
@@ -133,7 +132,6 @@ const Map = ({
   };
 
   const onClick = (e) => {
-    setClicked(true);
     if (e.features) {
       const featureClicked = e.features[0];
       // console.log(featureClicked);
@@ -266,7 +264,13 @@ const Map = ({
     } else if (!drawingMode) {
       setInteractiveLayerIds([]);
     }
-  }, [drawingMode, hucBoundary, hexGrid, hexDeselection]);
+  }, [
+    drawingMode,
+    hexDeselection,
+    hexGrid,
+    hucBoundary,
+    setInteractiveLayerIds,
+  ]);
 
   useEffect(() => {
     if (clickedProperty) {
@@ -295,17 +299,17 @@ const Map = ({
         setHexFilter(["in", "objectid", clickedProperty.objectid]);
       }
     }
-  }, [clickedProperty]);
+  }, [clickedProperty, hexIDDeselected, hucIDSelected]);
 
   useEffect(() => {
     filterList.push(filter);
     // console.log(filterList);
-  }, [filter]);
+  }, [filter, filterList]);
 
   useEffect(() => {
     hexFilterList.push(hexFilter);
     // console.log(hexFilterList);
-  }, [hexFilter]);
+  }, [hexFilter, hexFilterList]);
 
   return (
     <>

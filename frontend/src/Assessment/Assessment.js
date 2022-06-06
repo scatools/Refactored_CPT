@@ -129,18 +129,18 @@ const Assessment = ({
     // wq
     if (customizedMeasures.wq.length > 0) {
       let planScoreValue = 0;
-      for (var i = 0; i < customizedMeasures.wq.length; i++) {
-        if (customizedMeasures.wq[i].utility === "1") {
+      for (var j = 0; j < customizedMeasures.wq.length; j++) {
+        if (customizedMeasures.wq[j].utility === "1") {
           planScoreValue =
             planScoreValue +
-            customizedMeasures.wq[i].data[index] *
-              weightList[customizedMeasures.wq[i].weight];
+            customizedMeasures.wq[j].data[index] *
+              weightList[customizedMeasures.wq[j].weight];
         } else {
           planScoreValue =
             planScoreValue +
             1 -
-            customizedMeasures.wq[i].data[index] *
-              weightList[customizedMeasures.wq[i].weight];
+            customizedMeasures.wq[j].data[index] *
+              weightList[customizedMeasures.wq[j].weight];
         }
       }
       planScoreList[1] = planScore[1] + planScoreValue;
@@ -151,18 +151,18 @@ const Assessment = ({
     // lcmr
     if (customizedMeasures.lcmr.length > 0) {
       let planScoreValue = 0;
-      for (var i = 0; i < customizedMeasures.lcmr.length; i++) {
-        if (customizedMeasures.lcmr[i].utility === "1") {
+      for (var k = 0; k < customizedMeasures.lcmr.length; k++) {
+        if (customizedMeasures.lcmr[k].utility === "1") {
           planScoreValue =
             planScoreValue +
-            customizedMeasures.lcmr[i].data[index] *
-              weightList[customizedMeasures.lcmr[i].weight];
+            customizedMeasures.lcmr[k].data[index] *
+              weightList[customizedMeasures.lcmr[k].weight];
         } else {
           planScoreValue =
             planScoreValue +
             1 -
-            customizedMeasures.lcmr[i].data[index] *
-              weightList[customizedMeasures.lcmr[i].weight];
+            customizedMeasures.lcmr[k].data[index] *
+              weightList[customizedMeasures.lcmr[k].weight];
         }
       }
       planScoreList[2] = planScore[2] + planScoreValue;
@@ -173,18 +173,18 @@ const Assessment = ({
     // cl
     if (customizedMeasures.cl.length > 0) {
       let planScoreValue = 0;
-      for (var i = 0; i < customizedMeasures.cl.length; i++) {
-        if (customizedMeasures.cl[i].utility === "1") {
+      for (var l = 0; l < customizedMeasures.cl.length; l++) {
+        if (customizedMeasures.cl[l].utility === "1") {
           planScoreValue =
             planScoreValue +
-            customizedMeasures.cl[i].data[index] *
-              weightList[customizedMeasures.cl[i].weight];
+            customizedMeasures.cl[l].data[index] *
+              weightList[customizedMeasures.cl[l].weight];
         } else {
           planScoreValue =
             planScoreValue +
             1 -
-            customizedMeasures.cl[i].data[index] *
-              weightList[customizedMeasures.cl[i].weight];
+            customizedMeasures.cl[l].data[index] *
+              weightList[customizedMeasures.cl[l].weight];
         }
       }
       planScoreList[3] = planScore[3] + planScoreValue;
@@ -195,18 +195,18 @@ const Assessment = ({
     // eco
     if (customizedMeasures.eco.length > 0) {
       let planScoreValue = 0;
-      for (var i = 0; i < customizedMeasures.eco.length; i++) {
-        if (customizedMeasures.eco[i].utility === "1") {
+      for (var m = 0; m < customizedMeasures.eco.length; m++) {
+        if (customizedMeasures.eco[m].utility === "1") {
           planScoreValue =
             planScoreValue +
-            customizedMeasures.eco[i].data[index] *
-              weightList[customizedMeasures.eco[i].weight];
+            customizedMeasures.eco[m].data[index] *
+              weightList[customizedMeasures.eco[m].weight];
         } else {
           planScoreValue =
             planScoreValue +
             1 -
-            customizedMeasures.eco[i].data[index] *
-              weightList[customizedMeasures.eco[i].weight];
+            customizedMeasures.eco[m].data[index] *
+              weightList[customizedMeasures.eco[m].weight];
         }
       }
       planScoreList[4] = planScore[4] + planScoreValue;

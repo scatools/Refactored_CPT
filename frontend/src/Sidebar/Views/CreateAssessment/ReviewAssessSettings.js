@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Container, Table } from "react-bootstrap";
 import { generate_assessment, setLoader } from "../../../Redux/action";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,14 +34,7 @@ const ReviewAssessSettings = ({
 
   const dispatch = useDispatch();
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const history = useHistory();
-
-  const handleBack = () => {
-    setAssessStep("selectDataMeasures");
-  };
 
   const createAssessment = () => {
     dispatch(setLoader(true));
@@ -286,18 +279,9 @@ const ReviewAssessSettings = ({
       dispatch(generate_assessment(returnData));
     }
 
-    if (
-      Object.values(weights).reduce((a, b) => {
-        return a + b.weight;
-      }, 0) !== 100 ||
-      aoiAssembled.length <= 1
-    ) {
-      handleShow();
-    } else {
-      calculateNewData().then(() => {
-        history.push("/assessment");
-      });
-    }
+    calculateNewData().then(() => {
+      history.push("/assessment");
+    });
   };
 
   return (

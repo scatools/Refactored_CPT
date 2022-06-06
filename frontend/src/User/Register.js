@@ -16,7 +16,6 @@ const Register = ({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [admin, setAdmin] = useState(false);
 
   const onSubmit = async () => {
     try {

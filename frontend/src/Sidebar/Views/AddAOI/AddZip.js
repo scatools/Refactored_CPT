@@ -87,9 +87,9 @@ const AddZip = ({
               // Check if each feature has a name-like property
               for (var property in result.features[num].properties) {
                 if (
-                  property.indexOf("name") != -1 ||
-                  property.indexOf("Name") != -1 ||
-                  property.indexOf("NAME") != -1
+                  property.indexOf("name") !== -1 ||
+                  property.indexOf("Name") !== -1 ||
+                  property.indexOf("NAME") !== -1
                 ) {
                   featureName = result.features[num].properties[property];
                 }

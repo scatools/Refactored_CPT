@@ -19,7 +19,7 @@ const Routes = ({
 }) => {
   const [aoiSelected, setAoiSelected] = useState(null);
   const [aoiAssembled, setAoiAssembled] = useState([]);
-  const [customizedMeasures, setCustomizedMeasures] = useState({
+  const [customizedMeasures] = useState({
     hab: [],
     wq: [],
     lcmr: [],

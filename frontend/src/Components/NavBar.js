@@ -123,17 +123,25 @@ const NavBar = ({ reportLink, loggedIn, userLoggedIn }) => {
             <p>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Funding for this project was
               provided by the
-              <a href="https://www.restorethegulf.gov/" target="_blank">
+              <a
+                href="https://www.restorethegulf.gov/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {" "}
                 Gulf Coast Ecosystem Restoration Council{" "}
               </a>
               through an agreement (NO. F17AC00267) with the
-              <a href="https://www.fws.gov/" target="_blank">
+              <a href="https://www.fws.gov/" target="_blank" rel="noreferrer">
                 {" "}
                 U.S. Fish and Wildlife Service{" "}
               </a>
               , and was produced with support from the
-              <a href="https://www.fwrc.msstate.edu/" target="_blank">
+              <a
+                href="https://www.fwrc.msstate.edu/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {" "}
                 Forest and Wildlife Research Center{" "}
               </a>
