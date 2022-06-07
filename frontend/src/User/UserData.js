@@ -30,7 +30,6 @@ const UserData = ({
   const [newFirstName, setNewFirstName] = useState(null);
   const [newLastName, setNewLastName] = useState(null);
   const [newEmail, setNewEmail] = useState(null);
-  const [userReportList, setUserReportList] = useState([]);
   const [fileDeleted, setFileDeleted] = useState(null);
   const [reportDeleted, setReportDeleted] = useState(null);
   const [updateInfo, setUpdateInfo] = useState(false);
