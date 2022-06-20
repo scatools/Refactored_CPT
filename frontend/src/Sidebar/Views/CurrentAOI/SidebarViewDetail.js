@@ -20,7 +20,7 @@ import {
   calculateArea,
   aggregate,
   getStatus,
-} from "../../../helper/aggregateHex";
+} from "../../../Helper Functions/aggregateHex";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faExclamationCircle,

@@ -8,7 +8,7 @@ import {
   calculateArea,
   aggregate,
   getStatus,
-} from "../../../helper/aggregateHex";
+} from "../../../Helper Functions/aggregateHex";
 import { v4 as uuid } from "uuid";
 
 const AddBoundary = ({

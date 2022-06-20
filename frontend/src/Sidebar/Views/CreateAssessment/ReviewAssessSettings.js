@@ -6,7 +6,7 @@ import {
   calculateMeasures,
   getScaledForAssessment,
   mergeIntoArray,
-} from "../../../helper/aggregateHex";
+} from "../../../Helper Functions/aggregateHex";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { GoInfo } from "react-icons/go";

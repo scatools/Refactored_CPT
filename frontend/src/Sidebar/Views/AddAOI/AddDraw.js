@@ -5,7 +5,7 @@ import {
   calculateArea,
   aggregate,
   getStatus,
-} from "../../../helper/aggregateHex";
+} from "../../../Helper Functions/aggregateHex";
 import { v4 as uuid } from "uuid";
 import { setLoader, input_aoi } from "../../../Redux/action";
 import { useDispatch } from "react-redux";
