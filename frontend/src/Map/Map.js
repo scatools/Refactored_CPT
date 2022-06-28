@@ -134,7 +134,6 @@ const Map = ({
   const onClick = (e) => {
     if (e.features) {
       const featureClicked = e.features[0];
-      // console.log(featureClicked);
       if (featureClicked) {
         setClickedProperty(featureClicked.properties);
       }
@@ -286,7 +285,6 @@ const Map = ({
         });
         setFilter(["in", "HUC12", clickedProperty.HUC12]);
       }
-      // console.log(hucIDSelected);
 
       // For hex grid layer, same hexagon won't be counted twice
       if (
@@ -295,7 +293,6 @@ const Map = ({
       ) {
         // Array hexIDDeselected is stored in a simple array format
         hexIDDeselected.push(clickedProperty.objectid);
-        // console.log(hexIDDeselected);
         setHexFilter(["in", "objectid", clickedProperty.objectid]);
       }
     }
@@ -303,12 +300,10 @@ const Map = ({
 
   useEffect(() => {
     filterList.push(filter);
-    // console.log(filterList);
   }, [filter, filterList]);
 
   useEffect(() => {
     hexFilterList.push(hexFilter);
-    // console.log(hexFilterList);
   }, [hexFilter, hexFilterList]);
 
   return (

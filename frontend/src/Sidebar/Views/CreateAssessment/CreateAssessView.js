@@ -11,13 +11,12 @@ const CreateAssessView = ({
   customizedMeasures,
   setView,
   setAlertText,
-  setAlertType
+  setAlertType,
 }) => {
   const [assessStep, setAssessStep] = useState("selectAOI");
 
   return (
     <Container>
-      {console.log(assessStep)}
       {assessStep === "selectAOI" && (
         <SelectAOIForAssess
           setAssessStep={setAssessStep}

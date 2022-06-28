@@ -8,6 +8,7 @@ import parse from "html-react-parser";
 import { GoInfo } from "react-icons/go";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { MultiSelect } from "../../../Components/MultiSelect";
 
 const SingleMeasure = ({
   customizedMeasures,
@@ -594,7 +595,7 @@ const SingleMeasure = ({
   return (
     <div>
       <span>{options[dataMeasList[dataI]].name}</span>
-      <Select
+      <MultiSelect
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
         options={currentDataMeasure.dropdown}
@@ -667,7 +668,6 @@ const SingleMeasure = ({
                   >
                     {measure.left}
                   </ToggleButton>
-                  {console.log(measure)}
                   <ToggleButton
                     type="radio"
                     data-tip

@@ -18,6 +18,8 @@ import MCDAReport from "./MCDAReport";
 import PDFDownloader from "./PDFDownloader";
 import Appendix from "./Appendix";
 import Legend from "../Components/Legend";
+import ReactTooltip from "react-tooltip";
+import { GoInfo } from "react-icons/go";
 import { setLoader } from "../Redux/action";
 
 const MAPBOX_TOKEN =
@@ -604,7 +606,25 @@ const Assessment = ({
           </Row>
           <hr />
           <Row id="scoreHeading">
-            <h2>Overall Scores with User-Provided Weights:</h2>
+            <h2>Overall Scores with User-Provided Weights</h2>
+            <GoInfo data-tip data-for="score-explain" />
+            <ReactTooltip
+              id="score-explain"
+              delayHide={500}
+              delayUpdate={500}
+              clickable="true"
+              type="dark"
+              place="right"
+            >
+              <span>
+                Overall score is how well an AOI meets the goals and priorities
+                for land conservation that the user has defined. The “Overall
+                Score” is only relevant for AOIs with current weights and
+                measures. This score is not meant to evaluate AOIs across
+                different weights. For evaluation across all weights see the
+                MCDA Results below.
+              </span>
+            </ReactTooltip>
           </Row>
           <br />
           <Row id="score">
@@ -615,6 +635,14 @@ const Assessment = ({
             <div>
               <UserDefinedResult aoiScoreCustomized={aoiScoreCustomized} />
             </div>
+            <p>
+              Overall score is how well an AOI meets the goals and priorities
+              for land conservation that the user has defined. The “Overall
+              Score” is only relevant for AOIs with current weights and
+              measures. This score is not meant to evaluate AOIs across
+              different weights. For evaluation across all weights see the MCDA
+              Results below.
+            </p>
           </Row>
           <hr />
           <Row id="dataHeading">

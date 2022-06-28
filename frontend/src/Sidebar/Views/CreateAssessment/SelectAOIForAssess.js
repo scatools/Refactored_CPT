@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Container } from "react-bootstrap";
-import Select from "react-select";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { MultiSelect } from "../../../Components/MultiSelect";
 
 const arrowIcon = <FontAwesomeIcon icon={faArrowLeft} size="lg" />;
 
@@ -13,7 +13,7 @@ const SelectAOIForAssess = ({
   setAoiAssembled,
   setView,
   setAlertText,
-  setAlertType
+  setAlertType,
 }) => {
   const aoi = useSelector((state) => state.aoi);
   const aoiList = Object.values(aoi).map((item) => ({
@@ -35,7 +35,7 @@ const SelectAOIForAssess = ({
     <Container>
       <h3>Select two or more areas of interest</h3>
       <br />
-      <Select
+      <MultiSelect
         styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
         menuPortalTarget={document.body}
         options={aoiList}
@@ -54,6 +54,25 @@ const SelectAOIForAssess = ({
         className="basic-multi-select"
         classNamePrefix="select"
       />
+      {/* <Select
+        styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+        menuPortalTarget={document.body}
+        options={aoiList}
+        isMulti
+        isClearable={true}
+        placeholder="Select areas of interests..."
+        name="colors"
+        value={aoiAssembled}
+        onChange={(selectedOption) => {
+          if (selectedOption) {
+            setAoiAssembled(selectedOption);
+          } else {
+            setAoiAssembled([]);
+          }
+        }}
+        className="basic-multi-select"
+        classNamePrefix="select"
+      /> */}
       <br />
       <Container className="add-assess-cont">
         <Button variant="secondary" onClick={() => setView("viewCurrent")}>

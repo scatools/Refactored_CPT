@@ -673,3 +673,7 @@ a img.logo {
 .modal-dialog.modal-xl.modal-dialog-centered {
   min-width: 800px;
 }
+
+.recharts-legend-wrapper {
+  right: 0 !important;
+}
